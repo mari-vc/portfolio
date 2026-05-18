@@ -143,64 +143,130 @@
     letter-spacing:-0.01em;
   }
 
-  /* ---------- PROJECTS: SCROLL STACK ---------- */
-  /* Cada projeto é uma "cena" presa (sticky) que ocupa a tela;
-     o scroll move uma cena sobre a outra com fade+slide. */
+  /* ---------- PROJECTS: CARD DECK ---------- */
+  /* Um deck único centralizado; o scroll dispara um flip 3D do topo
+     enquanto o próximo cartão emerge da pilha colorida por baixo. */
   .projects{position:relative}
-  .stack{position:relative}
-  .scene{
+  .deck-stage{position:relative}
+  .deck-sticky{
     position:sticky;top:0;height:100svh;
-    display:flex;align-items:center;
-    background:var(--bg);
-    will-change:transform,opacity;
+    display:grid;grid-template-rows:1fr auto;
+    align-items:center;justify-items:center;
+    padding-block:6vh 5vh;gap:28px;
   }
-  .scene-inner{
-    width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);
-    display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);
-    align-items:center;
-  }
-  .scene .visual{
-    aspect-ratio:4/3;border-radius:6px;overflow:hidden;
-    background:var(--accent-soft);
-    border:1px solid var(--line);
+  .deck{
     position:relative;
-    display:grid;place-items:center;
-    color:var(--faint);font-size:var(--step--1);letter-spacing:.1em;text-transform:uppercase;
+    width:min(900px, 92vw);
+    aspect-ratio:16/11;
+    perspective:1600px;
+    transform-style:preserve-3d;
   }
-  .scene .visual::after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.35));
+  .card{
+    position:absolute;inset:0;
+    background:var(--card-bg,#fbfaf6);
+    color:var(--card-ink,#1a1916);
+    border-radius:16px;
+    overflow:hidden;
+    display:grid;grid-template-rows:1fr auto;
+    box-shadow:0 30px 60px -30px rgba(20,18,14,.35), 0 2px 6px rgba(20,18,14,.06);
+    transform-style:preserve-3d;
+    transform-origin:top center;
+    will-change:transform,opacity;
+    --p:0; --t:0;
+    --y: calc(var(--p) * 16px);
+    --z: calc(var(--p) * -50px);
+    --s: calc(1 + var(--p) * .035);
+    --rot: calc(var(--t) * -78deg);
+    --liftY: calc(var(--t) * -38%);
+    transform:
+      translate3d(0, calc(var(--y) + var(--liftY)), var(--z))
+      scale(var(--s))
+      rotateX(var(--rot));
+    opacity: calc(1 - var(--t) * .9);
+    transition:transform .05s linear, opacity .05s linear;
+  }
+  .card[data-stale="true"]{opacity:0;pointer-events:none}
+  .card-media{
+    position:relative;display:grid;place-items:center;
+    background:linear-gradient(160deg, color-mix(in oklab, var(--card-bg) 88%, #000 12%), var(--card-bg));
+    color:color-mix(in oklab, var(--card-ink) 60%, transparent);
+    font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;
+    overflow:hidden;
+  }
+  .card-media::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(120deg,transparent 45%,rgba(255,255,255,.14) 55%,transparent 70%);
+  }
+  .card-open{
+    position:absolute;top:18px;right:18px;
+    background:var(--accent);color:#fff;
+    border-radius:999px;padding:9px 16px;
+    font-size:var(--step--1);letter-spacing:.08em;
+    opacity:0;transform:translateY(-6px);
+    transition:opacity .35s var(--ease),transform .35s var(--ease);
     pointer-events:none;
   }
-  .scene .body .pidx{display:block;margin-bottom:20px}
-  .scene .body h3{
+  .card-media:hover .card-open,
+  .card-media:focus-visible .card-open{opacity:1;transform:translateY(0)}
+  .card-foot{
+    display:flex;align-items:center;gap:16px;
+    padding:20px 26px 24px;
+    border-top:1px solid color-mix(in oklab, var(--card-ink) 12%, transparent);
+  }
+  .card-mark{
+    width:34px;height:34px;flex:none;
+    display:grid;place-items:center;
+    border-radius:8px;
+    background:color-mix(in oklab, var(--card-ink) 12%, transparent);
+    color:var(--card-ink);
+    font-family:"Newsreader",serif;font-size:1.1rem;
+  }
+  .card-foot h3{
     font-family:"Cause","Geist",sans-serif;font-weight:500;
-    font-size:var(--step-3);line-height:1.05;letter-spacing:-0.02em;
-    margin-bottom:18px;
+    font-size:var(--step-1);letter-spacing:-0.01em;line-height:1.15;
   }
-  .scene .body p{color:var(--muted);max-width:42ch;font-weight:300;font-size:var(--step-1);line-height:1.5}
-  .scene .body .tags{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px}
-  .scene .body .tags li{
-    list-style:none;font-size:var(--step--1);color:var(--muted);
-    border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+  .card-foot p{
+    margin-top:2px;font-size:var(--step--1);font-weight:300;
+    color:color-mix(in oklab, var(--card-ink) 70%, transparent);
   }
-  .scene .body .open{
-    margin-top:34px;display:inline-flex;align-items:center;gap:12px;
-    font-size:var(--step--1);letter-spacing:.08em;text-transform:uppercase;
-    color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:4px;
-    transition:gap .4s var(--ease),color .3s;
+
+  .deck-pager{
+    display:inline-flex;align-items:center;gap:18px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 14px 8px 18px;
   }
-  .scene .body .open:hover{gap:20px;color:var(--accent);border-color:var(--accent)}
-  .scene-progress{
-    position:absolute;left:var(--pad);bottom:7vh;
-    display:flex;align-items:baseline;gap:10px;color:var(--faint);
+  .deck-count{
+    font-family:"Newsreader",serif;font-size:var(--step-0);
+    color:var(--muted);letter-spacing:.02em;
   }
-  .scene-progress .now{color:var(--ink);font-size:var(--step-1)}
+  .deck-count .now{color:var(--ink)}
+  .deck-dots{list-style:none;display:flex;gap:6px;padding:0;margin:0}
+  .deck-dots button{
+    appearance:none;background:transparent;border:0;cursor:pointer;
+    width:26px;height:26px;border-radius:999px;
+    display:grid;place-items:center;
+    transition:transform .3s var(--ease);
+  }
+  .deck-dots button span{
+    display:block;width:16px;height:16px;border-radius:999px;
+    background:var(--dot,#ccc);
+    border:1px solid color-mix(in oklab, var(--dot,#ccc) 60%, #000 40%);
+    transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  }
+  .deck-dots button.is-active span{
+    transform:scale(1.05);
+    box-shadow:0 0 0 2px var(--bg), 0 0 0 3px var(--ink);
+  }
+  .deck-dots button:hover{transform:translateY(-2px)}
+
   @media (max-width:820px){
-    .scene{height:auto;min-height:100svh;position:relative;padding-block:14vh}
-    .scene-inner{grid-template-columns:1fr;gap:32px}
-    .scene .visual{aspect-ratio:16/10}
-    .scene-progress{position:static;margin-top:36px}
+    .deck-sticky{padding-block:8vh 4vh;gap:22px}
+    .deck{width:min(420px,92vw);aspect-ratio:4/5}
+    .card-foot{padding:16px 18px 20px}
+    .card-mark{width:30px;height:30px}
+    .deck-pager{padding:6px 12px}
   }
 
   /* ---------- EXPERIENCE ---------- */
@@ -280,7 +346,10 @@
     html{scroll-behavior:auto}
     *,*::after,*::before{animation:none!important;transition:none!important}
     .reveal{opacity:1;transform:none}
-    .scene{position:relative;height:auto;min-height:100svh}
+    .deck-stage{height:auto!important}
+    .deck-sticky{position:static;height:auto;padding-block:6vh}
+    .deck{position:static;width:min(640px,92vw);aspect-ratio:auto;display:grid;gap:24px}
+    .card{position:relative;inset:auto;transform:none!important;opacity:1!important;aspect-ratio:16/11}
   }
 </style>
 </head>
@@ -314,66 +383,89 @@
     <div class="scroll-cue"><span></span>role para começar</div>
   </section>
 
-  <!-- ===================== PROJETOS (SCROLL STACK) ===================== -->
+  <!-- ===================== PROJETOS (CARD DECK) ===================== -->
   <section class="projects" id="work">
     <div class="wrap sec-head reveal">
       <h2>Projetos selecionados</h2>
-      <span class="label">Role para navegar — <span class="num">03</span></span>
+      <span class="label">Role para navegar — <span class="num">04</span></span>
     </div>
 
-    <div class="stack" id="stack">
+    <div class="deck-stage" id="deckStage">
+      <div class="deck-sticky">
+        <div class="deck" role="list" id="deck">
 
-      <!-- PROJETO 1 — EDITAR -->
-      <article class="scene" data-scene="0">
-        <div class="scene-inner">
-          <div class="visual">prévia do projeto 01</div>
-          <div class="body">
-            <span class="pidx label">Projeto <span class="num">01</span> — Fintech</span>
-            <h3>Repensar o onboarding</h3>
-            <p>Reduzi o abandono no cadastro em 38% redesenhando o fluxo de verificação para 500 mil usuários.</p>
-            <ul class="tags">
-              <li>Pesquisa</li><li>Fluxo</li><li>Design System</li><li>Protótipo</li>
-            </ul>
-            <a class="open" href="#">Ver estudo de caso →</a>
-          </div>
+          <!-- PROJETO 1 — EDITAR -->
+          <article class="card" data-i="0" style="--card-bg:#fbfaf6;--card-ink:#1a1916">
+            <a class="card-media" href="#" aria-label="Abrir estudo de caso 01">
+              <span class="card-open">Click to Open</span>
+              <span>prévia do projeto 01</span>
+            </a>
+            <footer class="card-foot">
+              <span class="card-mark" aria-hidden="true">◆</span>
+              <div>
+                <h3>Repensar o onboarding</h3>
+                <p>Fintech · redução de 38% no abandono de cadastro.</p>
+              </div>
+            </footer>
+          </article>
+
+          <!-- PROJETO 2 — EDITAR -->
+          <article class="card" data-i="1" style="--card-bg:#1a1916;--card-ink:#f6f4ef">
+            <a class="card-media" href="#" aria-label="Abrir estudo de caso 02">
+              <span class="card-open">Click to Open</span>
+              <span>prévia do projeto 02</span>
+            </a>
+            <footer class="card-foot">
+              <span class="card-mark" aria-hidden="true">▲</span>
+              <div>
+                <h3>Painel de dados</h3>
+                <p>SaaS · hierarquia clara e decisões mais rápidas.</p>
+              </div>
+            </footer>
+          </article>
+
+          <!-- PROJETO 3 — EDITAR -->
+          <article class="card" data-i="2" style="--card-bg:#9a4a2b;--card-ink:#fbfaf6">
+            <a class="card-media" href="#" aria-label="Abrir estudo de caso 03">
+              <span class="card-open">Click to Open</span>
+              <span>prévia do projeto 03</span>
+            </a>
+            <footer class="card-foot">
+              <span class="card-mark" aria-hidden="true">●</span>
+              <div>
+                <h3>Identidade de produto</h3>
+                <p>Branding · da pesquisa de marca ao código entregue.</p>
+              </div>
+            </footer>
+          </article>
+
+          <!-- PROJETO 4 — EDITAR -->
+          <article class="card" data-i="3" style="--card-bg:#243042;--card-ink:#f6f4ef">
+            <a class="card-media" href="#" aria-label="Abrir estudo de caso 04">
+              <span class="card-open">Click to Open</span>
+              <span>prévia do projeto 04</span>
+            </a>
+            <footer class="card-foot">
+              <span class="card-mark" aria-hidden="true">✦</span>
+              <div>
+                <h3>Sistema de design</h3>
+                <p>Plataforma · base reutilizável em 12 produtos.</p>
+              </div>
+            </footer>
+          </article>
+
         </div>
-        <div class="scene-progress wrap"><span class="now num">01</span><span class="label">/ 03</span></div>
-      </article>
 
-      <!-- PROJETO 2 — EDITAR -->
-      <article class="scene" data-scene="1">
-        <div class="scene-inner">
-          <div class="visual">prévia do projeto 02</div>
-          <div class="body">
-            <span class="pidx label">Projeto <span class="num">02</span> — SaaS</span>
-            <h3>Painel de dados</h3>
-            <p>Transformei um painel sobrecarregado em uma ferramenta legível: hierarquia clara, densidade controlada, decisões mais rápidas.</p>
-            <ul class="tags">
-              <li>UX</li><li>Data Viz</li><li>Acessibilidade</li>
-            </ul>
-            <a class="open" href="#">Ver estudo de caso →</a>
-          </div>
-        </div>
-        <div class="scene-progress wrap"><span class="now num">02</span><span class="label">/ 03</span></div>
-      </article>
-
-      <!-- PROJETO 3 — EDITAR -->
-      <article class="scene" data-scene="2">
-        <div class="scene-inner">
-          <div class="visual">prévia do projeto 03</div>
-          <div class="body">
-            <span class="pidx label">Projeto <span class="num">03</span> — Marca</span>
-            <h3>Identidade de produto</h3>
-            <p>Conduzi a identidade visual e o site de lançamento de uma startup, da pesquisa de marca ao código entregue.</p>
-            <ul class="tags">
-              <li>Branding</li><li>Art Direction</li><li>Front-end</li>
-            </ul>
-            <a class="open" href="#">Ver estudo de caso →</a>
-          </div>
-        </div>
-        <div class="scene-progress wrap"><span class="now num">03</span><span class="label">/ 03</span></div>
-      </article>
-
+        <nav class="deck-pager" aria-label="Navegação dos projetos">
+          <span class="deck-count"><span class="now num">01</span> of <span class="num">04</span></span>
+          <ul class="deck-dots">
+            <li><button type="button" data-go="0" aria-label="Projeto 1" style="--dot:#fbfaf6"><span></span></button></li>
+            <li><button type="button" data-go="1" aria-label="Projeto 2" style="--dot:#1a1916"><span></span></button></li>
+            <li><button type="button" data-go="2" aria-label="Projeto 3" style="--dot:#9a4a2b"><span></span></button></li>
+            <li><button type="button" data-go="3" aria-label="Projeto 4" style="--dot:#243042"><span></span></button></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </section>
 
@@ -459,31 +551,69 @@
   },{threshold:.18});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-  // Scroll-stack dos projetos: a cena que está saindo recua e desbota
-  // enquanto a próxima (sticky) sobe por baixo. Coreografado, não corte seco.
-  const scenes = [...document.querySelectorAll('.scene')];
-  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  // Card-deck dos projetos: scroll dispara o flip 3D do cartão do topo
+  // enquanto o próximo emerge da pilha. Cada cartão consome ~1 viewport.
+  (function deck(){
+    const stage = document.getElementById('deckStage');
+    const cards = [...document.querySelectorAll('#deck .card')];
+    const nowEl = document.querySelector('.deck-count .now');
+    const dots  = [...document.querySelectorAll('.deck-dots button')];
+    if(!stage || !cards.length) return;
 
-  if(!reduce){
-    const onScroll = ()=>{
-      const vh = window.innerHeight;
-      scenes.forEach((scene,i)=>{
-        const next = scenes[i+1];
-        if(!next) return;
-        const rect = scene.getBoundingClientRect();
-        // progresso 0→1 enquanto a próxima cena cobre a atual
-        let p = Math.min(1, Math.max(0, -rect.top / vh));
-        const e = p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2; // easeInOutQuad
-        scene.style.transform = `scale(${1 - e*0.06}) translateY(${e*-26}px)`;
-        scene.style.opacity   = `${1 - e*0.55}`;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const N = cards.length;
+    // N transições + 1 viewport final para deixar o último cartão respirar
+    stage.style.height = `${N * 100}svh`;
+
+    const setStatic = ()=>{
+      cards.forEach((c,i)=>{
+        c.style.setProperty('--p', i === 0 ? 0 : (i < 0 ? i : -Math.min(i,3)));
+        c.style.setProperty('--t', 0);
+        c.style.zIndex = N - i;
       });
     };
-    let ticking=false;
-    window.addEventListener('scroll',()=>{
-      if(!ticking){ requestAnimationFrame(()=>{onScroll();ticking=false;}); ticking=true; }
-    },{passive:true});
-    onScroll();
-  }
+
+    const update = ()=>{
+      const rect = stage.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const scrolled = Math.min(Math.max(-rect.top, 0), stage.offsetHeight - vh);
+      const progress = scrolled / vh;                 // 0..N
+      const active = Math.min(N - 1, Math.floor(progress));
+      const t = Math.min(1, Math.max(0, progress - active));
+
+      cards.forEach((card, i) => {
+        const rel = i - active;
+        let p, tt;
+        if (rel === 0)      { p = 0; tt = t; }              // saindo agora
+        else if (rel < 0)   { p = 0; tt = 1; card.dataset.stale = 'true'; return; } // já saiu
+        else                { p = -Math.min(rel, 3); tt = 0; }   // ainda na pilha
+        card.dataset.stale = 'false';
+        card.style.setProperty('--p', p);
+        card.style.setProperty('--t', tt);
+        card.style.zIndex = N - i;
+      });
+
+      const display = Math.min(N, active + 1);
+      if (nowEl) nowEl.textContent = String(display).padStart(2, '0');
+      dots.forEach((b, i) => b.classList.toggle('is-active', i === active));
+    };
+
+    if (reduceMotion) {
+      setStatic();
+    } else {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(()=>{ update(); ticking = false; }); }
+      }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    }
+
+    dots.forEach((b, i) => b.addEventListener('click', () => {
+      const target = stage.offsetTop + i * window.innerHeight + 4;
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    }));
+  })();
 
   // Ano automático no rodapé (mantém atual sem editar)
   document.querySelectorAll('footer .num').forEach(n=>{
