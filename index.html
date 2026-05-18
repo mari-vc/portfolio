@@ -165,27 +165,36 @@
     position:absolute;inset:0;
     background:var(--card-bg,#fbfaf6);
     color:var(--card-ink,#1a1916);
-    border-radius:16px;
+    border-radius:18px;
     overflow:hidden;
     display:grid;grid-template-rows:1fr auto;
-    box-shadow:0 30px 60px -30px rgba(20,18,14,.35), 0 2px 6px rgba(20,18,14,.06);
+    box-shadow:
+      0 40px 80px -36px rgba(20,18,14,.32),
+      0 12px 24px -18px rgba(20,18,14,.18),
+      0 1px 0 rgba(255,255,255,.04) inset;
     transform-style:preserve-3d;
-    transform-origin:top center;
-    will-change:transform,opacity;
+    transform-origin:center top;
+    will-change:transform,opacity,filter;
+    /* --p: posição na pilha (0 = topo, -1, -2 = atrás)
+       --t: progresso da fase atual (0 = entrando, 1 = saindo) */
     --p:0; --t:0;
-    --y: calc(var(--p) * 16px);
-    --z: calc(var(--p) * -50px);
-    --s: calc(1 + var(--p) * .035);
-    --rot: calc(var(--t) * -78deg);
-    --liftY: calc(var(--t) * -38%);
+    /* offset na pilha (parte de trás) */
+    --stackY: calc(var(--p) * 14px);
+    --stackZ: calc(var(--p) * -40px);
+    --stackS: calc(1 + var(--p) * .028);
+    /* entrada (t<0): cresce de baixo para cima sutilmente */
+    /* saída (t>0): lift gentil + fade, sem flip agressivo */
+    --liftY: calc(var(--t) * -22%);
+    --liftS: calc(1 + var(--t) * .04);
+    --tilt: calc(var(--t) * -8deg);
     transform:
-      translate3d(0, calc(var(--y) + var(--liftY)), var(--z))
-      scale(var(--s))
-      rotateX(var(--rot));
-    opacity: calc(1 - var(--t) * .9);
-    transition:transform .05s linear, opacity .05s linear;
+      translate3d(0, calc(var(--stackY) + var(--liftY)), var(--stackZ))
+      scale(calc(var(--stackS) * var(--liftS)))
+      rotateX(var(--tilt));
+    opacity: calc(1 - max(var(--t),0) * 1);
+    filter: blur(calc(max(var(--t),0) * 4px));
   }
-  .card[data-stale="true"]{opacity:0;pointer-events:none}
+  .card[data-stale="true"]{opacity:0;pointer-events:none;filter:none}
   .card-media{
     position:relative;display:grid;place-items:center;
     background:linear-gradient(160deg, color-mix(in oklab, var(--card-bg) 88%, #000 12%), var(--card-bg));
@@ -195,7 +204,7 @@
   }
   .card-media::after{
     content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(120deg,transparent 45%,rgba(255,255,255,.14) 55%,transparent 70%);
+    background:linear-gradient(120deg,transparent 45%,rgba(255,255,255,.10) 55%,transparent 70%);
   }
   .card-open{
     position:absolute;top:18px;right:18px;
@@ -205,9 +214,48 @@
     opacity:0;transform:translateY(-6px);
     transition:opacity .35s var(--ease),transform .35s var(--ease);
     pointer-events:none;
+    z-index:3;
   }
   .card-media:hover .card-open,
   .card-media:focus-visible .card-open{opacity:1;transform:translateY(0)}
+
+  /* Callouts anotados estilo Apple — aparecem em cascata durante a fase "hold".
+     --r controla a revelação local (0→1) por callout; o JS aplica --r ao .card e
+     o stagger é feito via --delay por filho. */
+  .card-notes{
+    position:absolute;inset:0;pointer-events:none;z-index:2;
+  }
+  .card-note{
+    position:absolute;
+    background:color-mix(in oklab, var(--card-bg) 92%, var(--card-ink) 8%);
+    color:var(--card-ink);
+    border:1px solid color-mix(in oklab, var(--card-ink) 14%, transparent);
+    border-radius:999px;
+    padding:6px 12px;
+    font-size:calc(var(--step--1) * .92);
+    font-family:"Geist",sans-serif;font-weight:500;
+    letter-spacing:.02em;text-transform:none;
+    white-space:nowrap;
+    backdrop-filter:blur(6px);
+    box-shadow:0 8px 20px -10px rgba(20,18,14,.35);
+    /* --r local: clamp((r global - delay) / 0.5, 0..1) computado em JS */
+    --r:0;
+    opacity:var(--r);
+    transform:translateY(calc((1 - var(--r)) * 10px)) scale(calc(.96 + var(--r) * .04));
+  }
+  .card-note::before{
+    content:"";position:absolute;width:10px;height:10px;border-radius:999px;
+    background:var(--accent);
+    box-shadow:0 0 0 3px color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  .card-note[data-pos="tl"]{top:14%;left:8%}
+  .card-note[data-pos="tl"]::before{left:-16px;top:50%;transform:translateY(-50%)}
+  .card-note[data-pos="tr"]{top:22%;right:7%}
+  .card-note[data-pos="tr"]::before{right:-16px;top:50%;transform:translateY(-50%)}
+  .card-note[data-pos="bl"]{bottom:18%;left:9%}
+  .card-note[data-pos="bl"]::before{left:-16px;top:50%;transform:translateY(-50%)}
+  .card-note[data-pos="br"]{bottom:14%;right:8%}
+  .card-note[data-pos="br"]::before{right:-16px;top:50%;transform:translateY(-50%)}
   .card-foot{
     display:flex;align-items:center;gap:16px;
     padding:20px 26px 24px;
@@ -267,6 +315,7 @@
     .card-foot{padding:16px 18px 20px}
     .card-mark{width:30px;height:30px}
     .deck-pager{padding:6px 12px}
+    .card-notes{display:none}
   }
 
   /* ---------- EXPERIENCE ---------- */
@@ -399,6 +448,12 @@
             <a class="card-media" href="#" aria-label="Abrir estudo de caso 01">
               <span class="card-open">Click to Open</span>
               <span>prévia do projeto 01</span>
+              <div class="card-notes" aria-hidden="true">
+                <span class="card-note" data-pos="tl" style="--delay:.05">2024</span>
+                <span class="card-note" data-pos="tr" style="--delay:.20">Lead Designer</span>
+                <span class="card-note" data-pos="bl" style="--delay:.35">−38% abandono</span>
+                <span class="card-note" data-pos="br" style="--delay:.50">500k usuários</span>
+              </div>
             </a>
             <footer class="card-foot">
               <span class="card-mark" aria-hidden="true">◆</span>
@@ -414,6 +469,12 @@
             <a class="card-media" href="#" aria-label="Abrir estudo de caso 02">
               <span class="card-open">Click to Open</span>
               <span>prévia do projeto 02</span>
+              <div class="card-notes" aria-hidden="true">
+                <span class="card-note" data-pos="tl" style="--delay:.05">2023</span>
+                <span class="card-note" data-pos="tr" style="--delay:.20">Product Designer</span>
+                <span class="card-note" data-pos="bl" style="--delay:.35">Data Viz</span>
+                <span class="card-note" data-pos="br" style="--delay:.50">WCAG AA</span>
+              </div>
             </a>
             <footer class="card-foot">
               <span class="card-mark" aria-hidden="true">▲</span>
@@ -429,6 +490,12 @@
             <a class="card-media" href="#" aria-label="Abrir estudo de caso 03">
               <span class="card-open">Click to Open</span>
               <span>prévia do projeto 03</span>
+              <div class="card-notes" aria-hidden="true">
+                <span class="card-note" data-pos="tl" style="--delay:.05">2022</span>
+                <span class="card-note" data-pos="tr" style="--delay:.20">Brand & Web</span>
+                <span class="card-note" data-pos="bl" style="--delay:.35">Identidade</span>
+                <span class="card-note" data-pos="br" style="--delay:.50">Front-end</span>
+              </div>
             </a>
             <footer class="card-foot">
               <span class="card-mark" aria-hidden="true">●</span>
@@ -444,6 +511,12 @@
             <a class="card-media" href="#" aria-label="Abrir estudo de caso 04">
               <span class="card-open">Click to Open</span>
               <span>prévia do projeto 04</span>
+              <div class="card-notes" aria-hidden="true">
+                <span class="card-note" data-pos="tl" style="--delay:.05">2024</span>
+                <span class="card-note" data-pos="tr" style="--delay:.20">Design System</span>
+                <span class="card-note" data-pos="bl" style="--delay:.35">12 produtos</span>
+                <span class="card-note" data-pos="br" style="--delay:.50">Tokens & código</span>
+              </div>
             </a>
             <footer class="card-foot">
               <span class="card-mark" aria-hidden="true">✦</span>
@@ -551,8 +624,9 @@
   },{threshold:.18});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-  // Card-deck dos projetos: scroll dispara o flip 3D do cartão do topo
-  // enquanto o próximo emerge da pilha. Cada cartão consome ~1 viewport.
+  // Card-deck inspirado no "Take a closer look" da Apple: cada cartão fica
+  // pinned por mais tempo (1.4vh de scroll), com três fases — entrada,
+  // hold (callouts cascateiam) e saída suave (lift + fade, sem flip duro).
   (function deck(){
     const stage = document.getElementById('deckStage');
     const cards = [...document.querySelectorAll('#deck .card')];
@@ -562,35 +636,76 @@
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
     const N = cards.length;
-    // N transições + 1 viewport final para deixar o último cartão respirar
-    stage.style.height = `${N * 100}svh`;
+
+    // Cada cartão = 1.4 viewports de scroll (mais "hold" estilo Apple).
+    // Stage = N*STEP + 1vh para o sticky relaxar.
+    const STEP = 1.4;
+    stage.style.height = `${(N * STEP + 1) * 100}svh`;
+
+    // Easings calmas — cubics, sem overshoot.
+    const easeInOut = (x)=> x < 0.5 ? 4*x*x*x : 1 - Math.pow(-2*x+2, 3)/2;
+    const easeOut   = (x)=> 1 - Math.pow(1 - x, 3);
+    const clamp = (v,a=0,b=1)=> Math.min(b, Math.max(a, v));
 
     const setStatic = ()=>{
       cards.forEach((c,i)=>{
-        c.style.setProperty('--p', i === 0 ? 0 : (i < 0 ? i : -Math.min(i,3)));
+        c.style.setProperty('--p', i === 0 ? 0 : -Math.min(i,3));
         c.style.setProperty('--t', 0);
         c.style.zIndex = N - i;
+        c.querySelectorAll('.card-note').forEach(n => n.style.setProperty('--r', i === 0 ? 1 : 0));
       });
     };
 
     const update = ()=>{
       const rect = stage.getBoundingClientRect();
       const vh = window.innerHeight;
+      const stepPx = vh * STEP;
       const scrolled = Math.min(Math.max(-rect.top, 0), stage.offsetHeight - vh);
-      const progress = scrolled / vh;                 // 0..N
+      const progress = scrolled / stepPx;        // 0..N
       const active = Math.min(N - 1, Math.floor(progress));
-      const t = Math.min(1, Math.max(0, progress - active));
+      const local = clamp(progress - active);    // 0..1 dentro do cartão ativo
+
+      // Fases — calmas, escalonadas:
+      //   0.00-0.60: hold (callouts cascateiam)
+      //   0.60-1.00: exit (lift + fade) sincronizado com a subida do próximo
+      const reveal = easeInOut(clamp((local - 0.05) / 0.55));   // callouts in
+      const handoff = easeInOut(clamp((local - 0.60) / 0.40));  // 0→1 saída/entrada
 
       cards.forEach((card, i) => {
         const rel = i - active;
-        let p, tt;
-        if (rel === 0)      { p = 0; tt = t; }              // saindo agora
-        else if (rel < 0)   { p = 0; tt = 1; card.dataset.stale = 'true'; return; } // já saiu
-        else                { p = -Math.min(rel, 3); tt = 0; }   // ainda na pilha
-        card.dataset.stale = 'false';
-        card.style.setProperty('--p', p);
-        card.style.setProperty('--t', tt);
-        card.style.zIndex = N - i;
+        let p, t, r;
+        if (rel < 0) {
+          // Já saiu de cena
+          p = 0; t = 1; r = 0;
+          card.dataset.stale = 'true';
+        } else if (rel === 0) {
+          // Ativo
+          p = 0;
+          t = handoff;                                     // sai no final
+          r = reveal * (1 - handoff);                       // callouts somem ao sair
+          card.dataset.stale = 'false';
+        } else if (rel === 1) {
+          // Próximo: sobe sincronizado com a saída do ativo
+          p = -1 + handoff;                                 // -1 → 0
+          t = 0; r = 0;
+          card.dataset.stale = 'false';
+        } else {
+          p = -Math.min(rel, 3); t = 0; r = 0;
+          card.dataset.stale = 'false';
+        }
+
+        card.style.setProperty('--p', p.toFixed(3));
+        card.style.setProperty('--t', t.toFixed(3));
+        card.style.zIndex = N - i + (rel === 0 ? 10 : 0);
+
+        // Cascata dos callouts: cada note tem --delay (0..0.5).
+        const notes = card.querySelectorAll('.card-note');
+        notes.forEach(note => {
+          const d = parseFloat(note.style.getPropertyValue('--delay')) || 0;
+          const span = 0.45;
+          const noteR = easeOut(clamp((r - d) / span));
+          note.style.setProperty('--r', noteR.toFixed(3));
+        });
       });
 
       const display = Math.min(N, active + 1);
@@ -610,7 +725,9 @@
     }
 
     dots.forEach((b, i) => b.addEventListener('click', () => {
-      const target = stage.offsetTop + i * window.innerHeight + 4;
+      const vh = window.innerHeight;
+      // Mira o começo do cartão (hold) — antes do handoff começar
+      const target = stage.offsetTop + i * vh * STEP + vh * 0.15;
       window.scrollTo({ top: target, behavior: 'smooth' });
     }));
   })();
