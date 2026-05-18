@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mariana — Designer de Produto / UX</title>
+<meta name="description" content="Portfólio de Mariana — designer de produto focada em interfaces claras e intencionais.">
+
+<!-- ============================================================
+     CONTEÚDO PLACEHOLDER — troque pelos seus dados reais.
+     Procure por  EDITAR:  ao longo do arquivo.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Geist (texto, grotesca quieta) + Newsreader (numerais/títulos editoriais).
+     Escolha deliberada: NÃO Inter, NÃO serifa-itálica-gigante-de-hero. -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    /* Paleta: off-white quente + tinta quase-preta + um acento terroso.
+       Sem branco puro, sem preto puro, sem gradiente roxo. */
+    --bg:        #f6f4ef;   /* papel quente */
+    --surface:   #fbfaf6;   /* superfície ligeiramente mais clara */
+    --ink:       #1a1916;   /* tinta — quase preto, levemente quente */
+    --muted:     #6b665c;   /* texto secundário */
+    --faint:     #a39d90;   /* texto terciário / metadados */
+    --line:      #e3dfd5;   /* linhas e bordas */
+    --accent:    #9a4a2b;   /* terracota sóbrio — único acento */
+    --accent-soft:#f0e6df;
+
+    --maxw: 1180px;
+    --pad: clamp(20px, 5vw, 64px);
+
+    --step--1: clamp(0.82rem, 0.79rem + 0.15vw, 0.9rem);
+    --step-0:  clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+    --step-1:  clamp(1.25rem, 1.1rem + 0.7vw, 1.6rem);
+    --step-2:  clamp(1.8rem, 1.4rem + 1.8vw, 2.9rem);
+    --step-3:  clamp(2.6rem, 1.8rem + 3.8vw, 5rem);
+    --step-4:  clamp(3.4rem, 2rem + 6vw, 7.5rem);
+
+    --ease: cubic-bezier(.22,1,.36,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Geist",ui-sans-serif,system-ui,sans-serif;
+    font-size:var(--step-0);
+    line-height:1.65;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:var(--surface)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+  img,video{display:block;max-width:100%}
+
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+
+  /* metadado / rótulo: numeral em serifa, caixa-alta com tracking */
+  .label{
+    font-size:var(--step--1);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--faint);
+    font-weight:500;
+  }
+  .num{
+    font-family:"Newsreader",Georgia,serif;
+    font-feature-settings:"lnum" 1;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;inset:0 0 auto 0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px var(--pad);
+    mix-blend-mode:difference;color:#fff;
+  }
+  .nav a{font-size:var(--step--1);letter-spacing:.04em}
+  .nav .brand{font-weight:600;letter-spacing:.02em}
+  .nav nav{display:flex;gap:28px}
+  @media (max-width:680px){ .nav nav{display:none} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding-block:18vh 12vh;
+  }
+  .hero .eyebrow{margin-bottom:28px}
+  .hero h1{
+    font-family:"Geist",sans-serif;
+    font-weight:300;
+    font-size:var(--step-4);
+    line-height:1.02;
+    letter-spacing:-0.02em;
+    max-width:14ch;
+  }
+  .hero h1 em{
+    font-family:"Newsreader",serif;
+    font-style:italic;
+    font-weight:400;
+    color:var(--accent);
+  }
+  .hero .intro{
+    margin-top:36px;
+    max-width:52ch;
+    color:var(--muted);
+    font-size:var(--step-1);
+    line-height:1.5;
+    font-weight:300;
+  }
+  .hero .meta{
+    margin-top:auto;padding-top:14vh;
+    display:flex;flex-wrap:wrap;gap:8px 40px;
+    align-items:baseline;
+  }
+  .scroll-cue{
+    margin-top:32px;display:inline-flex;align-items:center;gap:12px;
+    color:var(--faint);font-size:var(--step--1);letter-spacing:.1em;text-transform:uppercase;
+  }
+  .scroll-cue span{display:block;width:34px;height:1px;background:var(--faint);position:relative;overflow:hidden}
+  .scroll-cue span::after{content:"";position:absolute;inset:0;background:var(--accent);transform:translateX(-100%);animation:cue 2.4s var(--ease) infinite}
+  @keyframes cue{0%{transform:translateX(-100%)}55%,100%{transform:translateX(100%)}}
+
+  /* ---------- SECTION HEADINGS ---------- */
+  .sec-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:24px;flex-wrap:wrap;
+    padding-block:64px 0;
+  }
+  .sec-head h2{
+    font-family:"Geist",sans-serif;
+    font-weight:400;
+    font-size:var(--step-2);
+    letter-spacing:-0.01em;
+  }
+
+  /* ---------- PROJECTS: SCROLL STACK ---------- */
+  /* Cada projeto é uma "cena" presa (sticky) que ocupa a tela;
+     o scroll move uma cena sobre a outra com fade+slide. */
+  .projects{position:relative}
+  .stack{position:relative}
+  .scene{
+    position:sticky;top:0;height:100svh;
+    display:flex;align-items:center;
+    background:var(--bg);
+    will-change:transform,opacity;
+  }
+  .scene-inner{
+    width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);
+    display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);
+    align-items:center;
+  }
+  .scene .visual{
+    aspect-ratio:4/3;border-radius:6px;overflow:hidden;
+    background:var(--accent-soft);
+    border:1px solid var(--line);
+    position:relative;
+    display:grid;place-items:center;
+    color:var(--faint);font-size:var(--step--1);letter-spacing:.1em;text-transform:uppercase;
+  }
+  .scene .visual::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.35));
+    pointer-events:none;
+  }
+  .scene .body .pidx{display:block;margin-bottom:20px}
+  .scene .body h3{
+    font-family:"Geist",sans-serif;font-weight:400;
+    font-size:var(--step-3);line-height:1.05;letter-spacing:-0.02em;
+    margin-bottom:18px;
+  }
+  .scene .body p{color:var(--muted);max-width:42ch;font-weight:300;font-size:var(--step-1);line-height:1.5}
+  .scene .body .tags{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px}
+  .scene .body .tags li{
+    list-style:none;font-size:var(--step--1);color:var(--muted);
+    border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+  }
+  .scene .body .open{
+    margin-top:34px;display:inline-flex;align-items:center;gap:12px;
+    font-size:var(--step--1);letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:4px;
+    transition:gap .4s var(--ease),color .3s;
+  }
+  .scene .body .open:hover{gap:20px;color:var(--accent);border-color:var(--accent)}
+  .scene-progress{
+    position:absolute;left:var(--pad);bottom:7vh;
+    display:flex;align-items:baseline;gap:10px;color:var(--faint);
+  }
+  .scene-progress .now{color:var(--ink);font-size:var(--step-1)}
+  @media (max-width:820px){
+    .scene{height:auto;min-height:100svh;position:relative;padding-block:14vh}
+    .scene-inner{grid-template-columns:1fr;gap:32px}
+    .scene .visual{aspect-ratio:16/10}
+    .scene-progress{position:static;margin-top:36px}
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .exp-list{margin-top:48px;border-top:1px solid var(--line)}
+  .exp-item{
+    display:grid;grid-template-columns:96px 1fr auto;gap:24px;align-items:baseline;
+    padding:30px 0;border-bottom:1px solid var(--line);
+    transition:padding-left .4s var(--ease);
+  }
+  .exp-item:hover{padding-left:14px}
+  .exp-item .yr{color:var(--faint);font-size:var(--step--1)}
+  .exp-item h3{font-family:"Geist";font-weight:500;font-size:var(--step-1);letter-spacing:-0.01em}
+  .exp-item .role{color:var(--muted);font-size:var(--step-0);margin-top:4px;font-weight:300}
+  .exp-item .place{color:var(--muted);font-size:var(--step--1);text-align:right;white-space:nowrap}
+  @media (max-width:680px){
+    .exp-item{grid-template-columns:1fr;gap:6px}
+    .exp-item .place{text-align:left}
+  }
+
+  /* logos carrossel minimalista */
+  .marquee{
+    margin-top:64px;overflow:hidden;position:relative;
+    border-block:1px solid var(--line);padding-block:38px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  }
+  .marquee ul{display:flex;gap:80px;width:max-content;animation:slide 32s linear infinite}
+  .marquee:hover ul{animation-play-state:paused}
+  .marquee li{
+    list-style:none;color:var(--faint);
+    font-family:"Geist";font-weight:500;font-size:clamp(1.1rem,2.4vw,1.7rem);
+    letter-spacing:.01em;white-space:nowrap;
+    transition:color .3s;
+  }
+  .marquee li:hover{color:var(--ink)}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* ---------- COURSES ---------- */
+  .courses{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);margin-top:48px;border:1px solid var(--line)}
+  .course{
+    background:var(--bg);padding:36px clamp(20px,3vw,44px);
+    transition:background .35s;
+  }
+  .course:hover{background:var(--surface)}
+  .course .num{display:block;color:var(--faint);font-size:var(--step-1);margin-bottom:18px}
+  .course h3{font-family:"Geist";font-weight:500;font-size:var(--step-1);letter-spacing:-0.01em;margin-bottom:6px}
+  .course .by{color:var(--muted);font-size:var(--step--1)}
+  @media (max-width:680px){ .courses{grid-template-columns:1fr} }
+
+  /* ---------- TALK ---------- */
+  .talk{min-height:90svh;display:flex;flex-direction:column;justify-content:center;padding-block:16vh}
+  .talk h2{
+    font-family:"Geist";font-weight:300;
+    font-size:var(--step-4);line-height:1;letter-spacing:-0.03em;
+  }
+  .talk h2 a{border-bottom:2px solid var(--line);transition:border-color .3s,color .3s}
+  .talk h2 a:hover{color:var(--accent);border-color:var(--accent)}
+  .talk .links{
+    margin-top:64px;display:flex;flex-wrap:wrap;gap:14px 48px;
+    padding-top:32px;border-top:1px solid var(--line);
+  }
+  .talk .links a{
+    font-size:var(--step-0);color:var(--muted);
+    display:inline-flex;align-items:center;gap:10px;
+    transition:color .3s;
+  }
+  .talk .links a:hover{color:var(--ink)}
+  .talk .links a::before{content:"↗";color:var(--faint);font-size:.85em}
+
+  footer{padding:48px var(--pad);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;color:var(--faint);font-size:var(--step--1);border-top:1px solid var(--line)}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::after,*::before{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+    .scene{position:relative;height:auto;min-height:100svh}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="#top" class="brand">Mariana V.C.</a><!-- EDITAR: seu nome -->
+  <nav>
+    <a href="#work">Projetos</a>
+    <a href="#exp">Trajetória</a>
+    <a href="#talk">Contato</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ===================== HERO / APRESENTAÇÃO ===================== -->
+  <section class="hero wrap">
+    <div class="eyebrow label">Designer de Produto · UX · Brasil</div><!-- EDITAR -->
+    <h1>Desenho interfaces <em>claras</em> e com intenção.</h1><!-- EDITAR -->
+    <p class="intro">
+      <!-- EDITAR: 1–2 frases sobre você. -->
+      Sou Mariana, designer de produto. Trabalho na interseção entre pesquisa,
+      sistemas de design e código — entregando produtos que parecem simples
+      porque foram pensados com cuidado.
+    </p>
+    <div class="meta">
+      <span class="label">Disponível para projetos</span>
+      <span class="label">São Paulo · Remoto</span>
+    </div>
+    <div class="scroll-cue"><span></span>role para começar</div>
+  </section>
+
+  <!-- ===================== PROJETOS (SCROLL STACK) ===================== -->
+  <section class="projects" id="work">
+    <div class="wrap sec-head reveal">
+      <h2>Projetos selecionados</h2>
+      <span class="label">Role para navegar — <span class="num">03</span></span>
+    </div>
+
+    <div class="stack" id="stack">
+
+      <!-- PROJETO 1 — EDITAR -->
+      <article class="scene" data-scene="0">
+        <div class="scene-inner">
+          <div class="visual">prévia do projeto 01</div>
+          <div class="body">
+            <span class="pidx label">Projeto <span class="num">01</span> — Fintech</span>
+            <h3>Repensar o onboarding</h3>
+            <p>Reduzi o abandono no cadastro em 38% redesenhando o fluxo de verificação para 500 mil usuários.</p>
+            <ul class="tags">
+              <li>Pesquisa</li><li>Fluxo</li><li>Design System</li><li>Protótipo</li>
+            </ul>
+            <a class="open" href="#">Ver estudo de caso →</a>
+          </div>
+        </div>
+        <div class="scene-progress wrap"><span class="now num">01</span><span class="label">/ 03</span></div>
+      </article>
+
+      <!-- PROJETO 2 — EDITAR -->
+      <article class="scene" data-scene="1">
+        <div class="scene-inner">
+          <div class="visual">prévia do projeto 02</div>
+          <div class="body">
+            <span class="pidx label">Projeto <span class="num">02</span> — SaaS</span>
+            <h3>Painel de dados</h3>
+            <p>Transformei um painel sobrecarregado em uma ferramenta legível: hierarquia clara, densidade controlada, decisões mais rápidas.</p>
+            <ul class="tags">
+              <li>UX</li><li>Data Viz</li><li>Acessibilidade</li>
+            </ul>
+            <a class="open" href="#">Ver estudo de caso →</a>
+          </div>
+        </div>
+        <div class="scene-progress wrap"><span class="now num">02</span><span class="label">/ 03</span></div>
+      </article>
+
+      <!-- PROJETO 3 — EDITAR -->
+      <article class="scene" data-scene="2">
+        <div class="scene-inner">
+          <div class="visual">prévia do projeto 03</div>
+          <div class="body">
+            <span class="pidx label">Projeto <span class="num">03</span> — Marca</span>
+            <h3>Identidade de produto</h3>
+            <p>Conduzi a identidade visual e o site de lançamento de uma startup, da pesquisa de marca ao código entregue.</p>
+            <ul class="tags">
+              <li>Branding</li><li>Art Direction</li><li>Front-end</li>
+            </ul>
+            <a class="open" href="#">Ver estudo de caso →</a>
+          </div>
+        </div>
+        <div class="scene-progress wrap"><span class="now num">03</span><span class="label">/ 03</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== EXPERIÊNCIA ===================== -->
+  <section class="wrap" id="exp">
+    <div class="sec-head reveal">
+      <h2>Trajetória</h2>
+      <span class="label">Últimas <span class="num">03</span> experiências</span>
+    </div>
+
+    <div class="exp-list reveal">
+      <!-- EDITAR cada item: ano · cargo · empresa -->
+      <div class="exp-item">
+        <span class="yr num">2023 — hoje</span>
+        <div><h3>Senior Product Designer</h3><div class="role">Liderança de design em produto, do discovery ao handoff.</div></div>
+        <span class="place">Empresa Atual</span>
+      </div>
+      <div class="exp-item">
+        <span class="yr num">2021 — 2023</span>
+        <div><h3>Product Designer</h3><div class="role">Design system, pesquisa com usuários e fluxos de produto.</div></div>
+        <span class="place">Empresa Anterior</span>
+      </div>
+      <div class="exp-item">
+        <span class="yr num">2019 — 2021</span>
+        <div><h3>UX/UI Designer</h3><div class="role">Interfaces web e mobile, prototipação e testes.</div></div>
+        <span class="place">Primeira Empresa</span>
+      </div>
+    </div>
+
+    <!-- carrossel minimalista de logos (texto agora; troque por <img> dos logos) -->
+    <div class="marquee reveal" aria-label="Empresas em que trabalhei">
+      <ul>
+        <!-- EDITAR: nomes (ou logos) das empresas. A lista é duplicada p/ loop. -->
+        <li>Empresa Um</li><li>Empresa Dois</li><li>Empresa Três</li>
+        <li>Empresa Quatro</li><li>Empresa Cinco</li><li>Empresa Seis</li>
+        <li>Empresa Um</li><li>Empresa Dois</li><li>Empresa Três</li>
+        <li>Empresa Quatro</li><li>Empresa Cinco</li><li>Empresa Seis</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== CURSOS ===================== -->
+  <section class="wrap" id="courses">
+    <div class="sec-head reveal">
+      <h2>Estudando recentemente</h2>
+      <span class="label">Formação contínua</span>
+    </div>
+    <div class="courses reveal">
+      <!-- EDITAR: curso · instituição -->
+      <div class="course"><span class="num">01</span><h3>Design de Interação Avançado</h3><div class="by">Instituição / Plataforma</div></div>
+      <div class="course"><span class="num">02</span><h3>Acessibilidade na Web (WCAG)</h3><div class="by">Instituição / Plataforma</div></div>
+      <div class="course"><span class="num">03</span><h3>Pesquisa com Usuários</h3><div class="by">Instituição / Plataforma</div></div>
+      <div class="course"><span class="num">04</span><h3>Front-end para Designers</h3><div class="by">Instituição / Plataforma</div></div>
+    </div>
+  </section>
+
+  <!-- ===================== LET'S TALK ===================== -->
+  <section class="talk wrap" id="talk">
+    <div class="reveal">
+      <span class="label" style="display:block;margin-bottom:32px">Vamos conversar</span>
+      <h2>Tem um projeto?<br><a href="mailto:seu@email.com">Me manda um e-mail.</a></h2><!-- EDITAR e-mail -->
+    </div>
+    <div class="links reveal">
+      <!-- EDITAR seus links -->
+      <a href="mailto:seu@email.com">seu@email.com</a>
+      <a href="https://linkedin.com/in/seu-perfil" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/mari-vc" target="_blank" rel="noopener">GitHub</a>
+      <a href="#" target="_blank" rel="noopener">Behance / Dribbble</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>© <span class="num">2026</span> Mariana V.C.</span><!-- EDITAR -->
+  <span>Desenhado e construído com cuidado.</span>
+</footer>
+
+<script>
+  // Reveal suave ao entrar na viewport
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.18});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Scroll-stack dos projetos: a cena que está saindo recua e desbota
+  // enquanto a próxima (sticky) sobe por baixo. Coreografado, não corte seco.
+  const scenes = [...document.querySelectorAll('.scene')];
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  if(!reduce){
+    const onScroll = ()=>{
+      const vh = window.innerHeight;
+      scenes.forEach((scene,i)=>{
+        const next = scenes[i+1];
+        if(!next) return;
+        const rect = scene.getBoundingClientRect();
+        // progresso 0→1 enquanto a próxima cena cobre a atual
+        let p = Math.min(1, Math.max(0, -rect.top / vh));
+        const e = p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2; // easeInOutQuad
+        scene.style.transform = `scale(${1 - e*0.06}) translateY(${e*-26}px)`;
+        scene.style.opacity   = `${1 - e*0.55}`;
+      });
+    };
+    let ticking=false;
+    window.addEventListener('scroll',()=>{
+      if(!ticking){ requestAnimationFrame(()=>{onScroll();ticking=false;}); ticking=true; }
+    },{passive:true});
+    onScroll();
+  }
+
+  // Ano automático no rodapé (mantém atual sem editar)
+  document.querySelectorAll('footer .num').forEach(n=>{
+    if(/^\d{4}$/.test(n.textContent)) n.textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
