@@ -32,6 +32,7 @@
 
     --maxw: 1180px;
     --pad: clamp(20px, 5vw, 64px);
+    --gap-section: clamp(96px, 14vh, 160px);
 
     --step--1: clamp(0.82rem, 0.79rem + 0.15vw, 0.9rem);
     --step-0:  clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
@@ -56,7 +57,7 @@
     text-rendering:optimizeLegibility;
     overflow-x:hidden;
   }
-  ::selection{background:var(--accent);color:var(--surface)}
+  ::selection{background:var(--accent-soft);color:var(--ink)}
   a{color:inherit;text-decoration:none}
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
   img,video{display:block;max-width:100%}
@@ -80,21 +81,30 @@
   .nav{
     position:fixed;inset:0 0 auto 0;z-index:50;
     display:flex;justify-content:space-between;align-items:center;
-    padding:18px var(--pad);
-    mix-blend-mode:difference;color:#fff;
+    padding:16px var(--pad);
+    color:var(--ink);
+    background:transparent;
+    transition:background .3s var(--ease), backdrop-filter .3s var(--ease), border-color .3s var(--ease);
+    border-bottom:1px solid transparent;
   }
-  .nav a{font-size:var(--step--1);letter-spacing:.04em}
-  .nav .brand{font-weight:600;letter-spacing:.02em}
-  .nav nav{display:flex;gap:28px}
+  .nav.is-scrolled{
+    background:color-mix(in oklab, var(--bg) 80%, transparent);
+    backdrop-filter:saturate(140%) blur(14px);
+    -webkit-backdrop-filter:saturate(140%) blur(14px);
+    border-bottom-color:var(--line);
+  }
+  .nav a{font-size:var(--step--1);letter-spacing:.02em;color:var(--muted);transition:color .25s}
+  .nav a:hover{color:var(--ink)}
+  .nav .brand{font-weight:600;letter-spacing:.01em;color:var(--ink)}
+  .nav nav{display:flex;gap:24px}
   @media (max-width:680px){ .nav nav{display:none} }
 
   /* ---------- HERO ---------- */
   .hero{
     min-height:100svh;
     display:flex;flex-direction:column;justify-content:center;
-    padding-block:18vh 12vh;
+    padding-block:14vh 10vh;
   }
-  .hero .eyebrow{margin-bottom:28px}
   .hero h1{
     font-family:"Cantarell","Geist",sans-serif;
     font-weight:700;
@@ -110,32 +120,29 @@
     color:var(--accent);
   }
   .hero .intro{
-    margin-top:36px;
+    margin-top:32px;
     max-width:52ch;
     color:var(--muted);
     font-size:var(--step-1);
     line-height:1.5;
     font-weight:300;
   }
-  .hero .meta{
-    margin-top:auto;padding-top:14vh;
-    display:flex;flex-wrap:wrap;gap:8px 40px;
-    align-items:baseline;
-  }
   .scroll-cue{
-    margin-top:32px;display:inline-flex;align-items:center;gap:12px;
-    color:var(--faint);font-size:var(--step--1);letter-spacing:.1em;text-transform:uppercase;
+    margin-top:auto;padding-top:14vh;
+    display:inline-flex;align-items:center;gap:10px;
+    color:var(--faint);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;
   }
-  .scroll-cue span{display:block;width:34px;height:1px;background:var(--faint);position:relative;overflow:hidden}
-  .scroll-cue span::after{content:"";position:absolute;inset:0;background:var(--accent);transform:translateX(-100%);animation:cue 2.4s var(--ease) infinite}
-  @keyframes cue{0%{transform:translateX(-100%)}55%,100%{transform:translateX(100%)}}
+  .scroll-cue::before{
+    content:"";display:block;width:24px;height:1px;background:var(--faint);
+  }
 
   /* ---------- SECTION HEADINGS ---------- */
   .sec-head{
-    display:flex;justify-content:space-between;align-items:flex-end;
-    gap:24px;flex-wrap:wrap;
-    padding-block:64px 0;
+    display:flex;flex-direction:column;align-items:flex-start;
+    gap:12px;
+    padding-block:var(--gap-section) 0;
   }
+  .sec-head .label{margin-bottom:0}
   .sec-head h2{
     font-family:"Cantarell","Geist",sans-serif;
     font-weight:700;
@@ -152,7 +159,7 @@
     position:sticky;top:0;height:100svh;
     display:grid;grid-template-rows:1fr auto;
     align-items:center;justify-items:center;
-    padding-block:6vh 5vh;gap:28px;
+    padding-block:6vh 5vh;gap:56px;
   }
   .deck{
     position:relative;
@@ -273,9 +280,11 @@
     font-family:"Cantarell","Geist",sans-serif;font-weight:700;
     font-size:var(--step-1);letter-spacing:-0.01em;line-height:1.15;
   }
-  .card-foot p{
-    margin-top:2px;font-size:var(--step--1);font-weight:300;
-    color:color-mix(in oklab, var(--card-ink) 70%, transparent);
+  .card-year{
+    display:block;margin-top:4px;
+    font-size:var(--step--1);
+    color:color-mix(in oklab, var(--card-ink) 55%, transparent);
+    letter-spacing:.02em;
   }
 
   .deck-pager{
@@ -319,57 +328,45 @@
   }
 
   /* ---------- EXPERIENCE ---------- */
-  .exp-list{margin-top:48px;border-top:1px solid var(--line)}
+  .exp-list{margin-top:56px;border-top:1px solid var(--line)}
   .exp-item{
-    display:grid;grid-template-columns:96px 1fr auto;gap:24px;align-items:baseline;
-    padding:30px 0;border-bottom:1px solid var(--line);
-    transition:padding-left .4s var(--ease);
+    display:grid;grid-template-columns:120px 1fr auto;gap:32px;align-items:baseline;
+    padding:36px 0;border-bottom:1px solid var(--line);
+    transition:color .25s var(--ease);
   }
-  .exp-item:hover{padding-left:14px}
+  .exp-item:hover{color:var(--ink)}
+  .exp-item:hover .place{color:var(--ink)}
   .exp-item .yr{color:var(--faint);font-size:var(--step--1)}
   .exp-item h3{font-family:"Geist";font-weight:500;font-size:var(--step-1);letter-spacing:-0.01em}
   .exp-item .role{color:var(--muted);font-size:var(--step-0);margin-top:4px;font-weight:300}
-  .exp-item .place{color:var(--muted);font-size:var(--step--1);text-align:right;white-space:nowrap}
+  .exp-item .place{color:var(--muted);font-size:var(--step--1);text-align:right;white-space:nowrap;transition:color .25s}
   @media (max-width:680px){
     .exp-item{grid-template-columns:1fr;gap:6px}
     .exp-item .place{text-align:left}
   }
 
-  /* logos carrossel minimalista */
-  .marquee{
-    margin-top:64px;overflow:hidden;position:relative;
-    border-block:1px solid var(--line);padding-block:38px;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
-            mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  /* Cursos inline (rodapé de Trajetória) */
+  .exp-courses{
+    margin-top:32px;
+    color:var(--muted);
+    font-size:var(--step--1);
+    line-height:1.7;
   }
-  .marquee ul{display:flex;gap:80px;width:max-content;animation:slide 32s linear infinite}
-  .marquee:hover ul{animation-play-state:paused}
-  .marquee li{
-    list-style:none;color:var(--faint);
-    font-family:"Geist";font-weight:500;font-size:clamp(1.1rem,2.4vw,1.7rem);
-    letter-spacing:.01em;white-space:nowrap;
-    transition:color .3s;
+  .exp-courses strong{
+    color:var(--faint);
+    font-weight:500;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin-right:14px;
   }
-  .marquee li:hover{color:var(--ink)}
-  @keyframes slide{to{transform:translateX(-50%)}}
-
-  /* ---------- COURSES ---------- */
-  .courses{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);margin-top:48px;border:1px solid var(--line)}
-  .course{
-    background:var(--bg);padding:36px clamp(20px,3vw,44px);
-    transition:background .35s;
-  }
-  .course:hover{background:var(--surface)}
-  .course .num{display:block;color:var(--faint);font-size:var(--step-1);margin-bottom:18px}
-  .course h3{font-family:"Geist";font-weight:500;font-size:var(--step-1);letter-spacing:-0.01em;margin-bottom:6px}
-  .course .by{color:var(--muted);font-size:var(--step--1)}
-  @media (max-width:680px){ .courses{grid-template-columns:1fr} }
+  .exp-courses .sep{color:var(--faint);margin:0 8px}
 
   /* ---------- TALK ---------- */
-  .talk{min-height:90svh;display:flex;flex-direction:column;justify-content:center;padding-block:16vh}
+  .talk{min-height:80svh;display:flex;flex-direction:column;justify-content:center;padding-block:var(--gap-section)}
   .talk h2{
     font-family:"Cantarell","Geist",sans-serif;font-weight:700;
-    font-size:var(--step-4);line-height:1;letter-spacing:-0.03em;
+    font-size:var(--step-3);line-height:1.05;letter-spacing:-0.02em;
+    max-width:18ch;
   }
   .talk h2 a{border-bottom:2px solid var(--line);transition:border-color .3s,color .3s}
   .talk h2 a:hover{color:var(--accent);border-color:var(--accent)}
@@ -385,10 +382,14 @@
   .talk .links a:hover{color:var(--ink)}
   .talk .links a::before{content:"↗";color:var(--faint);font-size:.85em}
 
-  footer{padding:48px var(--pad);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;color:var(--faint);font-size:var(--step--1);border-top:1px solid var(--line)}
+  footer{padding:48px var(--pad);display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;color:var(--faint);font-size:var(--step--1);border-top:1px solid var(--line)}
+  footer .foot-l,footer .foot-r{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+  footer .foot-r a{color:var(--muted);transition:color .25s}
+  footer .foot-r a:hover{color:var(--ink)}
+  footer .foot-loc{color:var(--faint)}
 
   /* reveal on scroll */
-  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal{opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
   .reveal.in{opacity:1;transform:none}
 
   @media (prefers-reduced-motion:reduce){
@@ -404,8 +405,8 @@
 </head>
 <body>
 
-<header class="nav">
-  <a href="#top" class="brand">Mariana V.C.</a><!-- EDITAR: seu nome -->
+<header class="nav" id="nav">
+  <a href="#top" class="brand">Mari</a>
   <nav>
     <a href="#work">Projetos</a>
     <a href="#exp">Trajetória</a>
@@ -417,7 +418,6 @@
 
   <!-- ===================== HERO / APRESENTAÇÃO ===================== -->
   <section class="hero wrap">
-    <div class="eyebrow label">Designer de Produto · UX · Brasil</div><!-- EDITAR -->
     <h1>Desenho interfaces <em>claras</em> e com intenção.</h1><!-- EDITAR -->
     <p class="intro">
       <!-- EDITAR: 1–2 frases sobre você. -->
@@ -425,18 +425,14 @@
       sistemas de design e código — entregando produtos que parecem simples
       porque foram pensados com cuidado.
     </p>
-    <div class="meta">
-      <span class="label">Disponível para projetos</span>
-      <span class="label">São Paulo · Remoto</span>
-    </div>
-    <div class="scroll-cue"><span></span>role para começar</div>
+    <div class="scroll-cue">role</div>
   </section>
 
   <!-- ===================== PROJETOS (CARD DECK) ===================== -->
   <section class="projects" id="work">
     <div class="wrap sec-head reveal">
-      <h2>Projetos selecionados</h2>
-      <span class="label">Role para navegar — <span class="num">04</span></span>
+      <span class="label">Projetos selecionados — <span class="num">04</span></span>
+      <h2>Trabalhos recentes</h2>
     </div>
 
     <div class="deck-stage" id="deckStage">
@@ -450,16 +446,14 @@
               <span>prévia do projeto 01</span>
               <div class="card-notes" aria-hidden="true">
                 <span class="card-note" data-pos="tl" style="--delay:.05">2024</span>
-                <span class="card-note" data-pos="tr" style="--delay:.20">Lead Designer</span>
-                <span class="card-note" data-pos="bl" style="--delay:.35">−38% abandono</span>
-                <span class="card-note" data-pos="br" style="--delay:.50">500k usuários</span>
+                <span class="card-note" data-pos="br" style="--delay:.30">−38% abandono</span>
               </div>
             </a>
             <footer class="card-foot">
               <span class="card-mark" aria-hidden="true">◆</span>
               <div>
                 <h3>Repensar o onboarding</h3>
-                <p>Fintech · redução de 38% no abandono de cadastro.</p>
+                <span class="card-year num">2024 · Fintech</span>
               </div>
             </footer>
           </article>
@@ -471,16 +465,14 @@
               <span>prévia do projeto 02</span>
               <div class="card-notes" aria-hidden="true">
                 <span class="card-note" data-pos="tl" style="--delay:.05">2023</span>
-                <span class="card-note" data-pos="tr" style="--delay:.20">Product Designer</span>
-                <span class="card-note" data-pos="bl" style="--delay:.35">Data Viz</span>
-                <span class="card-note" data-pos="br" style="--delay:.50">WCAG AA</span>
+                <span class="card-note" data-pos="br" style="--delay:.30">Data Viz</span>
               </div>
             </a>
             <footer class="card-foot">
               <span class="card-mark" aria-hidden="true">▲</span>
               <div>
                 <h3>Painel de dados</h3>
-                <p>SaaS · hierarquia clara e decisões mais rápidas.</p>
+                <span class="card-year num">2023 · SaaS</span>
               </div>
             </footer>
           </article>
@@ -492,37 +484,33 @@
               <span>prévia do projeto 03</span>
               <div class="card-notes" aria-hidden="true">
                 <span class="card-note" data-pos="tl" style="--delay:.05">2022</span>
-                <span class="card-note" data-pos="tr" style="--delay:.20">Brand & Web</span>
-                <span class="card-note" data-pos="bl" style="--delay:.35">Identidade</span>
-                <span class="card-note" data-pos="br" style="--delay:.50">Front-end</span>
+                <span class="card-note" data-pos="br" style="--delay:.30">Brand & Web</span>
               </div>
             </a>
             <footer class="card-foot">
               <span class="card-mark" aria-hidden="true">●</span>
               <div>
                 <h3>Identidade de produto</h3>
-                <p>Branding · da pesquisa de marca ao código entregue.</p>
+                <span class="card-year num">2022 · Brand</span>
               </div>
             </footer>
           </article>
 
           <!-- PROJETO 4 — EDITAR -->
-          <article class="card" data-i="3" style="--card-bg:#243042;--card-ink:#f6f4ef">
+          <article class="card" data-i="3" style="--card-bg:#3d4536;--card-ink:#f6f4ef">
             <a class="card-media" href="#" aria-label="Abrir estudo de caso 04">
               <span class="card-open">Click to Open</span>
               <span>prévia do projeto 04</span>
               <div class="card-notes" aria-hidden="true">
                 <span class="card-note" data-pos="tl" style="--delay:.05">2024</span>
-                <span class="card-note" data-pos="tr" style="--delay:.20">Design System</span>
-                <span class="card-note" data-pos="bl" style="--delay:.35">12 produtos</span>
-                <span class="card-note" data-pos="br" style="--delay:.50">Tokens & código</span>
+                <span class="card-note" data-pos="br" style="--delay:.30">12 produtos</span>
               </div>
             </a>
             <footer class="card-foot">
               <span class="card-mark" aria-hidden="true">✦</span>
               <div>
                 <h3>Sistema de design</h3>
-                <p>Plataforma · base reutilizável em 12 produtos.</p>
+                <span class="card-year num">2024 · Plataforma</span>
               </div>
             </footer>
           </article>
@@ -535,7 +523,7 @@
             <li><button type="button" data-go="0" aria-label="Projeto 1" style="--dot:#fbfaf6"><span></span></button></li>
             <li><button type="button" data-go="1" aria-label="Projeto 2" style="--dot:#1a1916"><span></span></button></li>
             <li><button type="button" data-go="2" aria-label="Projeto 3" style="--dot:#9a4a2b"><span></span></button></li>
-            <li><button type="button" data-go="3" aria-label="Projeto 4" style="--dot:#243042"><span></span></button></li>
+            <li><button type="button" data-go="3" aria-label="Projeto 4" style="--dot:#3d4536"><span></span></button></li>
           </ul>
         </nav>
       </div>
@@ -545,76 +533,61 @@
   <!-- ===================== EXPERIÊNCIA ===================== -->
   <section class="wrap" id="exp">
     <div class="sec-head reveal">
-      <h2>Trajetória</h2>
-      <span class="label">Últimas <span class="num">03</span> experiências</span>
+      <span class="label">Trajetória — últimas <span class="num">03</span></span>
+      <h2>Por onde passei</h2>
     </div>
 
     <div class="exp-list reveal">
       <!-- EDITAR cada item: ano · cargo · empresa -->
       <div class="exp-item">
         <span class="yr num">2023 — hoje</span>
-        <div><h3>Senior Product Designer</h3><div class="role">Liderança de design em produto, do discovery ao handoff.</div></div>
+        <div><h3>Staff Product Designer</h3><div class="role">Liderança de design em produto, do discovery ao handoff.</div></div>
         <span class="place">Empresa Atual</span>
       </div>
       <div class="exp-item">
         <span class="yr num">2021 — 2023</span>
-        <div><h3>Product Designer</h3><div class="role">Design system, pesquisa com usuários e fluxos de produto.</div></div>
+        <div><h3>Senior Product Designer</h3><div class="role">Design system, pesquisa com usuários e fluxos de produto.</div></div>
         <span class="place">Empresa Anterior</span>
       </div>
       <div class="exp-item">
         <span class="yr num">2019 — 2021</span>
-        <div><h3>UX/UI Designer</h3><div class="role">Interfaces web e mobile, prototipação e testes.</div></div>
+        <div><h3>Product Designer</h3><div class="role">Interfaces web e mobile, prototipação e testes.</div></div>
         <span class="place">Primeira Empresa</span>
       </div>
     </div>
 
-    <!-- carrossel minimalista de logos (texto agora; troque por <img> dos logos) -->
-    <div class="marquee reveal" aria-label="Empresas em que trabalhei">
-      <ul>
-        <!-- EDITAR: nomes (ou logos) das empresas. A lista é duplicada p/ loop. -->
-        <li>Empresa Um</li><li>Empresa Dois</li><li>Empresa Três</li>
-        <li>Empresa Quatro</li><li>Empresa Cinco</li><li>Empresa Seis</li>
-        <li>Empresa Um</li><li>Empresa Dois</li><li>Empresa Três</li>
-        <li>Empresa Quatro</li><li>Empresa Cinco</li><li>Empresa Seis</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ===================== CURSOS ===================== -->
-  <section class="wrap" id="courses">
-    <div class="sec-head reveal">
-      <h2>Estudando recentemente</h2>
-      <span class="label">Formação contínua</span>
-    </div>
-    <div class="courses reveal">
-      <!-- EDITAR: curso · instituição -->
-      <div class="course"><span class="num">01</span><h3>Design de Interação Avançado</h3><div class="by">Instituição / Plataforma</div></div>
-      <div class="course"><span class="num">02</span><h3>Acessibilidade na Web (WCAG)</h3><div class="by">Instituição / Plataforma</div></div>
-      <div class="course"><span class="num">03</span><h3>Pesquisa com Usuários</h3><div class="by">Instituição / Plataforma</div></div>
-      <div class="course"><span class="num">04</span><h3>Front-end para Designers</h3><div class="by">Instituição / Plataforma</div></div>
-    </div>
+    <p class="exp-courses reveal">
+      <strong>Formação contínua</strong>
+      Design de Interação Avançado
+      <span class="sep">·</span> Acessibilidade na Web (WCAG)
+      <span class="sep">·</span> Pesquisa com Usuários
+      <span class="sep">·</span> Front-end para Designers
+    </p>
   </section>
 
   <!-- ===================== LET'S TALK ===================== -->
   <section class="talk wrap" id="talk">
     <div class="reveal">
-      <span class="label" style="display:block;margin-bottom:32px">Vamos conversar</span>
-      <h2>Tem um projeto?<br><a href="mailto:seu@email.com">Me manda um e-mail.</a></h2><!-- EDITAR e-mail -->
+      <span class="label" style="display:block;margin-bottom:24px">Vamos conversar</span>
+      <h2>Tem um projeto? <a href="mailto:3marivc@gmail.com">Me manda um e-mail.</a></h2>
     </div>
     <div class="links reveal">
-      <!-- EDITAR seus links -->
-      <a href="mailto:seu@email.com">seu@email.com</a>
-      <a href="https://linkedin.com/in/seu-perfil" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/mari-vc" target="_blank" rel="noopener">GitHub</a>
-      <a href="#" target="_blank" rel="noopener">Behance / Dribbble</a>
+      <a href="mailto:3marivc@gmail.com">3marivc@gmail.com</a>
+      <a href="https://www.linkedin.com/in/marivc/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </section>
 
 </main>
 
 <footer>
-  <span>© <span class="num">2026</span> Mariana V.C.</span><!-- EDITAR -->
-  <span>Desenhado e construído com cuidado.</span>
+  <div class="foot-l">
+    <span>© <span class="num">2026</span> Mari</span>
+    <span class="foot-loc">São Paulo · Remoto</span>
+  </div>
+  <div class="foot-r">
+    <a href="mailto:3marivc@gmail.com">3marivc@gmail.com</a>
+    <a href="https://www.linkedin.com/in/marivc/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
 </footer>
 
 <script>
@@ -623,6 +596,15 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
   },{threshold:.18});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Nav: vidro + blur quando o scroll sai do topo do hero
+  (function nav(){
+    const navEl = document.getElementById('nav');
+    if(!navEl) return;
+    const onScroll = ()=> navEl.classList.toggle('is-scrolled', window.scrollY > 24);
+    addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+  })();
 
   // Card-deck inspirado no "Take a closer look" da Apple: cada cartão fica
   // pinned por mais tempo (1.4vh de scroll), com três fases — entrada,
