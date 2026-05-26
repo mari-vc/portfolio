@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import Link from "next/link";
 import { Section } from "./Section";
 import { projects } from "@/lib/data";
@@ -18,17 +19,19 @@ export function FeaturedWork() {
             href={`/work/${project.slug}`}
             className="group flex flex-col"
           >
-            <div
-              className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl"
-              style={{ background: project.cover }}
-            >
-              <div className="absolute inset-0 flex items-end p-5">
-                <span className="rounded-full bg-background/85 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
-                  {project.client} · {project.year}
-                </span>
+            <ViewTransition name={`work-cover-${project.slug}`} share="morph">
+              <div
+                className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl"
+                style={{ background: project.cover }}
+              >
+                <div className="absolute inset-0 flex items-end p-5">
+                  <span className="rounded-full bg-background/85 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
+                    {project.client} · {project.year}
+                  </span>
+                </div>
+                <div className="absolute inset-0 bg-foreground/0 transition-colors duration-300 group-hover:bg-foreground/10" />
               </div>
-              <div className="absolute inset-0 bg-foreground/0 transition-colors duration-300 group-hover:bg-foreground/10" />
-            </div>
+            </ViewTransition>
 
             <div className="mt-5 flex flex-1 flex-col">
               <div className="flex items-start justify-between gap-3">

@@ -10,7 +10,10 @@ const navLinks = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-line/70 bg-background/80 backdrop-blur-md">
+    <header
+      className="sticky top-0 z-50 border-b border-line/70 bg-background/80 backdrop-blur-md"
+      style={{ viewTransitionName: "site-header" }}
+    >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"

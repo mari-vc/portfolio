@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/lib/data";
@@ -35,10 +36,16 @@ export default async function ProjectPage({
 
   return (
     <article>
-      {/* Capa */}
-      <div className="h-56 w-full sm:h-72" style={{ background: project.cover }} />
+      {/* Capa — morfa a partir do card na home */}
+      <ViewTransition name={`work-cover-${project.slug}`} share="morph">
+        <div
+          className="h-56 w-full sm:h-72"
+          style={{ background: project.cover }}
+        />
+      </ViewTransition>
 
-      <div className="mx-auto max-w-3xl px-6 pb-20">
+      <ViewTransition enter="content-rise" default="none">
+        <div className="mx-auto max-w-3xl px-6 pb-20">
         <div className="-mt-8">
           <Link
             href="/#trabalhos"
@@ -144,7 +151,8 @@ export default async function ProjectPage({
             →
           </span>
         </Link>
-      </div>
+        </div>
+      </ViewTransition>
     </article>
   );
 }
