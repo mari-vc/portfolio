@@ -36,52 +36,51 @@ export default async function ProjectPage({
 
   return (
     <article>
-      <ViewTransition enter="content-rise" default="none">
-        <div className="mx-auto max-w-3xl px-6 pb-20 pt-12">
-          <Link
-            href="/#trabalhos"
-            className="group inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-sm text-muted shadow-sm ring-1 ring-line transition-colors hover:text-foreground"
-          >
-            <span className="transition-transform group-hover:-translate-x-1">
-              ←
-            </span>
-            Todos os trabalhos
-          </Link>
+      {/* Cabeçalho: aparece via cross-fade da root transition — discreto, sem competir com o morph */}
+      <div className="mx-auto max-w-3xl px-6 pt-12">
+        <Link
+          href="/#trabalhos"
+          className="group inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-sm text-muted shadow-sm ring-1 ring-line transition-colors hover:text-foreground"
+        >
+          <span className="transition-transform group-hover:-translate-x-1">
+            ←
+          </span>
+          Todos os trabalhos
+        </Link>
 
-          <header className="mt-8">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-              {project.client} · {project.year}
-            </p>
-            <h1 className="mt-4 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
-              {project.title}
-            </h1>
-            <p className="mt-5 text-lg leading-relaxed text-muted">
-              {project.summary}
-            </p>
-          </header>
+        <header className="mt-8">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+            {project.client} · {project.year}
+          </p>
+          <h1 className="mt-4 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
+            {project.title}
+          </h1>
+          <p className="mt-5 text-lg leading-relaxed text-muted">
+            {project.summary}
+          </p>
+        </header>
 
-          <dl className="mt-8 grid grid-cols-2 gap-6 border-y border-line py-6 text-sm sm:grid-cols-3">
-            <div>
-              <dt className="text-muted">Meu papel</dt>
-              <dd className="mt-1 font-medium">{project.role}</dd>
-            </div>
-            <div>
-              <dt className="text-muted">Cliente</dt>
-              <dd className="mt-1 font-medium">{project.client}</dd>
-            </div>
-            <div>
-              <dt className="text-muted">Ano</dt>
-              <dd className="mt-1 font-medium">{project.year}</dd>
-            </div>
-          </dl>
-        </div>
-      </ViewTransition>
+        <dl className="mt-8 grid grid-cols-2 gap-6 border-y border-line py-6 text-sm sm:grid-cols-3">
+          <div>
+            <dt className="text-muted">Meu papel</dt>
+            <dd className="mt-1 font-medium">{project.role}</dd>
+          </div>
+          <div>
+            <dt className="text-muted">Cliente</dt>
+            <dd className="mt-1 font-medium">{project.client}</dd>
+          </div>
+          <div>
+            <dt className="text-muted">Ano</dt>
+            <dd className="mt-1 font-medium">{project.year}</dd>
+          </div>
+        </dl>
+      </div>
 
-      {/* Imagem de destaque — morfa a partir do card na home */}
+      {/* Imagem de destaque — mesma proporção 4:3 do card, morph limpo sem distorção */}
       <ViewTransition name={`work-cover-${project.slug}`} share="morph">
-        <div className="mx-auto max-w-3xl px-6">
+        <div className="mx-auto max-w-3xl px-6 pt-8">
           <div
-            className="aspect-[16/9] w-full overflow-hidden rounded-2xl"
+            className="aspect-[4/3] w-full overflow-hidden rounded-2xl"
             style={{ background: project.cover }}
           />
         </div>

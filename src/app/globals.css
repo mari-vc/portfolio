@@ -70,36 +70,40 @@ body {
 
 /* ---------- View transitions (navegação para /work) ---------- */
 
-/* Morph da capa: card da home → cabeçalho do detalhe */
+/* Morph do card → imagem de destaque: apenas posição e escala, sem distorção */
 ::view-transition-group(.morph) {
-  animation-duration: 460ms;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-duration: 440ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 ::view-transition-image-pair(.morph) {
-  animation-name: vt-blur;
   border-radius: 16px;
   overflow: clip;
 }
-@keyframes vt-blur {
-  40% {
-    filter: blur(5px);
-  }
+::view-transition-old(.morph) {
+  animation: 200ms ease-in both vt-fade-out;
+}
+::view-transition-new(.morph) {
+  animation: 280ms ease-out 160ms both vt-fade-in;
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
 }
 
-/* Conteúdo do detalhe entra subindo e desfocando */
+/* Conteúdo do detalhe entra com um rise sutil */
 ::view-transition-new(.content-rise) {
-  animation: 380ms cubic-bezier(0.22, 1, 0.36, 1) 90ms both vt-rise;
+  animation: 420ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both vt-rise;
 }
 @keyframes vt-rise {
   from {
     opacity: 0;
-    transform: translateY(18px);
-    filter: blur(3px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 
