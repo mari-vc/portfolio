@@ -1,20 +1,21 @@
 import Link from "next/link";
 import { Section } from "./Section";
 import { profile } from "@/lib/data";
+import type { Locale } from "@/lib/data";
+import type { Dict } from "@/lib/i18n";
 
-export function Contact() {
+export function Contact({ lang, dict }: { lang: Locale; dict: Dict }) {
   return (
-    <Section id="contato" eyebrow="Falar comigo">
+    <Section id="contact" eyebrow={dict.contact.eyebrow}>
       <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
         <div>
           <h2 className="max-w-2xl text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
-            Vamos construir algo
+            {dict.contact.heading_1}
             <br />
-            <span className="text-muted">que importa juntos?</span>
+            <span className="text-muted">{dict.contact.heading_2}</span>
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-muted">
-            Estou sempre aberta a conversar sobre design, produto ou uma boa
-            oportunidade. Me manda uma mensagem.
+            {dict.contact.body}
           </p>
           <Link
             href={profile.socials.email}
