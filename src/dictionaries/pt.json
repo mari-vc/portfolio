@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "works": "Trabalhos",
+    "about": "Sobre",
+    "curiosities": "Curiosidades",
+    "contact": "Contato"
+  },
+  "hero": {
+    "available": "Disponível para novos projetos",
+    "greeting": "Olá, sou",
+    "cta_works": "Ver trabalhos",
+    "cta_contact": "Falar comigo"
+  },
+  "about_mini": {
+    "eyebrow": "Sobre mim",
+    "cta_text": "Quer conhecer minha trajetória, princípios de design e o que me move no dia a dia?",
+    "cta_label": "Saber mais sobre mim"
+  },
+  "featured_work": {
+    "eyebrow": "Trabalhos recentes",
+    "heading": "Três projetos que tenho orgulho de ter liderado"
+  },
+  "curiosities": {
+    "eyebrow": "Curiosidades",
+    "heading": "Além das telas"
+  },
+  "contact": {
+    "eyebrow": "Falar comigo",
+    "heading_1": "Vamos construir algo",
+    "heading_2": "que importa juntos?",
+    "body": "Estou sempre aberta a conversar sobre design, produto ou uma boa oportunidade. Me manda uma mensagem."
+  },
+  "footer": {
+    "made_with": "Feito com cuidado."
+  },
+  "work_detail": {
+    "back": "Todos os trabalhos",
+    "role": "Meu papel",
+    "client": "Cliente",
+    "year": "Ano",
+    "overview": "Visão geral",
+    "challenge": "O desafio",
+    "approach": "Abordagem",
+    "results": "Resultados",
+    "next_project": "Próximo projeto"
+  },
+  "about_page": {
+    "back": "Voltar para home",
+    "eyebrow": "Sobre mim",
+    "principles": "Princípios que guiam meu trabalho",
+    "timeline": "Trajetória",
+    "contact_heading": "Vamos conversar?",
+    "contact_body": "Estou aberta a novas oportunidades, colaborações e conversas sobre design e produto.",
+    "contact_cta": "Me manda um e-mail"
+  }
+}
