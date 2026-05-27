@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "works": "Work",
+    "about": "About",
+    "curiosities": "Curiosities",
+    "contact": "Contact"
+  },
+  "hero": {
+    "available": "Available for new projects",
+    "greeting": "Hi, I'm",
+    "cta_works": "See work",
+    "cta_contact": "Get in touch"
+  },
+  "about_mini": {
+    "eyebrow": "About me",
+    "cta_text": "Want to know more about my journey, design principles, and what drives me every day?",
+    "cta_label": "More about me"
+  },
+  "featured_work": {
+    "eyebrow": "Recent work",
+    "heading": "Three projects I'm proud to have led"
+  },
+  "curiosities": {
+    "eyebrow": "Curiosities",
+    "heading": "Beyond the screens"
+  },
+  "contact": {
+    "eyebrow": "Get in touch",
+    "heading_1": "Let's build something",
+    "heading_2": "that matters together?",
+    "body": "I'm always open to talk about design, product, or a great opportunity. Send me a message."
+  },
+  "footer": {
+    "made_with": "Made with care."
+  },
+  "work_detail": {
+    "back": "All work",
+    "role": "My role",
+    "client": "Client",
+    "year": "Year",
+    "overview": "Overview",
+    "challenge": "The challenge",
+    "approach": "Approach",
+    "results": "Results",
+    "next_project": "Next project"
+  },
+  "about_page": {
+    "back": "Back to home",
+    "eyebrow": "About me",
+    "principles": "Principles that guide my work",
+    "timeline": "Journey",
+    "contact_heading": "Let's talk?",
+    "contact_body": "I'm open to new opportunities, collaborations, and conversations about design and product.",
+    "contact_cta": "Send me an email"
+  }
+}
