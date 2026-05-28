@@ -3,6 +3,7 @@ import Link from "next/link";
 import { profile } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
+import { MariIllustration } from "@/components/MariIllustration";
 
 export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
   return (
@@ -45,15 +46,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
         </div>
 
         <div className="flex justify-center lg:justify-end">
-          <Image
-            src="/mari-illustration.svg"
-            alt="Mari illustration"
-            width={1040}
-            height={1577}
-            priority
-            unoptimized
-            className="h-auto w-64 sm:w-80 lg:w-96"
-          />
+          <MariIllustration className="h-auto w-64 sm:w-80 lg:w-96" />
         </div>
       </div>
     </section>
