@@ -12,7 +12,7 @@ export function t(field: L, lang: Locale): string {
 }
 
 export const profile = {
-  name: "Mari Vieira",
+  name: "marivc",
   role: "Staff Product Designer",
   location: "São Paulo, Brasil",
   email: "3marivc@gmail.com",
