@@ -13,7 +13,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
             src="/hey-im-mari.svg"
             alt={`${profile.name} — ${profile.role}`}
             width={94}
-            height={94}
+            height={79}
             priority
             className="h-auto w-48 sm:w-64 lg:w-72"
           />
