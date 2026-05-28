@@ -51,6 +51,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
             width={1040}
             height={1577}
             priority
+            unoptimized
             className="h-auto w-64 sm:w-80 lg:w-96"
           />
         </div>
