@@ -6,8 +6,7 @@
     "contact": "Contato"
   },
   "hero": {
-    "available": "Disponível para novos projetos",
-    "greeting": "Olá, sou",
+    "subtitle": "I'm a Product Designer passionate about bringing clarity to complex and ambiguous problems. I thrive in fast-paced, collaborative environments where I can turn uncertainty into structure, build scalable systems from the ground up, and create frameworks that help teams move faster and make better decisions.",
     "cta_works": "Ver trabalhos",
     "cta_contact": "Falar comigo"
   },

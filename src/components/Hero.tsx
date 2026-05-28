@@ -1,44 +1,53 @@
+import Image from "next/image";
 import Link from "next/link";
-import { profile, t } from "@/lib/data";
+import { profile } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
+import { MariIllustration } from "@/components/MariIllustration";
 
 export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
   return (
     <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-32 sm:pb-24">
-      <div className="rise">
-        <p className="mb-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-          </span>
-          {dict.hero.available}
-        </p>
+      <div className="rise grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div>
+          <h1>
+            <Image
+              src="/hey-im-mari.svg"
+              alt={`${profile.name} — ${profile.role}`}
+              width={94}
+              height={79}
+              priority
+              className="h-auto w-48 sm:w-64 lg:w-72"
+            />
+          </h1>
 
-        <h1 className="max-w-4xl text-4xl font-medium leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-          {dict.hero.greeting} {profile.name.split(" ")[0]}.
-          <br />
-          <span className="text-muted">{t(profile.welcome, lang)}</span>
-        </h1>
+          <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
+            {dict.hero.subtitle}
+          </p>
 
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <Link
-            href={`/${lang}/#work`}
-            className="inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
-          >
-            {dict.hero.cta_works}
-          </Link>
-          <Link
-            href={`/${lang}/#contact`}
-            className="inline-flex items-center justify-center rounded-full border border-foreground/15 px-6 py-3 text-sm font-medium transition-colors hover:border-foreground/40"
-          >
-            {dict.hero.cta_contact}
-          </Link>
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <Link
+              href={`/${lang}/#work`}
+              className="inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
+            >
+              {dict.hero.cta_works}
+            </Link>
+            <Link
+              href={`/${lang}/#contact`}
+              className="inline-flex items-center justify-center rounded-full border border-foreground/15 px-6 py-3 text-sm font-medium transition-colors hover:border-foreground/40"
+            >
+              {dict.hero.cta_contact}
+            </Link>
+          </div>
+
+          <p className="mt-12 font-mono text-sm text-muted">
+            {profile.role} · {profile.location}
+          </p>
         </div>
 
-        <p className="mt-12 font-mono text-sm text-muted">
-          {profile.role} · {profile.location}
-        </p>
+        <div className="flex justify-center lg:justify-end">
+          <MariIllustration className="h-auto w-64 sm:w-80 lg:w-96" />
+        </div>
       </div>
     </section>
   );

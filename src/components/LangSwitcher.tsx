@@ -11,14 +11,21 @@ export function LangSwitcher({ lang }: { lang: Locale }) {
 
   return (
     <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider">
-      <span className={lang === 'pt' ? 'text-foreground font-semibold' : 'text-muted'}>PT</span>
+      {lang === 'pt' ? (
+        <span className="text-foreground font-semibold">PT</span>
+      ) : (
+        <Link href={otherPath} className="text-muted hover:text-foreground transition-colors">
+          PT
+        </Link>
+      )}
       <span className="text-muted/40">|</span>
-      <Link
-        href={otherPath}
-        className={lang === 'en' ? 'text-foreground font-semibold' : 'text-muted hover:text-foreground transition-colors'}
-      >
-        EN
-      </Link>
+      {lang === 'en' ? (
+        <span className="text-foreground font-semibold">EN</span>
+      ) : (
+        <Link href={otherPath} className="text-muted hover:text-foreground transition-colors">
+          EN
+        </Link>
+      )}
     </div>
   )
 }
