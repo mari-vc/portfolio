@@ -110,6 +110,72 @@ export const curiosities: { icon: string; title: L; text: L }[] = [
   },
 ];
 
+// Conteúdo da página /about (seção 2 expandida)
+export const aboutPage = {
+  body: [
+    {
+      pt: "Comecei na interface, me apaixonei pelos problemas por trás dela e nunca mais parei. Ao longo de mais de uma década, trabalhei em fintechs, marketplaces e produtos de growth, sempre buscando o ponto onde negócio, tecnologia e pessoas se encontram.",
+      en: "I started in interfaces, fell in love with the problems behind them, and never stopped. Over more than a decade, I've worked in fintechs, marketplaces, and growth products — always looking for the point where business, technology, and people meet.",
+    },
+    {
+      pt: "Como Staff, meu trabalho é tanto desenhar quanto elevar o nível de design ao meu redor: mentorando, criando sistemas e ajudando o time a tomar decisões melhores e mais rápidas.",
+      en: "As a Staff Designer, my work is as much about designing as it is about elevating the design level around me: mentoring, building systems, and helping the team make better, faster decisions.",
+    },
+  ] as L[],
+  principles: [
+    {
+      title: { pt: "Clareza acima de tudo", en: "Clarity above all" },
+      text: {
+        pt: "Simplicidade é uma decisão, não um acaso. Removo o que não serve para deixar o essencial respirar.",
+        en: "Simplicity is a decision, not a coincidence. I remove what doesn't serve to let the essential breathe.",
+      },
+    },
+    {
+      title: { pt: "Design é um esporte de equipe", en: "Design is a team sport" },
+      text: {
+        pt: "Os melhores produtos nascem da colaboração próxima entre design, produto, engenharia e dados.",
+        en: "The best products come from close collaboration between design, product, engineering, and data.",
+      },
+    },
+    {
+      title: { pt: "Craft importa", en: "Craft matters" },
+      text: {
+        pt: "Os detalhes são o que separam o bom do memorável. Cuido deles do conceito ao último pixel.",
+        en: "Details are what separate the good from the memorable. I take care of them from concept to the last pixel.",
+      },
+    },
+    {
+      title: { pt: "Decisões guiadas por evidências", en: "Evidence-driven decisions" },
+      text: {
+        pt: "Equilibro intuição e dados. Pesquiso, testo e itero antes de cravar uma direção.",
+        en: "I balance intuition and data. I research, test, and iterate before committing to a direction.",
+      },
+    },
+  ] as { title: L; text: L }[],
+  timeline: [
+    {
+      period: { pt: "2022 – hoje", en: "2022 – today" },
+      role: "Staff Product Designer",
+      place: "Aurora",
+    },
+    {
+      period: { pt: "2019 – 2022", en: "2019 – 2022" },
+      role: "Senior Product Designer",
+      place: "Northwind",
+    },
+    {
+      period: { pt: "2016 – 2019", en: "2016 – 2019" },
+      role: "Product Designer",
+      place: "Lumen",
+    },
+    {
+      period: { pt: "2014 – 2016", en: "2014 – 2016" },
+      role: "UI/UX Designer",
+      place: "Vértice",
+    },
+  ] as { period: L; role: string; place: string }[],
+};
+
 export type Project = {
   slug: string;
   title: L;
