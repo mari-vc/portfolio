@@ -16,11 +16,6 @@ export const profile = {
   role: "Staff Product Designer",
   location: "São Paulo, Brasil",
   email: "3marivc@gmail.com",
-  // Frase de boas-vindas (seção Welcome)
-  welcome: {
-    pt: "Desenho produtos digitais que conectam negócios e pessoas, com clareza, intenção e um cuidado obsessivo pelos detalhes.",
-    en: "I design digital products that connect businesses and people — with clarity, intention, and an obsessive attention to detail.",
-  } as L,
   // Mini sobre (seção About)
   aboutShort: {
     pt: "Sou Staff Product Designer com mais de 10 anos de experiência liderando design de produtos complexos em escala. Trabalho na interseção entre estratégia, sistemas e craft, ajudando times a transformar problemas confusos em experiências simples.",
