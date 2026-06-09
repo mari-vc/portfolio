@@ -18,7 +18,7 @@ export const profile = {
   email: "3marivc@gmail.com",
   // Frase de boas-vindas (seção Welcome)
   welcome: {
-    pt: "Desenho produtos digitais que conectam negócios e pessoas — com clareza, intenção e um cuidado obsessivo pelos detalhes.",
+    pt: "Desenho produtos digitais que conectam negócios e pessoas, com clareza, intenção e um cuidado obsessivo pelos detalhes.",
     en: "I design digital products that connect businesses and people — with clarity, intention, and an obsessive attention to detail.",
   } as L,
   // Mini sobre (seção About)
@@ -36,7 +36,7 @@ export const profile = {
 // Frase de impacto (seção 5)
 export const impactQuote = {
   text: {
-    pt: "Bom design não é o que se vê — é o que se sente quando tudo simplesmente funciona.",
+    pt: "Bom design não é o que se vê: é o que se sente quando tudo simplesmente funciona.",
     en: "Good design isn't what you see — it's what you feel when everything just works.",
   } as L,
   attribution: {
@@ -59,9 +59,9 @@ export const companies: { name: string }[] = [
 ];
 
 // Curiosidades (seção 6)
-export const curiosities: { emoji: string; title: L; text: L }[] = [
+export const curiosities: { icon: string; title: L; text: L }[] = [
   {
-    emoji: "☕",
+    icon: "coffee",
     title: { pt: "Movida a café", en: "Powered by coffee" },
     text: {
       pt: "Já testei mais de 40 grãos diferentes. O ritual da manhã é inegociável.",
@@ -69,15 +69,15 @@ export const curiosities: { emoji: string; title: L; text: L }[] = [
     },
   },
   {
-    emoji: "🎹",
+    icon: "piano",
     title: { pt: "Toco piano", en: "I play piano" },
     text: {
-      pt: "Música clássica desde os 8 anos — me ensinou tudo sobre ritmo e composição.",
+      pt: "Música clássica desde os 8 anos: me ensinou tudo sobre ritmo e composição.",
       en: "Classical music since age 8 — taught me everything about rhythm and composition.",
     },
   },
   {
-    emoji: "🏔️",
+    icon: "trail",
     title: { pt: "Trilhas longas", en: "Long hikes" },
     text: {
       pt: "Já caminhei mais de 300km em trilhas. As melhores ideias vêm no meio do mato.",
@@ -85,7 +85,7 @@ export const curiosities: { emoji: string; title: L; text: L }[] = [
     },
   },
   {
-    emoji: "📚",
+    icon: "books",
     title: { pt: "Leio demais", en: "I read a lot" },
     text: {
       pt: "Uma média de 30 livros por ano, metade sobre coisas que nada têm a ver com design.",
@@ -93,7 +93,7 @@ export const curiosities: { emoji: string; title: L; text: L }[] = [
     },
   },
   {
-    emoji: "🧩",
+    icon: "puzzle",
     title: { pt: "Coleciono quebra-cabeças", en: "Puzzle collector" },
     text: {
       pt: "Quanto mais peças, melhor. Problemas complexos são meu passatempo favorito.",
@@ -101,7 +101,7 @@ export const curiosities: { emoji: string; title: L; text: L }[] = [
     },
   },
   {
-    emoji: "🌱",
+    icon: "plant",
     title: { pt: "Jardineira amadora", en: "Amateur gardener" },
     text: {
       pt: "Tenho 23 plantas em casa. Paciência e iteração também valem para elas.",
@@ -117,8 +117,6 @@ export type Project = {
   year: string;
   role: L;
   tags: string[];
-  // cor do bloco visual do card / capa
-  cover: string;
   summary: L;
   // conteúdo da página de detalhe
   overview: L;
@@ -143,7 +141,6 @@ export const projects: Project[] = [
       en: "Staff Product Designer · Design Lead",
     },
     tags: ["Mobile", "Fintech", "0→1"],
-    cover: "linear-gradient(135deg, #4b3bff 0%, #9b8cff 100%)",
     summary: {
       pt: "Redesenho completo do fluxo de pagamentos que reduziu o abandono em 38% e simplificou três telas em uma.",
       en: "Complete redesign of the payment flow that reduced drop-off by 38% and simplified three screens into one.",
@@ -197,7 +194,6 @@ export const projects: Project[] = [
       en: "Staff Product Designer · Systems",
     },
     tags: ["Design System", "Tokens", "Governança"],
-    cover: "linear-gradient(135deg, #15151a 0%, #4a4a55 100%)",
     summary: {
       pt: "Criação de um design system unificado adotado por 6 squads, com tokens e documentação viva.",
       en: "Creation of a unified design system adopted by 6 squads, with tokens and living documentation.",
@@ -251,7 +247,6 @@ export const projects: Project[] = [
       en: "Staff Product Designer · Growth",
     },
     tags: ["Growth", "Ativação", "Experimentação"],
-    cover: "linear-gradient(135deg, #ff7a59 0%, #ffd166 100%)",
     summary: {
       pt: "Novo onboarding orientado a valor que elevou a ativação de novos usuários em 27% no primeiro mês.",
       en: "New value-oriented onboarding that increased new user activation by 27% in the first month.",
@@ -288,7 +283,7 @@ export const projects: Project[] = [
       { label: { pt: "Drop no 1º dia", en: "Day 1 drop-off" }, value: "-31%" },
     ],
     closing: {
-      pt: "Provamos que ativação não é sobre explicar o produto — é sobre fazer o usuário sentir o valor o quanto antes.",
+      pt: "Provamos que ativação não é sobre explicar o produto: é sobre fazer o usuário sentir o valor o quanto antes.",
       en: "We proved that activation isn't about explaining the product — it's about making users feel the value as soon as possible.",
     },
   },

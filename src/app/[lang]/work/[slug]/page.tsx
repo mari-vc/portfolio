@@ -3,6 +3,7 @@ import { ViewTransition } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getProject, projects, t } from '@/lib/data'
+import { ProjectSketch } from '@/components/ProjectSketch'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 
 export function generateStaticParams() {
@@ -83,10 +84,9 @@ export default async function ProjectPage({
 
       <ViewTransition name={`work-cover-${project.slug}`} share="morph">
         <div className="mx-auto max-w-3xl px-6 pt-8">
-          <div
-            className="aspect-[4/3] w-full overflow-hidden rounded-2xl"
-            style={{ background: project.cover }}
-          />
+          <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line bg-card">
+            <ProjectSketch slug={project.slug} className="h-full w-full" />
+          </div>
         </div>
       </ViewTransition>
 

@@ -1,4 +1,5 @@
 import { Section } from "./Section";
+import { CuriosityDoodle } from "./CuriosityDoodle";
 import { curiosities, t } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
@@ -13,11 +14,12 @@ export function Curiosities({ lang, dict }: { lang: Locale; dict: Dict }) {
         {curiosities.map((item) => (
           <div
             key={item.title.pt}
-            className="flex flex-col gap-3 bg-card p-7 transition-colors hover:bg-background"
+            className="group flex flex-col gap-3 bg-card p-7 transition-colors hover:bg-background"
           >
-            <span className="text-3xl" aria-hidden>
-              {item.emoji}
-            </span>
+            <CuriosityDoodle
+              name={item.icon}
+              className="h-10 w-10 transition-transform duration-300 group-hover:-rotate-6"
+            />
             <h3 className="text-base font-medium tracking-tight">
               {t(item.title, lang)}
             </h3>

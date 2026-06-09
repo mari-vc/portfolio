@@ -1,6 +1,7 @@
 import { ViewTransition } from "react";
 import Link from "next/link";
 import { Section } from "./Section";
+import { ProjectSketch } from "./ProjectSketch";
 import { projects, t } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
@@ -22,16 +23,16 @@ export function FeaturedWork({ lang, dict }: { lang: Locale; dict: Dict }) {
             className="group flex flex-col"
           >
             <ViewTransition name={`work-cover-${project.slug}`} share="morph">
-              <div
-                className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl"
-                style={{ background: project.cover }}
-              >
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line bg-card">
+                <ProjectSketch
+                  slug={project.slug}
+                  className="h-full w-full transition-transform duration-300 group-hover:-rotate-1 group-hover:scale-[1.03]"
+                />
                 <div className="absolute inset-0 flex items-end p-5">
                   <span className="rounded-full bg-background/85 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
                     {project.client} · {project.year}
                   </span>
                 </div>
-                <div className="absolute inset-0 bg-foreground/0 transition-colors duration-300 group-hover:bg-foreground/10" />
               </div>
             </ViewTransition>
 
