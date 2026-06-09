@@ -8,12 +8,16 @@
   "hero": {
     "subtitle": "Sou Product Designer apaixonada por trazer clareza a problemas complexos e ambíguos. Me realizo em ambientes colaborativos e de ritmo acelerado, onde posso transformar incerteza em estrutura, construir sistemas escaláveis do zero e criar frameworks que ajudam times a se mover mais rápido e decidir melhor.",
     "cta_works": "Ver trabalhos",
-    "cta_contact": "Falar comigo"
+    "cta_contact": "Falar comigo",
+    "hello": "oi :)"
   },
   "about_mini": {
     "eyebrow": "Sobre mim",
     "cta_text": "Quer conhecer minha trajetória, princípios de design e o que me move no dia a dia?",
     "cta_label": "Saber mais sobre mim"
+  },
+  "logos": {
+    "eyebrow": "Lugares por onde passei"
   },
   "featured_work": {
     "eyebrow": "Trabalhos recentes",

@@ -25,7 +25,7 @@ export default async function HomePage({
     <>
       <Hero lang={lang} dict={dict} />
       <AboutMini lang={lang} dict={dict} />
-      <LogoCarousel />
+      <LogoCarousel dict={dict} />
       <FeaturedWork lang={lang} dict={dict} />
       <ImpactQuote lang={lang} />
       <Curiosities lang={lang} dict={dict} />

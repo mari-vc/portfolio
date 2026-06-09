@@ -8,12 +8,16 @@
   "hero": {
     "subtitle": "I'm a Product Designer passionate about bringing clarity to complex and ambiguous problems. I thrive in fast-paced, collaborative environments where I can turn uncertainty into structure, build scalable systems from the ground up, and create frameworks that help teams move faster and make better decisions.",
     "cta_works": "See work",
-    "cta_contact": "Get in touch"
+    "cta_contact": "Get in touch",
+    "hello": "hi :)"
   },
   "about_mini": {
     "eyebrow": "About me",
     "cta_text": "Want to know more about my journey, design principles, and what drives me every day?",
     "cta_label": "More about me"
+  },
+  "logos": {
+    "eyebrow": "Places I've worked"
   },
   "featured_work": {
     "eyebrow": "Recent work",

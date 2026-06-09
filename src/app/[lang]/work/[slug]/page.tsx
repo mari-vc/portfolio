@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getProject, projects, t } from '@/lib/data'
 import { ProjectSketch } from '@/components/ProjectSketch'
+import { InkCircle, InkUnderline } from '@/components/InkUnderline'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 
 export function generateStaticParams() {
@@ -112,11 +113,12 @@ export default async function ProjectPage({
             </h2>
             <ol className="mt-5 space-y-4">
               {project.approach.map((step, i) => (
-                <li key={i} className="flex gap-4">
-                  <span className="font-mono text-sm text-accent">
+                <li key={i} className="flex items-start gap-4">
+                  <span className="relative inline-flex h-8 w-11 shrink-0 items-center justify-center font-mono text-sm text-accent">
+                    <InkCircle className="absolute inset-0 h-full w-full" />
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <p className="text-base leading-relaxed">{t(step, lang)}</p>
+                  <p className="pt-1 text-base leading-relaxed">{t(step, lang)}</p>
                 </li>
               ))}
             </ol>
@@ -130,7 +132,8 @@ export default async function ProjectPage({
               {project.outcome.map((metric) => (
                 <div key={metric.label.pt} className="bg-card p-6">
                   <p className="text-3xl font-medium tracking-tight">{metric.value}</p>
-                  <p className="mt-1 text-sm text-muted">{t(metric.label, lang)}</p>
+                  <InkUnderline className="mt-1.5 h-2 w-14" />
+                  <p className="mt-2 text-sm text-muted">{t(metric.label, lang)}</p>
                 </div>
               ))}
             </div>
