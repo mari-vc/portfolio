@@ -17,7 +17,9 @@
     "cta_label": "More about me"
   },
   "logos": {
-    "eyebrow": "Places I've worked"
+    "eyebrow": "Places I've worked",
+    "pause": "Pause animation",
+    "play": "Resume animation"
   },
   "featured_work": {
     "eyebrow": "Recent work",

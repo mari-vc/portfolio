@@ -17,7 +17,9 @@
     "cta_label": "Saber mais sobre mim"
   },
   "logos": {
-    "eyebrow": "Lugares por onde passei"
+    "eyebrow": "Lugares por onde passei",
+    "pause": "Pausar animação",
+    "play": "Retomar animação"
   },
   "featured_work": {
     "eyebrow": "Trabalhos recentes",

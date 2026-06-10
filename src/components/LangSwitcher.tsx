@@ -10,19 +10,33 @@ export function LangSwitcher({ lang }: { lang: Locale }) {
   const otherPath = pathname.replace(new RegExp(`^/${lang}`), `/${other}`)
 
   return (
-    <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider">
+    <div className="flex items-center font-mono text-xs uppercase tracking-wider">
       {lang === 'pt' ? (
-        <span className="text-foreground font-semibold">PT</span>
+        <span aria-current="true" className="px-1.5 py-1.5 text-foreground font-semibold">
+          PT
+        </span>
       ) : (
-        <Link href={otherPath} className="text-muted hover:text-foreground transition-colors">
+        <Link
+          href={otherPath}
+          aria-label="Versão em português"
+          className="px-1.5 py-1.5 text-muted hover:text-foreground transition-colors"
+        >
           PT
         </Link>
       )}
-      <span className="text-muted/40">|</span>
+      <span aria-hidden="true" className="text-muted/40">
+        |
+      </span>
       {lang === 'en' ? (
-        <span className="text-foreground font-semibold">EN</span>
+        <span aria-current="true" className="px-1.5 py-1.5 text-foreground font-semibold">
+          EN
+        </span>
       ) : (
-        <Link href={otherPath} className="text-muted hover:text-foreground transition-colors">
+        <Link
+          href={otherPath}
+          aria-label="English version"
+          className="px-1.5 py-1.5 text-muted hover:text-foreground transition-colors"
+        >
           EN
         </Link>
       )}
