@@ -15,10 +15,10 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
             <Image
               src="/hey-im-mari.svg"
               alt={`${profile.name} — ${profile.role}`}
-              width={94}
-              height={79}
+              width={577}
+              height={136}
               priority
-              className="h-auto w-48 sm:w-64 lg:w-96"
+              className="h-auto w-72 sm:w-96 lg:w-[30rem]"
             />
           </h1>
 
