@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
+import { Geist, Geist_Mono, Instrument_Serif, La_Belle_Aurore } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 import { Header } from '@/components/Header'
@@ -21,6 +21,13 @@ const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
   weight: '400',
   style: ['normal', 'italic'],
+})
+
+// Lettering manuscrito do hero (substitui o SVG para permitir pt/en)
+const laBelleAurore = La_Belle_Aurore({
+  variable: '--font-la-belle-aurore',
+  subsets: ['latin'],
+  weight: '400',
 })
 
 export const metadata: Metadata = {
@@ -46,7 +53,7 @@ export default async function LangLayout({
   return (
     <html
       lang={lang}
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${laBelleAurore.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Header lang={lang} dict={dict} />

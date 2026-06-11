@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { profile } from "@/lib/data";
 import type { Locale } from "@/lib/data";
@@ -11,15 +10,8 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
     <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-32 sm:pb-24">
       <div className="rise grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div>
-          <h1>
-            <Image
-              src="/hey-im-mari.svg"
-              alt={`${profile.name} — ${profile.role}`}
-              width={577}
-              height={136}
-              priority
-              className="h-auto w-72 sm:w-96 lg:w-[30rem]"
-            />
+          <h1 className="font-hand text-6xl leading-none sm:text-7xl lg:text-8xl">
+            {dict.hero.heading}
           </h1>
 
           <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">

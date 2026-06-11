@@ -93,7 +93,7 @@
     "rules": [
       { "name": "A Regra da Caneta Única", "body": "Só existe uma caneta de cor no estojo. A esferográfica azul cobre no máximo 10% de qualquer tela e aparece apenas em elementos interativos ou grifos deliberados. Uma segunda cor de acento é proibida.", "section": "colors" },
       { "name": "A Regra do Papel", "body": "Profundidade se faz com camadas de papel (paper → paper-bright) e linhas de pauta, nunca com sombras pesadas, vidro ou gradiente. Se parecer interface de SaaS, saiu do caderno.", "section": "colors" },
-      { "name": "A Regra do Traço", "body": "Lettering e ilustrações manuscritas são SVGs autorais, parte da identidade. Proibido substituí-los por fontes handwriting do Google Fonts, emoji ou icon packs genéricos: o traço é da Mari, não de uma biblioteca.", "section": "typography" },
+      { "name": "A Regra do Traço", "body": "Ilustrações, doodles e grifos manuscritos são SVGs autorais, parte da identidade: proibido substituí-los por emoji ou icon packs genéricos. A única exceção tipográfica é o lettering do hero, que usa La Belle Aurore para poder existir em pt e en; nenhuma outra superfície ganha fonte handwriting.", "section": "typography" },
       { "name": "A Regra do Caderno Fechado", "body": "Nenhum box-shadow decorativo. Se um elemento precisa se destacar, ele vira tinta (bloco invertido), ganha papel mais claro ou ganha linha de pauta.", "section": "elevation" }
     ],
     "dos": [
