@@ -18,7 +18,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
               width={94}
               height={79}
               priority
-              className="h-auto w-48 sm:w-64 lg:w-72"
+              className="h-auto w-48 sm:w-64 lg:w-96"
             />
           </h1>
 

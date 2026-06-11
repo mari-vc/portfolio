@@ -48,7 +48,6 @@ export default async function AboutPage({
       </h1>
 
       <div className="mt-8 space-y-6 text-lg leading-relaxed text-muted">
-        <p>{t(profile.aboutShort, lang)}</p>
         {aboutPage.body.map((para, i) => (
           <p key={i}>{t(para, lang)}</p>
         ))}

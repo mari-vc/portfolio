@@ -11,7 +11,7 @@ export function AboutMini({ lang, dict }: { lang: Locale; dict: Dict }) {
         <p className="text-2xl font-light leading-snug tracking-tight sm:text-3xl">
           {t(profile.aboutShort, lang)}
         </p>
-        <div className="flex flex-col items-start justify-end gap-5">
+        <div className="flex flex-col items-start justify-end gap-5 lg:border-l lg:border-line lg:pl-8">
           <p className="text-sm leading-relaxed text-muted">
             {dict.about_mini.cta_text}
           </p>
