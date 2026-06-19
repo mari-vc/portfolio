@@ -3,7 +3,6 @@ import { profile } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
 import { MariIllustration } from "@/components/MariIllustration";
-import { InkBubble } from "@/components/InkUnderline";
 
 export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
   return (
@@ -38,17 +37,8 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
           </p>
         </div>
 
-        <div className="group relative flex justify-center lg:justify-end">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-8 right-[14%] flex h-16 w-24 rotate-3 items-center justify-center opacity-0 transition-all duration-300 group-hover:-rotate-2 group-hover:opacity-100 lg:right-[6%]"
-          >
-            <InkBubble className="absolute inset-0 h-full w-full" />
-            <span className="relative -mt-3 font-mono text-sm text-foreground">
-              {dict.hero.hello}
-            </span>
-          </div>
-          <MariIllustration className="h-auto w-64 transition-transform duration-300 group-hover:-rotate-1 sm:w-80 lg:w-96" />
+        <div className="flex justify-center lg:justify-end">
+          <MariIllustration className="h-auto w-64 sm:w-80 lg:w-96" />
         </div>
       </div>
     </section>
