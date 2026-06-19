@@ -13,7 +13,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
             {dict.hero.heading}
           </h1>
 
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
             {dict.hero.subtitle}
           </p>
 
