@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { profile, aboutPage, t } from '@/lib/data'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 import { InkUnderline } from '@/components/InkUnderline'
+import { ComputerSketch } from '@/components/ComputerSketch'
 
 export async function generateStaticParams() {
   return [{ lang: 'pt' }, { lang: 'en' }]
@@ -42,15 +43,21 @@ export default async function AboutPage({
         {dict.about_page.back}
       </Link>
 
-      <h1 className="mt-10 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
-        {dict.about_page.heading}
-        <InkUnderline className="mt-2 h-3 w-44 sm:w-56" />
-      </h1>
+      <div className="mt-10 flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-12">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
+            {dict.about_page.heading}
+            <InkUnderline className="mt-2 h-3 w-44 sm:w-56" />
+          </h1>
 
-      <div className="mt-8 space-y-6 text-lg leading-relaxed text-muted">
-        {aboutPage.body.map((para, i) => (
-          <p key={i}>{t(para, lang)}</p>
-        ))}
+          <div className="mt-8 space-y-6 text-lg leading-relaxed text-muted">
+            {aboutPage.body.map((para, i) => (
+              <p key={i}>{t(para, lang)}</p>
+            ))}
+          </div>
+        </div>
+
+        <ComputerSketch className="h-auto w-32 shrink-0 self-center text-foreground sm:mt-2 sm:w-40 sm:self-start" />
       </div>
 
       <section className="mt-16">
