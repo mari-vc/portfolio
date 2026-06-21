@@ -106,9 +106,9 @@ Uma papelaria reduzida ao essencial: papel, grafite, tinta preta e uma única ca
 
 **Display Font:** Geist (com system-ui, sans-serif)
 **Body Font:** Geist (com system-ui, sans-serif)
-**Label/Mono Font:** Geist Mono (com ui-monospace) · **Quote Font:** Instrument Serif (com Georgia) · **Hand Font:** Gochi Hand (cursive)
+**Label/Mono Font:** Geist Mono (com ui-monospace) · **Quote Font:** Instrument Serif (com Georgia) · **Hand Font:** Caveat (cursive)
 
-**Character:** Sans geométrica e contemporânea fazendo o trabalho silencioso, mono de máquina de escrever etiquetando as seções, e uma serif editorial reservada para o único momento de voz alta do site (a citação de impacto). O traço manuscrito tem duas formas: a fonte handwriting (Gochi Hand, exclusiva do lettering do hero, onde o texto precisa ser bilíngue) e os SVGs autorais (ilustração, doodles, grifos), que continuam insubstituíveis.
+**Character:** Sans geométrica e contemporânea fazendo o trabalho silencioso, mono de máquina de escrever etiquetando as seções, e uma serif editorial reservada para o único momento de voz alta do site (a citação de impacto). O traço manuscrito tem duas formas: a fonte handwriting (Caveat, exclusiva do lettering do hero, onde o texto precisa ser bilíngue) e os SVGs autorais (ilustração, doodles, grifos), que continuam insubstituíveis.
 
 ### Hierarchy
 - **Display** (500, clamp 30→36px, 1.15): títulos de seção (h2). Tracking apertado (-0.025em).
@@ -118,7 +118,7 @@ Uma papelaria reduzida ao essencial: papel, grafite, tinta preta e uma única ca
 - **Label** (400 mono, 12px, tracking 0.2em, UPPERCASE): eyebrows de seção, metadados, rodapé de citação.
 
 ### Named Rules (optional)
-**A Regra do Traço.** Ilustrações, doodles e grifos manuscritos são SVGs autorais, parte da identidade: proibido substituí-los por emoji ou icon packs genéricos. A única exceção tipográfica é o lettering do hero, que usa Gochi Hand para poder existir em pt e en; nenhuma outra superfície ganha fonte handwriting.
+**A Regra do Traço.** Ilustrações, doodles e grifos manuscritos são SVGs autorais, parte da identidade: proibido substituí-los por emoji ou icon packs genéricos. A única exceção tipográfica é o lettering do hero, que usa Caveat para poder existir em pt e en; nenhuma outra superfície ganha fonte handwriting.
 
 ## 4. Elevation
 

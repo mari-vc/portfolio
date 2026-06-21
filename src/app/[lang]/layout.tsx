@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Instrument_Serif, Gochi_Hand } from 'next/font/google'
+import { Geist, Geist_Mono, Instrument_Serif, Caveat } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 import { Header } from '@/components/Header'
@@ -24,10 +24,10 @@ const instrumentSerif = Instrument_Serif({
 })
 
 // Lettering manuscrito do hero (substitui o SVG para permitir pt/en)
-const gochiHand = Gochi_Hand({
-  variable: '--font-gochi-hand',
+const caveat = Caveat({
+  variable: '--font-caveat',
   subsets: ['latin'],
-  weight: '400',
+  weight: '500',
 })
 
 export const metadata: Metadata = {
@@ -53,7 +53,7 @@ export default async function LangLayout({
   return (
     <html
       lang={lang}
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${gochiHand.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Header lang={lang} dict={dict} />
