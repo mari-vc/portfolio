@@ -190,59 +190,6 @@ export type Project = {
 // 3 últimos trabalhos (seção 4) — cada um abre uma página de detalhe
 export const projects: Project[] = [
   {
-    slug: "app-pagamentos",
-    title: {
-      pt: "Reimaginando pagamentos no app",
-      en: "Reimagining payments in the app",
-    },
-    client: "Aurora",
-    year: "2025",
-    role: {
-      pt: "Staff Product Designer · Líder de design",
-      en: "Staff Product Designer · Design Lead",
-    },
-    tags: ["Mobile", "Fintech", "0→1"],
-    summary: {
-      pt: "Redesenho completo do fluxo de pagamentos que reduziu o abandono em 38% e simplificou três telas em uma.",
-      en: "Complete redesign of the payment flow that reduced drop-off by 38% and simplified three screens into one.",
-    },
-    overview: {
-      pt: "A Aurora precisava modernizar seu fluxo de pagamentos, que acumulava anos de soluções pontuais. Liderei o redesenho de ponta a ponta, do discovery ao handoff, junto a times de engenharia, produto e dados.",
-      en: "Aurora needed to modernize its payment flow, which had accumulated years of quick fixes. I led the end-to-end redesign, from discovery to handoff, alongside engineering, product, and data teams.",
-    },
-    challenge: {
-      pt: "O fluxo original tinha 7 etapas, alto índice de abandono e inconsistências entre plataformas. Usuários relatavam insegurança na hora de confirmar valores.",
-      en: "The original flow had 7 steps, high drop-off, and inconsistencies across platforms. Users reported feeling insecure when confirming amounts.",
-    },
-    approach: [
-      {
-        pt: "Mapeei a jornada atual com dados de funil e 12 entrevistas com usuários.",
-        en: "Mapped the current journey with funnel data and 12 user interviews.",
-      },
-      {
-        pt: "Defini princípios de design: confiança, velocidade e reversibilidade.",
-        en: "Defined design principles: trust, speed, and reversibility.",
-      },
-      {
-        pt: "Prototipei 3 direções e testei com usabilidade moderada (8 sessões).",
-        en: "Prototyped 3 directions and tested with moderated usability sessions (8 sessions).",
-      },
-      {
-        pt: "Reduzi o fluxo de 7 para 3 etapas com confirmação clara e estados de erro humanos.",
-        en: "Reduced the flow from 7 to 3 steps with clear confirmation and human error states.",
-      },
-    ],
-    outcome: [
-      { label: { pt: "Abandono", en: "Drop-off" }, value: "-38%" },
-      { label: { pt: "Tempo p/ concluir", en: "Time to complete" }, value: "-2,1×" },
-      { label: { pt: "CSAT do fluxo", en: "Flow CSAT" }, value: "+19pts" },
-    ],
-    closing: {
-      pt: "O novo fluxo virou referência interna de craft e inspirou o redesenho de outras áreas do app.",
-      en: "The new flow became an internal craft reference and inspired the redesign of other areas of the app.",
-    },
-  },
-  {
     slug: "design-system",
     title: {
       pt: "Um design system para escalar",
@@ -293,6 +240,59 @@ export const projects: Project[] = [
     closing: {
       pt: "Mais do que uma biblioteca, o sistema criou uma linguagem comum entre design e engenharia.",
       en: "More than a library, the system created a shared language between design and engineering.",
+    },
+  },
+  {
+    slug: "app-pagamentos",
+    title: {
+      pt: "Reimaginando pagamentos no app",
+      en: "Reimagining payments in the app",
+    },
+    client: "Aurora",
+    year: "2025",
+    role: {
+      pt: "Staff Product Designer · Líder de design",
+      en: "Staff Product Designer · Design Lead",
+    },
+    tags: ["Mobile", "Fintech", "0→1"],
+    summary: {
+      pt: "Redesenho completo do fluxo de pagamentos que reduziu o abandono em 38% e simplificou três telas em uma.",
+      en: "Complete redesign of the payment flow that reduced drop-off by 38% and simplified three screens into one.",
+    },
+    overview: {
+      pt: "A Aurora precisava modernizar seu fluxo de pagamentos, que acumulava anos de soluções pontuais. Liderei o redesenho de ponta a ponta, do discovery ao handoff, junto a times de engenharia, produto e dados.",
+      en: "Aurora needed to modernize its payment flow, which had accumulated years of quick fixes. I led the end-to-end redesign, from discovery to handoff, alongside engineering, product, and data teams.",
+    },
+    challenge: {
+      pt: "O fluxo original tinha 7 etapas, alto índice de abandono e inconsistências entre plataformas. Usuários relatavam insegurança na hora de confirmar valores.",
+      en: "The original flow had 7 steps, high drop-off, and inconsistencies across platforms. Users reported feeling insecure when confirming amounts.",
+    },
+    approach: [
+      {
+        pt: "Mapeei a jornada atual com dados de funil e 12 entrevistas com usuários.",
+        en: "Mapped the current journey with funnel data and 12 user interviews.",
+      },
+      {
+        pt: "Defini princípios de design: confiança, velocidade e reversibilidade.",
+        en: "Defined design principles: trust, speed, and reversibility.",
+      },
+      {
+        pt: "Prototipei 3 direções e testei com usabilidade moderada (8 sessões).",
+        en: "Prototyped 3 directions and tested with moderated usability sessions (8 sessions).",
+      },
+      {
+        pt: "Reduzi o fluxo de 7 para 3 etapas com confirmação clara e estados de erro humanos.",
+        en: "Reduced the flow from 7 to 3 steps with clear confirmation and human error states.",
+      },
+    ],
+    outcome: [
+      { label: { pt: "Abandono", en: "Drop-off" }, value: "-38%" },
+      { label: { pt: "Tempo p/ concluir", en: "Time to complete" }, value: "-2,1×" },
+      { label: { pt: "CSAT do fluxo", en: "Flow CSAT" }, value: "+19pts" },
+    ],
+    closing: {
+      pt: "O novo fluxo virou referência interna de craft e inspirou o redesenho de outras áreas do app.",
+      en: "The new flow became an internal craft reference and inspired the redesign of other areas of the app.",
     },
   },
   {
