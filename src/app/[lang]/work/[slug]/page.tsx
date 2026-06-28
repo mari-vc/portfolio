@@ -68,7 +68,7 @@ export default async function ProjectPage({
         </header>
 
         <dl className="mt-8 grid grid-cols-2 gap-6 border-y border-line py-6 text-sm sm:grid-cols-3">
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <dt className="text-muted">{dict.work_detail.role}</dt>
             <dd className="mt-1 font-medium">{t(project.role, lang)}</dd>
           </div>
@@ -105,7 +105,21 @@ export default async function ProjectPage({
           </div>
 
           <Block title={dict.work_detail.overview}>{t(project.overview, lang)}</Block>
-          <Block title={dict.work_detail.challenge}>{t(project.challenge, lang)}</Block>
+
+          <section className="mt-12">
+            <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              {dict.work_detail.challenge}
+            </h2>
+            {t(project.challenge, lang)
+              .split(/\n{2,}/)
+              .map((p) => p.trim())
+              .filter(Boolean)
+              .map((p, i) => (
+                <p key={i} className={`${i === 0 ? 'mt-5' : 'mt-4'} text-base leading-relaxed`}>
+                  {p}
+                </p>
+              ))}
+          </section>
 
           <section className="mt-12">
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
@@ -123,6 +137,30 @@ export default async function ProjectPage({
               ))}
             </ol>
           </section>
+
+          {project.pillars && project.pillars.length > 0 && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {dict.work_detail.pillars}
+              </h2>
+              <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+                {project.pillars.map((pillar, i) => (
+                  <div key={i} className="bg-card p-6">
+                    <span className="font-mono text-sm text-accent">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="mt-2 text-lg font-medium tracking-tight">
+                      {t(pillar.title, lang)}
+                    </h3>
+                    <InkUnderline className="mt-1.5 h-2 w-12" />
+                    <p className="mt-2 text-sm leading-relaxed text-muted">
+                      {t(pillar.text, lang)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           <section className="mt-12">
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
@@ -163,11 +201,16 @@ export default async function ProjectPage({
   )
 }
 
-function Block({ title, children }: { title: string; children: React.ReactNode }) {
+function Block({ title, children }: { title: string; children: string }) {
+  const paragraphs = children.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean)
   return (
     <section className="mt-12">
       <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{title}</h2>
-      <p className="mt-5 text-base leading-relaxed">{children}</p>
+      {paragraphs.map((p, i) => (
+        <p key={i} className={`${i === 0 ? 'mt-5' : 'mt-4'} text-base leading-relaxed`}>
+          {p}
+        </p>
+      ))}
     </section>
   )
 }

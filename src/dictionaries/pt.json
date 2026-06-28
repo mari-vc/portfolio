@@ -41,11 +41,12 @@
   "work_detail": {
     "back": "Todos os trabalhos",
     "role": "Meu papel",
-    "client": "Cliente",
+    "client": "Empresa",
     "year": "Ano",
     "overview": "Visão geral",
     "challenge": "O desafio",
     "approach": "Abordagem",
+    "pillars": "Pilares do sistema",
     "results": "Resultados",
     "next_project": "Próximo projeto"
   },

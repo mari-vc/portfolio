@@ -183,6 +183,8 @@ export type Project = {
   overview: L;
   challenge: L;
   approach: L[];
+  // pilares do sistema (opcional) — grid visual de arquitetura
+  pillars?: { title: L; text: L }[];
   outcome: { label: L; value: string }[];
   closing: L;
 };
@@ -192,54 +194,80 @@ export const projects: Project[] = [
   {
     slug: "design-system",
     title: {
-      pt: "Um design system para escalar",
-      en: "A design system to scale",
+      pt: "Atelier: um design system dentro do produto",
+      en: "Atelier: a design system inside the product",
     },
-    client: "Northwind",
-    year: "2024",
+    client: "Pump",
+    year: "2026",
     role: {
-      pt: "Staff Product Designer · Sistemas",
-      en: "Staff Product Designer · Systems",
+      pt: "Staff Product Designer · Design Engineer",
+      en: "Staff Product Designer · Design Engineer",
     },
-    tags: ["Design System", "Tokens", "Governança"],
+    tags: ["Design System", "White-label", "AI-native"],
     summary: {
-      pt: "Criação de um design system unificado adotado por 6 squads, com tokens e documentação viva.",
-      en: "Creation of a unified design system adopted by 6 squads, with tokens and living documentation.",
+      pt: "Um design system só vira sistema quando deixa de ser biblioteca e vira base de construção.",
+      en: "A design system only becomes a system when it stops being a library and turns into a foundation to build on.",
     },
     overview: {
-      pt: "Cinco produtos, cinco linguagens visuais. Fui responsável por unificar a experiência criando um design system multiplataforma com governança clara.",
-      en: "Five products, five visual languages. I was responsible for unifying the experience by creating a cross-platform design system with clear governance.",
+      pt: "A maioria dos design systems vive ao lado do produto: uma biblioteca que exige esforço de implementação, atualização e uso. Meu papel foi construir o Atelier dentro dele, e fazer com que o DS fosse além de manter apenas a consistência.\n\nEle acelerou a entrega de features funcionais e permitiu que nossos clientes construíssem widgets internos de acordo com suas necessidades.\n\nIsso tudo só foi possível através de uma documentação densa de uso e direcionamento, da construção de forma nativa em IA e de agentes internos que garantem as boas práticas, aceleram pesquisas e protótipos, e entregam em React e Tailwind.",
+      en: "Most design systems live next to the product — a library that takes effort to implement, keep updated, and use. My role was to build Atelier inside the product, and make the design system go beyond just keeping things consistent.\n\nIt sped up the delivery of working features and let our customers build internal widgets to fit their own needs.\n\nAll of that was only possible through dense usage-and-guidance documentation, an AI-native build, and internal agents that enforce best practices, speed up research and prototyping, and ship in React and Tailwind.",
     },
     challenge: {
-      pt: "Inconsistência visual, retrabalho constante e handoff lento entre design e engenharia atrasavam entregas em semanas.",
-      en: "Visual inconsistency, constant rework, and slow design-to-engineering handoff were delaying deliveries by weeks.",
+      pt: "Entregar features rápido sem sacrificar qualidade, e manter experiência e usabilidade de alto nível em toda a plataforma, com uma só pessoa no design. Ao mesmo tempo, a personalização precisava escalar sozinha: não importa qual cliente entre, a marca dele se aplica, sem retrabalho.\n\nE o sistema tinha que ir além da equipe: os próprios usuários montando o que precisam no dia a dia. Para isso, o design system precisava ser legível não só por pessoas, mas por agentes de IA, com a IA trazendo valor real e confiável, não hype. No papel, cada uma dessas frentes puxa para um lado. O trabalho foi fazer todas caberem no mesmo sistema.",
+      en: "Shipping features fast without sacrificing quality, and holding a high level of experience and usability across the whole platform — with a single person on design. At the same time, personalization had to scale on its own: no matter which client comes in, their brand applies itself, with no rework.\n\nAnd the system had to reach beyond the team: users themselves assembling what they need day to day. For that, the design system had to be readable not just by people but by AI agents, with AI bringing real, trustworthy value, not hype. On paper, each of these fronts pulls in a different direction. The work was making them all fit in one system.",
     },
     approach: [
       {
-        pt: "Auditoria de 200+ componentes existentes para encontrar padrões reais.",
-        en: "Audit of 200+ existing components to find real patterns.",
+        pt: "Ponta a ponta, sem handoff. Conduzo cada feature do escopo e do wireframe ao protótipo de alta fidelidade, à implementação em produção e à revisão de qualidade. Nenhuma decisão de design se perde na passagem, porque não existe passagem.",
+        en: "End to end, no handoff. I take every feature from scope and wireframe to high-fidelity prototype, production implementation, and quality review. No design decision gets lost in the handoff, because there is no handoff.",
       },
       {
-        pt: "Arquitetura de tokens semânticos compartilhados entre web e mobile.",
-        en: "Semantic token architecture shared between web and mobile.",
+        pt: "Componente antes de tela. Acessibilidade (contraste, foco, leitor de tela) e os cinco idiomas entram já no primeiro rascunho, não como um ajuste no fim.",
+        en: "Components before screens. Accessibility (contrast, focus, screen reader) and all five languages come in with the first sketch, not as a fix at the end.",
       },
       {
-        pt: "Biblioteca de componentes no Figma espelhada no código.",
-        en: "Figma component library mirrored in code.",
+        pt: "Padrão em vez de exceção. Quando um caso novo aparece, ele volta para o sistema, e não para uma tela solta. É assim que a consistência escala sem travar a velocidade.",
+        en: "Patterns over exceptions. When a new case shows up, it goes back into the system, not onto a one-off screen. That's how consistency scales without slowing the team down.",
+      },
+    ],
+    pillars: [
+      {
+        title: { pt: "Tokens em camadas", en: "Layered tokens" },
+        text: {
+          pt: "De primitivos a tokens semânticos, marca e produto ficam em camadas separadas. Trocar a cor de uma marca não encosta em nenhuma tela.",
+          en: "From primitives to semantic tokens, brand and product sit in separate layers. Changing a brand's color touches no screen.",
+        },
       },
       {
-        pt: "Rituais de contribuição e documentação viva para manter o sistema saudável.",
-        en: "Contribution rituals and living documentation to keep the system healthy.",
+        title: { pt: "White-label por derivação", en: "Derived white-label" },
+        text: {
+          pt: "A partir de poucos valores de marca, o sistema deriva paletas inteiras em OKLCh (contraste previsível), tipografia e modo escuro. Marca nova entra por configuração.",
+          en: "From a handful of brand values, the system derives whole palettes in OKLCh (predictable contrast), typography, and dark mode. A new brand comes in through configuration.",
+        },
+      },
+      {
+        title: { pt: "Atelier, o workbench", en: "Atelier, the workbench" },
+        text: {
+          pt: "100 componentes e 11 fundações, cada um construído e documentado em isolamento, com uso, variações e direcionamento. É a fonte da verdade entre design e engenharia: ninguém precisa adivinhar como montar uma tela.",
+          en: "100 components and 11 foundations, each built and documented in isolation — with usage, variants, and guidance. It's the source of truth between design and engineering: no one has to guess how to build a screen.",
+        },
+      },
+      {
+        title: { pt: "Extensível pelos clientes", en: "Extensible by customers" },
+        text: {
+          pt: "Sobre essa base documentada, os próprios clientes da Pump montam widgets dentro da plataforma, com os mesmos componentes e padrões do produto.",
+          en: "On top of that documented foundation, Pump's own customers assemble widgets inside the platform — using the same components and patterns as the product.",
+        },
       },
     ],
     outcome: [
-      { label: { pt: "Squads usando", en: "Squads using it" }, value: "6" },
-      { label: { pt: "Velocidade de entrega", en: "Delivery speed" }, value: "+40%" },
-      { label: { pt: "Componentes duplicados", en: "Duplicate components" }, value: "-85%" },
+      { label: { pt: "Componentes no Atelier", en: "Components in Atelier" }, value: "100" },
+      { label: { pt: "Retrabalho por marca", en: "Rework per brand" }, value: "0" },
+      { label: { pt: "Idiomas suportados", en: "Languages supported" }, value: "5" },
     ],
     closing: {
-      pt: "Mais do que uma biblioteca, o sistema criou uma linguagem comum entre design e engenharia.",
-      en: "More than a library, the system created a shared language between design and engineering.",
+      pt: "Comecei desenhando telas. Hoje desenho o sistema que faz todas elas existirem, em qualquer marca, e que deixa o time da Pump, e até os clientes, construírem muito além do que eu desenharia sozinha.",
+      en: "I started by designing screens. Now I design the system that makes all of them exist, in any brand — and that lets Pump's team, and even its customers, build far beyond what I'd ever design on my own.",
     },
   },
   {

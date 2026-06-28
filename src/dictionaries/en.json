@@ -41,11 +41,12 @@
   "work_detail": {
     "back": "All work",
     "role": "My role",
-    "client": "Client",
+    "client": "Company",
     "year": "Year",
     "overview": "Overview",
     "challenge": "The challenge",
     "approach": "Approach",
+    "pillars": "System pillars",
     "results": "Results",
     "next_project": "Next project"
   },
