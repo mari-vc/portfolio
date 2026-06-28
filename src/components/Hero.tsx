@@ -3,11 +3,30 @@ import { profile } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
 import { MariIllustration } from "@/components/MariIllustration";
+import {
+  DoodleCrop,
+  DoodlePlus,
+  DoodleMeasure,
+  DoodleDots,
+  DoodleToggle,
+} from "@/components/Doodles";
 
 export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
   return (
-    <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-32 sm:pb-24">
-      <div className="rise grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+    <section className="relative mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-32 sm:pb-24">
+      {/* Anotações de margem: rabiscos de projeto espalhados pela página */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden text-foreground/[0.13] sm:block"
+      >
+        <DoodleCrop className="absolute left-1 top-10 w-6" />
+        <DoodlePlus className="absolute left-[46%] top-14 w-4" />
+        <DoodleMeasure className="absolute right-[30%] top-24 w-20 text-foreground/40 lg:right-[34%]" />
+        <DoodleDots className="absolute bottom-14 left-0 w-28" />
+        <DoodleToggle className="absolute bottom-24 right-[6%] w-12 lg:right-[10%]" />
+      </div>
+
+      <div className="relative rise grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div>
           <h1 className="font-hand text-6xl leading-[0.85] sm:text-7xl lg:text-8xl">
             {dict.hero.heading}
