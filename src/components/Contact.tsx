@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Section } from "./Section";
-import { HandSketch } from "./HandSketch";
 import { profile } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
@@ -28,8 +27,6 @@ export function Contact({ lang, dict }: { lang: Locale; dict: Dict }) {
                 →
               </span>
             </Link>
-            {/* Mão apontando de volta para o e-mail (aponta para a esquerda) */}
-            <HandSketch className="h-auto w-24 shrink-0 -rotate-6 text-foreground sm:w-28" />
           </div>
         </div>
 

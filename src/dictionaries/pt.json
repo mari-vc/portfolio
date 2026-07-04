@@ -6,31 +6,31 @@
     "contact": "Contato"
   },
   "hero": {
-    "heading": "Oi, tudo bem?",
-    "subtitle": "O que me move é pegar um problema ambíguo e ir desenhando até ele fazer sentido para todo mundo: usuário, negócio e o time inteiro. Faço isso há mais de dez anos, entre fintechs, marketplaces e produtos de growth.",
-    "cta_works": "Ver trabalhos",
-    "cta_contact": "Falar comigo"
+    "heading": "Oi, eu sou a Mari.",
+    "subtitle": "Sou Staff Product Designer com mais de 10 anos criando produtos digitais em escala. Trabalho na interseção entre estratégia, tecnologia e design para ajudar equipes a tomar melhores decisões e construir experiências que realmente funcionam.",
+    "cta_works": "Ver cases",
+    "cta_contact": "Vamos conversar",
+    "meta_role": "Staff Product Designer",
+    "meta_focus": "Strategy • Systems • Product Design"
   },
   "about_mini": {
     "eyebrow": "Sobre mim",
-    "cta_text": "Quer conhecer minha trajetória, princípios de design e o que me move no dia a dia?",
+    "cta_text": "Quer conhecer minha trajetória e os princípios que guiam meu trabalho?",
     "cta_label": "Saber mais sobre mim"
   },
   "logos": {
-    "eyebrow": "Lugares por onde passei",
-    "pause": "Pausar animação",
-    "play": "Retomar animação"
+    "eyebrow": "Lugares por onde passei"
   },
   "featured_work": {
     "eyebrow": "Trabalhos recentes",
-    "heading": "Três projetos que tenho orgulho de ter liderado"
+    "heading": "Projetos que tenho orgulho de ter liderado"
   },
   "curiosities": {
     "eyebrow": "Curiosidades",
     "heading": "Além das telas"
   },
   "contact": {
-    "eyebrow": "Falar comigo",
+    "eyebrow": "Contato",
     "heading_1": "Vamos fazer",
     "heading_2": "algo bom juntos?",
     "body": "Estou sempre aberta a conversar sobre design, produto ou uma boa oportunidade. Me manda um e-mail."
@@ -44,6 +44,12 @@
     "client": "Empresa",
     "year": "Ano",
     "overview": "Visão geral",
+    "market_analysis": "Análise de mercado",
+    "market_model": "Modelo",
+    "market_scope": "Onde atua",
+    "ux_analysis": "Análise de experiência",
+    "demo": "Protótipo interativo",
+    "demo_hint": "Esse protótipo é navegável de verdade: busque um carro, escolha as datas, conclua uma reserva e converse com o anfitrião.",
     "challenge": "O desafio",
     "approach": "Abordagem",
     "pillars": "Pilares do sistema",
@@ -51,13 +57,15 @@
     "next_project": "Próximo projeto"
   },
   "about_page": {
-    "back": "Voltar para home",
+    "back": "Voltar para a home",
     "eyebrow": "Sobre mim",
     "heading": "Prazer, eu sou a Mari",
     "principles": "Princípios que guiam meu trabalho",
     "timeline": "Trajetória",
+    "education": "Formação",
+    "courses": "Cursos e especializações",
     "contact_heading": "Vamos conversar?",
-    "contact_body": "Estou aberta a novas oportunidades, colaborações e conversas sobre design e produto.",
+    "contact_body": "Se alguma dessas ideias ecoou com você, adoraria trocar uma mensagem.",
     "contact_cta": "Me manda um e-mail"
   }
 }

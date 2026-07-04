@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { getProject, projects, t } from '@/lib/data'
 import { ProjectSketch } from '@/components/ProjectSketch'
 import { InkCircle, InkUnderline } from '@/components/InkUnderline'
+import { KypcarDemo } from '@/components/kypcar/KypcarDemo'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 
 export function generateStaticParams() {
@@ -106,6 +107,103 @@ export default async function ProjectPage({
 
           <Block title={dict.work_detail.overview}>{t(project.overview, lang)}</Block>
 
+          {project.marketAnalysis && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {dict.work_detail.market_analysis}
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
+                {t(project.marketAnalysis.intro, lang)}
+              </p>
+
+              <div className="mt-6 divide-y divide-line border-y border-line">
+                {project.marketAnalysis.competitors.map((c) => (
+                  <div
+                    key={c.name}
+                    className={`flex flex-col gap-2 py-5 pl-4 -ml-4 sm:flex-row sm:items-start sm:gap-6 ${
+                      c.highlight ? "border-l-2 border-accent" : "border-l-2 border-transparent"
+                    }`}
+                  >
+                    <div className="flex shrink-0 items-center gap-2 sm:w-28">
+                      <span
+                        className={`tracking-tight ${
+                          c.highlight ? "font-semibold text-accent" : "font-medium"
+                        }`}
+                      >
+                        {c.name}
+                      </span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm leading-relaxed text-muted">
+                        {t(c.model, lang)}
+                      </p>
+                      <p className="mt-2 font-mono text-xs uppercase tracking-wide text-muted/70">
+                        {t(c.scope, lang)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="mt-6 text-base leading-relaxed">
+                {t(project.marketAnalysis.insight, lang)}
+              </p>
+            </section>
+          )}
+
+          {project.uxAnalysis && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {dict.work_detail.ux_analysis}
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
+                {t(project.uxAnalysis.intro, lang)}
+              </p>
+
+              <div className="mt-6 divide-y divide-line border-y border-line">
+                {project.uxAnalysis.references.map((r) => (
+                  <div
+                    key={r.name}
+                    className="flex flex-col gap-2 py-5 sm:flex-row sm:items-start sm:gap-6"
+                  >
+                    <div className="shrink-0 sm:w-28">
+                      <span className="font-medium tracking-tight">{r.name}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm leading-relaxed text-muted">
+                        {t(r.pattern, lang)}
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed">
+                        <span className="text-accent">→ </span>
+                        {t(r.takeaway, lang)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {project.uxAnalysis.insight && (
+                <p className="mt-6 text-base leading-relaxed">
+                  {t(project.uxAnalysis.insight, lang)}
+                </p>
+              )}
+            </section>
+          )}
+
+          {project.demo && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {dict.work_detail.demo}
+              </h2>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted">
+                {dict.work_detail.demo_hint}
+              </p>
+              <div className="mt-6 -mx-6 sm:mx-0">
+                <KypcarDemo />
+              </div>
+            </section>
+          )}
+
           <section className="mt-12">
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
               {dict.work_detail.challenge}
@@ -141,7 +239,7 @@ export default async function ProjectPage({
           {project.pillars && project.pillars.length > 0 && (
             <section className="mt-12">
               <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-                {dict.work_detail.pillars}
+                {project.pillarsTitle ? t(project.pillarsTitle, lang) : dict.work_detail.pillars}
               </h2>
               <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
                 {project.pillars.map((pillar, i) => (
@@ -162,22 +260,24 @@ export default async function ProjectPage({
             </section>
           )}
 
-          <section className="mt-12">
-            <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-              {dict.work_detail.results}
-            </h2>
-            <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
-              {project.outcome.map((metric) => (
-                <div key={metric.label.pt} className="bg-card p-6">
-                  <p className="text-3xl font-medium tracking-tight">{metric.value}</p>
-                  <InkUnderline className="mt-1.5 h-2 w-14" />
-                  <p className="mt-2 text-sm text-muted">{t(metric.label, lang)}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+          {project.outcome && project.outcome.length > 0 && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {dict.work_detail.results}
+              </h2>
+              <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+                {project.outcome.map((metric) => (
+                  <div key={metric.label.pt} className="bg-card p-6">
+                    <p className="text-3xl font-medium tracking-tight">{metric.value}</p>
+                    <InkUnderline className="mt-1.5 h-2 w-14" />
+                    <p className="mt-2 text-sm text-muted">{t(metric.label, lang)}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-          <p className="mt-12 font-serif text-2xl italic leading-snug text-foreground sm:text-3xl">
+          <p className="mt-12 font-hand text-3xl leading-snug text-foreground sm:text-4xl">
             {t(project.closing, lang)}
           </p>
 

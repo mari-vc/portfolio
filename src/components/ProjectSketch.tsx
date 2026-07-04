@@ -67,6 +67,20 @@ const sketches: Record<string, ReactNode> = {
       <path d="M362 84 L 370 100 L 388 102 L 375 114 L 379 132 L 363 122 L 347 131 L 352 113 L 339 100 L 357 99 Z" {...blue} strokeWidth={3} />
     </g>
   ),
+  // Carro de lado com um pin de localização circulado de azul pousando no teto
+  kypcar: (
+    <g>
+      <path d="M84 246 L 84 234 C 84 224, 92 218, 103 217 L 128 215 C 137 198, 155 188, 176 187 L 300 185 C 322 185, 340 197, 349 216 L 378 218 C 390 219, 398 227, 398 238 L 398 246 Z" {...stroke} />
+      <circle cx="140" cy="248" r="24" {...stroke} />
+      <circle cx="345" cy="248" r="24" {...stroke} />
+      <path d="M150 200 C 200 195, 260 195, 320 200" {...thin} />
+      <path d="M176 187 L 168 215 M300 185 L 306 216" {...thin} />
+      <circle cx="388" cy="232" r="4" {...thin} />
+      <path d="M250 60 C 236 60, 226 72, 226 86 C 226 106, 250 130, 250 130 C 250 130, 274 106, 274 86 C 274 72, 264 60, 250 60 Z" {...blue} />
+      <circle cx="250" cy="86" r="10" {...blue} strokeWidth={2.5} />
+      <path d="M250 130 L 250 183" {...blue} strokeWidth={2.5} strokeDasharray="2 8" />
+    </g>
+  ),
 };
 
 export function ProjectSketch({

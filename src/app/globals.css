@@ -33,6 +33,92 @@ body {
   .marquee-track {
     animation: none !important;
   }
+  .die-a,
+  .die-b {
+    animation: none !important;
+  }
+}
+
+/* Dado "rolando" no hover do item de curiosidade */
+.die-a,
+.die-b {
+  transform-box: view-box;
+}
+
+.die-a {
+  transform-origin: 12px 32px;
+  transform: rotate(-12deg);
+}
+
+.die-b {
+  transform-origin: 35px 28px;
+  transform: rotate(12deg);
+}
+
+@keyframes dice-roll-a {
+  0% {
+    transform: rotate(-12deg);
+  }
+  25% {
+    transform: rotate(-50deg);
+  }
+  55% {
+    transform: rotate(20deg);
+  }
+  80% {
+    transform: rotate(-24deg);
+  }
+  100% {
+    transform: rotate(-12deg);
+  }
+}
+
+@keyframes dice-roll-b {
+  0% {
+    transform: rotate(12deg);
+  }
+  25% {
+    transform: rotate(50deg);
+  }
+  55% {
+    transform: rotate(-12deg);
+  }
+  80% {
+    transform: rotate(26deg);
+  }
+  100% {
+    transform: rotate(12deg);
+  }
+}
+
+.group:hover .die-a {
+  animation: dice-roll-a 0.6s ease-out;
+}
+
+.group:hover .die-b {
+  animation: dice-roll-b 0.6s ease-out 0.05s;
+}
+
+/* Notas musicais do doodle do violão — sobem no hover do item */
+.doodle-note {
+  opacity: 0;
+  transform: translateY(5px) rotate(-8deg);
+  transition: opacity 0.25s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.doodle-note--late {
+  transition-delay: 0.1s;
+}
+
+.group:hover .doodle-note {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doodle-note {
+    transition: none;
+  }
 }
 
 /* Logo marquee */

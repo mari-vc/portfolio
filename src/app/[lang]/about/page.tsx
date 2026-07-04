@@ -94,6 +94,43 @@ export default async function AboutPage({
         </ul>
       </section>
 
+      <section className="mt-16">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+          {dict.about_page.education}
+        </h2>
+        <ul className="mt-8 divide-y divide-line border-y border-line">
+          {aboutPage.education.degrees.map((item) => (
+            <li
+              key={item.school}
+              className="flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div>
+                <p className="text-base font-medium tracking-tight">{t(item.degree, lang)}</p>
+                <p className="text-sm text-muted">{item.school}</p>
+              </div>
+              <span className="font-mono text-sm text-muted">{t(item.period, lang)}</span>
+            </li>
+          ))}
+        </ul>
+
+        <h3 className="mt-10 text-sm font-medium tracking-tight text-muted">
+          {dict.about_page.courses}
+        </h3>
+        <ul className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+          {aboutPage.education.courses.map((course) => (
+            <li
+              key={course.name}
+              className="flex items-baseline justify-between gap-4 border-b border-line py-2 text-sm"
+            >
+              <span>
+                {course.name} <span className="text-muted">· {course.school}</span>
+              </span>
+              <span className="shrink-0 font-mono text-xs text-muted">{course.year}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <div className="mt-16 rounded-2xl border border-line bg-card p-8 text-center">
         <p className="text-lg font-medium tracking-tight">{dict.about_page.contact_heading}</p>
         <p className="mt-2 text-sm text-muted">{dict.about_page.contact_body}</p>
