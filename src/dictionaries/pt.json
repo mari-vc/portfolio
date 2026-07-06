@@ -6,8 +6,8 @@
     "contact": "Contato"
   },
   "hero": {
-    "heading": "Oi, eu sou a Mari.",
-    "subtitle": "Sou Staff Product Designer com mais de 10 anos criando produtos digitais em escala. Trabalho na interseção entre estratégia, tecnologia e design para ajudar equipes a tomar melhores decisões e construir experiências que realmente funcionam.",
+    "heading": "Oi, eu sou a Mari",
+    "subtitle": "Trabalho com Design de Produto há mais de 10 anos, transformando problemas complexos em produtos simples, escaláveis e fáceis de usar.",
     "cta_works": "Ver cases",
     "cta_contact": "Vamos conversar",
     "meta_role": "Staff Product Designer",
@@ -19,7 +19,7 @@
     "cta_label": "Saber mais sobre mim"
   },
   "logos": {
-    "eyebrow": "Lugares por onde passei"
+    "eyebrow": "Times com quem construí grandes desafios"
   },
   "featured_work": {
     "eyebrow": "Trabalhos recentes",
@@ -43,14 +43,17 @@
     "role": "Meu papel",
     "client": "Empresa",
     "year": "Ano",
-    "overview": "Visão geral",
+    "overview": "Resumo",
+    "objective": "Objetivo",
+    "constraints": "Restrições",
+    "context": "Contexto",
     "market_analysis": "Análise de mercado",
     "market_model": "Modelo",
     "market_scope": "Onde atua",
     "ux_analysis": "Análise de experiência",
     "demo": "Protótipo interativo",
     "demo_hint": "Esse protótipo é navegável de verdade: busque um carro, escolha as datas, conclua uma reserva e converse com o anfitrião.",
-    "challenge": "O desafio",
+    "challenge": "Desafio",
     "approach": "Abordagem",
     "pillars": "Pilares do sistema",
     "results": "Resultados",
@@ -63,9 +66,11 @@
     "principles": "Princípios que guiam meu trabalho",
     "timeline": "Trajetória",
     "education": "Formação",
-    "courses": "Cursos e especializações",
+    "courses": "Continuo estudando temas que expandem minha forma de pensar, como Design Systems, IA, estratégia, pesquisa, comportamento e animação.",
     "contact_heading": "Vamos conversar?",
-    "contact_body": "Se alguma dessas ideias ecoou com você, adoraria trocar uma mensagem.",
-    "contact_cta": "Me manda um e-mail"
+    "contact_body": "Se você chegou até aqui, provavelmente também acredita que bons produtos nascem de boas conversas.",
+    "contact_cta": "Me manda um e-mail",
+    "linkedin_cta": "LinkedIn",
+    "resume_cta": "Baixar currículo"
   }
 }

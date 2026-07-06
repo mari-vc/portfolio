@@ -37,14 +37,9 @@ export function FeaturedWork({ lang, dict }: { lang: Locale; dict: Dict }) {
             </ViewTransition>
 
             <div className="mt-5 flex flex-1 flex-col">
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="text-lg font-medium tracking-tight transition-colors group-hover:text-accent">
-                  {t(project.title, lang)}
-                </h3>
-                <span className="mt-1 shrink-0 text-muted transition-transform group-hover:translate-x-1">
-                  →
-                </span>
-              </div>
+              <h3 className="text-lg font-medium tracking-tight transition-colors group-hover:text-accent">
+                {t(project.title, lang)}
+              </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 {t(project.summary, lang)}
               </p>

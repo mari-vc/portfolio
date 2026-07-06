@@ -5,6 +5,7 @@ import { profile, aboutPage, t } from '@/lib/data'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 import { InkUnderline } from '@/components/InkUnderline'
 import { ComputerSketch } from '@/components/ComputerSketch'
+import { IconButton } from '@/components/IconButton'
 
 export async function generateStaticParams() {
   return [{ lang: 'pt' }, { lang: 'en' }]
@@ -43,7 +44,7 @@ export default async function AboutPage({
         {dict.about_page.back}
       </Link>
 
-      <div className="mt-10 flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-12">
+      <div className="mt-10 flex flex-col gap-10 sm:flex-row sm:items-stretch sm:gap-12">
         <div className="min-w-0 flex-1">
           <h1 className="text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
             {dict.about_page.heading}
@@ -57,7 +58,22 @@ export default async function AboutPage({
           </div>
         </div>
 
-        <ComputerSketch className="h-auto w-32 shrink-0 self-center text-foreground sm:mt-2 sm:w-40 sm:self-start" />
+        <div className="flex shrink-0 flex-col items-center gap-6 sm:mt-2 sm:items-start sm:justify-between">
+          <ComputerSketch className="h-auto w-32 text-foreground sm:w-40" />
+          <div className="flex flex-col items-stretch gap-3">
+            <IconButton
+              href={profile.socials.linkedin}
+              label={dict.about_page.linkedin_cta}
+              icon="linkedin"
+            />
+            <IconButton
+              href={profile.resumeUrl}
+              label={dict.about_page.resume_cta}
+              icon="download"
+              download
+            />
+          </div>
+        </div>
       </div>
 
       <section className="mt-16">
@@ -82,13 +98,14 @@ export default async function AboutPage({
           {aboutPage.timeline.map((item) => (
             <li
               key={item.period.pt}
-              className="flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-1 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8"
             >
-              <div>
+              <div className="sm:max-w-xl">
                 <p className="text-base font-medium tracking-tight">{item.role}</p>
                 <p className="text-sm text-muted">{item.place}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{t(item.blurb, lang)}</p>
               </div>
-              <span className="font-mono text-sm text-muted">{t(item.period, lang)}</span>
+              <span className="shrink-0 font-mono text-sm text-muted">{t(item.period, lang)}</span>
             </li>
           ))}
         </ul>
@@ -132,14 +149,21 @@ export default async function AboutPage({
       </section>
 
       <div className="mt-16 rounded-2xl border border-line bg-card p-8 text-center">
-        <p className="text-lg font-medium tracking-tight">{dict.about_page.contact_heading}</p>
-        <p className="mt-2 text-sm text-muted">{dict.about_page.contact_body}</p>
+        <p className="mx-auto max-w-xl text-lg font-medium tracking-tight">{dict.about_page.contact_body}</p>
         <Link
           href={`/${lang}/#contact`}
           className="group mt-3 inline-flex items-center gap-2 text-sm font-medium text-accent"
         >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4 transition-transform group-hover:-translate-y-0.5"
+          >
+            <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.7" />
+            <path d="M4 7.5L12 12.5L20 7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
           {dict.about_page.contact_cta}
-          <span className="transition-transform group-hover:translate-x-1">→</span>
         </Link>
       </div>
     </div>

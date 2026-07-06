@@ -6,8 +6,8 @@
     "contact": "Contact"
   },
   "hero": {
-    "heading": "Hi, I'm Mari.",
-    "subtitle": "I'm a Staff Product Designer with over 10 years building digital products at scale. I work at the intersection of strategy, technology, and design to help teams make better decisions and build experiences that actually work.",
+    "heading": "Hi, I'm Mari",
+    "subtitle": "I've worked in Product Design for over 10 years, turning complex problems into products that are simple, scalable, and easy to use.",
     "cta_works": "See cases",
     "cta_contact": "Let's talk",
     "meta_role": "Staff Product Designer",
@@ -43,14 +43,17 @@
     "role": "My role",
     "client": "Company",
     "year": "Year",
-    "overview": "Overview",
+    "overview": "Summary",
+    "objective": "Objective",
+    "constraints": "Constraints",
+    "context": "Context",
     "market_analysis": "Market analysis",
     "market_model": "Model",
     "market_scope": "Where it operates",
     "ux_analysis": "Experience analysis",
     "demo": "Interactive prototype",
     "demo_hint": "This prototype is fully navigable: search for a car, pick your dates, complete a booking, and chat with the host.",
-    "challenge": "The challenge",
+    "challenge": "Challenge",
     "approach": "Approach",
     "pillars": "System pillars",
     "results": "Results",
@@ -63,9 +66,11 @@
     "principles": "Principles that guide my work",
     "timeline": "Journey",
     "education": "Education",
-    "courses": "Courses and specializations",
+    "courses": "I keep studying topics that expand how I think, like Design Systems, AI, strategy, research, behavior, and animation.",
     "contact_heading": "Let's talk?",
-    "contact_body": "If any of this resonated with you, I'd love to hear from you.",
-    "contact_cta": "Send me an email"
+    "contact_body": "If you made it this far, you probably also believe that good products are born from good conversations.",
+    "contact_cta": "Send me an email",
+    "linkedin_cta": "LinkedIn",
+    "resume_cta": "Download resume"
   }
 }

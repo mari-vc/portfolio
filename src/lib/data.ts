@@ -18,21 +18,27 @@ export const profile = {
   email: "3marivc@gmail.com",
   // Mini sobre (seção About)
   aboutShort: {
-    pt: "Sou Staff Product Designer há mais de 10 anos, liderando o design de produtos complexos em escala. Trabalho na interseção entre estratégia, sistemas e craft, ajudando times a transformar problemas confusos em experiências simples.",
-    en: "I've been a Staff Product Designer for over 10 years, leading the design of complex products at scale. I work at the intersection of strategy, systems, and craft, helping teams transform messy problems into simple experiences.",
+    pt: "Meu trabalho acontece na interseção entre estratégia, tecnologia e design, colaborando com equipes para tomar melhores decisões e criar experiências que fazem sentido para as pessoas.",
+    en: "My work sits at the intersection of strategy, technology, and design, collaborating with teams to make better decisions and create experiences that make sense to people.",
+  } as L,
+  aboutShort2: {
+    pt: "Não acredito que bom design seja apenas bonito. Acredito que bom design torna decisões mais fáceis, produtos mais intuitivos e times mais eficientes.",
+    en: "I don't believe good design is just about being beautiful. I believe good design makes decisions easier, products more intuitive, and teams more efficient.",
   } as L,
   socials: {
-    linkedin: "https://www.linkedin.com/",
+    linkedin: "https://www.linkedin.com/in/marivc/",
     github: "https://github.com/mari-vc",
     email: "mailto:3marivc@gmail.com",
   },
+  // TODO: substituir pelo PDF real do currículo em /public
+  resumeUrl: "/resume.pdf",
 };
 
 // Frase de impacto (seção 5)
 export const impactQuote = {
   text: {
     pt: "Bom design não é o que se vê: é o que se sente quando tudo simplesmente funciona.",
-    en: "Good design isn't what you see — it's what you feel when everything just works.",
+    en: "Good design isn't what you see. It's what you feel when everything just works.",
   } as L,
   attribution: {
     pt: "minha bússola de trabalho",
@@ -69,7 +75,7 @@ export const curiosities: { icon: string; title: L; text: L }[] = [
     title: { pt: "Tiro fotos", en: "I take photos" },
     text: {
       pt: "Sempre gostei, desde pequena. Um hobby que segue comigo até hoje.",
-      en: "I've loved it since I was a kid — a hobby that's stuck with me ever since.",
+      en: "I've loved it since I was a kid, a hobby that's stuck with me ever since.",
     },
   },
   {
@@ -110,41 +116,45 @@ export const curiosities: { icon: string; title: L; text: L }[] = [
 export const aboutPage = {
   body: [
     {
-      pt: "Comecei a desenhar interfaces em 2015 e me apaixonei pelos problemas por trás delas. Nunca mais parei: passei por fintechs, logística, saúde e telecom, sempre buscando o ponto onde negócio, tecnologia e pessoas se encontram.",
-      en: "I started designing interfaces in 2015 and fell in love with the problems behind them. I never stopped: I've worked across fintech, logistics, healthcare, and telecom, always chasing the point where business, technology, and people meet.",
+      pt: "Sempre gostei de trazer clareza ao caos. Foi isso que me levou ao Design de Produto em 2015 e continua guiando a forma como trabalho hoje.",
+      en: "I've always loved bringing clarity to chaos. That's what led me to Product Design in 2015, and it still guides how I work today.",
     },
     {
-      pt: "Hoje, como Staff Product Designer na Pump, meu trabalho é tanto desenhar quanto elevar o nível de design ao meu redor: mentorando, criando sistemas e trazendo para fluxos internos e complexos o mesmo rigor de craft que qualquer produto de consumidor final merece.",
-      en: "Today, as a Staff Product Designer at Pump, my work is as much about designing as it is about raising the design bar around me: mentoring, building systems, and bringing the same craft rigor any consumer-facing product deserves to complex, internal workflows.",
+      pt: "Ao longo da minha carreira, trabalhei em diferentes contextos, de grandes empresas a startups, desenhando produtos para fintechs, logística, saúde, streaming e, mais recentemente, IA.",
+      en: "Throughout my career, I've worked across different contexts, from large companies to startups, designing products for fintech, logistics, healthcare, streaming, and more recently, AI.",
+    },
+    {
+      pt: "Hoje, meu trabalho vai além de desenhar interfaces. Gosto de ajudar equipes a tomar melhores decisões, criar sistemas que escalam e transformar problemas complexos em produtos simples para as pessoas.",
+      en: "Today, my work goes beyond designing interfaces. I enjoy helping teams make better decisions, building systems that scale, and turning complex problems into simple products for people.",
     },
   ] as L[],
   principles: [
     {
-      title: { pt: "Clareza acima de tudo", en: "Clarity above all" },
+      title: { pt: "Clareza é uma vantagem competitiva", en: "Clarity is a competitive advantage" },
       text: {
-        pt: "Simplicidade é uma decisão, não um acaso. Removo o que não serve para deixar o essencial respirar.",
-        en: "Simplicity is a decision, not a coincidence. I remove what doesn't serve to let the essential breathe.",
+        pt: "Quanto mais complexo o problema, mais importante é tornar o caminho claro. Meu papel é ajudar equipes a enxergar o que realmente importa antes de começar a desenhar.",
+        en: "The more complex the problem, the more important it is to make the path clear. My role is to help teams see what really matters before they start designing.",
       },
     },
     {
-      title: { pt: "Design é um esporte de equipe", en: "Design is a team sport" },
+      title: { pt: "Os melhores produtos são construídos em conjunto", en: "The best products are built together" },
       text: {
-        pt: "Os melhores produtos nascem da colaboração próxima entre design, produto, engenharia e dados.",
-        en: "The best products come from close collaboration between design, product, engineering, and data.",
+        pt: "Meu trabalho é conectar pessoas, perspectivas e disciplinas, não apenas desenhar telas. Acredito que os melhores produtos que construí nasceram da colaboração.",
+        en: "My job is to connect people, perspectives, and disciplines, not just design screens. I believe the best products I've built were born from collaboration.",
       },
     },
     {
-      title: { pt: "Craft importa", en: "Craft matters" },
+      title: { pt: "Sistemas criam escala", en: "Systems create scale" },
       text: {
-        pt: "Os detalhes são o que separam o bom do memorável. Cuido deles do conceito ao último pixel.",
-        en: "Details are what separate the good from the memorable. I take care of them from concept to the last pixel.",
+        pt: "Gosto de resolver problemas de uma forma que possa ser reutilizada amanhã. Um bom sistema reduz inconsistências, acelera decisões e libera tempo para resolver novos desafios.",
+        en: "I like solving problems in ways that can be reused tomorrow. A good system reduces inconsistencies, speeds up decisions, and frees up time to tackle new challenges.",
       },
     },
     {
-      title: { pt: "Decisões guiadas por evidências", en: "Evidence-driven decisions" },
+      title: { pt: "Boas decisões vêm antes das boas interfaces", en: "Good decisions come before good interfaces" },
       text: {
-        pt: "Equilibro intuição e dados. Pesquiso, testo e itero antes de cravar uma direção.",
-        en: "I balance intuition and data. I research, test, and iterate before committing to a direction.",
+        pt: "Antes de pensar na solução, gosto de entender o contexto, validar hipóteses e fazer as perguntas certas. Interfaces bonitas são consequência de decisões bem tomadas.",
+        en: "Before thinking about the solution, I like to understand the context, validate hypotheses, and ask the right questions. Beautiful interfaces are the consequence of good decisions.",
       },
     },
   ] as { title: L; text: L }[],
@@ -153,43 +163,75 @@ export const aboutPage = {
       period: { pt: "Fev 2026 – hoje", en: "Feb 2026 – today" },
       role: "Staff Product Designer",
       place: "Pump",
+      blurb: {
+        pt: "Conectando design e código para construir produtos de IA, do Design System às interfaces em produção.",
+        en: "Connecting design and code to build AI products, from the Design System to production interfaces.",
+      },
     },
     {
       period: { pt: "Jan 2024 – Jan 2026", en: "Jan 2024 – Jan 2026" },
       role: "Specialist Product Designer",
       place: "StarkBank",
+      blurb: {
+        pt: "Ajudei a estruturar a área de Design, liderando a criação do Design System e estabelecendo processos para escalar produtos internos.",
+        en: "Helped structure the Design practice, leading the creation of the Design System and setting up processes to scale internal products.",
+      },
     },
     {
       period: { pt: "Jul 2023 – Dez 2023", en: "Jul 2023 – Dec 2023" },
       role: "Senior Product Designer",
       place: "Nomad",
+      blurb: {
+        pt: "Simplifiquei experiências de investimento e ajudei a evoluir produtos financeiros por meio de pesquisa, sistemas e colaboração multidisciplinar.",
+        en: "Simplified investment experiences and helped evolve financial products through research, systems, and cross-functional collaboration.",
+      },
     },
     {
       period: { pt: "Mar 2022 – Set 2022", en: "Mar 2022 – Sep 2022" },
       role: "Product Design Consultant",
       place: "Decisiv",
+      blurb: {
+        pt: "Transformei fluxos operacionais complexos em ferramentas mais claras e eficientes para equipes de manutenção e logística.",
+        en: "Turned complex operational flows into clearer, more efficient tools for maintenance and logistics teams.",
+      },
     },
     {
       period: { pt: "Jan 2021 – Mar 2022", en: "Jan 2021 – Mar 2022" },
       role: "Senior Product Designer, LATAM",
       place: "iFood",
+      blurb: {
+        pt: "Liderei iniciativas para entregadores na América Latina, adaptando produtos a diferentes mercados e influenciando soluções que escalaram entre países.",
+        en: "Led initiatives for couriers across Latin America, adapting products to different markets and shaping solutions that scaled across countries.",
+      },
     },
     {
       period: { pt: "Jul 2020 – Jan 2021", en: "Jul 2020 – Jan 2021" },
-      role: "Product Designer",
+      role: "Product Designer Pleno",
       place: "RD Saúde",
+      blurb: {
+        pt: "Digitalizei jornadas de saúde durante a pandemia, tornando processos complexos mais simples e acessíveis.",
+        en: "Digitized healthcare journeys during the pandemic, making complex processes simpler and more accessible.",
+      },
     },
     {
       period: { pt: "Set 2018 – Jul 2020", en: "Sep 2018 – Jul 2020" },
-      role: "Product Designer",
+      role: "Product Designer Júnior → Pleno",
       place: "Claro",
+      blurb: {
+        pt: "Ajudei a definir a linguagem visual e os padrões de um ecossistema digital antes da adoção de Design Systems.",
+        en: "Helped define the visual language and patterns of a digital ecosystem before Design Systems were widely adopted.",
+      },
     },
     {
       period: { pt: "Ago 2017 – Set 2018", en: "Aug 2017 – Sep 2018" },
-      role: "Product Designer",
-      place: "Accenture",
+      role: "Product Designer Júnior",
+      place: "Accenture/Concrete",
+      blurb: {
+        pt: "Trabalhei no projeto do Itaú, contribuindo para a evolução de produtos digitais e descobrindo meu interesse por resolver problemas complexos, muito antes de desenhar interfaces.",
+        en: "Worked on the Itaú project, contributing to the evolution of digital products and discovering my interest in solving complex problems, long before designing interfaces.",
+      },
     },
-  ] as { period: L; role: string; place: string }[],
+  ] as { period: L; role: string; place: string; blurb: L }[],
   education: {
     degrees: [
       {
@@ -204,6 +246,7 @@ export const aboutPage = {
       },
     ] as { degree: L; school: string; period: L }[],
     courses: [
+      { year: "2026", name: "AI UI Coding Basics in Cursor", school: "Memorisely" },
       { year: "2025", name: "AI Design Bootcamp", school: "Memorisely" },
       { year: "2025", name: "Animating Brands and Products", school: "Aprenda Design" },
       { year: "2024", name: "Design System Bootcamp", school: "Memorisely" },
@@ -228,6 +271,10 @@ export type Project = {
   // conteúdo da página de detalhe
   overview: L;
   challenge: L;
+  // objetivo e restrições (opcionais) — completam o bloco narrativo inicial
+  // (Resumo → Desafio → Objetivo → Restrições → Contexto)
+  objective?: L;
+  constraints?: L;
   approach: L[];
   // pilares do sistema (opcional) — grid visual de arquitetura
   pillars?: { title: L; text: L }[];
@@ -273,11 +320,11 @@ export const projects: Project[] = [
     },
     overview: {
       pt: "A maioria dos design systems vive ao lado do produto: uma biblioteca que exige esforço de implementação, atualização e uso. Meu papel foi construir o Atelier dentro dele, e fazer com que o DS fosse além de manter apenas a consistência.\n\nEle acelerou a entrega de features funcionais e permitiu que nossos clientes construíssem widgets internos de acordo com suas necessidades.\n\nIsso tudo só foi possível através de uma documentação densa de uso e direcionamento, da construção de forma nativa em IA e de agentes internos que garantem as boas práticas, aceleram pesquisas e protótipos, e entregam em React e Tailwind.",
-      en: "Most design systems live next to the product — a library that takes effort to implement, keep updated, and use. My role was to build Atelier inside the product, and make the design system go beyond just keeping things consistent.\n\nIt sped up the delivery of working features and let our customers build internal widgets to fit their own needs.\n\nAll of that was only possible through dense usage-and-guidance documentation, an AI-native build, and internal agents that enforce best practices, speed up research and prototyping, and ship in React and Tailwind.",
+      en: "Most design systems live next to the product: a library that takes effort to implement, keep updated, and use. My role was to build Atelier inside the product, and make the design system go beyond just keeping things consistent.\n\nIt sped up the delivery of working features and let our customers build internal widgets to fit their own needs.\n\nAll of that was only possible through dense usage-and-guidance documentation, an AI-native build, and internal agents that enforce best practices, speed up research and prototyping, and ship in React and Tailwind.",
     },
     challenge: {
       pt: "Entregar features rápido sem sacrificar qualidade, e manter experiência e usabilidade de alto nível em toda a plataforma, com uma só pessoa no design. Ao mesmo tempo, a personalização precisava escalar sozinha: não importa qual cliente entre, a marca dele se aplica, sem retrabalho.\n\nE o sistema tinha que ir além da equipe: os próprios usuários montando o que precisam no dia a dia. Para isso, o design system precisava ser legível não só por pessoas, mas por agentes de IA, com a IA trazendo valor real e confiável, não hype. No papel, cada uma dessas frentes puxa para um lado. O trabalho foi fazer todas caberem no mesmo sistema.",
-      en: "Shipping features fast without sacrificing quality, and holding a high level of experience and usability across the whole platform — with a single person on design. At the same time, personalization had to scale on its own: no matter which client comes in, their brand applies itself, with no rework.\n\nAnd the system had to reach beyond the team: users themselves assembling what they need day to day. For that, the design system had to be readable not just by people but by AI agents, with AI bringing real, trustworthy value, not hype. On paper, each of these fronts pulls in a different direction. The work was making them all fit in one system.",
+      en: "Shipping features fast without sacrificing quality, and holding a high level of experience and usability across the whole platform, with a single person on design. At the same time, personalization had to scale on its own: no matter which client comes in, their brand applies itself, with no rework.\n\nAnd the system had to reach beyond the team: users themselves assembling what they need day to day. For that, the design system had to be readable not just by people but by AI agents, with AI bringing real, trustworthy value, not hype. On paper, each of these fronts pulls in a different direction. The work was making them all fit in one system.",
     },
     approach: [
       {
@@ -312,14 +359,14 @@ export const projects: Project[] = [
         title: { pt: "Atelier, o workbench", en: "Atelier, the workbench" },
         text: {
           pt: "100 componentes e 11 fundações, cada um construído e documentado em isolamento, com uso, variações e direcionamento. É a fonte da verdade entre design e engenharia: ninguém precisa adivinhar como montar uma tela.",
-          en: "100 components and 11 foundations, each built and documented in isolation — with usage, variants, and guidance. It's the source of truth between design and engineering: no one has to guess how to build a screen.",
+          en: "100 components and 11 foundations, each built and documented in isolation, with usage, variants, and guidance. It's the source of truth between design and engineering: no one has to guess how to build a screen.",
         },
       },
       {
         title: { pt: "Extensível pelos clientes", en: "Extensible by customers" },
         text: {
           pt: "Sobre essa base documentada, os próprios clientes da Pump montam widgets dentro da plataforma, com os mesmos componentes e padrões do produto.",
-          en: "On top of that documented foundation, Pump's own customers assemble widgets inside the platform — using the same components and patterns as the product.",
+          en: "On top of that documented foundation, Pump's own customers assemble widgets inside the platform, using the same components and patterns as the product.",
         },
       },
     ],
@@ -330,14 +377,14 @@ export const projects: Project[] = [
     ],
     closing: {
       pt: "Comecei desenhando telas. Hoje desenho o sistema que faz todas elas existirem, em qualquer marca, e que deixa o time da Pump, e até os clientes, construírem muito além do que eu desenharia sozinha.",
-      en: "I started by designing screens. Now I design the system that makes all of them exist, in any brand — and that lets Pump's team, and even its customers, build far beyond what I'd ever design on my own.",
+      en: "I started by designing screens. Now I design the system that makes all of them exist, in any brand, and that lets Pump's team, and even its customers, build far beyond what I'd ever design on my own.",
     },
   },
   {
     slug: "kypcar",
     title: {
-      pt: "Kypcar: um app de compartilhamento de carros do zero",
-      en: "Kypcar: a car-sharing app from scratch",
+      pt: "Construindo uma plataforma de car sharing para São Paulo",
+      en: "Building a car-sharing platform for São Paulo",
     },
     client: "Kypcar",
     year: "2025",
@@ -348,17 +395,25 @@ export const projects: Project[] = [
     tags: ["Mobile", "0→1", "Marketplace"],
     demo: true,
     summary: {
-      pt: "Um app de compartilhamento de carros peer-to-peer para São Paulo — 'Mobilidade Reinventada' — desenhado do zero como freelance, do onboarding à reserva.",
-      en: "A peer-to-peer car-sharing app for São Paulo — 'Reinvented Mobility' — designed from scratch as a freelance project, from onboarding to booking.",
+      pt: "Um app de compartilhamento de carros peer-to-peer para São Paulo ('Mobilidade Reinventada'), desenhado do zero como freelance, do onboarding à reserva.",
+      en: "A peer-to-peer car-sharing app for São Paulo ('Reinvented Mobility'), designed from scratch as a freelance project, from onboarding to booking.",
     },
     overview: {
       pt: "A Kypcar é uma plataforma de compartilhamento de carros peer-to-peer em São Paulo: donos de carro alugam o veículo parado para outras pessoas, e quem aluga economiza até 40% frente às locadoras tradicionais. Fui contratada como freelance para desenhar o produto inteiro do zero, sozinha, do primeiro rascunho de fluxo até a tela final.",
       en: "Kypcar is a peer-to-peer car-sharing platform in São Paulo: car owners rent out their idle vehicle to other people, and renters save up to 40% versus traditional rental agencies. I was brought on as a freelancer to design the entire product from scratch, solo, from the first flow sketch to the final screen.",
     },
+    objective: {
+      pt: "Desenhar o MVP completo da plataforma, do onboarding à reserva, criando uma experiência que gerasse confiança suficiente para um dono entregar o próprio carro a um desconhecido, e para quem aluga escolher um carro particular em vez de uma locadora.",
+      en: "Design the platform's complete MVP, from onboarding to booking, creating an experience trustworthy enough for an owner to hand their car to a stranger, and for a renter to choose a private car over a rental agency.",
+    },
+    constraints: {
+      pt: "Projeto freelance com uma designer só e prazo enxuto, sem produto anterior como base. Sem hardware conectado no escopo, a troca de chaves acontece presencialmente: o encontro entre desconhecidos precisava fazer parte da experiência. E a confiança teria que ser construída pelo design, sem a marca estabelecida dos players internacionais.",
+      en: "A freelance project with a single designer and a tight timeline, with no previous product to build on. With no connected hardware in scope, the key handoff happens in person: the meetup between strangers had to be part of the experience. And trust had to be built through design, without the established brand of international players.",
+    },
     marketAnalysis: {
       intro: {
-        pt: "Antes de desenhar a primeira tela, mapeei o cenário competitivo: como locadoras tradicionais, locadoras digitais e marketplaces peer-to-peer resolvem — ou não — o mesmo problema de mobilidade.",
-        en: "Before designing the first screen, I mapped the competitive landscape: how traditional rental agencies, digital-first rental agencies, and peer-to-peer marketplaces each solve — or don't solve — the same mobility problem.",
+        pt: "Antes de desenhar a primeira tela, mapeei o cenário competitivo: como locadoras tradicionais, locadoras digitais e marketplaces peer-to-peer resolvem (ou não) o mesmo problema de mobilidade.",
+        en: "Before designing the first screen, I mapped the competitive landscape: how traditional rental agencies, digital-first rental agencies, and peer-to-peer marketplaces each solve (or don't) the same mobility problem.",
       },
       competitors: [
         {
@@ -388,8 +443,8 @@ export const projects: Project[] = [
         {
           name: "Getaround",
           model: {
-            pt: "Marketplace peer-to-peer com hardware conectado: o carro destrava pelo app, sem encontro para troca de chaves — reserva instantânea, sem aprovação do dono.",
-            en: "Peer-to-peer marketplace with connected hardware: the car unlocks through the app, no key-handoff meetup — instant booking, no owner approval.",
+            pt: "Marketplace peer-to-peer com hardware conectado: o carro destrava pelo app, sem encontro para troca de chaves: reserva instantânea, sem aprovação do dono.",
+            en: "Peer-to-peer marketplace with connected hardware: the car unlocks through the app, no key-handoff meetup: instant booking, no owner approval.",
           },
           scope: { pt: "EUA e Europa", en: "US and Europe" },
         },
@@ -412,14 +467,14 @@ export const projects: Project[] = [
         },
       ],
       insight: {
-        pt: "Localiza e Movida têm escala, mas dependem de frota própria e presença física; a Turbi digitalizou a experiência de alugar, mas manteve o mesmo modelo de frota. Do outro lado, Turo e Getaround provaram o peer-to-peer em outros mercados — cada uma resolvendo a fricção de um jeito (a Turo com seguro e reputação, a Getaround com hardware que elimina a troca de chaves). O modelo simplesmente não tinha equivalente validado no Brasil. Essa lacuna virou a base de várias decisões de produto: se ninguém aqui tinha resolvido confiança num marketplace peer-to-peer, isso precisava ser o centro da experiência, não um detalhe nos termos de uso.",
-        en: "Localiza and Movida have scale, but depend on owned fleets and physical presence; Turbi digitized the rental experience but kept the same fleet model. On the other side, Turo and Getaround proved peer-to-peer in other markets — each solving the friction differently (Turo with insurance and reputation, Getaround with hardware that eliminates the key handoff). The model simply had no proven equivalent in Brazil. That gap grounded several product decisions: if nobody here had solved trust in a peer-to-peer marketplace yet, it had to be the center of the experience, not a detail buried in the terms of service.",
+        pt: "Localiza e Movida têm escala, mas dependem de frota própria e presença física; a Turbi digitalizou a experiência de alugar, mas manteve o mesmo modelo de frota. Do outro lado, Turo e Getaround provaram o peer-to-peer em outros mercados, cada uma resolvendo a fricção de um jeito (a Turo com seguro e reputação, a Getaround com hardware que elimina a troca de chaves). O modelo simplesmente não tinha equivalente validado no Brasil. Essa lacuna virou a base de várias decisões de produto: se ninguém aqui tinha resolvido confiança num marketplace peer-to-peer, isso precisava ser o centro da experiência, não um detalhe nos termos de uso.",
+        en: "Localiza and Movida have scale, but depend on owned fleets and physical presence; Turbi digitized the rental experience but kept the same fleet model. On the other side, Turo and Getaround proved peer-to-peer in other markets, each solving the friction differently (Turo with insurance and reputation, Getaround with hardware that eliminates the key handoff). The model simply had no proven equivalent in Brazil. That gap grounded several product decisions: if nobody here had solved trust in a peer-to-peer marketplace yet, it had to be the center of the experience, not a detail buried in the terms of service.",
       },
     },
     uxAnalysis: {
       intro: {
-        pt: "Depois do mercado, mergulhei na experiência: como apps consolidados desenham o contato entre duas pessoas que não se conhecem? Analisei interface e fluxo de produtos onde a transação depende desse encontro — e o que cada um resolve bem virou repertório para o Kypcar.",
-        en: "After the market, I dug into the experience: how do established apps design the contact between two strangers? I analyzed the interface and flows of products where the transaction depends on that encounter — and what each one solves well became repertoire for Kypcar.",
+        pt: "Depois do mercado, mergulhei na experiência: como apps consolidados desenham o contato entre duas pessoas que não se conhecem? Analisei interface e fluxo de produtos onde a transação depende desse encontro, e o que cada um resolve bem virou repertório para o Kypcar.",
+        en: "After the market, I dug into the experience: how do established apps design the contact between two strangers? I analyzed the interface and flows of products where the transaction depends on that encounter, and what each one solves well became repertoire for Kypcar.",
       },
       references: [
         {
@@ -440,30 +495,30 @@ export const projects: Project[] = [
             en: "Normalized meeting strangers in Brazil: photo, name, and mutual rating visible before the encounter, with all communication inside the app.",
           },
           takeaway: {
-            pt: "Identidade visível dos dois lados — avatar, nome e nota do anfitrião sempre à mão — e contato sem sair do app, sem depender de telefone ou WhatsApp.",
-            en: "Visible identity on both sides — the host's avatar, name, and rating always at hand — and contact without leaving the app, no phone number or WhatsApp needed.",
+            pt: "Identidade visível dos dois lados (avatar, nome e nota do anfitrião sempre à mão) e contato sem sair do app, sem depender de telefone ou WhatsApp.",
+            en: "Visible identity on both sides (the host's avatar, name, and rating always at hand) and contact without leaving the app, no phone number or WhatsApp needed.",
           },
         },
         {
           name: "DogHero",
           pattern: {
-            pt: "Resolve a ansiedade de quem entrega algo precioso a um estranho: perfis com histórico concreto — anfitrião desde quando, quantas hospedagens, tempo de resposta — e verificação visível antes de qualquer conversa.",
-            en: "Solves the anxiety of handing something precious to a stranger: profiles with a concrete track record — hosting since when, how many stays, response time — and visible verification before any conversation.",
+            pt: "Resolve a ansiedade de quem entrega algo precioso a um estranho: perfis com histórico concreto (anfitrião desde quando, quantas hospedagens, tempo de resposta) e verificação visível antes de qualquer conversa.",
+            en: "Solves the anxiety of handing something precious to a stranger: profiles with a concrete track record (hosting since when, how many stays, response time) and visible verification before any conversation.",
           },
           takeaway: {
-            pt: "O lastro numérico da confiança: 'anfitrião desde 2023 · 128 viagens', tempo de resposta e o selo de identidade verificada no perfil — números que falam pelo anfitrião antes dele dizer qualquer coisa.",
-            en: "The numeric ballast of trust: 'host since 2023 · 128 trips', reply time, and the verified-identity badge on the profile — numbers that speak for the host before they say a word.",
+            pt: "O lastro numérico da confiança: 'anfitrião desde 2023 · 128 viagens', tempo de resposta e o selo de identidade verificada no perfil: números que falam pelo anfitrião antes dele dizer qualquer coisa.",
+            en: "The numeric ballast of trust: 'host since 2023 · 128 trips', reply time, and the verified-identity badge on the profile: numbers that speak for the host before they say a word.",
           },
         },
       ],
       insight: {
-        pt: "O padrão comum entre eles: a interface não pede confiança, ela mostra evidência — identidade, reputação e regras visíveis no momento certo. No Kypcar, juntei os três repertórios: o anúncio do Airbnb, o encontro do Uber e o histórico do DogHero.",
-        en: "The common thread: the interface doesn't ask for trust, it shows evidence — identity, reputation, and rules visible at the right moment. In Kypcar, I combined all three repertoires: Airbnb's listing, Uber's encounter, and DogHero's track record.",
+        pt: "O padrão comum entre eles: a interface não pede confiança, ela mostra evidência: identidade, reputação e regras visíveis no momento certo. No Kypcar, juntei os três repertórios: o anúncio do Airbnb, o encontro do Uber e o histórico do DogHero.",
+        en: "The common thread: the interface doesn't ask for trust, it shows evidence: identity, reputation, and rules visible at the right moment. In Kypcar, I combined all three repertoires: Airbnb's listing, Uber's encounter, and DogHero's track record.",
       },
     },
     challenge: {
-      pt: "Um marketplace peer-to-peer tem duas pontas para convencer ao mesmo tempo: quem procura um carro precisa confiar no anfitrião e no processo antes de pagar por dias que ainda não aconteceram; quem oferece o carro precisa sentir que a plataforma protege o patrimônio dele. A resposta da Kypcar passa por verificação de identidade com IA (reconhecimento facial e validação de CNH), seguro completo incluso e limpeza profissional entre locações — tudo isso precisava ficar visível e claro na experiência, não só existir nos termos de uso.\n\nCom uma pessoa só no design e um prazo de freelance, o produto também precisava nascer completo: onboarding, busca, filtros, perfil do anfitrião, agenda, checkout, pós-reserva e chat — não dava para lançar com metade do fluxo.",
-      en: "A peer-to-peer marketplace has two sides to convince at once: the person looking for a car needs to trust the host and the process before paying for days that haven't happened yet; the person offering the car needs to feel the platform protects their asset. Kypcar's answer runs through AI-powered identity verification (facial recognition and driver's license validation), full insurance included, and professional cleaning between rentals — all of it needed to be visible and clear in the experience, not just sitting in the terms of service.\n\nWith one person on design and a freelance timeline, the product also had to launch whole: onboarding, search, filters, host profile, scheduling, checkout, post-booking and chat — there was no shipping with half the flow.",
+      pt: "Um marketplace peer-to-peer tem duas pontas para convencer ao mesmo tempo: quem procura um carro precisa confiar no anfitrião e no processo antes de pagar por dias que ainda não aconteceram; quem oferece o carro precisa sentir que a plataforma protege o patrimônio dele. A resposta da Kypcar passa por verificação de identidade com IA (reconhecimento facial e validação de CNH), seguro completo incluso e limpeza profissional entre locações. Tudo isso precisava ficar visível e claro na experiência, não só existir nos termos de uso.\n\nCom uma pessoa só no design e um prazo de freelance, o produto também precisava nascer completo: onboarding, busca, filtros, perfil do anfitrião, agenda, checkout, pós-reserva e chat. Não dava para lançar com metade do fluxo.",
+      en: "A peer-to-peer marketplace has two sides to convince at once: the person looking for a car needs to trust the host and the process before paying for days that haven't happened yet; the person offering the car needs to feel the platform protects their asset. Kypcar's answer runs through AI-powered identity verification (facial recognition and driver's license validation), full insurance included, and professional cleaning between rentals. All of it needed to be visible and clear in the experience, not just sitting in the terms of service.\n\nWith one person on design and a freelance timeline, the product also had to launch whole: onboarding, search, filters, host profile, scheduling, checkout, post-booking and chat. There was no shipping with half the flow.",
     },
     approach: [
       {
@@ -479,8 +534,8 @@ export const projects: Project[] = [
         en: "Designed both sides of the marketplace's trust equation: AI identity verification and a verified-host badge on the supply side; included insurance, professional cleaning, and a visible cancellation policy on the booking side.",
       },
       {
-        pt: "Prototipei o fluxo inteiro navegável — não telas soltas — para validar a experiência de ponta a ponta antes de qualquer linha de código de produção.",
-        en: "Prototyped the entire flow as a navigable product — not standalone screens — to validate the end-to-end experience before any production code was written.",
+        pt: "Prototipei o fluxo inteiro navegável, não telas soltas, para validar a experiência de ponta a ponta antes de qualquer linha de código de produção.",
+        en: "Prototyped the entire flow as a navigable product, not standalone screens, to validate the end-to-end experience before any production code was written.",
       },
     ],
     pillarsTitle: { pt: "Decisões de design", en: "Design decisions" },
@@ -509,14 +564,14 @@ export const projects: Project[] = [
       {
         title: { pt: "A conversa faz parte do fluxo", en: "The conversation is part of the flow" },
         text: {
-          pt: "Num marketplace P2P, retirada e devolução se combinam no chat. Por isso a conversa carrega o contexto da reserva — carro, datas e endereço fixados no topo — e fica a um toque de qualquer ponto do fluxo.",
-          en: "In a P2P marketplace, pickup and return get arranged in chat. So the conversation carries the booking context — car, dates, and address pinned at the top — and sits one tap away from anywhere in the flow.",
+          pt: "Num marketplace P2P, retirada e devolução se combinam no chat. Por isso a conversa carrega o contexto da reserva (carro, datas e endereço fixados no topo) e fica a um toque de qualquer ponto do fluxo.",
+          en: "In a P2P marketplace, pickup and return get arranged in chat. So the conversation carries the booking context (car, dates, and address pinned at the top) and sits one tap away from anywhere in the flow.",
         },
       },
     ],
     closing: {
-      pt: "Entrei antes da primeira tela existir e saí com um produto navegável de ponta a ponta — prova de que um app de marketplace inteiro pode nascer do trabalho de uma pessoa só, quando o fluxo é desenhado com cuidado desde o início.",
-      en: "I came in before the first screen existed and left with an end-to-end navigable product — proof that a whole marketplace app can be born from one person's work, when the flow is designed with care from the very start.",
+      pt: "Entrei antes da primeira tela existir e saí com um produto navegável de ponta a ponta: prova de que um app de marketplace inteiro pode nascer do trabalho de uma pessoa só, quando o fluxo é desenhado com cuidado desde o início.",
+      en: "I came in before the first screen existed and left with an end-to-end navigable product: proof that a whole marketplace app can be born from one person's work, when the flow is designed with care from the very start.",
     },
   },
   {
@@ -622,7 +677,7 @@ export const projects: Project[] = [
     ],
     closing: {
       pt: "Provamos que ativação não é sobre explicar o produto: é sobre fazer o usuário sentir o valor o quanto antes.",
-      en: "We proved that activation isn't about explaining the product — it's about making users feel the value as soon as possible.",
+      en: "We proved that activation isn't about explaining the product. It's about making users feel the value as soon as possible.",
     },
   },
 ];

@@ -47,53 +47,55 @@ export default async function ProjectPage({
 
   return (
     <article>
-      <div className="mx-auto max-w-3xl px-6 pt-12">
-        <Link
-          href={`/${lang}/#work`}
-          className="group inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-sm text-muted shadow-sm ring-1 ring-line transition-colors hover:text-foreground"
-        >
-          <span className="transition-transform group-hover:-translate-x-1">←</span>
-          {dict.work_detail.back}
-        </Link>
-
-        <header className="mt-8">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-            {project.client} · {project.year}
-          </p>
-          <h1 className="mt-4 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
-            {t(project.title, lang)}
-          </h1>
-          <p className="mt-5 text-lg leading-relaxed text-muted">
-            {t(project.summary, lang)}
-          </p>
-        </header>
-
-        <dl className="mt-8 grid grid-cols-2 gap-6 border-y border-line py-6 text-sm sm:grid-cols-3">
-          <div className="col-span-2 sm:col-span-1">
-            <dt className="text-muted">{dict.work_detail.role}</dt>
-            <dd className="mt-1 font-medium">{t(project.role, lang)}</dd>
-          </div>
-          <div>
-            <dt className="text-muted">{dict.work_detail.client}</dt>
-            <dd className="mt-1 font-medium">{project.client}</dd>
-          </div>
-          <div>
-            <dt className="text-muted">{dict.work_detail.year}</dt>
-            <dd className="mt-1 font-medium">{project.year}</dd>
-          </div>
-        </dl>
-      </div>
+      <ViewTransition enter="content-rise-1" default="none">
+        <div className="mx-auto max-w-3xl px-6 pt-12">
+          <Link
+            href={`/${lang}/#work`}
+            className="group inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-sm text-muted shadow-sm ring-1 ring-line transition-colors hover:text-foreground"
+          >
+            <span className="transition-transform group-hover:-translate-x-1">←</span>
+            {dict.work_detail.back}
+          </Link>
+        </div>
+      </ViewTransition>
 
       <ViewTransition name={`work-cover-${project.slug}`} share="morph">
         <div className="mx-auto max-w-3xl px-6 pt-8">
-          <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line bg-card">
+          <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl border border-line bg-card">
             <ProjectSketch slug={project.slug} className="h-full w-full" />
           </div>
         </div>
       </ViewTransition>
 
-      <ViewTransition enter="content-rise" default="none">
+      <ViewTransition enter="content-rise-2" default="none">
         <div className="mx-auto max-w-3xl px-6 pb-20">
+          <header className="mt-10">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              {project.client} · {project.year}
+            </p>
+            <h1 className="mt-4 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
+              {t(project.title, lang)}
+            </h1>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              {t(project.summary, lang)}
+            </p>
+          </header>
+
+          <dl className="mt-8 grid grid-cols-2 gap-6 border-y border-line py-6 text-sm sm:grid-cols-3">
+            <div className="col-span-2 sm:col-span-1">
+              <dt className="text-muted">{dict.work_detail.role}</dt>
+              <dd className="mt-1 font-medium">{t(project.role, lang)}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">{dict.work_detail.client}</dt>
+              <dd className="mt-1 font-medium">{project.client}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">{dict.work_detail.year}</dt>
+              <dd className="mt-1 font-medium">{project.year}</dd>
+            </div>
+          </dl>
+
           <div className="mt-6 flex flex-wrap gap-2">
             {project.tags.map((tag) => (
               <span
@@ -107,11 +109,27 @@ export default async function ProjectPage({
 
           <Block title={dict.work_detail.overview}>{t(project.overview, lang)}</Block>
 
+          <Block title={dict.work_detail.challenge}>{t(project.challenge, lang)}</Block>
+
+          {project.objective && (
+            <Block title={dict.work_detail.objective}>{t(project.objective, lang)}</Block>
+          )}
+
+          {project.constraints && (
+            <Block title={dict.work_detail.constraints}>{t(project.constraints, lang)}</Block>
+          )}
+
+          {(project.marketAnalysis || project.uxAnalysis) && (
+            <h2 className="mt-12 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              {dict.work_detail.context}
+            </h2>
+          )}
+
           {project.marketAnalysis && (
-            <section className="mt-12">
-              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+            <section className="mt-8">
+              <h3 className="text-lg font-medium tracking-tight">
                 {dict.work_detail.market_analysis}
-              </h2>
+              </h3>
               <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
                 {t(project.marketAnalysis.intro, lang)}
               </p>
@@ -152,10 +170,10 @@ export default async function ProjectPage({
           )}
 
           {project.uxAnalysis && (
-            <section className="mt-12">
-              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+            <section className="mt-10">
+              <h3 className="text-lg font-medium tracking-tight">
                 {dict.work_detail.ux_analysis}
-              </h2>
+              </h3>
               <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
                 {t(project.uxAnalysis.intro, lang)}
               </p>
@@ -203,21 +221,6 @@ export default async function ProjectPage({
               </div>
             </section>
           )}
-
-          <section className="mt-12">
-            <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-              {dict.work_detail.challenge}
-            </h2>
-            {t(project.challenge, lang)
-              .split(/\n{2,}/)
-              .map((p) => p.trim())
-              .filter(Boolean)
-              .map((p, i) => (
-                <p key={i} className={`${i === 0 ? 'mt-5' : 'mt-4'} text-base leading-relaxed`}>
-                  {p}
-                </p>
-              ))}
-          </section>
 
           <section className="mt-12">
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
