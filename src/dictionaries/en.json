@@ -6,29 +6,34 @@
     "contact": "Contact"
   },
   "hero": {
-    "available": "Available for new projects",
-    "greeting": "Hi, I'm",
-    "cta_works": "See work",
-    "cta_contact": "Get in touch"
+    "heading": "Hi, I'm Mari",
+    "subtitle": "I've worked in Product Design for over 10 years, turning complex problems into products that are simple, scalable, and easy to use.",
+    "cta_works": "See cases",
+    "cta_contact": "Let's talk",
+    "meta_role": "Staff Product Designer",
+    "meta_focus": "Strategy • Systems • Product Design"
   },
   "about_mini": {
     "eyebrow": "About me",
-    "cta_text": "Want to know more about my journey, design principles, and what drives me every day?",
-    "cta_label": "More about me"
+    "cta_text": "This way of thinking was built over more than ten years designing products across different contexts.",
+    "cta_label": "See my journey"
+  },
+  "logos": {
+    "eyebrow": "Places I've worked"
   },
   "featured_work": {
     "eyebrow": "Recent work",
-    "heading": "Three projects I'm proud to have led"
+    "heading": "Projects I'm proud to have led"
   },
   "curiosities": {
     "eyebrow": "Curiosities",
     "heading": "Beyond the screens"
   },
   "contact": {
-    "eyebrow": "Get in touch",
-    "heading_1": "Let's build something",
-    "heading_2": "that matters together?",
-    "body": "I'm always open to talk about design, product, or a great opportunity. Send me a message."
+    "eyebrow": "Contact",
+    "heading_1": "Want to build",
+    "heading_2": "something good together?",
+    "body": "I like working on complex problems alongside curious people. If you think we could build something interesting, send me an email."
   },
   "footer": {
     "made_with": "Made with care."
@@ -36,21 +41,36 @@
   "work_detail": {
     "back": "All work",
     "role": "My role",
-    "client": "Client",
+    "client": "Company",
     "year": "Year",
-    "overview": "Overview",
-    "challenge": "The challenge",
+    "overview": "Summary",
+    "objective": "Objective",
+    "constraints": "Constraints",
+    "context": "Context",
+    "market_analysis": "Market analysis",
+    "market_model": "Model",
+    "market_scope": "Where it operates",
+    "ux_analysis": "Experience analysis",
+    "demo": "Interactive prototype",
+    "demo_hint": "This prototype is fully navigable: search for a car, pick your dates, complete a booking, and chat with the host.",
+    "challenge": "Challenge",
     "approach": "Approach",
+    "pillars": "System pillars",
     "results": "Results",
     "next_project": "Next project"
   },
   "about_page": {
     "back": "Back to home",
     "eyebrow": "About me",
+    "heading": "Nice to meet you, I'm Mari",
     "principles": "Principles that guide my work",
     "timeline": "Journey",
+    "education": "Education",
+    "courses": "I keep studying topics that expand how I think, like Design Systems, AI, strategy, research, behavior, and animation.",
     "contact_heading": "Let's talk?",
-    "contact_body": "I'm open to new opportunities, collaborations, and conversations about design and product.",
-    "contact_cta": "Send me an email"
+    "contact_body": "If you made it this far, you probably also believe that good products are born from good conversations.",
+    "contact_cta": "Send me an email",
+    "linkedin_cta": "LinkedIn",
+    "resume_cta": "Download resume"
   }
 }

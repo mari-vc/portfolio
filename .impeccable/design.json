@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-09T22:00:00-03:00",
+  "title": "Design System: Portfólio marivc",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Papel Quente", "canonical": "#fafaf8", "tonalRamp": ["#26261f", "#45453c", "#66665c", "#8b8b80", "#b1b1a6", "#d2d2c9", "#ebebe4", "#fafaf8"] },
+      "paper-bright": { "role": "neutral", "displayName": "Papel Brilhante", "canonical": "#ffffff", "tonalRamp": ["#2b2b2b", "#4a4a4a", "#6b6b6b", "#8f8f8f", "#b3b3b3", "#d4d4d4", "#ededed", "#ffffff"] },
+      "ink": { "role": "neutral", "displayName": "Tinta Preta", "canonical": "#15151a", "tonalRamp": ["#15151a", "#2c2c34", "#45454f", "#60606b", "#7d7d88", "#9c9ca5", "#bcbcc3", "#dddde1"] },
+      "pencil": { "role": "neutral", "displayName": "Grafite", "canonical": "#6b6b73", "tonalRamp": ["#1f1f23", "#33333a", "#494950", "#6b6b73", "#88888f", "#a5a5ab", "#c3c3c7", "#e1e1e3"] },
+      "paper-line": { "role": "neutral", "displayName": "Linha de Pauta", "canonical": "#e6e4de", "tonalRamp": ["#393833", "#56544d", "#747168", "#928f85", "#b0ada2", "#cbc8bf", "#e6e4de", "#f5f4f0"] },
+      "ballpoint": { "role": "primary", "displayName": "Tinta Esferográfica", "canonical": "#2742c7", "tonalRamp": ["#0c1340", "#142065", "#1b2e8d", "#2742c7", "#5468d6", "#8290e3", "#b1baee", "#dfe3f9"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Títulos de seção (h2), tracking apertado." },
+      "quote": { "displayName": "Quote", "purpose": "Exclusiva da citação de impacto, Instrument Serif." },
+      "title": { "displayName": "Title", "purpose": "Títulos de cards e itens de lista." },
+      "body": { "displayName": "Body", "purpose": "Parágrafos, máximo 65–75ch." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows mono em caixa alta, tracking 0.2em." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-rise", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Entrada padrão (fade + rise) e view transitions de conteúdo." },
+      { "name": "ease-morph", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Morph da capa do card para a página de detalhe (440ms)." },
+      { "name": "duration-hover", "value": "200ms", "purpose": "Transições de cor e transform em hover." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão primário",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Bloco de tinta em pill; levanta 2px no hover.",
+      "html": "<button class=\"ds-btn-primary\">Ver trabalhos</button>",
+      "css": ".ds-btn-primary { background: var(--ink, #15151a); color: var(--paper, #fafaf8); border: none; border-radius: 9999px; padding: 12px 24px; font-size: 14px; font-weight: 500; cursor: pointer; transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-primary:hover { transform: translateY(-2px); } .ds-btn-primary:focus-visible { outline: 2px solid #2742c7; outline-offset: 2px; }"
+    },
+    {
+      "name": "Botão secundário",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Pill de borda fina; a borda escurece no hover.",
+      "html": "<button class=\"ds-btn-secondary\">Falar comigo</button>",
+      "css": ".ds-btn-secondary { background: transparent; color: #15151a; border: 1px solid rgba(21, 21, 26, 0.15); border-radius: 9999px; padding: 12px 24px; font-size: 14px; font-weight: 500; cursor: pointer; transition: border-color 200ms; } .ds-btn-secondary:hover { border-color: rgba(21, 21, 26, 0.4); } .ds-btn-secondary:focus-visible { outline: 2px solid #2742c7; outline-offset: 2px; }"
+    },
+    {
+      "name": "Tag de projeto",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Pill estática de metadado com borda de pauta.",
+      "html": "<span class=\"ds-tag\">Fintech</span>",
+      "css": ".ds-tag { display: inline-block; border: 1px solid #e6e4de; border-radius: 9999px; padding: 2px 10px; font-size: 12px; color: #6b6b73; }"
+    },
+    {
+      "name": "Eyebrow de seção",
+      "kind": "custom",
+      "refersTo": "label",
+      "description": "Etiqueta mono em caixa alta com traço de pauta à esquerda.",
+      "html": "<p class=\"ds-eyebrow\"><span class=\"ds-eyebrow-line\"></span>Trabalhos</p>",
+      "css": ".ds-eyebrow { display: flex; align-items: center; gap: 12px; font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #6b6b73; } .ds-eyebrow-line { display: inline-block; width: 32px; height: 1px; background: rgba(21, 21, 26, 0.3); }"
+    },
+    {
+      "name": "Link de contato",
+      "kind": "nav",
+      "refersTo": "ballpoint",
+      "description": "Linha de lista com borda de pauta; vira tinta azul no hover.",
+      "html": "<a class=\"ds-contact-row\" href=\"#\">LinkedIn <span>↗</span></a>",
+      "css": ".ds-contact-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e6e4de; padding: 16px 0; font-size: 14px; color: #15151a; text-decoration: none; transition: color 200ms; } .ds-contact-row:hover { color: #2742c7; } .ds-contact-row:focus-visible { outline: 2px solid #2742c7; outline-offset: 2px; }"
+    },
+    {
+      "name": "Capa de projeto",
+      "kind": "card",
+      "refersTo": "card-cover",
+      "description": "Página de sketch 4:3 do case; chip de cliente no canto, véu de tinta no hover.",
+      "html": "<div class=\"ds-cover\"><span class=\"ds-cover-chip\">Aurora · 2025</span></div>",
+      "css": ".ds-cover { position: relative; aspect-ratio: 4/3; width: 240px; border-radius: 16px; background: #ffffff; border: 1px solid #e6e4de; overflow: hidden; display: flex; align-items: flex-end; padding: 20px; transition: background 300ms; } .ds-cover:hover { background: #f1f0ec; } .ds-cover-chip { background: rgba(250, 250, 248, 0.85); color: #15151a; border-radius: 9999px; padding: 4px 12px; font-size: 12px; font-weight: 500; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Caderno de Sketches",
+    "overview": "Este site é o caderno de uma designer aberto sobre a mesa: papel quente, tinta preta e uma caneta esferográfica azul para grifar o que importa. A base é precisa e contida (grid limpo, tipografia sóbria, muito branco), e a personalidade entra pelo traço: lettering manuscrito no hero, autorretrato a nanquim, sublinhados e anotações que parecem feitos à mão. A brincadeira nunca grita; ela se esconde em hovers, margens e detalhes que recompensam quem presta atenção. O sistema rejeita explicitamente tudo que pareça gerado: gradientes roxos genéricos, bento grids, cards idênticos, espetáculo de scroll. Profundidade vem de tinta e papel, não de sombra e vidro.",
+    "keyCharacteristics": [
+      "Papel quente (#fafaf8) como superfície dominante, com muito ar",
+      "Tinta preta para conteúdo, esferográfica azul (#2742c7) só para ação",
+      "Traço manuscrito (lettering, ilustração, rabiscos) como assinatura da marca",
+      "Componentes precisos com surpresas escondidas nos estados de hover",
+      "Mono em caixa alta para etiquetas de arquivo (eyebrows, metadados)"
+    ],
+    "rules": [
+      { "name": "A Regra da Caneta Única", "body": "Só existe uma caneta de cor no estojo. A esferográfica azul cobre no máximo 10% de qualquer tela e aparece apenas em elementos interativos ou grifos deliberados. Uma segunda cor de acento é proibida.", "section": "colors" },
+      { "name": "A Regra do Papel", "body": "Profundidade se faz com camadas de papel (paper → paper-bright) e linhas de pauta, nunca com sombras pesadas, vidro ou gradiente. Se parecer interface de SaaS, saiu do caderno.", "section": "colors" },
+      { "name": "A Regra do Traço", "body": "Ilustrações, doodles e grifos manuscritos são SVGs autorais, parte da identidade: proibido substituí-los por emoji ou icon packs genéricos. A única exceção tipográfica é o lettering do hero, que usa Caveat para poder existir em pt e en; nenhuma outra superfície ganha fonte handwriting.", "section": "typography" },
+      { "name": "A Regra do Caderno Fechado", "body": "Nenhum box-shadow decorativo. Se um elemento precisa se destacar, ele vira tinta (bloco invertido), ganha papel mais claro ou ganha linha de pauta.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar azul esferográfica (#2742c7) somente em elementos interativos ou grifos deliberados, no máximo 10% da tela (A Regra da Caneta Única).",
+      "Do fazer profundidade com camadas de papel, pauta e blocos de tinta invertidos; hover eleva com translate de 2px, nunca com sombra.",
+      "Do manter o traço manuscrito como SVG autoral (lettering, ilustração, rabiscos) e usá-lo como assinatura nos momentos-chave.",
+      "Do etiquetar seções com mono 12px em caixa alta e tracking 0.2em, como etiquetas de arquivo.",
+      "Do esconder as surpresas nos hovers: rotações sutis, setas que andam, grifos que aparecem. Em repouso, tudo é preciso e calmo.",
+      "Do garantir contraste AA sobre o papel (#fafaf8) em qualquer cor nova de texto."
+    ],
+    "donts": [
+      "Don't usar nada com cara de 'criado com IA': gradiente roxo padrão, bento grid, hero-metric, cards idênticos de ícone + título + texto.",
+      "Don't introduzir uma segunda cor de acento, gradiente decorativo, glassmorphism ou sombra decorativa.",
+      "Don't usar #000 ou #fff como cor de texto/fundo de página; os neutros do caderno são tintados.",
+      "Don't virar 'agência exibida demais': sem scroll-jacking, sem WebGL, sem animação que rouba a cena do conteúdo; toda animação respeita prefers-reduced-motion.",
+      "Don't soar 'corporativo frio': nada de jargão de consultoria, foto de stock ou métricas sem contexto humano.",
+      "Don't animar propriedades de layout; transições usam transform/opacity com ease-out."
+    ]
+  }
+}

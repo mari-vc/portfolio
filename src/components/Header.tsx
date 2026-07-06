@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { profile } from "@/lib/data";
 import { LangSwitcher } from "./LangSwitcher";
+import { MarivcLogo } from "./MarivcLogo";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
 
@@ -20,9 +21,10 @@ export function Header({ lang, dict }: { lang: Locale; dict: Dict }) {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href={`/${lang}`}
-          className="text-base font-semibold tracking-tight hover:text-accent transition-colors"
+          aria-label={profile.name}
+          className="text-foreground transition-colors hover:text-accent"
         >
-          {profile.name}
+          <MarivcLogo className="h-5 w-auto" />
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-muted sm:flex">
           {navLinks.map((link) => (

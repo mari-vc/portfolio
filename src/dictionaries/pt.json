@@ -6,29 +6,34 @@
     "contact": "Contato"
   },
   "hero": {
-    "available": "Disponível para novos projetos",
-    "greeting": "Olá, sou",
-    "cta_works": "Ver trabalhos",
-    "cta_contact": "Falar comigo"
+    "heading": "Oi, eu sou a Mari",
+    "subtitle": "Trabalho com Design de Produto há mais de 10 anos, transformando problemas complexos em produtos simples, escaláveis e fáceis de usar.",
+    "cta_works": "Ver cases",
+    "cta_contact": "Vamos conversar",
+    "meta_role": "Staff Product Designer",
+    "meta_focus": "Strategy • Systems • Product Design"
   },
   "about_mini": {
     "eyebrow": "Sobre mim",
-    "cta_text": "Quer conhecer minha trajetória, princípios de design e o que me move no dia a dia?",
-    "cta_label": "Saber mais sobre mim"
+    "cta_text": "Essa forma de pensar foi construída ao longo de mais de dez anos projetando produtos em diferentes contextos.",
+    "cta_label": "Conhecer minha trajetória"
+  },
+  "logos": {
+    "eyebrow": "Times com quem construí grandes desafios"
   },
   "featured_work": {
     "eyebrow": "Trabalhos recentes",
-    "heading": "Três projetos que tenho orgulho de ter liderado"
+    "heading": "Projetos que tenho orgulho de ter liderado"
   },
   "curiosities": {
     "eyebrow": "Curiosidades",
     "heading": "Além das telas"
   },
   "contact": {
-    "eyebrow": "Falar comigo",
-    "heading_1": "Vamos construir algo",
-    "heading_2": "que importa juntos?",
-    "body": "Estou sempre aberta a conversar sobre design, produto ou uma boa oportunidade. Me manda uma mensagem."
+    "eyebrow": "Contato",
+    "heading_1": "Vamos construir",
+    "heading_2": "algo bom juntos?",
+    "body": "Gosto de trabalhar em problemas complexos ao lado de pessoas curiosas. Se você acha que podemos construir algo interessante, me manda um e-mail."
   },
   "footer": {
     "made_with": "Feito com cuidado."
@@ -36,21 +41,36 @@
   "work_detail": {
     "back": "Todos os trabalhos",
     "role": "Meu papel",
-    "client": "Cliente",
+    "client": "Empresa",
     "year": "Ano",
-    "overview": "Visão geral",
-    "challenge": "O desafio",
+    "overview": "Resumo",
+    "objective": "Objetivo",
+    "constraints": "Restrições",
+    "context": "Contexto",
+    "market_analysis": "Análise de mercado",
+    "market_model": "Modelo",
+    "market_scope": "Onde atua",
+    "ux_analysis": "Análise de experiência",
+    "demo": "Protótipo interativo",
+    "demo_hint": "Esse protótipo é navegável de verdade: busque um carro, escolha as datas, conclua uma reserva e converse com o anfitrião.",
+    "challenge": "Desafio",
     "approach": "Abordagem",
+    "pillars": "Pilares do sistema",
     "results": "Resultados",
     "next_project": "Próximo projeto"
   },
   "about_page": {
-    "back": "Voltar para home",
+    "back": "Voltar para a home",
     "eyebrow": "Sobre mim",
+    "heading": "Prazer, eu sou a Mari",
     "principles": "Princípios que guiam meu trabalho",
     "timeline": "Trajetória",
+    "education": "Formação",
+    "courses": "Continuo estudando temas que expandem minha forma de pensar, como Design Systems, IA, estratégia, pesquisa, comportamento e animação.",
     "contact_heading": "Vamos conversar?",
-    "contact_body": "Estou aberta a novas oportunidades, colaborações e conversas sobre design e produto.",
-    "contact_cta": "Me manda um e-mail"
+    "contact_body": "Se você chegou até aqui, provavelmente também acredita que bons produtos nascem de boas conversas.",
+    "contact_cta": "Me manda um e-mail",
+    "linkedin_cta": "LinkedIn",
+    "resume_cta": "Baixar currículo"
   }
 }

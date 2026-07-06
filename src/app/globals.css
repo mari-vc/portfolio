@@ -5,7 +5,7 @@
   --foreground: #15151a;
   --muted: #6b6b73;
   --line: #e6e4de;
-  --accent: #4b3bff;
+  --accent: #2742c7;
   --card: #ffffff;
 }
 
@@ -19,6 +19,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-instrument-serif);
+  --font-hand: var(--font-caveat);
 }
 
 body {
@@ -31,6 +32,171 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none !important;
+  }
+  .die-a,
+  .die-b {
+    animation: none !important;
+  }
+}
+
+/* Dado "rolando" no hover do item de curiosidade */
+.die-a,
+.die-b {
+  transform-box: view-box;
+}
+
+.die-a {
+  transform-origin: 12px 32px;
+  transform: rotate(-12deg);
+}
+
+.die-b {
+  transform-origin: 35px 28px;
+  transform: rotate(12deg);
+}
+
+@keyframes dice-roll-a {
+  0% {
+    transform: rotate(-12deg);
+  }
+  25% {
+    transform: rotate(-50deg);
+  }
+  55% {
+    transform: rotate(20deg);
+  }
+  80% {
+    transform: rotate(-24deg);
+  }
+  100% {
+    transform: rotate(-12deg);
+  }
+}
+
+@keyframes dice-roll-b {
+  0% {
+    transform: rotate(12deg);
+  }
+  25% {
+    transform: rotate(50deg);
+  }
+  55% {
+    transform: rotate(-12deg);
+  }
+  80% {
+    transform: rotate(26deg);
+  }
+  100% {
+    transform: rotate(12deg);
+  }
+}
+
+.group:hover .die-a {
+  animation: dice-roll-a 0.6s ease-out;
+}
+
+.group:hover .die-b {
+  animation: dice-roll-b 0.6s ease-out 0.05s;
+}
+
+/* Notas musicais do doodle do violão — sobem no hover do item */
+.doodle-note {
+  opacity: 0;
+  transform: translateY(5px) rotate(-8deg);
+  transition: opacity 0.25s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.doodle-note--late {
+  transition-delay: 0.1s;
+}
+
+.group:hover .doodle-note {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doodle-note {
+    transition: none;
+  }
+}
+
+/* Ilustração animada do hero — blink só acontece no hover, e reinicia do
+   zero (não só pausa) quando o mouse sai, por isso usamos animation: none
+   em vez de animation-play-state: paused. */
+.hero-illustration #eye,
+.hero-illustration #eye_2,
+.hero-illustration #eyebrow,
+.hero-illustration #eyebrow_2,
+.hero-illustration #mouth {
+  animation: none;
+}
+
+/* As keyframes originais só "agem" (pisca/sorri/cora) perto dos 50-59% do
+   loop de 3s — usamos delay negativo para pular direto pra essa parte e a
+   reação aparecer assim que o hover começa, em vez de esperar ~1.5s. */
+.hero-root:not(.has-smiled) .hero-illustration svg:hover #eye,
+.hero-root:not(.has-smiled):has(.hero-cta-buttons a:hover) #eye {
+  animation: kf_eye_transform_0 3s linear infinite;
+  animation-delay: -1.5s;
+}
+
+.hero-root:not(.has-smiled) .hero-illustration svg:hover #eye_2,
+.hero-root:not(.has-smiled):has(.hero-cta-buttons a:hover) #eye_2 {
+  animation: kf_eye_2_transform_0 3s linear infinite;
+  animation-delay: -1.5s;
+}
+
+.hero-root:not(.has-smiled) .hero-illustration svg:hover #eyebrow,
+.hero-root:not(.has-smiled):has(.hero-cta-buttons a:hover) #eyebrow {
+  animation: kf_eyebrow_transform_0 3s linear infinite;
+  animation-delay: -1.5s;
+}
+
+.hero-root:not(.has-smiled) .hero-illustration svg:hover #eyebrow_2,
+.hero-root:not(.has-smiled):has(.hero-cta-buttons a:hover) #eyebrow_2 {
+  animation: kf_eyebrow_2_transform_0 3s linear infinite;
+  animation-delay: -1.5s;
+}
+
+.hero-root:not(.has-smiled) .hero-illustration svg:hover #mouth,
+.hero-root:not(.has-smiled):has(.hero-cta-buttons a:hover) #mouth {
+  animation: kf_mouth_transform_0 3s linear infinite;
+  animation-delay: -1.5s;
+}
+
+/* Depois do primeiro gatilho, o sorriso vira permanente: a expressão toca
+   uma única vez e congela no frame final (forwards). Olhos e sobrancelhas
+   piscam uma vez e terminam em repouso; só o blush segue pulsando.
+   Estas regras vêm DEPOIS das de hover — mesma especificidade, então
+   vencem na cascata e o re-hover não reinicia a expressão. */
+.hero-root.has-smiled #eye {
+  animation: kf_eye_transform_0 3s linear -1.5s 1 forwards;
+}
+
+.hero-root.has-smiled #eye_2 {
+  animation: kf_eye_2_transform_0 3s linear -1.5s 1 forwards;
+}
+
+.hero-root.has-smiled #eyebrow {
+  animation: kf_eyebrow_transform_0 3s linear -1.5s 1 forwards;
+}
+
+.hero-root.has-smiled #eyebrow_2 {
+  animation: kf_eyebrow_2_transform_0 3s linear -1.5s 1 forwards;
+}
+
+.hero-root.has-smiled #mouth {
+  animation: kf_mouth_transform_0 3s linear -1.5s 1 forwards;
+}
+
+.eye-pupil {
+  transition: transform 0.15s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eye-pupil {
+    transition: none;
   }
 }
 
@@ -72,29 +238,36 @@ body {
 
 /* Morph do card → imagem de destaque: apenas posição e escala, sem distorção */
 ::view-transition-group(.morph) {
-  animation-duration: 440ms;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-duration: 460ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 ::view-transition-image-pair(.morph) {
   border-radius: 16px;
   overflow: clip;
+  animation: 460ms cubic-bezier(0.22, 1, 0.36, 1) both vt-morph-blur;
 }
+/* Old e new são o mesmo sketch: sem crossfade (double-fade causa piscada).
+   O new fica 100% opaco durante todo o voo; o old some imediatamente. */
 ::view-transition-old(.morph) {
-  animation: 200ms ease-in both vt-fade-out;
+  animation: none;
+  opacity: 0;
 }
 ::view-transition-new(.morph) {
-  animation: 280ms ease-out 160ms both vt-fade-in;
+  animation: none;
 }
-@keyframes vt-fade-out {
-  to { opacity: 0; }
-}
-@keyframes vt-fade-in {
-  from { opacity: 0; }
+/* Blur sutil no meio do voo esconde a interpolação de pixels do snapshot */
+@keyframes vt-morph-blur {
+  30% {
+    filter: blur(2px);
+  }
 }
 
-/* Conteúdo do detalhe entra com um rise sutil */
-::view-transition-new(.content-rise) {
-  animation: 420ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both vt-rise;
+/* Entrada do detalhe em dois estágios: header primeiro, corpo em seguida */
+::view-transition-new(.content-rise-1) {
+  animation: 380ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both vt-rise;
+}
+::view-transition-new(.content-rise-2) {
+  animation: 420ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both vt-rise;
 }
 @keyframes vt-rise {
   from {

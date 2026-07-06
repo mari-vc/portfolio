@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { profile, t } from '@/lib/data'
+import { profile, aboutPage, t } from '@/lib/data'
 import { hasLocale, getDictionary } from '@/lib/i18n'
+import { InkUnderline } from '@/components/InkUnderline'
+import { ComputerSketch } from '@/components/ComputerSketch'
+import { IconButton } from '@/components/IconButton'
 
 export async function generateStaticParams() {
   return [{ lang: 'pt' }, { lang: 'en' }]
@@ -22,61 +25,6 @@ export async function generateMetadata({
   }
 }
 
-const principlesPt = [
-  {
-    title: 'Clareza acima de tudo',
-    text: 'Simplicidade é uma decisão, não um acaso. Removo o que não serve para deixar o essencial respirar.',
-  },
-  {
-    title: 'Design é um esporte de equipe',
-    text: 'Os melhores produtos nascem da colaboração próxima entre design, produto, engenharia e dados.',
-  },
-  {
-    title: 'Craft importa',
-    text: 'Os detalhes são o que separam o bom do memorável. Cuido deles do conceito ao último pixel.',
-  },
-  {
-    title: 'Decisões guiadas por evidências',
-    text: 'Equilibro intuição e dados. Pesquiso, testo e itero antes de cravar uma direção.',
-  },
-]
-
-const principlesEn = [
-  {
-    title: 'Clarity above all',
-    text: "Simplicity is a decision, not a coincidence. I remove what doesn't serve to let the essential breathe.",
-  },
-  {
-    title: 'Design is a team sport',
-    text: 'The best products come from close collaboration between design, product, engineering, and data.',
-  },
-  {
-    title: 'Craft matters',
-    text: 'Details are what separate the good from the memorable. I take care of them from concept to the last pixel.',
-  },
-  {
-    title: 'Evidence-driven decisions',
-    text: 'I balance intuition and data. I research, test, and iterate before committing to a direction.',
-  },
-]
-
-const timeline = [
-  { period: '2022 — hoje', role: 'Staff Product Designer', place: 'Aurora' },
-  { period: '2019 — 2022', role: 'Senior Product Designer', place: 'Northwind' },
-  { period: '2016 — 2019', role: 'Product Designer', place: 'Lumen' },
-  { period: '2014 — 2016', role: 'UI/UX Designer', place: 'Vértice' },
-]
-
-const aboutBodyPt = [
-  'Comecei na interface, me apaixonei pelos problemas por trás dela e nunca mais parei. Ao longo de mais de uma década, trabalhei em fintechs, marketplaces e produtos de growth — sempre buscando o ponto onde negócio, tecnologia e pessoas se encontram.',
-  'Como Staff, meu trabalho é tanto desenhar quanto elevar o nível de design ao meu redor: mentorando, criando sistemas e ajudando o time a tomar decisões melhores e mais rápidas.',
-]
-
-const aboutBodyEn = [
-  "I started in interfaces, fell in love with the problems behind them, and never stopped. Over more than a decade, I've worked in fintechs, marketplaces, and growth products — always looking for the point where business, technology, and people meet.",
-  'As a Staff Designer, my work is as much about designing as it is about elevating the design level around me: mentoring, building systems, and helping the team make better, faster decisions.',
-]
-
 export default async function AboutPage({
   params,
 }: {
@@ -85,9 +33,6 @@ export default async function AboutPage({
   const { lang } = await params
   if (!hasLocale(lang)) notFound()
   const dict = await getDictionary(lang)
-
-  const principles = lang === 'pt' ? principlesPt : principlesEn
-  const aboutBody = lang === 'pt' ? aboutBodyPt : aboutBodyEn
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-20 sm:py-28">
@@ -99,15 +44,36 @@ export default async function AboutPage({
         {dict.about_page.back}
       </Link>
 
-      <h1 className="mt-10 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
-        {dict.about_page.eyebrow}
-      </h1>
+      <div className="mt-10 flex flex-col gap-10 sm:flex-row sm:items-stretch sm:gap-12">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
+            {dict.about_page.heading}
+            <InkUnderline className="mt-2 h-3 w-44 sm:w-56" />
+          </h1>
 
-      <div className="mt-8 space-y-6 text-lg leading-relaxed text-muted">
-        <p>{t(profile.aboutShort, lang)}</p>
-        {aboutBody.map((para, i) => (
-          <p key={i}>{para}</p>
-        ))}
+          <div className="mt-8 space-y-6 text-lg leading-relaxed text-muted">
+            {aboutPage.body.map((para, i) => (
+              <p key={i}>{t(para, lang)}</p>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex shrink-0 flex-col items-center gap-6 sm:mt-2 sm:items-start sm:justify-between">
+          <ComputerSketch className="h-auto w-32 text-foreground sm:w-40" />
+          <div className="flex flex-col items-stretch gap-3">
+            <IconButton
+              href={profile.socials.linkedin}
+              label={dict.about_page.linkedin_cta}
+              icon="linkedin"
+            />
+            <IconButton
+              href={profile.resumeUrl}
+              label={dict.about_page.resume_cta}
+              icon="download"
+              download
+            />
+          </div>
+        </div>
       </div>
 
       <section className="mt-16">
@@ -115,10 +81,10 @@ export default async function AboutPage({
           {dict.about_page.principles}
         </h2>
         <div className="mt-8 grid gap-8 sm:grid-cols-2">
-          {principles.map((p) => (
-            <div key={p.title}>
-              <h3 className="text-base font-medium tracking-tight">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{p.text}</p>
+          {aboutPage.principles.map((p) => (
+            <div key={p.title.pt}>
+              <h3 className="text-base font-medium tracking-tight">{t(p.title, lang)}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{t(p.text, lang)}</p>
             </div>
           ))}
         </div>
@@ -129,30 +95,75 @@ export default async function AboutPage({
           {dict.about_page.timeline}
         </h2>
         <ul className="mt-8 divide-y divide-line border-y border-line">
-          {timeline.map((item) => (
+          {aboutPage.timeline.map((item) => (
             <li
-              key={item.period}
+              key={item.period.pt}
+              className="flex flex-col gap-1 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8"
+            >
+              <div className="sm:max-w-xl">
+                <p className="text-base font-medium tracking-tight">{item.role}</p>
+                <p className="text-sm text-muted">{item.place}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{t(item.blurb, lang)}</p>
+              </div>
+              <span className="shrink-0 font-mono text-sm text-muted">{t(item.period, lang)}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-16">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+          {dict.about_page.education}
+        </h2>
+        <ul className="mt-8 divide-y divide-line border-y border-line">
+          {aboutPage.education.degrees.map((item) => (
+            <li
+              key={item.school}
               className="flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
-                <p className="text-base font-medium tracking-tight">{item.role}</p>
-                <p className="text-sm text-muted">{item.place}</p>
+                <p className="text-base font-medium tracking-tight">{t(item.degree, lang)}</p>
+                <p className="text-sm text-muted">{item.school}</p>
               </div>
-              <span className="font-mono text-sm text-muted">{item.period}</span>
+              <span className="font-mono text-sm text-muted">{t(item.period, lang)}</span>
+            </li>
+          ))}
+        </ul>
+
+        <h3 className="mt-10 text-sm font-medium tracking-tight text-muted">
+          {dict.about_page.courses}
+        </h3>
+        <ul className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+          {aboutPage.education.courses.map((course) => (
+            <li
+              key={course.name}
+              className="flex items-baseline justify-between gap-4 border-b border-line py-2 text-sm"
+            >
+              <span>
+                {course.name} <span className="text-muted">· {course.school}</span>
+              </span>
+              <span className="shrink-0 font-mono text-xs text-muted">{course.year}</span>
             </li>
           ))}
         </ul>
       </section>
 
       <div className="mt-16 rounded-2xl border border-line bg-card p-8 text-center">
-        <p className="text-lg font-medium tracking-tight">{dict.about_page.contact_heading}</p>
-        <p className="mt-2 text-sm text-muted">{dict.about_page.contact_body}</p>
+        <p className="mx-auto max-w-xl text-lg font-medium tracking-tight">{dict.about_page.contact_body}</p>
         <Link
           href={`/${lang}/#contact`}
           className="group mt-3 inline-flex items-center gap-2 text-sm font-medium text-accent"
         >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4 transition-transform group-hover:-translate-y-0.5"
+          >
+            <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.7" />
+            <path d="M4 7.5L12 12.5L20 7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
           {dict.about_page.contact_cta}
-          <span className="transition-transform group-hover:translate-x-1">→</span>
         </Link>
       </div>
     </div>
