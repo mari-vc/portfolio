@@ -920,7 +920,7 @@ export function SuccessScreen({ car, dates, onDone, onChat }: { car: Car; dates:
         </div>
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14, display: "flex", justifyContent: "space-between" }}>
           <span style={{ fontFamily: FONT, fontSize: 12, color: C.textDim }}>Booking code</span>
-          <span style={{ fontFamily: "monospace", fontSize: 12, fontWeight: 600, letterSpacing: 0.5 }}>KYP-93{Math.floor(Math.random() * 900) + 100}</span>
+          <span style={{ fontFamily: "monospace", fontSize: 12, fontWeight: 600, letterSpacing: 0.5 }}>KYP-93{100 + ((car.name.length * 37 + dates.days * 13 + dates.start.d) % 900)}</span>
         </div>
       </div>
 

@@ -20,12 +20,9 @@ export function Contact({ lang, dict }: { lang: Locale; dict: Dict }) {
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link
               href={profile.socials.email}
-              className="group inline-flex items-center gap-2 text-xl font-medium tracking-tight underline decoration-1 underline-offset-4 transition-colors hover:text-accent sm:text-2xl"
+              className="inline-flex items-center text-xl font-medium tracking-tight underline decoration-1 underline-offset-4 transition-colors hover:text-accent sm:text-2xl"
             >
               {profile.email}
-              <span className="transition-transform group-hover:translate-x-1">
-                →
-              </span>
             </Link>
           </div>
         </div>

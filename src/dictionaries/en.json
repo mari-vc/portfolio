@@ -15,8 +15,8 @@
   },
   "about_mini": {
     "eyebrow": "About me",
-    "cta_text": "Want to see my journey and the principles that guide my work?",
-    "cta_label": "More about me"
+    "cta_text": "This way of thinking was built over more than ten years designing products across different contexts.",
+    "cta_label": "See my journey"
   },
   "logos": {
     "eyebrow": "Places I've worked"
@@ -33,7 +33,7 @@
     "eyebrow": "Contact",
     "heading_1": "Want to build",
     "heading_2": "something good together?",
-    "body": "I'm always open to talk about design, product, or a great opportunity. Send me an email."
+    "body": "I like working on complex problems alongside curious people. If you think we could build something interesting, send me an email."
   },
   "footer": {
     "made_with": "Made with care."

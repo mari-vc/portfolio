@@ -27,12 +27,9 @@ export function AboutMini({ lang, dict }: { lang: Locale; dict: Dict }) {
           </p>
           <Link
             href={`/${lang}/about`}
-            className="group inline-flex items-center gap-2 text-sm font-medium text-foreground"
+            className="text-sm font-medium text-foreground underline decoration-1 underline-offset-4 transition-colors hover:text-accent"
           >
             {dict.about_mini.cta_label}
-            <span className="transition-transform group-hover:translate-x-1">
-              →
-            </span>
           </Link>
         </div>
       </div>

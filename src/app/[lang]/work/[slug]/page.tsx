@@ -84,7 +84,16 @@ export default async function ProjectPage({
           <dl className="mt-8 grid grid-cols-2 gap-6 border-y border-line py-6 text-sm sm:grid-cols-3">
             <div className="col-span-2 sm:col-span-1">
               <dt className="text-muted">{dict.work_detail.role}</dt>
-              <dd className="mt-1 font-medium">{t(project.role, lang)}</dd>
+              <dd className="mt-1 font-medium">
+                {t(project.role, lang)
+                  .split(' · ')
+                  .map((part, i, arr) => (
+                    <span key={i}>
+                      {part}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))}
+              </dd>
             </div>
             <div>
               <dt className="text-muted">{dict.work_detail.client}</dt>

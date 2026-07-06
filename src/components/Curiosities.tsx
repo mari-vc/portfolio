@@ -1,8 +1,28 @@
+import Link from "next/link";
 import { Section } from "./Section";
 import { CuriosityDoodle } from "./CuriosityDoodle";
 import { curiosities, t } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
+
+function renderText(text: string, link?: { handle: string; url: string }) {
+  if (!link || !text.includes(link.handle)) return text;
+  const [before, after] = text.split(link.handle);
+  return (
+    <>
+      {before}
+      <Link
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-foreground underline decoration-1 underline-offset-2 transition-colors hover:text-accent"
+      >
+        {link.handle}
+      </Link>
+      {after}
+    </>
+  );
+}
 
 export function Curiosities({ lang, dict }: { lang: Locale; dict: Dict }) {
   return (
@@ -29,7 +49,7 @@ export function Curiosities({ lang, dict }: { lang: Locale; dict: Dict }) {
                 {t(item.title, lang)}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                {t(item.text, lang)}
+                {renderText(t(item.text, lang), item.link)}
               </p>
             </div>
           </div>

@@ -51,7 +51,7 @@ export const impactQuote = {
 // `scale` é opcional: usado para equilibrar marcas em formato de ícone/selo
 // (quadradas, mais "cheias") contra as wordmarks, que são mais finas e largas.
 export const companies: { name: string; logo: string; scale?: number }[] = [
-  { name: "Nomad", logo: "/logos/nomad.png" },
+  { name: "Nomad", logo: "/logos/nomad.png", scale: 0.8 },
   { name: "RD Saúde", logo: "/logos/rdsaude.svg" },
   { name: "iFood", logo: "/logos/ifood.svg", scale: 1.2 },
   { name: "StarkBank", logo: "/logos/starkbank.svg" },
@@ -61,53 +61,62 @@ export const companies: { name: string; logo: string; scale?: number }[] = [
 ];
 
 // Curiosidades (seção 6)
-export const curiosities: { icon: string; title: L; text: L }[] = [
+// `link` marca um @handle dentro do `text` (ex.: "(@mari.vc)") para virar
+// link clicável no render, sem precisar reescrever o texto.
+export const curiosities: {
+  icon: string;
+  title: L;
+  text: L;
+  link?: { handle: string; url: string };
+}[] = [
   {
-    icon: "ceramics",
-    title: { pt: "Faço cerâmica", en: "I make ceramics" },
+    icon: "guitar",
+    title: { pt: "Violão", en: "Guitar" },
     text: {
-      pt: "Compartilho as peças que faço no Instagram @mari.vc.",
-      en: "I share the pieces I make on Instagram @mari.vc.",
+      pt: "A música sempre fez parte da minha vida, seja ir em um show ou simplesmente tocar violão. É um dos meus jeitos favoritos de desacelerar e recarregar as energias.",
+      en: "Music has always been part of my life, whether it's going to a show or just playing guitar. It's one of my favorite ways to slow down and recharge.",
     },
   },
   {
     icon: "camera",
-    title: { pt: "Tiro fotos", en: "I take photos" },
+    title: { pt: "Fotografia", en: "Photography" },
     text: {
-      pt: "Sempre gostei, desde pequena. Um hobby que segue comigo até hoje.",
-      en: "I've loved it since I was a kid, a hobby that's stuck with me ever since.",
+      pt: "Foi atrás da câmera que aprendi a importância do olhar: observar antes de enquadrar e perceber detalhes que muitas vezes passam despercebidos.",
+      en: "It was behind the camera that I learned the importance of looking: observing before framing, and noticing details that often go unseen.",
     },
   },
   {
-    icon: "guitar",
-    title: { pt: "Toco violão", en: "I play guitar" },
+    icon: "ceramics",
+    title: { pt: "Cerâmica", en: "Ceramics" },
     text: {
-      pt: "Um dos meus jeitos favoritos de desacelerar depois do trabalho.",
-      en: "One of my favorite ways to slow down after work.",
+      pt: "A cerâmica me lembra que algumas coisas não podem ser aceleradas. É meu exercício favorito de paciência e imperfeição. (@mari.vc)",
+      en: "Ceramics reminds me that some things can't be rushed. It's my favorite exercise in patience and imperfection. (@mari.vc)",
     },
+    link: { handle: "@mari.vc", url: "https://www.instagram.com/mari.vc" },
   },
   {
     icon: "dog",
-    title: { pt: "Tenho um chihuahua", en: "I have a chihuahua" },
+    title: { pt: "Jake, o Chihuahua", en: "Jake, the Chihuahua" },
     text: {
-      pt: "O Jake. Pequeno de tamanho, gigante de personalidade.",
-      en: "Jake. Small in size, huge in personality.",
+      pt: "Pequeno, teimoso e absolutamente convencido de que manda na casa. Meu melhor companheiro. (@jake.thedoguinho)",
+      en: "Small, stubborn, and absolutely convinced he runs the house. My best companion. (@jake.thedoguinho)",
     },
+    link: { handle: "@jake.thedoguinho", url: "https://instagram.com/jake.thedoguinho" },
   },
   {
     icon: "boardgame",
-    title: { pt: "Coleciono jogos de tabuleiro", en: "Board game collector" },
+    title: { pt: "Jogos de tabuleiro", en: "Board games" },
     text: {
-      pt: "Uma coleção que monto com meu marido, jogo por jogo.",
-      en: "A collection I've been building with my husband, game by game.",
+      pt: "Gosto de entender como regras simples podem criar experiências complexas. E confesso: também sou bastante competitiva.",
+      en: "I like understanding how simple rules can create complex experiences. And I'll admit it: I'm also fairly competitive.",
     },
   },
   {
     icon: "yoga",
-    title: { pt: "Faço aula de yoga", en: "I practice yoga" },
+    title: { pt: "Yoga", en: "Yoga" },
     text: {
-      pt: "Um tempo só meu para respirar e desligar o piloto automático.",
-      en: "Time just for me, to breathe and switch off autopilot.",
+      pt: "Meu lembrete semanal de que nem todo problema precisa ser resolvido imediatamente.",
+      en: "My weekly reminder that not every problem needs to be solved right away.",
     },
   },
 ];
@@ -304,8 +313,8 @@ export const projects: Project[] = [
   {
     slug: "design-system",
     title: {
-      pt: "Atelier: um design system dentro do produto",
-      en: "Atelier: a design system inside the product",
+      pt: "Atelier: quando um Design System deixa de ser biblioteca e vira produto",
+      en: "Atelier: when a Design System stops being a library and becomes a product",
     },
     client: "Pump",
     year: "2026",
@@ -315,16 +324,16 @@ export const projects: Project[] = [
     },
     tags: ["Design System", "White-label", "AI-native"],
     summary: {
-      pt: "Um design system só vira sistema quando deixa de ser biblioteca e vira base de construção.",
-      en: "A design system only becomes a system when it stops being a library and turns into a foundation to build on.",
+      pt: "Um Design System só vira sistema quando deixa de ser uma biblioteca e passa a ser a base sobre a qual o produto é construído.",
+      en: "A Design System only becomes a system when it stops being a library and becomes the foundation the product is built on.",
     },
     overview: {
       pt: "A maioria dos design systems vive ao lado do produto: uma biblioteca que exige esforço de implementação, atualização e uso. Meu papel foi construir o Atelier dentro dele, e fazer com que o DS fosse além de manter apenas a consistência.\n\nEle acelerou a entrega de features funcionais e permitiu que nossos clientes construíssem widgets internos de acordo com suas necessidades.\n\nIsso tudo só foi possível através de uma documentação densa de uso e direcionamento, da construção de forma nativa em IA e de agentes internos que garantem as boas práticas, aceleram pesquisas e protótipos, e entregam em React e Tailwind.",
       en: "Most design systems live next to the product: a library that takes effort to implement, keep updated, and use. My role was to build Atelier inside the product, and make the design system go beyond just keeping things consistent.\n\nIt sped up the delivery of working features and let our customers build internal widgets to fit their own needs.\n\nAll of that was only possible through dense usage-and-guidance documentation, an AI-native build, and internal agents that enforce best practices, speed up research and prototyping, and ship in React and Tailwind.",
     },
     challenge: {
-      pt: "Entregar features rápido sem sacrificar qualidade, e manter experiência e usabilidade de alto nível em toda a plataforma, com uma só pessoa no design. Ao mesmo tempo, a personalização precisava escalar sozinha: não importa qual cliente entre, a marca dele se aplica, sem retrabalho.\n\nE o sistema tinha que ir além da equipe: os próprios usuários montando o que precisam no dia a dia. Para isso, o design system precisava ser legível não só por pessoas, mas por agentes de IA, com a IA trazendo valor real e confiável, não hype. No papel, cada uma dessas frentes puxa para um lado. O trabalho foi fazer todas caberem no mesmo sistema.",
-      en: "Shipping features fast without sacrificing quality, and holding a high level of experience and usability across the whole platform, with a single person on design. At the same time, personalization had to scale on its own: no matter which client comes in, their brand applies itself, with no rework.\n\nAnd the system had to reach beyond the team: users themselves assembling what they need day to day. For that, the design system had to be readable not just by people but by AI agents, with AI bringing real, trustworthy value, not hype. On paper, each of these fronts pulls in a different direction. The work was making them all fit in one system.",
+      pt: "O desafio era construir uma plataforma capaz de escalar em três frentes ao mesmo tempo: desenvolvimento, personalização e autonomia.\n\nEnquanto novas funcionalidades precisavam chegar rápido e com qualidade, cada cliente deveria ter sua própria identidade visual sem gerar retrabalho. Além disso, a plataforma precisava permitir que os próprios usuários construíssem interfaces dentro do produto. E, com a chegada da IA, o sistema também precisava ser estruturado para que agentes pudessem utilizá-lo de forma previsível e confiável.\n\nEm vez de resolver cada necessidade separadamente, o objetivo era criar uma única arquitetura capaz de sustentar todas elas.",
+      en: "The challenge was to build a platform able to scale on three fronts at once: development, personalization, and autonomy.\n\nWhile new features needed to ship fast and with quality, each client had to have their own visual identity without generating rework. Beyond that, the platform had to let users themselves build interfaces inside the product. And with the arrival of AI, the system also had to be structured so agents could use it in a predictable, reliable way.\n\nInstead of solving each need separately, the goal was to create a single architecture able to sustain all of them.",
     },
     approach: [
       {
@@ -376,8 +385,8 @@ export const projects: Project[] = [
       { label: { pt: "Idiomas suportados", en: "Languages supported" }, value: "5" },
     ],
     closing: {
-      pt: "Comecei desenhando telas. Hoje desenho o sistema que faz todas elas existirem, em qualquer marca, e que deixa o time da Pump, e até os clientes, construírem muito além do que eu desenharia sozinha.",
-      en: "I started by designing screens. Now I design the system that makes all of them exist, in any brand, and that lets Pump's team, and even its customers, build far beyond what I'd ever design on my own.",
+      pt: "Comecei minha carreira desenhando telas. Hoje desenho os sistemas que tornam essas telas possíveis. O Atelier nasceu para dar autonomia ao time, permitir que clientes construam suas próprias interfaces e fazer o produto escalar muito além do que eu conseguiria desenhando sozinha.",
+      en: "I started my career designing screens. Today I design the systems that make those screens possible. Atelier was born to give the team autonomy, let clients build their own interfaces, and make the product scale far beyond what I could ever design on my own.",
     },
   },
   {
