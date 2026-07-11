@@ -15,7 +15,7 @@ export const profile = {
   name: "marivc",
   role: "Staff Product Designer",
   location: "São Paulo, Brasil",
-  email: "3marivc@gmail.com",
+  email: "hello@marivc.com",
   // Mini sobre (seção About)
   aboutShort: {
     pt: "Meu trabalho acontece na interseção entre estratégia, tecnologia e design, colaborando com equipes para tomar melhores decisões e criar experiências que fazem sentido para as pessoas.",
@@ -28,7 +28,7 @@ export const profile = {
   socials: {
     linkedin: "https://www.linkedin.com/in/marivc/",
     github: "https://github.com/mari-vc",
-    email: "mailto:3marivc@gmail.com",
+    email: "mailto:hello@marivc.com",
   },
   // TODO: substituir pelo PDF real do currículo em /public
   resumeUrl: "/resume.pdf",

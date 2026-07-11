@@ -123,6 +123,44 @@ body {
   }
 }
 
+/* Patinha do Jake — some por padrão e acena só quando o mouse passa no link
+   @jake.thedoguinho (não no resto do card, ao contrário dos outros doodles). */
+.jake-paw {
+  opacity: 0;
+  transform-origin: 12px 20px;
+  transition: opacity 0.2s ease;
+}
+
+.group:has(a[href="https://instagram.com/jake.thedoguinho"]:hover) .jake-paw {
+  opacity: 1;
+  animation: paw-wave 0.7s ease-in-out;
+}
+
+@keyframes paw-wave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-22deg);
+  }
+  50% {
+    transform: rotate(16deg);
+  }
+  75% {
+    transform: rotate(-12deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jake-paw {
+    transition: none;
+  }
+  .group:has(a[href="https://instagram.com/jake.thedoguinho"]:hover) .jake-paw {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 /* Ilustração animada do hero — blink só acontece no hover, e reinicia do
    zero (não só pausa) quando o mouse sai, por isso usamos animation: none
    em vez de animation-play-state: paused. */
