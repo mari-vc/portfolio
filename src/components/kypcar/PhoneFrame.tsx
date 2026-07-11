@@ -1,9 +1,31 @@
 "use client";
 
-// Simplified iOS device bezel — ported from the original prototype's ios-frame.jsx.
-// Dropped the nav-bar/list/keyboard pieces (the Kypcar screens use their own
-// custom chrome, not native iOS nav) since this demo never needs them.
+// Moldura de celular desenhada à mão, no mesmo traço de tinta usado nos
+// outros doodles do site (ComputerSketch, InkUnderline) — em vez do bezel
+// realista de iPhone, para o demo da Kypcar se sentir parte do caderno de
+// ilustrações, não uma captura de tela solta.
 import type { ReactNode } from "react";
+
+const INK = "#15151A";
+
+// Contorno do corpo do aparelho como um traço levemente irregular — bordas com
+// um leve arco em vez de linhas perfeitamente retas, cantos assimétricos —
+// para ler como desenho à mão, no espírito do ComputerSketch/InkUnderline,
+// em vez de um <rect> geométrico perfeito.
+function phoneBodyPath(w: number, h: number) {
+  return `
+    M${w * 0.165} ${h * 0.012}
+    C${w * 0.06} ${h * 0.004} ${w * 0.012} ${h * 0.05} ${w * 0.016} ${h * 0.15}
+    C${w * 0.008} ${h * 0.4} ${w * 0.011} ${h * 0.6} ${w * 0.017} ${h * 0.85}
+    C${w * 0.011} ${h * 0.95} ${w * 0.05} ${h * 0.994} ${w * 0.165} ${h * 0.988}
+    C${w * 0.32} ${h * 0.994} ${w * 0.62} ${h * 1.0} ${w * 0.84} ${h * 0.989}
+    C${w * 0.95} ${h * 0.994} ${w * 0.989} ${h * 0.95} ${w * 0.984} ${h * 0.85}
+    C${w * 0.991} ${h * 0.6} ${w * 0.989} ${h * 0.4} ${w * 0.984} ${h * 0.15}
+    C${w * 0.989} ${h * 0.05} ${w * 0.95} ${h * 0.004} ${w * 0.84} ${h * 0.011}
+    C${w * 0.6} ${h * 0.002} ${w * 0.32} ${h * 0.003} ${w * 0.165} ${h * 0.012}
+    Z
+  `;
+}
 
 function StatusBar() {
   const c = "#fff";
@@ -51,40 +73,70 @@ export function PhoneFrame({
   width?: number;
   height?: number;
 }) {
+  const inset = width * 0.038;
+  const screenRadius = width * 0.115;
+
   return (
-    <div
-      style={{
-        width, height, borderRadius: 48, overflow: "hidden",
-        position: "relative", background: "#000",
-        boxShadow: "0 40px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.3)",
-        fontFamily: "-apple-system, system-ui, sans-serif",
-        WebkitFontSmoothing: "antialiased",
-      }}
-    >
-      {/* dynamic island */}
+    <div style={{ width, height, position: "relative" }}>
+      {/* corpo do aparelho, desenhado à mão — traço levemente irregular,
+          como os outros doodles em tinta do site */}
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        width={width}
+        height={height}
+        style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+        aria-hidden="true"
+      >
+        <path
+          d={phoneBodyPath(width, height)}
+          fill={INK} stroke={INK} strokeWidth={width * 0.014}
+          strokeLinejoin="round" strokeLinecap="round"
+        />
+        {/* botões laterais */}
+        <path d={`M${width * 0.003} ${height * 0.17} L${width * 0.003} ${height * 0.225}`} stroke={INK} strokeWidth={width * 0.013} strokeLinecap="round" />
+        <path d={`M${width * 0.003} ${height * 0.255} L${width * 0.003} ${height * 0.31}`} stroke={INK} strokeWidth={width * 0.013} strokeLinecap="round" />
+        <path d={`M${width * 0.997} ${height * 0.21} L${width * 0.997} ${height * 0.29}`} stroke={INK} strokeWidth={width * 0.016} strokeLinecap="round" />
+        {/* dynamic island, contornado à mão em vez de sólido/geométrico */}
+        <path
+          d={`M${width * 0.42} ${height * 0.027}
+              C${width * 0.39} ${height * 0.026} ${width * 0.37} ${height * 0.033} ${width * 0.37} ${height * 0.042}
+              C${width * 0.37} ${height * 0.052} ${width * 0.39} ${height * 0.058} ${width * 0.42} ${height * 0.057}
+              L${width * 0.58} ${height * 0.058}
+              C${width * 0.61} ${height * 0.059} ${width * 0.63} ${height * 0.052} ${width * 0.63} ${height * 0.043}
+              C${width * 0.63} ${height * 0.033} ${width * 0.61} ${height * 0.026} ${width * 0.58} ${height * 0.028}
+              Z`}
+          fill="none" stroke={INK} strokeWidth={width * 0.01} strokeLinejoin="round"
+        />
+      </svg>
+
+      {/* tela real, recortada dentro do corpo ilustrado */}
       <div
         style={{
-          position: "absolute", top: 11, left: "50%", transform: "translateX(-50%)",
-          width: 126, height: 37, borderRadius: 24, background: "#000", zIndex: 50,
-        }}
-      />
-      {/* status bar (absolute) */}
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 10 }}>
-        <StatusBar />
-      </div>
-      {/* content */}
-      <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-        <div style={{ flex: 1, overflow: "hidden" }}>{children}</div>
-      </div>
-      {/* home indicator — always on top */}
-      <div
-        style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 60,
-          height: 34, display: "flex", justifyContent: "center", alignItems: "flex-end",
-          paddingBottom: 8, pointerEvents: "none",
+          position: "absolute",
+          top: inset, left: inset, right: inset, bottom: inset,
+          borderRadius: screenRadius,
+          overflow: "hidden",
+          background: "#000",
+          fontFamily: "-apple-system, system-ui, sans-serif",
+          WebkitFontSmoothing: "antialiased",
         }}
       >
-        <div style={{ width: 139, height: 5, borderRadius: 100, background: "rgba(255,255,255,0.7)" }} />
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 10 }}>
+          <StatusBar />
+        </div>
+        <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+          <div style={{ flex: 1, overflow: "hidden" }}>{children}</div>
+        </div>
+        {/* home indicator */}
+        <div
+          style={{
+            position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 60,
+            height: 34, display: "flex", justifyContent: "center", alignItems: "flex-end",
+            paddingBottom: 8, pointerEvents: "none",
+          }}
+        >
+          <div style={{ width: 139, height: 5, borderRadius: 100, background: "rgba(255,255,255,0.7)" }} />
+        </div>
       </div>
     </div>
   );

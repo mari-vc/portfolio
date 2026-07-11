@@ -33,10 +33,11 @@
     "eyebrow": "Contact",
     "heading_1": "Want to build",
     "heading_2": "something good together?",
-    "body": "I like working on complex problems alongside curious people. If you think we could build something interesting, send me an email."
+    "body": "I like working on complex problems alongside curious people. If you think we could build something interesting, send me an email.",
+    "resume_label": "View resume"
   },
   "footer": {
-    "made_with": "Made with care."
+    "made_with": "Made with care, illustrated with love."
   },
   "work_detail": {
     "back": "All work",
@@ -44,12 +45,16 @@
     "client": "Company",
     "year": "Year",
     "overview": "Summary",
+    "problem": "The problem",
     "objective": "Objective",
     "constraints": "Constraints",
     "context": "Context",
     "market_analysis": "Market analysis",
     "market_model": "Model",
     "market_scope": "Where it operates",
+    "comparison": "Traditional DS vs Atelier",
+    "comparison_traditional": "Traditional DS",
+    "comparison_atelier": "Atelier",
     "ux_analysis": "Experience analysis",
     "demo": "Interactive prototype",
     "demo_hint": "This prototype is fully navigable: search for a car, pick your dates, complete a booking, and chat with the host.",
@@ -72,5 +77,10 @@
     "contact_cta": "Send me an email",
     "linkedin_cta": "LinkedIn",
     "resume_cta": "Download resume"
+  },
+  "email_menu": {
+    "default": "Default mail app",
+    "copy": "Copy address",
+    "copied": "Address copied"
   }
 }

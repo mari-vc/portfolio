@@ -188,8 +188,7 @@ export function KypcarDemo() {
     <div
       style={{
         width: "100%", display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "40px 20px", borderRadius: 24,
-        background: "radial-gradient(ellipse at top, #1a0f30 0%, #0a0a0c 50%, #050505 100%)",
+        padding: "40px 20px",
         fontFamily: "'Host Grotesk', system-ui, -apple-system, sans-serif",
       }}
     >

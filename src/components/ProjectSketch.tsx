@@ -18,8 +18,8 @@ const thin = { ...stroke, strokeWidth: 2.5 };
 const blue = { ...stroke, stroke: BALLPOINT, strokeWidth: 3.5 };
 
 const sketches: Record<string, ReactNode> = {
-  // Telefone inclinado com botão de pagar circulado de azul e moedas voando
-  "app-pagamentos": (
+  // Telefone escaneando um QR code na parede, com o QR circulado de azul
+  "handshake-restaurante": (
     <g transform="rotate(-4 240 180)">
       <path d="M178 72 C 176 64, 182 58, 192 57 L 296 54 C 306 54, 312 60, 313 70 L 318 286 C 318 296, 312 302, 302 303 L 198 306 C 188 306, 182 300, 181 290 Z" {...stroke} />
       <path d="M222 74 C 240 72, 258 72, 272 73" {...thin} />
@@ -27,12 +27,12 @@ const sketches: Record<string, ReactNode> = {
       <path d="M204 146 C 224 143, 244 143, 258 145" {...thin} />
       <path d="M201 226 C 200 218, 206 213, 214 212 L 282 210 C 290 210, 296 215, 296 223 L 297 238 C 297 246, 291 251, 283 252 L 215 254 C 207 254, 201 249, 201 241 Z" {...stroke} />
       <path d="M222 232 C 238 229, 262 229, 276 231" {...thin} />
-      <circle cx="96" cy="120" r="24" {...stroke} />
-      <path d="M96 108 C 90 112, 88 118, 92 123 C 96 128, 102 126, 100 132" {...thin} />
-      <circle cx="120" cy="196" r="16" {...stroke} />
-      <path d="M134 116 C 146 114, 156 113, 166 113 M138 192 C 150 191, 158 190, 168 189" {...thin} strokeDasharray="2 10" />
+      <path d="M64 96 L 138 92 L 142 168 L 68 172 Z" {...stroke} />
+      <path d="M76 106 L 96 105 L 97 124 L 77 125 Z M110 104 L 128 103 L 129 121 L 111 122 Z M78 140 L 97 139 L 98 158 L 79 159 Z" {...thin} />
+      <path d="M112 138 L 120 137 M124 146 L 112 147 M114 156 L 126 155" {...thin} />
+      <path d="M148 128 C 160 127, 168 126, 178 126 M148 152 C 158 151, 166 150, 176 150" {...thin} strokeDasharray="2 10" />
       <path d="M186 318 C 220 324, 268 324, 306 316" {...thin} strokeDasharray="1 9" />
-      <path d="M192 240 C 178 220, 196 198, 250 196 C 304 194, 322 214, 314 236 C 306 258, 250 266, 214 258" {...blue} />
+      <path d="M56 132 C 46 104, 68 82, 104 80 C 142 78, 156 100, 152 130 C 148 160, 108 184, 74 168 C 58 160, 52 148, 56 132" {...blue} />
     </g>
   ),
   // Folha de stickers de componentes com marcas de corte e medida azul

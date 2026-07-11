@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Instrument_Serif, Caveat } from 'next/font/google'
+import localFont from 'next/font/local'
 import { notFound } from 'next/navigation'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 import { Header } from '@/components/Header'
@@ -30,6 +31,14 @@ const caveat = Caveat({
   weight: '500',
 })
 
+// Lettering do hero e das citações de fechamento dos cases. PickleMe Bold não
+// tem glifos acentuados — os textos que a usam são escritos sem diacríticos
+// (ver overview/closing em data.ts).
+const pickleMe = localFont({
+  src: '../../fonts/PickleMe-Bold.otf',
+  variable: '--font-pickleme',
+})
+
 export const metadata: Metadata = {
   title: 'Mari Vieira — Staff Product Designer',
   description: 'Portfolio of Mari Vieira, Staff Product Designer.',
@@ -53,7 +62,7 @@ export default async function LangLayout({
   return (
     <html
       lang={lang}
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${caveat.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${caveat.variable} ${pickleMe.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Header lang={lang} dict={dict} />

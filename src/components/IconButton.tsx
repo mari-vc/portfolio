@@ -20,12 +20,9 @@ export function IconButton({
       download={download}
       aria-label={label}
       title={label}
-      className="group flex items-center gap-2 rounded-full border border-line py-2 pl-2 pr-4 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
+      className="group flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-foreground transition-colors hover:border-accent hover:text-accent"
     >
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center">
-        {icon === "linkedin" ? <LinkedinIcon /> : <DownloadIcon />}
-      </span>
-      {label}
+      {icon === "linkedin" ? <LinkedinIcon /> : <DownloadIcon />}
     </Link>
   );
 }

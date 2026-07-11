@@ -37,8 +37,8 @@ export const profile = {
 // Frase de impacto (seção 5)
 export const impactQuote = {
   text: {
-    pt: "Bom design não é o que se vê: é o que se sente quando tudo simplesmente funciona.",
-    en: "Good design isn't what you see. It's what you feel when everything just works.",
+    pt: "Bom design se sente. Quando tudo funciona, ele cumpriu seu papel.",
+    en: "Good design is felt. When everything works, it has done its job.",
   } as L,
   attribution: {
     pt: "minha bússola de trabalho",
@@ -52,10 +52,10 @@ export const impactQuote = {
 // (quadradas, mais "cheias") contra as wordmarks, que são mais finas e largas.
 export const companies: { name: string; logo: string; scale?: number }[] = [
   { name: "Nomad", logo: "/logos/nomad.png", scale: 0.8 },
-  { name: "RD Saúde", logo: "/logos/rdsaude.svg" },
+  { name: "RD Saúde", logo: "/logos/rdsaude.svg", scale: 0.85 },
   { name: "iFood", logo: "/logos/ifood.svg", scale: 1.2 },
-  { name: "StarkBank", logo: "/logos/starkbank.svg" },
-  { name: "Claro", logo: "/logos/claro.svg" },
+  { name: "StarkBank", logo: "/logos/starkbank.svg", scale: 0.85 },
+  { name: "Claro", logo: "/logos/claro.svg", scale: 0.85 },
   { name: "Itaú", logo: "/logos/itau.avif", scale: 1.4 },
   { name: "Decisiv", logo: "/logos/decisiv.svg", scale: 0.8 },
 ];
@@ -139,31 +139,31 @@ export const aboutPage = {
   ] as L[],
   principles: [
     {
-      title: { pt: "Clareza é uma vantagem competitiva", en: "Clarity is a competitive advantage" },
+      title: { pt: "Clareza", en: "Clarity" },
       text: {
-        pt: "Quanto mais complexo o problema, mais importante é tornar o caminho claro. Meu papel é ajudar equipes a enxergar o que realmente importa antes de começar a desenhar.",
-        en: "The more complex the problem, the more important it is to make the path clear. My role is to help teams see what really matters before they start designing.",
+        pt: "Quanto mais complexo o problema, mais acredito na importância da clareza. Uma das partes que mais gosto no meu trabalho é ajudar a organizar o cenário, encontrar o que realmente importa e criar um caminho antes de partir para as definições.",
+        en: "The more complex the problem, the more I believe in the importance of clarity. One of my favorite parts of the job is helping organize the landscape, finding what really matters, and building a path before moving into decisions.",
       },
     },
     {
-      title: { pt: "Os melhores produtos são construídos em conjunto", en: "The best products are built together" },
+      title: { pt: "Colaboração", en: "Collaboration" },
       text: {
-        pt: "Meu trabalho é conectar pessoas, perspectivas e disciplinas, não apenas desenhar telas. Acredito que os melhores produtos que construí nasceram da colaboração.",
-        en: "My job is to connect people, perspectives, and disciplines, not just design screens. I believe the best products I've built were born from collaboration.",
+        pt: "O papel de um designer vai além da interface: envolve mediar diferentes perspectivas, dar contexto às decisões e conectar pessoas. Os melhores produtos que ajudei a construir nasceram dessa colaboração.",
+        en: "A designer's role goes beyond the interface: it means mediating different perspectives, giving context to decisions, and connecting people. The best products I've helped build were born from that collaboration.",
       },
     },
     {
-      title: { pt: "Sistemas criam escala", en: "Systems create scale" },
+      title: { pt: "Pensamento sistêmico", en: "Systems thinking" },
       text: {
-        pt: "Gosto de resolver problemas de uma forma que possa ser reutilizada amanhã. Um bom sistema reduz inconsistências, acelera decisões e libera tempo para resolver novos desafios.",
-        en: "I like solving problems in ways that can be reused tomorrow. A good system reduces inconsistencies, speeds up decisions, and frees up time to tackle new challenges.",
+        pt: "Gosto de resolver problemas de uma forma que continue fazendo sentido amanhã. Escalar uma solução vai além de criar componentes: envolve identificar padrões, pensar em diferentes níveis de entrega e tomar decisões que possam ser adaptadas e reutilizadas conforme o produto evolui.",
+        en: "I like solving problems in ways that keep making sense tomorrow. Scaling a solution goes beyond creating components: it means identifying patterns, thinking across different levels of delivery, and making decisions that can be adapted and reused as the product evolves.",
       },
     },
     {
-      title: { pt: "Boas decisões vêm antes das boas interfaces", en: "Good decisions come before good interfaces" },
+      title: { pt: "Pragmatismo", en: "Pragmatism" },
       text: {
-        pt: "Antes de pensar na solução, gosto de entender o contexto, validar hipóteses e fazer as perguntas certas. Interfaces bonitas são consequência de decisões bem tomadas.",
-        en: "Before thinking about the solution, I like to understand the context, validate hypotheses, and ask the right questions. Beautiful interfaces are the consequence of good decisions.",
+        pt: "Nem todo problema precisa da solução mais sofisticada. Acredito em encontrar o equilíbrio entre impacto, esforço e velocidade, escolhendo a abordagem que faz mais sentido para o momento do produto e do negócio.",
+        en: "Not every problem needs the most sophisticated solution. I believe in finding the balance between impact, effort, and speed, choosing the approach that makes the most sense for where the product and the business are.",
       },
     },
   ] as { title: L; text: L }[],
@@ -273,26 +273,55 @@ export type Project = {
   slug: string;
   title: L;
   client: string;
+  // site oficial do cliente (opcional) — quando presente, o nome do cliente
+  // na página de detalhe vira link, abrindo em nova aba
+  clientUrl?: string;
   year: string;
   role: L;
   tags: string[];
   summary: L;
+  // true → oculto do grid de trabalhos e da navegação "próximo projeto",
+  // mas a página de detalhe continua existindo (link direto ainda funciona)
+  hidden?: boolean;
   // conteúdo da página de detalhe
   overview: L;
+  // "O problema" (opcional) — parágrafo de contexto + lista de números de escala,
+  // renderizado entre Resumo e Desafio
+  problem?: {
+    intro: L;
+    stats: L[];
+  };
+  // tabela comparativa (opcional) — frase de abertura + linhas de contraste
+  // eixo a eixo, renderizada entre Resumo e Desafio
+  comparisonTable?: {
+    intro: L;
+    rows: { axis: L; before: L; after: L }[];
+  };
   challenge: L;
   // objetivo e restrições (opcionais) — completam o bloco narrativo inicial
   // (Resumo → Desafio → Objetivo → Restrições → Contexto)
   objective?: L;
   constraints?: L;
-  approach: L[];
+  // aceita tanto texto solto (legado) quanto { title, text } (com título por passo)
+  approach: (L | { title: L; text: L })[];
   // pilares do sistema (opcional) — grid visual de arquitetura
-  pillars?: { title: L; text: L }[];
+  // `doodle` (opcional, só no layout "list") referencia um pequeno desenho a
+  // traço renderizado ao lado do item — chaves disponíveis em PillarDoodle.tsx
+  pillars?: { title: L; text: L; doodle?: "receipt" }[];
   // título da seção de pilares; sem ele, usa o padrão do dicionário ("Pilares do sistema")
   pillarsTitle?: L;
+  // "list" → renderiza os pilares como lista numerada (bolinha + título + texto),
+  // igual ao formato antigo de Abordagem, em vez do grid de cards padrão
+  pillarsLayout?: "grid" | "list";
+  // frase de contexto (opcional), exibida logo abaixo do título da seção de pilares
+  pillarsIntro?: L;
   outcome?: { label: L; value: string }[];
   closing: L;
   // true → a página do projeto embute o KypcarDemo interativo abaixo da capa.
   demo?: boolean;
+  // user flow desenhado a traço (opcional) — título + legenda; o desenho em si
+  // é um componente por projeto (hoje só o HandshakeFlow), renderizado após a Abordagem.
+  flowDiagram?: { title: L; caption: L };
   // análise de mercado (opcional) — tabela comparativa de referências + insight estratégico
   marketAnalysis?: {
     intro: L;
@@ -313,8 +342,8 @@ export const projects: Project[] = [
   {
     slug: "design-system",
     title: {
-      pt: "Atelier: quando um Design System deixa de ser biblioteca e vira produto",
-      en: "Atelier: when a Design System stops being a library and becomes a product",
+      pt: "Atelier: quando um Design System deixa de ser biblioteca e vira infraestrutura",
+      en: "Atelier: when a Design System stops being a library and becomes infrastructure",
     },
     client: "Pump",
     year: "2026",
@@ -324,21 +353,64 @@ export const projects: Project[] = [
     },
     tags: ["Design System", "White-label", "AI-native"],
     summary: {
-      pt: "Um Design System só vira sistema quando deixa de ser uma biblioteca e passa a ser a base sobre a qual o produto é construído.",
-      en: "A Design System only becomes a system when it stops being a library and becomes the foundation the product is built on.",
+      pt: "O Atelier não foi criado para organizar componentes. Foi criado para tornar a evolução do produto previsível.",
+      en: "Atelier wasn't created to organize components. It was created to make product evolution predictable.",
     },
     overview: {
-      pt: "A maioria dos design systems vive ao lado do produto: uma biblioteca que exige esforço de implementação, atualização e uso. Meu papel foi construir o Atelier dentro dele, e fazer com que o DS fosse além de manter apenas a consistência.\n\nEle acelerou a entrega de features funcionais e permitiu que nossos clientes construíssem widgets internos de acordo com suas necessidades.\n\nIsso tudo só foi possível através de uma documentação densa de uso e direcionamento, da construção de forma nativa em IA e de agentes internos que garantem as boas práticas, aceleram pesquisas e protótipos, e entregam em React e Tailwind.",
-      en: "Most design systems live next to the product: a library that takes effort to implement, keep updated, and use. My role was to build Atelier inside the product, and make the design system go beyond just keeping things consistent.\n\nIt sped up the delivery of working features and let our customers build internal widgets to fit their own needs.\n\nAll of that was only possible through dense usage-and-guidance documentation, an AI-native build, and internal agents that enforce best practices, speed up research and prototyping, and ship in React and Tailwind.",
+      pt: "À medida que a plataforma crescia, três problemas surgiam ao mesmo tempo.\n\nO Design System precisava acompanhar a velocidade de desenvolvimento, permitir que cada cliente personalizasse sua experiência sem gerar retrabalho e, ao mesmo tempo, servir como base para interfaces construídas por usuários e por agentes de IA.\n\nConduzi a criação do Atelier para resolver essas três necessidades em uma única arquitetura. Em vez de uma biblioteca de componentes, construímos uma infraestrutura onde design, documentação e código evoluem juntos.\n\nEm cerca de oito semanas, o sistema chegou a 109 componentes documentados, eliminou inconsistências entre Figma e código e passou a sustentar toda a evolução da plataforma.",
+      en: "As the platform grew, three problems emerged at the same time.\n\nThe Design System had to keep up with the pace of development, let each client personalize their experience without generating rework, and at the same time serve as the foundation for interfaces built by users and AI agents.\n\nI led the creation of Atelier to solve these three needs in a single architecture. Instead of a component library, we built infrastructure where design, documentation, and code evolve together.\n\nIn about eight weeks, the system reached 109 documented components, eliminated inconsistencies between Figma and code, and became the foundation sustaining the entire platform's evolution.",
+    },
+    comparisonTable: {
+      intro: {
+        pt: "Repensando o papel de um Design System.",
+        en: "Rethinking the role of a Design System.",
+      },
+      rows: [
+        {
+          axis: { pt: "Objetivo", en: "Goal" },
+          before: { pt: "Organizar componentes", en: "Organize components" },
+          after: { pt: "Tornar a evolução do produto previsível", en: "Make product evolution predictable" },
+        },
+        {
+          axis: { pt: "Onde vive", en: "Where it lives" },
+          before: { pt: "Biblioteca separada do produto", en: "Library separate from the product" },
+          after: { pt: "Dentro do próprio produto", en: "Inside the product itself" },
+        },
+        {
+          axis: { pt: "Fonte da verdade", en: "Source of truth" },
+          before: { pt: "Design e código precisam se reconciliar", en: "Design and code need to be reconciled" },
+          after: { pt: "Código e documentação nascem juntos", en: "Code and documentation are born together" },
+        },
+        {
+          axis: { pt: "Consistência", en: "Consistency" },
+          before: { pt: "Depende de revisão humana", en: "Depends on human review" },
+          after: { pt: "É garantida automaticamente pelo sistema", en: "Automatically guaranteed by the system" },
+        },
+        {
+          axis: { pt: "Escalabilidade", en: "Scalability" },
+          before: { pt: "Designers e devs constroem telas", en: "Designers and devs build screens" },
+          after: { pt: "Times, clientes e agentes constroem sobre o mesmo sistema", en: "Teams, clients, and agents build on the same system" },
+        },
+        {
+          axis: { pt: "Customização", en: "Customization" },
+          before: { pt: "Cada marca exige adaptações", en: "Each brand requires adaptations" },
+          after: { pt: "White-label configurado por tokens", en: "White-label configured via tokens" },
+        },
+        {
+          axis: { pt: "Resultado", en: "Outcome" },
+          before: { pt: "Biblioteca reutilizável", en: "Reusable library" },
+          after: { pt: "Plataforma capaz de evoluir", en: "Platform capable of evolving" },
+        },
+      ],
     },
     challenge: {
-      pt: "O desafio era construir uma plataforma capaz de escalar em três frentes ao mesmo tempo: desenvolvimento, personalização e autonomia.\n\nEnquanto novas funcionalidades precisavam chegar rápido e com qualidade, cada cliente deveria ter sua própria identidade visual sem gerar retrabalho. Além disso, a plataforma precisava permitir que os próprios usuários construíssem interfaces dentro do produto. E, com a chegada da IA, o sistema também precisava ser estruturado para que agentes pudessem utilizá-lo de forma previsível e confiável.\n\nEm vez de resolver cada necessidade separadamente, o objetivo era criar uma única arquitetura capaz de sustentar todas elas.",
+      pt: "O desafio era construir uma plataforma capaz de escalar em três frentes ao mesmo tempo: velocidade, personalização e autonomia.\n\nEnquanto novas funcionalidades precisavam chegar rápido e com qualidade, cada cliente deveria ter sua própria identidade visual sem gerar retrabalho. Além disso, a plataforma precisava permitir que os próprios usuários construíssem interfaces dentro do produto. E, com a chegada da IA, o sistema também precisava ser estruturado para que agentes pudessem utilizá-lo de forma previsível e confiável.\n\nEm vez de resolver cada necessidade separadamente, o objetivo era criar uma única arquitetura capaz de sustentar todas elas.",
       en: "The challenge was to build a platform able to scale on three fronts at once: development, personalization, and autonomy.\n\nWhile new features needed to ship fast and with quality, each client had to have their own visual identity without generating rework. Beyond that, the platform had to let users themselves build interfaces inside the product. And with the arrival of AI, the system also had to be structured so agents could use it in a predictable, reliable way.\n\nInstead of solving each need separately, the goal was to create a single architecture able to sustain all of them.",
     },
     approach: [
       {
-        pt: "Ponta a ponta, sem handoff. Conduzo cada feature do escopo e do wireframe ao protótipo de alta fidelidade, à implementação em produção e à revisão de qualidade. Nenhuma decisão de design se perde na passagem, porque não existe passagem.",
-        en: "End to end, no handoff. I take every feature from scope and wireframe to high-fidelity prototype, production implementation, and quality review. No design decision gets lost in the handoff, because there is no handoff.",
+        pt: "Sem handoff. Conduzo cada feature do escopo e do wireframe ao protótipo de alta fidelidade, à implementação em produção e à revisão de qualidade. Nenhuma decisão de design se perde na passagem, porque não existe passagem.",
+        en: "No handoff. I take every feature from scope and wireframe to high-fidelity prototype, production implementation, and quality review. No design decision gets lost in the handoff, because there is no handoff.",
       },
       {
         pt: "Componente antes de tela. Acessibilidade (contraste, foco, leitor de tela) e os cinco idiomas entram já no primeiro rascunho, não como um ajuste no fim.",
@@ -348,27 +420,32 @@ export const projects: Project[] = [
         pt: "Padrão em vez de exceção. Quando um caso novo aparece, ele volta para o sistema, e não para uma tela solta. É assim que a consistência escala sem travar a velocidade.",
         en: "Patterns over exceptions. When a new case shows up, it goes back into the system, not onto a one-off screen. That's how consistency scales without slowing the team down.",
       },
+      {
+        pt: "White-label além das cores. Assim como a cor já era configurável por marca, passei a aplicar o mesmo princípio para forma e espaço: cada tenant define sua densidade e arredondamento de forma global, sem tocar em componente nenhum.",
+        en: "White-label beyond colors. Just as color was already configurable per brand, I extended the same principle to shape and space: each tenant sets their density and roundness globally, without touching a single component.",
+      },
     ],
+    pillarsTitle: { pt: "Decisões arquiteturais", en: "Architectural decisions" },
     pillars: [
       {
         title: { pt: "Tokens em camadas", en: "Layered tokens" },
         text: {
-          pt: "De primitivos a tokens semânticos, marca e produto ficam em camadas separadas. Trocar a cor de uma marca não encosta em nenhuma tela.",
-          en: "From primitives to semantic tokens, brand and product sit in separate layers. Changing a brand's color touches no screen.",
+          pt: "Primitivos alinhados ao Tailwind geram paletas white-label inteiras em OKLCh a partir de poucos valores de marca. Tokens semânticos são a única camada que um componente tem permissão de tocar: a regra é que ele nunca referencia um primitivo direto.",
+          en: "Tailwind aligned primitives generate whole white-label palettes in OKLCh from a handful of brand values. Semantic tokens are the only layer a component is allowed to touch: the rule is it never references a primitive directly.",
         },
       },
       {
-        title: { pt: "White-label por derivação", en: "Derived white-label" },
+        title: { pt: "O sistema audita a si mesmo", en: "The system audits itself" },
         text: {
-          pt: "A partir de poucos valores de marca, o sistema deriva paletas inteiras em OKLCh (contraste previsível), tipografia e modo escuro. Marca nova entra por configuração.",
-          en: "From a handful of brand values, the system derives whole palettes in OKLCh (predictable contrast), typography, and dark mode. A new brand comes in through configuration.",
+          pt: "Antes de qualquer merge, um comando roda no CI e reprova cor em hexadecimal, valores literais e paletas depreciadas. Ele também prova que todo par de texto e fundo passa em contraste WCAG AA nos dois temas. A disciplina não depende de review manual: é um portão que se recusa a abrir.",
+          en: "Before any merge, a command runs in CI and rejects hardcoded hex colors, literal values, and deprecated palettes. It also proves every text and background pair passes WCAG AA contrast in both themes. The discipline doesn't depend on manual review: it's a gate that refuses to open.",
         },
       },
       {
         title: { pt: "Atelier, o workbench", en: "Atelier, the workbench" },
         text: {
-          pt: "100 componentes e 11 fundações, cada um construído e documentado em isolamento, com uso, variações e direcionamento. É a fonte da verdade entre design e engenharia: ninguém precisa adivinhar como montar uma tela.",
-          en: "100 components and 11 foundations, each built and documented in isolation, with usage, variants, and guidance. It's the source of truth between design and engineering: no one has to guess how to build a screen.",
+          pt: "109 componentes e suas fundações, cada um construído e documentado em isolamento: anatomia, tokens, estados e props nascem no mesmo PR do código. É a fonte da verdade entre design e engenharia: ninguém precisa adivinhar como montar uma tela.",
+          en: "109 components and their foundations, each built and documented in isolation: anatomy, tokens, states, and props are born in the same PR as the code. It's the source of truth between design and engineering: no one has to guess how to assemble a screen.",
         },
       },
       {
@@ -380,22 +457,23 @@ export const projects: Project[] = [
       },
     ],
     outcome: [
-      { label: { pt: "Componentes no Atelier", en: "Components in Atelier" }, value: "100" },
-      { label: { pt: "Retrabalho por marca", en: "Rework per brand" }, value: "0" },
-      { label: { pt: "Idiomas suportados", en: "Languages supported" }, value: "5" },
+      { label: { pt: "109 componentes", en: "109 components" }, value: "Base única para toda a plataforma" },
+      { label: { pt: "208 commits", en: "208 commits" }, value: "Construído em aproximadamente 8 semanas" },
+      { label: { pt: "0 hex hardcoded", en: "0 hardcoded hex" }, value: "Consistência garantida automaticamente" },
     ],
     closing: {
-      pt: "Comecei minha carreira desenhando telas. Hoje desenho os sistemas que tornam essas telas possíveis. O Atelier nasceu para dar autonomia ao time, permitir que clientes construam suas próprias interfaces e fazer o produto escalar muito além do que eu conseguiria desenhando sozinha.",
-      en: "I started my career designing screens. Today I design the systems that make those screens possible. Atelier was born to give the team autonomy, let clients build their own interfaces, and make the product scale far beyond what I could ever design on my own.",
+      pt: "Comecei desenhando interfaces. Hoje desenho sistemas que permitem que produtos evoluam sem depender de mim. O Atelier nasceu para transformar design em infraestrutura, dando autonomia ao time, aos clientes e aos agentes de IA.",
+      en: "I started out designing interfaces. Now I design systems that let products evolve without depending on me. Atelier was born to turn design into infrastructure, giving autonomy to the team, to clients, and to AI agents.",
     },
   },
   {
     slug: "kypcar",
     title: {
-      pt: "Construindo uma plataforma de car sharing para São Paulo",
+      pt: "Construindo uma plataforma de car sharing",
       en: "Building a car-sharing platform for São Paulo",
     },
     client: "Kypcar",
+    clientUrl: "https://kypcar.com/",
     year: "2025",
     role: {
       pt: "Freelance · Product Designer",
@@ -579,65 +657,169 @@ export const projects: Project[] = [
       },
     ],
     closing: {
-      pt: "Entrei antes da primeira tela existir e saí com um produto navegável de ponta a ponta: prova de que um app de marketplace inteiro pode nascer do trabalho de uma pessoa só, quando o fluxo é desenhado com cuidado desde o início.",
-      en: "I came in before the first screen existed and left with an end-to-end navigable product: proof that a whole marketplace app can be born from one person's work, when the flow is designed with care from the very start.",
+      pt: "Do conceito ao produto funcional, desenhando toda a jornada de ponta a ponta.",
+      en: "From concept to a working product, designing the entire journey end to end.",
     },
   },
   {
-    slug: "app-pagamentos",
+    slug: "handshake-restaurante",
     title: {
-      pt: "Reimaginando pagamentos no app",
-      en: "Reimagining payments in the app",
+      pt: "Handshake: como reduzimos fraudes sem aumentar o atrito da operação",
+      en: "Handshake: how we cut fraud without adding friction to operations",
     },
-    client: "Aurora",
-    year: "2025",
+    client: "iFood",
+    year: "2022",
     role: {
-      pt: "Staff Product Designer · Líder de design",
-      en: "Staff Product Designer · Design Lead",
+      pt: "Senior Product Designer · Logística Latam",
+      en: "Senior Product Designer · Latam Logistics",
     },
-    tags: ["Mobile", "Fintech", "0→1"],
+    tags: ["Mobile", "Research", "Logística"],
     summary: {
-      pt: "Redesenho completo do fluxo de pagamentos que reduziu o abandono em 38% e simplificou três telas em uma.",
-      en: "Complete redesign of the payment flow that reduced drop-off by 38% and simplified three screens into one.",
+      pt: "O desafio não era criar mais uma etapa no fluxo do entregador. Era garantir que cada pedido chegasse à pessoa certa sem comprometer velocidade, experiência ou escala.",
+      en: "The challenge wasn't adding one more step to the courier's flow. It was making sure every order reached the right person without compromising speed, experience, or scale.",
     },
     overview: {
-      pt: "A Aurora precisava modernizar seu fluxo de pagamentos, que acumulava anos de soluções pontuais. Liderei o redesenho de ponta a ponta, do discovery ao handoff, junto a times de engenharia, produto e dados.",
-      en: "Aurora needed to modernize its payment flow, which had accumulated years of quick fixes. I led the end-to-end redesign, from discovery to handoff, alongside engineering, product, and data teams.",
+      pt: "No iFood, um pedido passa por uma sequência simples: um entregador chega ao restaurante, retira o pedido e segue para a entrega. Mas dois desses momentos não possuíam qualquer mecanismo de validação.\n\nNa chegada ao restaurante, alguns entregadores confirmavam presença antes de realmente chegar, comprometendo métricas importantes da operação. Já na retirada do pedido, não existia uma forma confiável de garantir que o entregador certo retirasse o pedido certo, abrindo espaço para fraudes, roubos e trocas de pacotes.\n\nComo Product Designer da equipe, conduzi a pesquisa, a ideação e a validação de dois novos fluxos da jornada do entregador, criando novos pontos de validação que aumentaram a confiabilidade da operação sem comprometer a experiência de quem entrega.",
+      en: "At iFood, an order goes through a simple sequence: a courier arrives at the restaurant, picks up the order, and heads out for delivery. But two of these moments had no validation mechanism at all.\n\nAt arrival, some couriers confirmed presence before actually reaching the restaurant, compromising key operational metrics. At pickup, there was no reliable way to guarantee the right courier picked up the right order, leaving room for fraud, theft, and package swaps.\n\nAs the Product Designer on the team, I led the research, ideation, and validation of two new flows in the courier journey, creating new validation points that increased operational reliability without compromising the courier experience.",
+    },
+    problem: {
+      intro: {
+        pt: "O problema tinha escala. Todos os meses, milhares de pedidos eram impactados pela ausência desses mecanismos de validação. Sem uma forma de comprovar quem havia chegado ao restaurante e quem havia retirado cada pedido, a operação perdia confiabilidade, fraudes aconteciam e o iFood absorvia integralmente os custos dos pedidos cancelados.",
+        en: "The problem had scale. Every month, thousands of orders were affected by the absence of these validation mechanisms. With no way to prove who had arrived at the restaurant and who had picked up each order, the operation lost reliability, fraud happened, and iFood fully absorbed the cost of cancelled orders.",
+      },
+      stats: [
+        {
+          pt: "9.700 pedidos/mês cancelados por ausência de validação na retirada.",
+          en: "9,700 orders/month cancelled due to lack of pickup validation.",
+        },
+        {
+          pt: "886 pedidos/mês associados a roubo de pacotes.",
+          en: "886 orders/month linked to parcel theft.",
+        },
+        {
+          pt: "0,68% dos pedidos apresentavam trocas na retirada.",
+          en: "0.68% of orders had courier/order mismatches at pickup.",
+        },
+        {
+          pt: "100% do valor dos pedidos cancelados era absorvido pelo iFood.",
+          en: "100% of cancelled order value was absorbed by iFood.",
+        },
+      ],
     },
     challenge: {
-      pt: "O fluxo original tinha 7 etapas, alto índice de abandono e inconsistências entre plataformas. Usuários relatavam insegurança na hora de confirmar valores.",
-      en: "The original flow had 7 steps, high drop-off, and inconsistencies across platforms. Users reported feeling insecure when confirming amounts.",
+      pt: "Criar dois novos pontos de validação na jornada do entregador, garantindo que o entregador certo retirasse o pedido certo, no restaurante certo, sem aumentar o atrito da operação, comprometer a experiência de quem entrega ou impactar indicadores como Contact Rate.",
+      en: "Create two new validation points in the courier's journey, making sure the right courier picked up the right order, at the right restaurant, without adding friction to the operation, compromising the courier experience, or impacting metrics like Contact Rate.",
     },
     approach: [
       {
-        pt: "Mapeei a jornada atual com dados de funil e 12 entrevistas com usuários.",
-        en: "Mapped the current journey with funnel data and 12 user interviews.",
+        title: { pt: "Pessoas antes da tecnologia", en: "People before technology" },
+        text: {
+          pt: "Comecei entrevistando entregadores para entender onde a operação realmente falhava. As conversas revelaram duas lacunas importantes: não existia uma forma confiável de validar a chegada ao restaurante nem a retirada do pedido, além de exporem esquemas de fraude já conhecidos por quem estava no campo.",
+          en: "I started by interviewing couriers to understand where the operation was actually failing. The conversations revealed two important gaps: there was no reliable way to validate arrival at the restaurant or order pickup, and they exposed fraud schemes already known to people in the field.",
+        },
       },
       {
-        pt: "Defini princípios de design: confiança, velocidade e reversibilidade.",
-        en: "Defined design principles: trust, speed, and reversibility.",
+        title: { pt: "Entender a causa antes de discutir soluções", en: "Understand the cause before discussing solutions" },
+        text: {
+          pt: "Facilitei sessões de ideação com engenharia e designers dos times de Restaurante e Consumidor. Antes de discutir tecnologia, utilizamos 5 Why's para identificar a causa raiz dos problemas e alinhar uma solução única para toda a jornada.",
+          en: "I facilitated ideation sessions with engineering and designers from the Restaurant and Consumer teams. Before discussing technology, we used 5 Whys to identify the root cause of the problems and align on a single solution for the whole journey.",
+        },
       },
       {
-        pt: "Prototipei 3 direções e testei com usabilidade moderada (8 sessões).",
-        en: "Prototyped 3 directions and tested with moderated usability sessions (8 sessions).",
+        title: { pt: "Validar a hipótese antes de escalar", en: "Validate the hypothesis before scaling" },
+        text: {
+          pt: "Antes de desenvolver qualquer solução, precisávamos comprovar que um novo fluxo realmente reduziria fraudes e aumentaria a confiabilidade da operação. A prioridade era validar o comportamento antes de investir na implementação.",
+          en: "Before building any solution, we needed to prove that a new flow would actually reduce fraud and increase the operation's reliability. The priority was validating behavior before investing in implementation.",
+        },
       },
       {
-        pt: "Reduzi o fluxo de 7 para 3 etapas com confirmação clara e estados de erro humanos.",
-        en: "Reduced the flow from 7 to 3 steps with clear confirmation and human error states.",
+        title: { pt: "Começar pelo menor risco", en: "Start with the lowest risk" },
+        text: {
+          pt: "Escolhemos iniciar pela validação de chegada ao restaurante, um fluxo com menor potencial de impacto no Contact Rate. Os aprendizados dessa primeira etapa serviram como base para desenhar a validação da retirada do pedido.",
+          en: "We chose to start with restaurant-arrival validation, a flow with lower potential impact on the Contact Rate. The learnings from this first step became the foundation for designing order-pickup validation.",
+        },
+      },
+      {
+        title: { pt: "Aprender antes de escalar", en: "Learn before scaling" },
+        text: {
+          pt: "O rollout aconteceu de forma gradual: primeiro em dois restaurantes do McDonald's para validar compreensão e adesão ao fluxo, depois em sete unidades para medir o impacto operacional. Os indicadores pioraram nos primeiros dias e se estabilizaram logo depois, evidenciando uma curva natural de aprendizado, e não rejeição à solução.",
+          en: "The rollout happened gradually: first at two McDonald's restaurants to validate comprehension and adherence to the flow, then at seven locations to measure operational impact. Indicators dipped in the first days and stabilized shortly after, showing a natural learning curve rather than rejection of the solution.",
+        },
+      },
+      {
+        title: { pt: "Evoluir a solução com o que aprendemos", en: "Evolve the solution with what we learned" },
+        text: {
+          pt: "Os testes geraram melhorias importantes antes da expansão da funcionalidade: criamos um fluxo alternativo para entregadores com câmera danificada, orientações para restaurantes manterem os QR Codes visíveis e atualizados e uma estratégia para lidar com grandes redes que possuíam múltiplos identificadores por loja.",
+          en: "The tests generated important improvements before the feature expanded: we created an alternative flow for couriers with a damaged camera, guidance for restaurants to keep QR Codes visible and up to date, and a strategy for handling large chains with multiple identifiers per store.",
+        },
+      },
+    ],
+    flowDiagram: {
+      title: { pt: "User flow do check-in (MVP)", en: "Check-in user flow (MVP)" },
+      caption: {
+        pt: "Desenhei o fluxo de validação da chegada do entregador ao restaurante: um caminho principal em três etapas e rotas alternativas para lidar com exceções, priorizando uma abordagem baseada em confiança antes de aplicar qualquer penalização.",
+        en: "I designed the flow to validate the courier's arrival at the restaurant: a main path in three steps and alternative routes to handle exceptions, prioritizing a trust-based approach before applying any penalty.",
+      },
+    },
+    pillarsTitle: { pt: "Decisões de design", en: "Design decisions" },
+    pillarsLayout: "list",
+    pillarsIntro: {
+      pt: "Decisões pensadas para o MVP: validar o valor da solução com o menor investimento possível antes de evoluir para uma versão mais robusta.",
+      en: "Decisions scoped for the MVP: validate the solution's value with the smallest possible investment before evolving into a more robust version.",
+    },
+    pillars: [
+      {
+        title: { pt: "QR code na parede, não no app", en: "QR code on the wall, not in the app" },
+        text: {
+          pt: "Para validar presença física no restaurante, o entregador escaneia um QR code fixado no local. A solução reduz a complexidade tecnológica ao mínimo necessário: uma interação simples, barata e escalável para um problema de milhões de entregas.",
+          en: "To validate physical presence at the restaurant, the courier scans a QR code fixed on-site. The solution keeps technological complexity to the bare minimum: a simple, cheap, and scalable interaction for a problem spanning millions of deliveries.",
+        },
+      },
+      {
+        title: { pt: "QR codes rotativos", en: "Rotating QR codes" },
+        text: {
+          pt: "Para evitar que uma foto do código fosse reutilizada em outro momento, cada restaurante possui múltiplos QR codes que alternam conforme a data. Assim, o sistema dificulta tentativas de check-in falso sem adicionar fricção ao entregador.",
+          en: "To prevent a photo of the code from being reused later, each restaurant has multiple QR codes that rotate by date. This makes fake check-in attempts harder without adding friction for the courier.",
+        },
+      },
+      {
+        title: { pt: "Código único na nota fiscal", en: "Unique code on the receipt" },
+        doodle: "receipt",
+        text: {
+          pt: "No check-out, um código impresso na nota fiscal conecta o entregador ao pedido correto. A entrega só é liberada após essa validação, criando uma segunda camada de segurança contra fraudes.",
+          en: "At check-out, a code printed on the receipt connects the courier to the correct order. Delivery is only released after this validation, creating a second layer of protection against fraud.",
+        },
+      },
+      {
+        title: { pt: "Erros tratados com confiança", en: "Errors handled with trust" },
+        text: {
+          pt: "Nem todo erro indica uma tentativa de fraude. Um código desatualizado na loja correta pode ser validado automaticamente após alguns minutos, enquanto tentativas inválidas recebem múltiplas chances antes de qualquer penalização. O fluxo assume boa-fé até que existam sinais reais de abuso.",
+          en: "Not every error signals a fraud attempt. An outdated code at the right store can be auto-validated after a few minutes, while invalid attempts get multiple chances before any penalty. The flow assumes good faith until there are real signs of abuse.",
+        },
       },
     ],
     outcome: [
-      { label: { pt: "Abandono", en: "Drop-off" }, value: "-38%" },
-      { label: { pt: "Tempo p/ concluir", en: "Time to complete" }, value: "-2,1×" },
-      { label: { pt: "CSAT do fluxo", en: "Flow CSAT" }, value: "+19pts" },
+      {
+        label: { pt: "Preparo mais rápido", en: "Faster prep time" },
+        value: "O McDonald's registrou queda no tempo de preparo já no piloto de 7 pontos",
+      },
+      {
+        label: { pt: "Hipótese confirmada", en: "Hypothesis confirmed" },
+        value: "NRE caiu e DRE subiu, provando o check-in falso e destravando microtempos reais",
+      },
+      {
+        label: { pt: "R$ 260 milhões", en: "R$260 million" },
+        value: "Em pedidos mensais protegidos contra fraude de check-out",
+      },
     ],
     closing: {
-      pt: "O novo fluxo virou referência interna de craft e inspirou o redesenho de outras áreas do app.",
-      en: "The new flow became an internal craft reference and inspired the redesign of other areas of the app.",
+      pt: "O melhor design nem sempre vive na tela. No Handshake, a interface era um QR code na parede do restaurante e o impacto se media em fraude evitada.",
+      en: "The best design does not always live on a screen. In Handshake, the interface was a QR code on the restaurant wall and the impact was measured in fraud prevented.",
     },
   },
   {
     slug: "onboarding",
+    hidden: true,
     title: {
       pt: "Onboarding que ativa de verdade",
       en: "Onboarding that actually activates",
@@ -685,7 +867,7 @@ export const projects: Project[] = [
       { label: { pt: "Drop no 1º dia", en: "Day 1 drop-off" }, value: "-31%" },
     ],
     closing: {
-      pt: "Provamos que ativação não é sobre explicar o produto: é sobre fazer o usuário sentir o valor o quanto antes.",
+      pt: "Provamos que ativar bem significa fazer a pessoa sentir o valor logo de cara, mais do que explicar o produto.",
       en: "We proved that activation isn't about explaining the product. It's about making users feel the value as soon as possible.",
     },
   },
@@ -694,3 +876,6 @@ export const projects: Project[] = [
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
 }
+
+// Projetos exibidos no grid de trabalhos e na navegação "próximo projeto".
+export const visibleProjects = projects.filter((p) => !p.hidden);

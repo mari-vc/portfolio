@@ -6,6 +6,7 @@ import { hasLocale, getDictionary } from '@/lib/i18n'
 import { InkUnderline } from '@/components/InkUnderline'
 import { ComputerSketch } from '@/components/ComputerSketch'
 import { IconButton } from '@/components/IconButton'
+import { EmailMenu, EmailIcon } from '@/components/EmailMenu'
 
 export async function generateStaticParams() {
   return [{ lang: 'pt' }, { lang: 'en' }]
@@ -46,7 +47,7 @@ export default async function AboutPage({
 
       <div className="mt-10 flex flex-col gap-10 sm:flex-row sm:items-stretch sm:gap-12">
         <div className="min-w-0 flex-1">
-          <h1 className="text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
+          <h1 className="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
             {dict.about_page.heading}
             <InkUnderline className="mt-2 h-3 w-44 sm:w-56" />
           </h1>
@@ -60,7 +61,7 @@ export default async function AboutPage({
 
         <div className="flex shrink-0 flex-col items-center gap-6 sm:mt-2 sm:items-start sm:justify-between">
           <ComputerSketch className="h-auto w-32 text-foreground sm:w-40" />
-          <div className="flex flex-col items-stretch gap-3">
+          <div className="flex items-center gap-3">
             <IconButton
               href={profile.socials.linkedin}
               label={dict.about_page.linkedin_cta}
@@ -150,21 +151,24 @@ export default async function AboutPage({
 
       <div className="mt-16 rounded-2xl border border-line bg-card p-8 text-center">
         <p className="mx-auto max-w-xl text-lg font-medium tracking-tight">{dict.about_page.contact_body}</p>
-        <Link
-          href={`/${lang}/#contact`}
-          className="group mt-3 inline-flex items-center gap-2 text-sm font-medium text-accent"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 transition-transform group-hover:-translate-y-0.5"
-          >
-            <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.7" />
-            <path d="M4 7.5L12 12.5L20 7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          {dict.about_page.contact_cta}
-        </Link>
+        <div className="mt-3">
+          <EmailMenu
+            email={profile.email}
+            align="center"
+            triggerClassName="group inline-flex items-center gap-2 text-sm font-medium text-accent"
+            triggerContent={
+              <>
+                <EmailIcon className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
+                {dict.about_page.contact_cta}
+              </>
+            }
+            labels={{
+              default: dict.email_menu.default,
+              copy: dict.email_menu.copy,
+              copied: dict.email_menu.copied,
+            }}
+          />
+        </div>
       </div>
     </div>
   )

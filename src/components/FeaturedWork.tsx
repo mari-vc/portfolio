@@ -2,7 +2,7 @@ import { ViewTransition } from "react";
 import Link from "next/link";
 import { Section } from "./Section";
 import { ProjectSketch } from "./ProjectSketch";
-import { projects, t } from "@/lib/data";
+import { visibleProjects, t } from "@/lib/data";
 import type { Locale } from "@/lib/data";
 import type { Dict } from "@/lib/i18n";
 
@@ -10,13 +10,13 @@ export function FeaturedWork({ lang, dict }: { lang: Locale; dict: Dict }) {
   return (
     <Section id="work" eyebrow={dict.featured_work.eyebrow}>
       <div className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <h2 className="max-w-xl text-3xl font-medium tracking-tight sm:text-4xl">
+        <h2 className="font-hand max-w-xl text-3xl font-medium tracking-tight sm:text-4xl">
           {dict.featured_work.heading}
         </h2>
       </div>
 
       <div className="grid gap-8 md:grid-cols-3">
-        {projects.map((project) => (
+        {visibleProjects.map((project) => (
           <Link
             key={project.slug}
             href={`/${lang}/work/${project.slug}`}

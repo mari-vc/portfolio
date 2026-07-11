@@ -27,7 +27,7 @@ function renderText(text: string, link?: { handle: string; url: string }) {
 export function Curiosities({ lang, dict }: { lang: Locale; dict: Dict }) {
   return (
     <Section id="curiosities" eyebrow={dict.curiosities.eyebrow}>
-      <h2 className="mb-12 max-w-xl text-3xl font-medium tracking-tight sm:text-4xl">
+      <h2 className="font-hand mb-12 max-w-xl text-3xl font-medium tracking-tight sm:text-4xl">
         {dict.curiosities.heading}
       </h2>
       {/* Lista com pauta de caderno (linhas horizontais), em vez de grid de

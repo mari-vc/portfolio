@@ -2,10 +2,12 @@ import type { Metadata } from 'next'
 import { ViewTransition } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getProject, projects, t } from '@/lib/data'
+import { getProject, projects, visibleProjects, t, type L } from '@/lib/data'
 import { ProjectSketch } from '@/components/ProjectSketch'
 import { InkCircle, InkUnderline } from '@/components/InkUnderline'
 import { KypcarDemo } from '@/components/kypcar/KypcarDemo'
+import { HandshakeFlow } from '@/components/HandshakeFlow'
+import { PillarDoodle } from '@/components/PillarDoodle'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 
 export function generateStaticParams() {
@@ -42,8 +44,11 @@ export default async function ProjectPage({
   const project = getProject(slug)
   if (!project) notFound()
 
-  const index = projects.findIndex((p) => p.slug === slug)
-  const next = projects[(index + 1) % projects.length]
+  const index = visibleProjects.findIndex((p) => p.slug === slug)
+  const next =
+    index === -1
+      ? visibleProjects[0]
+      : visibleProjects[(index + 1) % visibleProjects.length]
 
   return (
     <article>
@@ -73,7 +78,7 @@ export default async function ProjectPage({
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
               {project.client} · {project.year}
             </p>
-            <h1 className="mt-4 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
+            <h1 className="font-hand mt-4 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
               {t(project.title, lang)}
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-muted">
@@ -97,7 +102,20 @@ export default async function ProjectPage({
             </div>
             <div>
               <dt className="text-muted">{dict.work_detail.client}</dt>
-              <dd className="mt-1 font-medium">{project.client}</dd>
+              <dd className="mt-1 font-medium">
+                {project.clientUrl ? (
+                  <Link
+                    href={project.clientUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-1 underline-offset-2 transition-colors hover:text-accent"
+                  >
+                    {project.client}
+                  </Link>
+                ) : (
+                  project.client
+                )}
+              </dd>
             </div>
             <div>
               <dt className="text-muted">{dict.work_detail.year}</dt>
@@ -118,7 +136,73 @@ export default async function ProjectPage({
 
           <Block title={dict.work_detail.overview}>{t(project.overview, lang)}</Block>
 
+          {project.problem && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {dict.work_detail.problem}
+              </h2>
+              <p className="mt-5 text-base leading-relaxed">{t(project.problem.intro, lang)}</p>
+              <ul className="mt-6 divide-y divide-line border-y border-line">
+                {project.problem.stats.map((stat, i) => (
+                  <li key={i} className="py-4 text-base leading-relaxed">
+                    {t(stat, lang)}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           <Block title={dict.work_detail.challenge}>{t(project.challenge, lang)}</Block>
+
+          {project.comparisonTable && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {dict.work_detail.comparison}
+              </h2>
+              <p className="mt-5 text-xl font-medium leading-snug tracking-tight sm:text-2xl">
+                {t(project.comparisonTable.intro, lang)}
+              </p>
+
+              <div className="mt-6 hidden sm:grid sm:grid-cols-[8rem_1fr_1fr] sm:gap-6 sm:pb-3">
+                <span />
+                <span className="font-mono text-xs uppercase tracking-wide text-muted">
+                  {dict.work_detail.comparison_traditional}
+                </span>
+                <span className="font-mono text-xs uppercase tracking-wide text-accent">
+                  {dict.work_detail.comparison_atelier}
+                </span>
+              </div>
+
+              <div className="mt-6 divide-y divide-line border-y border-line sm:mt-0">
+                {project.comparisonTable.rows.map((row) => (
+                  <div
+                    key={row.axis.pt}
+                    className="grid gap-3 py-5 sm:grid-cols-[8rem_1fr_1fr] sm:items-start sm:gap-6"
+                  >
+                    <span className="font-medium tracking-tight sm:pt-0.5 sm:font-mono sm:text-xs sm:font-normal sm:uppercase sm:tracking-wide sm:text-muted">
+                      {t(row.axis, lang)}
+                    </span>
+                    <div>
+                      <span className="font-mono text-[10px] uppercase tracking-wide text-muted/70 sm:hidden">
+                        {dict.work_detail.comparison_traditional}
+                      </span>
+                      <p className="mt-1 text-sm leading-relaxed text-muted sm:mt-0">
+                        {t(row.before, lang)}
+                      </p>
+                    </div>
+                    <div className="border-l-2 border-accent pl-4">
+                      <span className="font-mono text-[10px] uppercase tracking-wide text-accent/70 sm:hidden">
+                        {dict.work_detail.comparison_atelier}
+                      </span>
+                      <p className="mt-1 text-sm font-medium leading-relaxed sm:mt-0">
+                        {t(row.after, lang)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {project.objective && (
             <Block title={dict.work_detail.objective}>{t(project.objective, lang)}</Block>
@@ -235,40 +319,102 @@ export default async function ProjectPage({
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
               {dict.work_detail.approach}
             </h2>
-            <ol className="mt-5 space-y-4">
-              {project.approach.map((step, i) => (
-                <li key={i} className="flex items-start gap-4">
-                  <span className="relative inline-flex h-8 w-11 shrink-0 items-center justify-center font-mono text-sm text-accent">
-                    <InkCircle className="absolute inset-0 h-full w-full" />
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <p className="pt-1 text-base leading-relaxed">{t(step, lang)}</p>
-                </li>
-              ))}
-            </ol>
+            {project.approach.length > 0 && "text" in project.approach[0] ? (
+              <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+                {(project.approach as { title: L; text: L }[]).map((step, i) => (
+                  <div key={i} className="bg-card p-6">
+                    <span className="font-mono text-sm text-accent">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="mt-2 text-lg font-medium tracking-tight">
+                      {t(step.title, lang)}
+                    </h3>
+                    <InkUnderline className="mt-1.5 h-2 w-12" />
+                    <p className="mt-2 text-sm leading-relaxed text-muted">{t(step.text, lang)}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <ol className="mt-5 space-y-4">
+                {(project.approach as L[]).map((step, i) => (
+                  <li key={i} className="flex items-start gap-4">
+                    <span className="relative inline-flex h-8 w-11 shrink-0 items-center justify-center font-mono text-sm text-accent">
+                      <InkCircle className="absolute inset-0 h-full w-full" />
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <p className="pt-1 text-base leading-relaxed">{t(step, lang)}</p>
+                  </li>
+                ))}
+              </ol>
+            )}
           </section>
+
+          {project.flowDiagram && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {t(project.flowDiagram.title, lang)}
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
+                {t(project.flowDiagram.caption, lang)}
+              </p>
+              <div className="mt-8">
+                <HandshakeFlow lang={lang} />
+              </div>
+            </section>
+          )}
 
           {project.pillars && project.pillars.length > 0 && (
             <section className="mt-12">
               <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
                 {project.pillarsTitle ? t(project.pillarsTitle, lang) : dict.work_detail.pillars}
               </h2>
-              <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-                {project.pillars.map((pillar, i) => (
-                  <div key={i} className="bg-card p-6">
-                    <span className="font-mono text-sm text-accent">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <h3 className="mt-2 text-lg font-medium tracking-tight">
-                      {t(pillar.title, lang)}
-                    </h3>
-                    <InkUnderline className="mt-1.5 h-2 w-12" />
-                    <p className="mt-2 text-sm leading-relaxed text-muted">
-                      {t(pillar.text, lang)}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              {project.pillarsIntro && (
+                <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
+                  {t(project.pillarsIntro, lang)}
+                </p>
+              )}
+              {project.pillarsLayout === "list" ? (
+                <ol className="mt-5 space-y-4">
+                  {project.pillars.map((pillar, i) => (
+                    <li key={i} className="flex items-start gap-4">
+                      <span className="relative inline-flex h-8 w-11 shrink-0 items-center justify-center font-mono text-sm text-accent">
+                        <InkCircle className="absolute inset-0 h-full w-full" />
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <div className="flex flex-1 items-stretch justify-between gap-4 pt-1">
+                        <div>
+                          <h3 className="text-base font-medium tracking-tight">
+                            {t(pillar.title, lang)}
+                          </h3>
+                          <p className="mt-1 text-base leading-relaxed text-muted">
+                            {t(pillar.text, lang)}
+                          </p>
+                        </div>
+                        {pillar.doodle && (
+                          <PillarDoodle name={pillar.doodle} />
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+                  {project.pillars.map((pillar, i) => (
+                    <div key={i} className="bg-card p-6">
+                      <span className="font-mono text-sm text-accent">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <h3 className="mt-2 text-lg font-medium tracking-tight">
+                        {t(pillar.title, lang)}
+                      </h3>
+                      <InkUnderline className="mt-1.5 h-2 w-12" />
+                      <p className="mt-2 text-sm leading-relaxed text-muted">
+                        {t(pillar.text, lang)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </section>
           )}
 
@@ -280,16 +426,16 @@ export default async function ProjectPage({
               <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
                 {project.outcome.map((metric) => (
                   <div key={metric.label.pt} className="bg-card p-6">
-                    <p className="text-3xl font-medium tracking-tight">{metric.value}</p>
+                    <p className="text-2xl font-normal leading-snug tracking-tight">{t(metric.label, lang)}</p>
                     <InkUnderline className="mt-1.5 h-2 w-14" />
-                    <p className="mt-2 text-sm text-muted">{t(metric.label, lang)}</p>
+                    <p className="mt-2 text-sm text-muted">{metric.value}</p>
                   </div>
                 ))}
               </div>
             </section>
           )}
 
-          <p className="mt-12 font-hand text-3xl leading-snug text-foreground sm:text-4xl">
+          <p className="mt-12 font-hand max-w-2xl text-2xl leading-relaxed text-foreground sm:text-3xl">
             {t(project.closing, lang)}
           </p>
 

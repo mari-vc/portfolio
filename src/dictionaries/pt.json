@@ -27,16 +27,17 @@
   },
   "curiosities": {
     "eyebrow": "Curiosidades",
-    "heading": "Além das telas"
+    "heading": "Fora das telas"
   },
   "contact": {
     "eyebrow": "Contato",
     "heading_1": "Vamos construir",
     "heading_2": "algo bom juntos?",
-    "body": "Gosto de trabalhar em problemas complexos ao lado de pessoas curiosas. Se você acha que podemos construir algo interessante, me manda um e-mail."
+    "body": "Gosto de trabalhar em problemas complexos ao lado de pessoas curiosas. Se você acha que podemos construir algo interessante, me manda um e-mail.",
+    "resume_label": "Visualizar currículo"
   },
   "footer": {
-    "made_with": "Feito com cuidado."
+    "made_with": "Feito com cuidado, ilustrado com carinho."
   },
   "work_detail": {
     "back": "Todos os trabalhos",
@@ -44,12 +45,16 @@
     "client": "Empresa",
     "year": "Ano",
     "overview": "Resumo",
+    "problem": "O problema",
     "objective": "Objetivo",
     "constraints": "Restrições",
     "context": "Contexto",
     "market_analysis": "Análise de mercado",
     "market_model": "Modelo",
     "market_scope": "Onde atua",
+    "comparison": "DS tradicional vs Atelier",
+    "comparison_traditional": "DS tradicional",
+    "comparison_atelier": "Atelier",
     "ux_analysis": "Análise de experiência",
     "demo": "Protótipo interativo",
     "demo_hint": "Esse protótipo é navegável de verdade: busque um carro, escolha as datas, conclua uma reserva e converse com o anfitrião.",
@@ -72,5 +77,10 @@
     "contact_cta": "Me manda um e-mail",
     "linkedin_cta": "LinkedIn",
     "resume_cta": "Baixar currículo"
+  },
+  "email_menu": {
+    "default": "App de e-mail padrão",
+    "copy": "Copiar endereço",
+    "copied": "Endereço copiado"
   }
 }

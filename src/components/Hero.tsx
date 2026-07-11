@@ -22,7 +22,7 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
     <section className="relative mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-32 sm:pb-24">
       <div className="hero-root relative rise flex flex-col gap-12 md:flex-row md:items-center md:justify-between">
         <div className="md:shrink-0">
-          <h1 className="font-hand whitespace-nowrap text-[52px] leading-[0.85] sm:text-[64px]">
+          <h1 className="font-hand whitespace-nowrap text-[42px] leading-[0.95] sm:text-[60px]">
             {dict.hero.heading}
           </h1>
 
