@@ -303,11 +303,19 @@ export type Project = {
   objective?: L;
   constraints?: L;
   // aceita tanto texto solto (legado) quanto { title, text } (com título por passo)
-  approach: (L | { title: L; text: L })[];
+  // `image` (opcional) referencia um arquivo em /public/work/ exibido via botão de expandir
+  approach: (L | { title: L; text: L; image?: { src: string; alt: L } })[];
   // pilares do sistema (opcional) — grid visual de arquitetura
   // `doodle` (opcional, só no layout "list") referencia um pequeno desenho a
   // traço renderizado ao lado do item — chaves disponíveis em PillarDoodle.tsx
-  pillars?: { title: L; text: L; doodle?: "receipt" }[];
+  // `imageAfter` (opcional, só no layout "list") insere uma imagem de referência
+  // (arquivo em /public/work/) em largura cheia logo depois desse item
+  pillars?: {
+    title: L
+    text: L
+    doodle?: "receipt"
+    imageAfter?: { src: string; alt: L; width: number; height: number }
+  }[];
   // título da seção de pilares; sem ele, usa o padrão do dicionário ("Pilares do sistema")
   pillarsTitle?: L;
   // "list" → renderiza os pilares como lista numerada (bolinha + título + texto),
@@ -724,6 +732,10 @@ export const projects: Project[] = [
           pt: "Facilitei sessões de ideação com engenharia e designers dos times de Restaurante e Consumidor. Antes de discutir tecnologia, utilizamos 5 Why's para identificar a causa raiz dos problemas e alinhar uma solução única para toda a jornada.",
           en: "I facilitated ideation sessions with engineering and designers from the Restaurant and Consumer teams. Before discussing technology, we used 5 Whys to identify the root cause of the problems and align on a single solution for the whole journey.",
         },
+        image: {
+          src: "/work/5-whys.png",
+          alt: { pt: "Quadro de ideação com a técnica dos 5 Why's", en: "Ideation board using the 5 Whys technique" },
+        },
       },
       {
         title: { pt: "Validar a hipótese antes de escalar", en: "Validate the hypothesis before scaling" },
@@ -795,6 +807,12 @@ export const projects: Project[] = [
         text: {
           pt: "Nem todo erro indica uma tentativa de fraude. Um código desatualizado na loja correta pode ser validado automaticamente após alguns minutos, enquanto tentativas inválidas recebem múltiplas chances antes de qualquer penalização. O fluxo assume boa-fé até que existam sinais reais de abuso.",
           en: "Not every error signals a fraud attempt. An outdated code at the right store can be auto-validated after a few minutes, while invalid attempts get multiple chances before any penalty. The flow assumes good faith until there are real signs of abuse.",
+        },
+        imageAfter: {
+          src: "/work/check-in-flow.png",
+          alt: { pt: "Fluxo de check-in do entregador no restaurante", en: "Courier check-in flow at the restaurant" },
+          width: 15090,
+          height: 14526,
         },
       },
     ],

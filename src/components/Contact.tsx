@@ -35,7 +35,7 @@ export function Contact({ lang, dict }: { lang: Locale; dict: Dict }) {
 
         <div className="flex flex-col justify-end gap-1 border-t border-line pt-6 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
           <ContactRow label="LinkedIn" href={profile.socials.linkedin} />
-          <ContactRow label={dict.contact.resume_label} href={profile.resumeUrl} />
+          {/* TODO: currículo ainda não foi adicionado ao site — reativar quando o PDF existir em /public */}
           <ContactRow label="E-mail" href={profile.socials.email} />
         </div>
       </div>

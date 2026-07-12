@@ -67,12 +67,7 @@ export default async function AboutPage({
               label={dict.about_page.linkedin_cta}
               icon="linkedin"
             />
-            <IconButton
-              href={profile.resumeUrl}
-              label={dict.about_page.resume_cta}
-              icon="download"
-              download
-            />
+            {/* TODO: currículo ainda não foi adicionado ao site — reativar quando o PDF existir em /public */}
           </div>
         </div>
       </div>

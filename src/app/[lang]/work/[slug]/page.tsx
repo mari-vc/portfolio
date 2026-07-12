@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ViewTransition } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { getProject, projects, visibleProjects, t, type L } from '@/lib/data'
 import { ProjectSketch } from '@/components/ProjectSketch'
@@ -8,6 +9,7 @@ import { InkCircle, InkUnderline } from '@/components/InkUnderline'
 import { KypcarDemo } from '@/components/kypcar/KypcarDemo'
 import { HandshakeFlow } from '@/components/HandshakeFlow'
 import { PillarDoodle } from '@/components/PillarDoodle'
+import { ImageExpand } from '@/components/ImageExpand'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 
 export function generateStaticParams() {
@@ -321,7 +323,7 @@ export default async function ProjectPage({
             </h2>
             {project.approach.length > 0 && "text" in project.approach[0] ? (
               <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-                {(project.approach as { title: L; text: L }[]).map((step, i) => (
+                {(project.approach as { title: L; text: L; image?: { src: string; alt: L } }[]).map((step, i) => (
                   <div key={i} className="bg-card p-6">
                     <span className="font-mono text-sm text-accent">
                       {String(i + 1).padStart(2, '0')}
@@ -331,6 +333,9 @@ export default async function ProjectPage({
                     </h3>
                     <InkUnderline className="mt-1.5 h-2 w-12" />
                     <p className="mt-2 text-sm leading-relaxed text-muted">{t(step.text, lang)}</p>
+                    {step.image && (
+                      <ImageExpand src={step.image.src} alt={t(step.image.alt, lang)} />
+                    )}
                   </div>
                 ))}
               </div>
@@ -376,24 +381,38 @@ export default async function ProjectPage({
               {project.pillarsLayout === "list" ? (
                 <ol className="mt-5 space-y-4">
                   {project.pillars.map((pillar, i) => (
-                    <li key={i} className="flex items-start gap-4">
-                      <span className="relative inline-flex h-8 w-11 shrink-0 items-center justify-center font-mono text-sm text-accent">
-                        <InkCircle className="absolute inset-0 h-full w-full" />
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <div className="flex flex-1 items-stretch justify-between gap-4 pt-1">
-                        <div>
-                          <h3 className="text-base font-medium tracking-tight">
-                            {t(pillar.title, lang)}
-                          </h3>
-                          <p className="mt-1 text-base leading-relaxed text-muted">
-                            {t(pillar.text, lang)}
-                          </p>
+                    <li key={i} className="flex flex-col gap-4">
+                      <div className="flex items-start gap-4">
+                        <span className="relative inline-flex h-8 w-11 shrink-0 items-center justify-center font-mono text-sm text-accent">
+                          <InkCircle className="absolute inset-0 h-full w-full" />
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <div className="flex flex-1 items-stretch justify-between gap-4 pt-1">
+                          <div>
+                            <h3 className="text-base font-medium tracking-tight">
+                              {t(pillar.title, lang)}
+                            </h3>
+                            <p className="mt-1 text-base leading-relaxed text-muted">
+                              {t(pillar.text, lang)}
+                            </p>
+                          </div>
+                          {pillar.doodle && (
+                            <PillarDoodle name={pillar.doodle} />
+                          )}
                         </div>
-                        {pillar.doodle && (
-                          <PillarDoodle name={pillar.doodle} />
-                        )}
                       </div>
+                      {pillar.imageAfter && (
+                        <div className="ml-[3.25rem] overflow-hidden rounded-2xl border border-line">
+                          <Image
+                            src={pillar.imageAfter.src}
+                            alt={t(pillar.imageAfter.alt, lang)}
+                            width={pillar.imageAfter.width}
+                            height={pillar.imageAfter.height}
+                            className="h-auto w-full object-contain"
+                            sizes="(min-width: 768px) 700px, 100vw"
+                          />
+                        </div>
+                      )}
                     </li>
                   ))}
                 </ol>
