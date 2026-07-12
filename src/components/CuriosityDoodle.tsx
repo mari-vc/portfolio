@@ -107,59 +107,78 @@ export function CuriosityDoodle({
   className?: string;
 }) {
   // Violão autoral da Mari servido de /public/doodles (traço complexo demais
-  // para inline). As notas sobem no hover do item — par do rolar dos dados.
+  // para inline). A nota sobe no hover do item, simulando o violão tocando.
+  // A footprint de layout segue o tamanho padrão dos outros doodles (className
+  // herdado, h-14) para o texto alinhar com as outras linhas; o violão em si é
+  // maior (mesmo traço do Jake, 5.5rem) e transborda por cima, centralizado na
+  // caixa, sem empurrar o texto. A arte é landscape (406×166) e gira 45°, então
+  // a extensão vertical do desenho ≈ o lado do container de 5.5rem.
   if (name === "guitar") {
     return (
       <span className={`relative block ${className ?? ""}`} aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/doodles/violao.svg" alt="" className="h-full w-full object-contain" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/doodles/nota01.svg" alt="" className="doodle-note absolute -top-1 -right-2 h-4 w-auto" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/doodles/nota02.svg" alt="" className="doodle-note doodle-note--late absolute top-2 -right-4 h-3.5 w-auto" />
+        <span
+          className="absolute block h-[5.5rem] w-[5.5rem] -translate-x-1/2 -translate-y-1/2"
+          style={{ left: "calc(50% + 8px)", top: "calc(50% + 18px)" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/doodles/guitar.svg"
+            alt=""
+            className="h-full w-full -rotate-45 object-contain"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/doodles/nota01.svg"
+            alt=""
+            className="doodle-note absolute h-4 w-auto"
+            style={{ left: "18%", top: "0%" }}
+          />
+        </span>
       </span>
     );
   }
 
   // Jake, o Chihuahua — retrato servido de /public/doodles (traço complexo
-  // demais para inline, como o violão acima). Bem maior que os demais doodles
-  // e solto do grid de propósito: essa linha pode ficar mais alta que as
-  // outras, é a mais pessoal do bloco de curiosidades. Espelhado para olhar
-  // em direção ao texto; a patinha acena (.jake-paw, ver globals.css) no
-  // hover do link @jake.thedoguinho.
+  // demais para inline, como o violão acima). A footprint de layout segue o
+  // tamanho padrão dos outros doodles (className herdado) para o texto alinhar
+  // com as outras linhas; o Jake em si é maior (5.5rem, o mais pessoal do
+  // bloco) e transborda por cima, centralizado na caixa, sem empurrar o texto.
+  // A patinha acena (.jake-paw, ver globals.css) no hover do link
+  // @jake.thedoguinho.
   if (name === "dog") {
     return (
-      <span
-        className={`relative -m-3 block ${className ?? ""}`}
-        style={{ width: "7.5rem", height: "7.5rem" }}
-        aria-hidden="true"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/doodles/jake.svg"
-          alt=""
-          className="h-full w-full object-contain"
-        />
-        <svg
-          viewBox="0 0 24 24"
-          className="jake-paw absolute right-2 top-1 h-9 w-9"
+      <span className={`relative block ${className ?? ""}`} aria-hidden="true">
+        <span
+          className="absolute left-1/2 block h-[5.5rem] w-[5.5rem] -translate-x-1/2 -translate-y-1/2"
+          style={{ top: "calc(50% + 17px)" }}
         >
-          <path
-            d="M12 20 L12 13"
-            stroke="#15151A"
-            strokeWidth="2"
-            strokeLinecap="round"
-            fill="none"
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/doodles/jake.svg"
+            alt=""
+            className="h-full w-full object-contain"
           />
-          <path
-            d="M12 13 C8 12, 6 8, 8 5 C9.5 6, 10 8, 10.5 9.5 C11 7.5, 11.5 6, 13 4.5 C14.5 6, 14.5 8, 14 10 C15.5 8.5, 17 8, 18.5 8.5 C18 11, 15.5 13, 12 13 Z"
-            stroke="#15151A"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-        </svg>
+          <svg
+            viewBox="0 0 24 24"
+            className="jake-paw absolute right-1.5 top-0.5 h-7 w-7"
+          >
+            <path
+              d="M12 20 L12 13"
+              stroke="#15151A"
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+            />
+            <path
+              d="M12 13 C8 12, 6 8, 8 5 C9.5 6, 10 8, 10.5 9.5 C11 7.5, 11.5 6, 13 4.5 C14.5 6, 14.5 8, 14 10 C15.5 8.5, 17 8, 18.5 8.5 C18 11, 15.5 13, 12 13 Z"
+              stroke="#15151A"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+          </svg>
+        </span>
       </span>
     );
   }

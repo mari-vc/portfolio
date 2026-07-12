@@ -40,7 +40,7 @@ export function Curiosities({ lang, dict }: { lang: Locale; dict: Dict }) {
           >
             <CuriosityDoodle
               name={item.icon}
-              className={`mt-1 h-11 w-11 shrink-0 transition-transform duration-300 group-hover:rotate-0 ${
+              className={`mt-1 h-14 w-14 shrink-0 transition-transform duration-300 group-hover:rotate-0 ${
                 i % 2 === 0 ? "-rotate-3" : "rotate-2"
               }`}
             />
