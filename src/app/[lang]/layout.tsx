@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif, Caveat } from 'next/font/google'
 import localFont from 'next/font/local'
 import { notFound } from 'next/navigation'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
@@ -70,6 +71,7 @@ export default async function LangLayout({
         <main className="flex-1">{children}</main>
         <Footer lang={lang} dict={dict} />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
