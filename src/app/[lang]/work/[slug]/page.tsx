@@ -7,9 +7,10 @@ import { getProject, projects, visibleProjects, t, type L } from '@/lib/data'
 import { ProjectSketch } from '@/components/ProjectSketch'
 import { InkCircle, InkUnderline } from '@/components/InkUnderline'
 import { KypcarDemo } from '@/components/kypcar/KypcarDemo'
-import { HandshakeFlow } from '@/components/HandshakeFlow'
+import { HandshakeFlow, HandshakeCheckoutFlow } from '@/components/HandshakeFlow'
 import { PillarDoodle } from '@/components/PillarDoodle'
 import { ImageExpand } from '@/components/ImageExpand'
+import { PrototypeEmbed } from '@/components/PrototypeEmbed'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 
 export function generateStaticParams() {
@@ -354,6 +355,21 @@ export default async function ProjectPage({
             )}
           </section>
 
+          {project.prototypeEmbed && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {t(project.prototypeEmbed.title, lang)}
+              </h2>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted">
+                {t(project.prototypeEmbed.hint, lang)}
+              </p>
+              <PrototypeEmbed
+                src={project.prototypeEmbed.src}
+                title={t(project.prototypeEmbed.title, lang)}
+              />
+            </section>
+          )}
+
           {project.flowDiagram && (
             <section className="mt-12">
               <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
@@ -451,6 +467,32 @@ export default async function ProjectPage({
                   </div>
                 ))}
               </div>
+            </section>
+          )}
+
+          {project.checkoutFlow && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {t(project.checkoutFlow.title, lang)}
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
+                {t(project.checkoutFlow.caption, lang)}
+              </p>
+              <div className="mt-8">
+                <HandshakeCheckoutFlow lang={lang} />
+              </div>
+              {project.checkoutFlow.image && (
+                <div className="mt-6 overflow-hidden rounded-2xl border border-line">
+                  <Image
+                    src={project.checkoutFlow.image.src}
+                    alt={t(project.checkoutFlow.image.alt, lang)}
+                    width={project.checkoutFlow.image.width}
+                    height={project.checkoutFlow.image.height}
+                    className="h-auto w-full object-contain"
+                    sizes="(min-width: 768px) 700px, 100vw"
+                  />
+                </div>
+              )}
             </section>
           )}
 

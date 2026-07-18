@@ -183,13 +183,21 @@ function KypcarApp() {
   );
 }
 
+// O app é desenhado num phone de largura fixa (360), então em telas estreitas
+// ele estourava e ficava cortado. Renderizamos num tamanho de design fixo e
+// escalamos proporcionalmente via container-query (cqw), o mesmo tratamento do
+// PrototypeEmbed — assim o aparelho inteiro cabe em qualquer largura.
+const DESIGN_W = 400;
+const DESIGN_H = 860;
+
 export function KypcarDemo() {
   return (
     <div
       style={{
-        width: "100%", display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "40px 20px",
-        fontFamily: "'Host Grotesk', system-ui, -apple-system, sans-serif",
+        width: "100%", maxWidth: DESIGN_W, margin: "0 auto",
+        aspectRatio: `${DESIGN_W} / ${DESIGN_H}`,
+        containerType: "inline-size",
+        overflow: "hidden",
       }}
     >
       <style>{`
@@ -197,9 +205,19 @@ export function KypcarDemo() {
         @keyframes kPop { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
         @keyframes kBlink { 0%, 80%, 100% { opacity: 0.3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
       `}</style>
-      <PhoneFrame width={360} height={780}>
-        <KypcarApp />
-      </PhoneFrame>
+      <div
+        style={{
+          width: DESIGN_W, height: DESIGN_H,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          transformOrigin: "top left",
+          transform: `scale(calc(100cqw / ${DESIGN_W}px))`,
+          fontFamily: "'Host Grotesk', system-ui, -apple-system, sans-serif",
+        }}
+      >
+        <PhoneFrame width={360} height={780}>
+          <KypcarApp />
+        </PhoneFrame>
+      </div>
     </div>
   );
 }

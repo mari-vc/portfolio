@@ -64,14 +64,19 @@ function StatusBar() {
   );
 }
 
+// `bare` → só o corpo ilustrado, sem o chrome de iOS (status bar, dynamic
+// island e home indicator). Usado quando o conteúdo embutido já desenha a
+// própria status bar, como o protótipo do Handshake — senão duplicaria.
 export function PhoneFrame({
   children,
   width = 402,
   height = 874,
+  bare = false,
 }: {
   children: ReactNode;
   width?: number;
   height?: number;
+  bare?: boolean;
 }) {
   const inset = width * 0.038;
   const screenRadius = width * 0.115;
@@ -97,16 +102,18 @@ export function PhoneFrame({
         <path d={`M${width * 0.003} ${height * 0.255} L${width * 0.003} ${height * 0.31}`} stroke={INK} strokeWidth={width * 0.013} strokeLinecap="round" />
         <path d={`M${width * 0.997} ${height * 0.21} L${width * 0.997} ${height * 0.29}`} stroke={INK} strokeWidth={width * 0.016} strokeLinecap="round" />
         {/* dynamic island, contornado à mão em vez de sólido/geométrico */}
-        <path
-          d={`M${width * 0.42} ${height * 0.027}
-              C${width * 0.39} ${height * 0.026} ${width * 0.37} ${height * 0.033} ${width * 0.37} ${height * 0.042}
-              C${width * 0.37} ${height * 0.052} ${width * 0.39} ${height * 0.058} ${width * 0.42} ${height * 0.057}
-              L${width * 0.58} ${height * 0.058}
-              C${width * 0.61} ${height * 0.059} ${width * 0.63} ${height * 0.052} ${width * 0.63} ${height * 0.043}
-              C${width * 0.63} ${height * 0.033} ${width * 0.61} ${height * 0.026} ${width * 0.58} ${height * 0.028}
-              Z`}
-          fill="none" stroke={INK} strokeWidth={width * 0.01} strokeLinejoin="round"
-        />
+        {!bare && (
+          <path
+            d={`M${width * 0.42} ${height * 0.027}
+                C${width * 0.39} ${height * 0.026} ${width * 0.37} ${height * 0.033} ${width * 0.37} ${height * 0.042}
+                C${width * 0.37} ${height * 0.052} ${width * 0.39} ${height * 0.058} ${width * 0.42} ${height * 0.057}
+                L${width * 0.58} ${height * 0.058}
+                C${width * 0.61} ${height * 0.059} ${width * 0.63} ${height * 0.052} ${width * 0.63} ${height * 0.043}
+                C${width * 0.63} ${height * 0.033} ${width * 0.61} ${height * 0.026} ${width * 0.58} ${height * 0.028}
+                Z`}
+            fill="none" stroke={INK} strokeWidth={width * 0.01} strokeLinejoin="round"
+          />
+        )}
       </svg>
 
       {/* tela real, recortada dentro do corpo ilustrado */}
@@ -116,27 +123,31 @@ export function PhoneFrame({
           top: inset, left: inset, right: inset, bottom: inset,
           borderRadius: screenRadius,
           overflow: "hidden",
-          background: "#000",
+          background: bare ? "#fff" : "#000",
           fontFamily: "-apple-system, system-ui, sans-serif",
           WebkitFontSmoothing: "antialiased",
         }}
       >
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 10 }}>
-          <StatusBar />
-        </div>
+        {!bare && (
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 10 }}>
+            <StatusBar />
+          </div>
+        )}
         <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
           <div style={{ flex: 1, overflow: "hidden" }}>{children}</div>
         </div>
         {/* home indicator */}
-        <div
-          style={{
-            position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 60,
-            height: 34, display: "flex", justifyContent: "center", alignItems: "flex-end",
-            paddingBottom: 8, pointerEvents: "none",
-          }}
-        >
-          <div style={{ width: 139, height: 5, borderRadius: 100, background: "rgba(255,255,255,0.7)" }} />
-        </div>
+        {!bare && (
+          <div
+            style={{
+              position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 60,
+              height: 34, display: "flex", justifyContent: "center", alignItems: "flex-end",
+              paddingBottom: 8, pointerEvents: "none",
+            }}
+          >
+            <div style={{ width: 139, height: 5, borderRadius: 100, background: "rgba(255,255,255,0.7)" }} />
+          </div>
+        )}
       </div>
     </div>
   );

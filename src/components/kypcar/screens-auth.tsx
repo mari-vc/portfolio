@@ -122,7 +122,7 @@ export function WelcomeScreen({ onContinue, onSkip }: { onContinue: () => void; 
       </div>
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 5, padding: "0 24px 50px", display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
         <div key={step} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, animation: "kFadeUp 0.45s ease both" }}>
-          <h1 style={{ margin: 0, fontFamily: FONT, fontSize: 26, fontWeight: 600, color: C.text, lineHeight: 1.2, textAlign: "center", whiteSpace: "pre-line", letterSpacing: -0.4 }}>
+          <h1 style={{ margin: 0, fontFamily: FONT, fontSize: 26, fontWeight: 600, color: C.text, lineHeight: 1.2, textAlign: "center", whiteSpace: "pre-line", textWrap: "balance", letterSpacing: -0.4 }}>
             {slide.title}
           </h1>
           <p style={{ margin: 0, fontFamily: FONT, fontSize: 14, fontWeight: 400, color: C.textDim, lineHeight: 1.5, textAlign: "center", maxWidth: 320 }}>

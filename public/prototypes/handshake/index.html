@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="prototype">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: transparent; font-family: 'Montserrat', -apple-system, sans-serif; }
+    a { color: rgb(234,29,44); }
+    a:hover { color: rgb(190,20,33); }
+    * { box-sizing: border-box; }
+    button { font-family: 'Montserrat', -apple-system, sans-serif; cursor: pointer; border: none; background: none; padding: 0; }
+    input, textarea { font-family: 'Montserrat', -apple-system, sans-serif; }
+    @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes screenIn { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes revealUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scanY { 0% { top: 6px; } 50% { top: calc(100% - 8px); } 100% { top: 6px; } }
+    @keyframes loadbar { from { width: 0; } to { width: 142px; } }
+    @keyframes chatIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes spin360 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes checkPop { 0% { opacity: 0; transform: scale(0.4); } 60% { opacity: 1; transform: scale(1.12); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes stepPulse { 0% { transform: scale(0.55); opacity: 0.6; } 75% { transform: scale(2); opacity: 0; } 100% { transform: scale(2); opacity: 0; } }
+  </style>
+</helmet>
+
+<div style="width:360px;height:640px;position:relative;">
+
+  <sc-if value="{{ showDevNav }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed;top:20px;left:20px;background:#1a1a1a;color:#fff;padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.6;z-index:50;max-width:220px;box-shadow:0 8px 24px rgba(0,0,0,0.3);">
+      <div style="font-weight:600;margin-bottom:6px;opacity:0.6;letter-spacing:0.04em;text-transform:uppercase;font-size:10px;">Ir para tela</div>
+      <select value="{{ step }}" onChange="{{ jumpTo }}" style="width:100%;background:#2a2a2a;color:#fff;border:1px solid #444;border-radius:6px;padding:6px 8px;font-size:12px;">
+        <option value="map">Mapa / chegada</option>
+        <option value="info-qr">Código QR (info)</option>
+        <option value="problem-reasons">Tengo un problema</option>
+        <option value="chat">Chat</option>
+        <option value="camera">Escanear QR</option>
+        <option value="loading">Loading</option>
+        <option value="qr-valido">QR válido</option>
+        <option value="qr-no-confirmado">QR no confirmado</option>
+        <option value="qr-invalido">QR inválido</option>
+        <option value="qr-excedido">QR excedido intentos</option>
+        <option value="recoleccion">Recolección (check-in ok)</option>
+        <option value="entrega">Entrega (pendientes)</option>
+        <option value="entrega-map">Entrega (mapa/rota)</option>
+      </select>
+    </div>
+  </sc-if>
+
+  <div data-screen-label="{{ step }}" style="width:360px;height:640px;position:relative;overflow:hidden;background:#fff;">
+
+    <!-- ============ MAPA ============ -->
+    <sc-if value="{{ isMap }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;inset:0;overflow:hidden;">
+        <div style="position:absolute;left:-23px;top:-45px;width:420px;height:719px;background:url('assets/map.png') center / cover no-repeat;"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:195px;background:linear-gradient(180deg, rgb(255,255,255) 8.41%, rgba(255,255,255,0) 67.44%);"></div>
+
+        
+
+        <!-- balão Recolección 1 -->
+        <div style="position:absolute;left:187.6px;top:123px;width:169px;height:55px;background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(62,62,62,0.2);"></div>
+        <div style="position:absolute;left:194.6px;top:130px;width:38.4px;height:36.9px;border-radius:50%;background:rgb(80,167,115);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:500;line-height:1.1;"><span>09</span><span>min</span></div>
+        <div style="position:absolute;left:241.6px;top:130px;font-size:14px;font-weight:500;line-height:22px;color:rgb(62,62,62);">Recolección 1</div>
+        <div style="position:absolute;left:241.2px;top:150.5px;font-size:14px;font-weight:500;line-height:18px;color:rgb(166,166,165);">4km</div>
+        <div style="position:absolute;left:260px;top:184px;width:10px;height:10px;border-radius:50%;background:rgb(234,29,44);box-shadow:inset 0 0 0 1.5px #fff, 0 2px 2px rgba(62,62,62,0.15);"></div>
+
+        <!-- balão Recolección 2 -->
+        <div style="position:absolute;left:148.6px;top:435px;width:111px;height:36px;background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(62,62,62,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:rgb(62,62,62);">Recolección 2</div>
+        <div style="position:absolute;left:196.5px;top:482px;width:15px;height:15px;border-radius:50%;background:rgb(234,29,44);box-shadow:inset 0 0 0 2px #fff;"></div>
+
+        <!-- balão Entrega 1 -->
+        <div style="position:absolute;left:44px;top:300px;width:89px;height:36px;background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(62,62,62,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:rgb(62,62,62);">Entrega 1</div>
+        <div style="position:absolute;left:81px;top:347px;width:15px;height:15px;border-radius:50%;background:rgb(234,29,44);box-shadow:inset 0 0 0 2px #fff;"></div>
+
+        <!-- status bar -->
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+
+        <!-- back -->
+        <button style="position:absolute;left:9px;top:27px;width:39px;height:39px;border-radius:8px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;" style-active="transform:scale(0.94);">
+          <svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </button>
+
+        <!-- tabbar Mapa/Recorrido -->
+        <div style="position:absolute;left:103px;top:31px;width:160px;height:32px;border-radius:8px;background:rgb(242,242,242);padding:2px;display:flex;align-items:center;">
+          <div style="width:76px;height:28px;border-radius:8px;background:#fff;box-shadow:0 2px 2px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:rgb(234,29,44);">Mapa</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:300;color:rgb(62,62,62);">Recorrido</div>
+        </div>
+
+        <!-- chat -->
+        <button onClick="{{ goChatSupport }}" style="position:absolute;left:318px;top:33px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;">
+          <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.25" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5"></circle><path d="M9.7 9.4 a2.4 2.4 0 1 1 3.4 2.5 c-0.7 0.3 -1.1 0.7 -1.1 1.5 v0.3" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5" stroke-linecap="round"></path><circle cx="12" cy="16.4" r="1" fill="rgb(234,29,44)"></circle></svg>
+        </button>
+
+        <!-- localização -->
+        <div style="position:absolute;left:306px;top:455px;width:38px;height:38px;border-radius:8px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2.5 C8 2.5 5 5.6 5 9.5 c0 5 7 12 7 12 s7 -7 7 -12 c0 -3.9 -3 -7 -7 -7 z" fill="none" stroke="rgb(234,29,44)" stroke-width="1.8"></path><circle cx="12" cy="9.5" r="2.6" fill="rgb(234,29,44)"></circle></svg>
+        </div>
+
+        <svg width="360" height="640" viewBox="0 0 360 640" style="position:absolute;left:0;top:0;pointer-events:none;">
+          <!-- rota principal: Recolección 1 → Recolección 2, reaproveitando o traçado desenhado -->
+          <path d="M 265 189 Q 269 196 265.0 201.0 Q 261 206 258.0 210.5 Q 255 215 253.5 219.5 Q 252 224 254.0 229.0 Q 256 234 260.0 237.0 Q 264 240 267.5 244.0 Q 271 248 275.0 251.5 Q 279 255 285.0 258.5 Q 291 262 296.0 264.0 Q 301 266 306.5 268.5 Q 312 271 317.0 273.0 Q 322 275 327.5 276.5 Q 333 278 337.5 279.0 Q 342 280 345.0 284.0 Q 348 288 349.5 292.0 Q 351 296 351.0 299.0 L 351 302 Q 300 340 275.0 375.0 Q 250 410 225.0 445.0 Q 210 465 204.0 489.5" fill="none" stroke="rgb(234,29,44)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+          <!-- ramo para Entrega 1 → Recolección 2, reaproveitando o traçado desenhado -->
+          <path d="M 88.5 354.5 Q 95 356 107.0 348.0 Q 121 339 135.0 328.0 Q 149 320 162.0 314.0 Q 175 310 184.0 317.0 Q 193 335 203.0 354.0 Q 213 372 218.0 390.0 Q 222 408 212.0 425.0 Q 205 445 205.0 465.0 Q 205 480 201.0 494.0" fill="none" stroke="rgb(234,29,44)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+
+        <!-- scrim (só quando expandido) -->
+        <sc-if value="{{ mapSheetOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ collapseMapSheet }}" style="position:absolute;inset:0;background:rgba(34,42,46,0.35);animation:fadeIn 0.22s ease;"></div>
+        </sc-if>
+
+        <!-- nav bar (desliza de cima, espelhando o sheet; posicionada fora do sheet p/ não herdar seu deslocamento) -->
+        <div style="{{ mapNavBarStyle }}">
+          <div style="position:absolute;left:0;top:0;width:360px;height:120px;background:#fff;">
+            <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+            <button onClick="{{ collapseMapSheet }}" style="position:absolute;left:16px;top:35px;width:24px;height:24px;" style-active="transform:scale(0.9);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+            <div style="position:absolute;left:0;top:40px;width:360px;text-align:center;font-size:12px;font-weight:500;letter-spacing:0.5px;color:rgb(62,62,62);">RECOLECCIÓN</div>
+            <button onClick="{{ goChatSupport }}" style="position:absolute;left:320px;top:35px;width:24px;height:24px;"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.25" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5"></circle><path d="M9.7 9.4 a2.4 2.4 0 1 1 3.4 2.5 c-0.7 0.3 -1.1 0.7 -1.1 1.5 v0.3" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5" stroke-linecap="round"></path><circle cx="12" cy="16.4" r="1" fill="rgb(234,29,44)"></circle></svg></button>
+          </div>
+          <div style="position:absolute;left:97px;top:90px;width:166px;height:24px;display:flex;align-items:center;z-index:1;">
+            <div style="width:24px;height:24px;border-radius:50%;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+              <div style="position:absolute;width:24px;height:24px;border-radius:50%;background:rgb(80,167,115);animation:stepPulse 1.8s ease-out infinite;"></div>
+              <div style="position:relative;width:10px;height:10px;border-radius:50%;background:rgb(80,167,115);box-shadow:0 0 0 3px #fff;"></div>
+            </div>
+            <div style="width:45px;height:1px;background:rgb(220,220,220);margin:0 4px;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:rgb(166,166,165);margin:0 8px;"></div>
+            <div style="width:45px;height:1px;background:rgb(220,220,220);margin:0 4px;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:rgb(166,166,165);margin:0 8px;"></div>
+          </div>
+        </div>
+
+        <!-- bottom sheet full-screen (peek → cobre a tela) -->
+        <div style="{{ mapSheetStyle }}">
+
+          <!-- painel cinza (corpo do sheet) -->
+          <div style="position:absolute;left:0;top:120px;width:360px;height:520px;border-radius:8px 8px 0 0;background:rgb(247,247,247);box-shadow:0 -2px 10px rgba(62,62,62,0.08);"></div>
+          <button onClick="{{ toggleMapSheet }}" style="position:absolute;left:0;top:120px;width:360px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+            <div style="width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);"></div>
+          </button>
+          <div onClick="{{ expandMapSheet }}" style="position:absolute;left:16px;top:149px;width:328px;height:110px;background:#fff;border-radius:8px;box-shadow:inset 0 0 0 1px rgb(242,242,242);cursor:pointer;">
+            <div style="position:absolute;left:16px;top:16px;font-size:18px;font-weight:500;line-height:22px;color:rgb(62,62,62);">iFood Osasco</div>
+            <div style="position:absolute;left:16px;top:51px;width:202px;font-size:16px;font-weight:300;line-height:20px;color:rgb(62,62,62);">Av. dos Autônomos Seletivos, 3844 - Osasco</div>
+            <div style="position:absolute;left:234px;top:16px;width:78px;height:78px;border-radius:8px;box-shadow:inset 0 0 0 1px rgb(234,29,44);">
+              <div style="position:absolute;left:30px;top:17px;width:17px;height:17px;background:rgb(234,29,44);border-radius:3px;transform:rotate(45deg);display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 10 10" style="transform:rotate(-45deg);"><path d="M2 6 h3.4 v1.8 l3 -2.8 -3 -2.8 v1.8 H2 z" fill="#fff"></path></svg></div>
+              <div style="position:absolute;left:0;top:41px;width:78px;text-align:center;font-size:14px;font-weight:500;line-height:20px;color:rgb(234,29,44);">Mapa</div>
+            </div>
+          </div>
+          <div style="position:absolute;left:32px;top:275px;font-size:14px;font-weight:300;line-height:18px;color:rgb(113,113,113);">Tiempo estimado de llegada: 10:55</div>
+
+          <!-- card handshake -->
+          <div style="position:absolute;left:24px;top:312px;width:312px;height:120px;background:#fff;border-radius:8px;box-shadow:inset 0 0 0 1px rgb(242,242,242);padding:16px;display:flex;align-items:center;gap:16px;">
+            <div style="position:relative;width:66px;height:64px;flex-shrink:0;overflow:visible;">
+              <div style="transform:scale(0.672);transform-origin:0 0;width:98.2px;height:94px;">
+                <x-import component="ImgHandshake94" from="./figparts/ImgHandshake94.jsx" hint-size="66px,64px"></x-import>
+              </div>
+              <img src="assets/qr-mini.svg" style="position:absolute;left:25px;top:11px;width:12px;height:12px;transform:rotate(-6deg);" alt="">
+            </div>
+            <div style="font-size:16px;font-weight:400;line-height:20px;color:rgb(62,62,62);">En el restaurante busca el Código QR para empezar la recolección</div>
+          </div>
+
+          <div style="position:absolute;left:0;top:556px;width:360px;height:84px;background:#fff;border-top:0.5px solid rgb(242,242,242);">
+            <button onClick="{{ confirmArrival }}" style="position:absolute;left:16px;top:16px;width:328px;height:52px;border-radius:4px;box-shadow:inset 0 0 0 1px rgb(234,29,44);color:rgb(234,29,44);font-size:14px;font-weight:500;background:#fff;" style-active="transform:scale(0.985);background:rgb(255,241,239);">Llegué al punto de recolección</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ INFO QR ============ -->
+    <sc-if value="{{ isInfoQR }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ infoQRScreenStyle }}">
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;">
+          <button onClick="{{ goMapExpanded }}" style="position:absolute;left:16px;top:11px;width:24px;height:24px;" style-active="transform:scale(0.9);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">Código QR</div>
+        </div>
+
+        <div style="position:absolute;left:90px;top:137px;width:180px;height:180px;">
+          <x-import component="MotoboyIllustration" from="./figparts/MotoboyIllustration.jsx" hint-size="180px,180px"></x-import>
+        </div>
+        <div style="position:absolute;left:28px;top:341px;width:304px;text-align:center;font-size:20px;font-weight:500;line-height:26px;color:rgb(26,26,26);">¿Cómo encontrar el código?</div>
+        <div style="position:absolute;left:43px;top:375px;width:272px;text-align:center;font-size:14px;font-weight:300;line-height:18px;color:rgb(113,113,113);">Encuéntralo en la zona de entregas del restaurante. Este código te servirá para agilizar tu tiempo de recolección en la tienda</div>
+
+        <div style="position:absolute;left:16px;top:516px;width:328px;display:flex;flex-direction:column;gap:4px;">
+          <button onClick="{{ goCamera }}" style="width:100%;height:52px;border-radius:4px;background:rgb(234,29,44);color:#fff;font-size:14px;font-weight:500;" style-active="transform:scale(0.985);background:rgb(200,24,38);">Escanea el código QR</button>
+          <button onClick="{{ goProblem }}" style="width:100%;height:48px;color:rgb(234,29,44);font-size:14px;font-weight:500;" style-active="opacity:0.6;">Tengo un problema</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ TENGO UN PROBLEMA ============ -->
+    <sc-if value="{{ isProblem }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;animation:screenIn 0.25s ease;">
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;border-bottom:0.5px solid rgb(242,242,242);">
+          <button onClick="{{ goBackFromProblem }}" style="position:absolute;left:6px;top:1px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;" style-active="transform:scale(0.9);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">Tengo un problema</div>
+        </div>
+        <div style="position:absolute;left:24px;top:100px;width:312px;font-size:22px;font-weight:500;line-height:28px;color:rgb(26,26,26);">¿Qué sucedió?</div>
+        <div style="position:absolute;left:24px;top:136px;width:312px;font-size:14px;font-weight:300;line-height:20px;color:rgb(113,113,113);">Selecciona el motivo para ayudarte más rápido.</div>
+        <div style="position:absolute;left:16px;top:180px;width:328px;height:368px;overflow-y:auto;padding:8px 2px 12px;">
+          <sc-for list="{{ reasons }}" as="r" hint-placeholder-count="5">
+            <label style="{{ r.rowStyle }}">
+              <span style="font-size:15px;font-weight:400;line-height:20px;color:rgb(62,62,62);">{{ r.label }}</span>
+              <span style="{{ r.radioStyle }}"><sc-if value="{{ r.checked }}" hint-placeholder-val="{{ false }}"><span style="width:10px;height:10px;border-radius:50%;background:rgb(234,29,44);"></span></sc-if></span>
+              <input type="radio" name="reason" checked="{{ r.checked }}" onChange="{{ r.select }}" style="position:absolute;opacity:0;width:0;height:0;">
+            </label>
+          </sc-for>
+          <sc-if value="{{ isOther }}" hint-placeholder-val="{{ false }}">
+            <textarea value="{{ otherText }}" onInput="{{ setOtherText }}" placeholder="Cuéntanos qué pasó" maxlength="100" style="width:100%;height:88px;margin-top:16px;border:1.5px solid rgb(224,224,224);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:300;line-height:20px;color:rgb(62,62,62);resize:none;" style-focus="border-color:rgb(234,29,44);outline:none;"></textarea>
+          </sc-if>
+        </div>
+        <div style="position:absolute;left:0;top:556px;width:360px;height:84px;background:#fff;border-top:0.5px solid rgb(242,242,242);">
+          <button onClick="{{ submitReasons }}" disabled="{{ continueDisabled }}" style="{{ continueButtonStyle }}" style-active="transform:scale(0.985);">Continuar</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CHAT ============ -->
+    <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;animation:screenIn 0.25s ease;">
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;border-bottom:0.5px solid rgb(242,242,242);">
+          <button onClick="{{ goBackFromChat }}" style="position:absolute;left:0px;top:-4px;width:56px;height:56px;display:flex;align-items:center;justify-content:center;padding:0 6px 0 10px;" style-active="transform:scale(0.9);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">Chat con Soporte</div>
+        </div>
+        <div style="position:absolute;left:16px;top:92px;width:328px;display:flex;flex-direction:column;gap:12px;">
+          <div style="align-self:flex-start;max-width:80%;background:rgb(247,247,247);border-radius:14px 14px 14px 4px;padding:12px 16px;font-size:14px;font-weight:300;line-height:20px;color:rgb(62,62,62);animation:chatIn 0.3s ease;">¡Hola! Soy Soporte. ¿En qué puedo ayudarte con tu recolección?</div>
+          <sc-if value="{{ hasReason }}" hint-placeholder-val="{{ false }}">
+            <div style="align-self:flex-end;max-width:80%;background:rgb(234,29,44);border-radius:14px 14px 4px 14px;padding:12px 16px;font-size:14px;line-height:20px;color:#fff;animation:chatIn 0.3s ease 0.15s backwards;">{{ reasonMessage }}</div>
+          </sc-if>
+          <div style="align-self:flex-start;max-width:80%;background:rgb(247,247,247);border-radius:14px 14px 14px 4px;padding:12px 16px;font-size:14px;font-weight:300;line-height:20px;color:rgb(62,62,62);animation:chatIn 0.3s ease 0.3s backwards;">Gracias por avisarnos, ya estamos revisando tu caso.</div>
+        </div>
+        <div style="position:absolute;left:16px;bottom:20px;width:328px;height:44px;background:rgb(247,247,247);border-radius:30px;display:flex;align-items:center;padding:0 16px;font-size:16px;font-weight:300;color:rgb(166,166,165);">Tu mensaje</div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CAMERA ============ -->
+    <sc-if value="{{ isCamera }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ cameraScreenStyle }}">
+        <!-- parede de tijolos (simulação da cena) -->
+        <div style="position:absolute;inset:0;background-color:rgb(163,90,64);background-image:linear-gradient(rgba(0,0,0,0.16) 2px, transparent 2px),linear-gradient(90deg, rgba(0,0,0,0.16) 2px, transparent 2px),linear-gradient(rgba(0,0,0,0.16) 2px, transparent 2px),linear-gradient(90deg, rgba(0,0,0,0.16) 2px, transparent 2px);background-size:100% 34px, 68px 34px, 100% 34px, 68px 34px;background-position:0 0, 0 0, 0 17px, 34px 17px;"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%, transparent 45%, rgba(0,0,0,0.28) 100%);"></div>
+
+        <!-- placa com o QR fixada na parede -->
+        <div style="position:absolute;left:98px;top:272px;width:164px;height:196px;background:#fff;border-radius:3px;box-shadow:0 10px 24px rgba(0,0,0,0.4);transform:rotate(-1.4deg);padding:14px 14px 10px;display:flex;flex-direction:column;align-items:center;">
+          <img src="assets/camera-photo.png" style="width:100%;height:auto;display:block;" alt="">
+          <div style="margin-top:8px;font-size:8px;font-weight:500;letter-spacing:1.5px;color:rgb(140,140,140);">CÓDIGO DE RECOLECCIÓN</div>
+        </div>
+
+        <div style="position:absolute;left:0;top:0;width:360px;height:640px;background:rgba(20,20,20,0.22);"></div>
+
+        <button onClick="{{ triggerScan }}" disabled="{{ scanDisabled }}" style="position:absolute;left:24px;top:167px;width:312px;height:414px;border-radius:4px;overflow:visible;">
+          <div style="position:absolute;inset:0;border-radius:4px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,0.5);">
+            <div style="{{ scanlineStyle }}"></div>
+          </div>
+          <!-- cantos do frame -->
+          <div style="{{ cornerStyleTL }}"></div>
+          <div style="{{ cornerStyleTR }}"></div>
+          <div style="{{ cornerStyleBL }}"></div>
+          <div style="{{ cornerStyleBR }}"></div>
+          <!-- selo de confirmação -->
+          <div style="{{ scanBadgeStyle }}">
+            <svg width="34" height="34" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="rgb(80,167,115)"></circle><path d="M7 12.5 l3.2 3.2 L17 8.8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </button>
+        <div style="position:absolute;left:19px;top:588px;width:322px;display:flex;align-items:center;justify-content:center;gap:8px;">
+          <div style="{{ verifyingSpinnerStyle }}"></div>
+          <span style="font-size:14px;font-weight:300;line-height:20px;color:#fff;">{{ cameraCaption }}</span>
+        </div>
+
+        <div style="position:absolute;left:0;top:0;width:360px;height:24px;background:#fff;"></div>
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;">
+          <button onClick="{{ goInfoQR }}" style="position:absolute;left:16px;top:11px;width:24px;height:24px;" style-active="transform:scale(0.9);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">Código QR</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ LOADING ============ -->
+    <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;">
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;">
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">{{ loadingTitle }}</div>
+        </div>
+        <div style="position:absolute;left:65px;top:220px;width:231px;height:199px;">
+          <x-import component="LoadingIllustration" from="./figparts/LoadingIllustration.jsx" hint-size="231px,199px"></x-import>
+          <div style="position:absolute;left:50px;top:196px;width:142px;height:3px;background:#fff;"></div>
+          <div style="position:absolute;left:50px;top:196px;height:3px;border-radius:8px;background:rgb(234,29,44);animation:loadbar 1.4s linear forwards;"></div>
+        </div>
+        <div style="position:absolute;left:0;top:432px;width:360px;text-align:center;font-size:14px;font-weight:300;color:rgb(113,113,113);">{{ loadingSubtitle }}</div>
+      </div>
+    </sc-if>
+
+    <!-- ============ RESULTADOS DO QR (sheets sobre a recolección) ============ -->
+    <sc-if value="{{ isOutcome }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;animation:fadeIn 0.35s ease;">
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;">
+          <button style="position:absolute;left:16px;top:11px;width:24px;height:24px;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">Recolección</div>
+        </div>
+        <div style="position:absolute;left:97px;top:78px;width:166px;height:24px;display:flex;align-items:center;">
+          <div style="width:24px;height:24px;border-radius:50%;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;width:24px;height:24px;border-radius:50%;background:rgb(80,167,115);animation:stepPulse 1.8s ease-out infinite;"></div>
+            <div style="position:relative;width:10px;height:10px;border-radius:50%;background:rgb(80,167,115);box-shadow:0 0 0 3px #fff;"></div>
+          </div>
+          <div style="width:45px;height:1px;background:rgb(220,220,220);margin:0 4px;"></div>
+          <div style="width:8px;height:8px;border-radius:50%;background:rgb(166,166,165);margin:0 8px;"></div>
+          <div style="width:45px;height:1px;background:rgb(220,220,220);margin:0 4px;"></div>
+          <div style="width:8px;height:8px;border-radius:50%;background:rgb(166,166,165);margin:0 8px;"></div>
+        </div>
+        <div style="position:absolute;left:0;top:108px;width:360px;height:532px;border-radius:8px 8px 0 0;background:rgb(247,247,247);box-shadow:0 -2px 10px rgba(62,62,62,0.08);">
+          <div style="position:absolute;left:160px;top:8px;width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);"></div>
+        </div>
+        <div style="position:absolute;left:16px;top:147px;width:328px;height:56px;background:#fff;border-radius:8px;box-shadow:inset 0 0 0 1px rgb(242,242,242);display:flex;align-items:center;justify-content:space-between;padding:0 16px;">
+          <span style="font-size:18px;font-weight:500;line-height:22px;color:rgb(62,62,62);">{{ restaurantName }}</span>
+          <svg width="18" height="9" viewBox="0 0 18 9"><path d="M 0.186 0.274 C 0.463 -0.055 0.95 -0.093 1.273 0.189 L 9 6.931 L 16.727 0.189 C 17.05 -0.093 17.537 -0.055 17.814 0.274 C 18.092 0.604 18.054 1.099 17.731 1.382 L 9 9 L 0.269 1.382 C -0.054 1.099 -0.092 0.604 0.186 0.274 Z" fill="rgb(62,62,62)"></path></svg>
+        </div>
+        <div style="position:absolute;left:16px;top:219px;width:328px;height:88px;background:#fff;border-radius:8px;box-shadow:inset 0 0 0 1px rgb(242,242,242);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="font-size:35px;font-weight:400;line-height:36px;color:rgb(62,62,62);">1</div>
+          <div style="font-size:14px;font-weight:400;line-height:20px;color:rgb(62,62,62);">Pedido</div>
+        </div>
+        <div style="position:absolute;left:16px;top:315px;width:328px;height:52px;background:#fff;border-radius:8px;box-shadow:inset 0 0 0 1px rgb(242,242,242);display:flex;align-items:center;justify-content:space-between;padding:0 16px;">
+          <span style="font-size:16px;color:rgb(62,62,62);"><span style="font-weight:300;">1</span> · <span style="font-weight:400;">4153</span></span>
+          <svg width="18" height="9" viewBox="0 0 18 9"><path d="M 0.186 0.274 C 0.463 -0.055 0.95 -0.093 1.273 0.189 L 9 6.931 L 16.727 0.189 C 17.05 -0.093 17.537 -0.055 17.814 0.274 C 18.092 0.604 18.054 1.099 17.731 1.382 L 9 9 L 0.269 1.382 C -0.054 1.099 -0.092 0.604 0.186 0.274 Z" fill="rgb(62,62,62)"></path></svg>
+        </div>
+        <div style="position:absolute;left:0;top:556px;width:360px;height:84px;background:#fff;border-top:0.5px solid rgb(242,242,242);">
+          <div style="position:absolute;left:16px;top:16px;width:328px;height:52px;border-radius:4px;box-shadow:inset 0 0 0 1px rgb(234,29,44);color:rgb(234,29,44);font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center;">Salir de la recolección</div>
+        </div>
+      </div>
+
+      <div style="{{ scrimStyle }}" onClick="{{ scrimClick }}"></div>
+
+      <sc-if value="{{ isNoConfirmado }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ sheetMotionStyle }}" onPointerDown="{{ onSheetPointerDown }}" onPointerMove="{{ onSheetPointerMove }}" onPointerUp="{{ onSheetPointerUp }}" onPointerCancel="{{ onSheetPointerUp }}">
+        <div style="width:360px;border-radius:8px 8px 0 0;background:#fff;box-shadow:0 -2px 16px rgba(0,0,0,0.08);padding:8px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);margin-bottom:8px;"></div>
+          <div style="width:115px;height:92px;">
+            <x-import component="QRSheetIllustration" from="./figparts/QRSheetIllustration.jsx" hint-size="115px,92px"></x-import>
+          </div>
+          <div style="width:328px;font-size:18px;font-weight:500;text-align:center;line-height:25.5px;color:rgb(62,62,62);">Código QR no confirmado</div>
+          <div style="width:328px;font-size:14px;font-weight:300;text-align:center;line-height:20px;letter-spacing:0.25px;color:rgb(62,62,62);">El código que escaneaste no es válido.<br><br>Por favor, solicítalo de nuevo al restaurante</div>
+          <button onClick="{{ retryScan }}" style="width:328px;height:52px;border-radius:4px;background:rgb(234,29,44);color:#fff;font-size:14px;font-weight:500;margin:8px 0 16px;" style-active="transform:scale(0.985);background:rgb(200,24,38);">¡Entendido!</button>
+        </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isInvalido }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ sheetMotionStyle }}" onPointerDown="{{ onSheetPointerDown }}" onPointerMove="{{ onSheetPointerMove }}" onPointerUp="{{ onSheetPointerUp }}" onPointerCancel="{{ onSheetPointerUp }}">
+        <div style="width:360px;border-radius:8px 8px 0 0;background:#fff;box-shadow:0 -2px 16px rgba(0,0,0,0.08);padding:8px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);margin-bottom:8px;"></div>
+          <div style="width:115px;height:92px;">
+            <x-import component="QRSheetIllustration" from="./figparts/QRSheetIllustration.jsx" hint-size="115px,92px"></x-import>
+          </div>
+          <div style="width:328px;font-size:18px;font-weight:500;text-align:center;line-height:25.5px;color:rgb(62,62,62);">Código QR inválido</div>
+          <div style="width:328px;font-size:14px;font-weight:300;text-align:center;line-height:20px;letter-spacing:0.25px;color:rgb(62,62,62);">Domi, no olvides escanear el código de la siguiente manera<br><br>Limpia la cámara trasera de tu dispositivo.<br><br>Enfoca y ubica el código QR de frente.</div>
+          <div style="width:328px;display:flex;flex-direction:column;gap:8px;margin:8px 0 16px;">
+            <button onClick="{{ retryScan }}" style="width:100%;height:52px;border-radius:4px;background:rgb(234,29,44);color:#fff;font-size:14px;font-weight:500;" style-active="transform:scale(0.985);background:rgb(200,24,38);">Intentar de nuevo</button>
+            <button onClick="{{ sheetChat }}" style="width:100%;height:48px;color:rgb(234,29,44);font-size:14px;font-weight:500;" style-active="opacity:0.6;">Hablar con soporte</button>
+          </div>
+        </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isExcedido }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ sheetMotionStyle }}" onPointerDown="{{ onSheetPointerDown }}" onPointerMove="{{ onSheetPointerMove }}" onPointerUp="{{ onSheetPointerUp }}" onPointerCancel="{{ onSheetPointerUp }}">
+        <div style="width:360px;border-radius:8px 8px 0 0;background:#fff;box-shadow:0 -2px 16px rgba(0,0,0,0.08);padding:8px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);margin-bottom:8px;"></div>
+          <div style="width:115px;height:92px;">
+            <x-import component="QRSheetIllustration" from="./figparts/QRSheetIllustration.jsx" hint-size="115px,92px"></x-import>
+          </div>
+          <div style="width:328px;font-size:18px;font-weight:500;text-align:center;line-height:25.5px;color:rgb(62,62,62);">Algo salió mal</div>
+          <div style="width:328px;font-size:14px;font-weight:300;text-align:center;line-height:20px;letter-spacing:0.25px;color:rgb(62,62,62);">Superaste el número de intentos posibles.<br><br>Comunícate con Soporte para continuar con tu entrega</div>
+          <button onClick="{{ sheetChat }}" style="width:328px;height:48px;color:rgb(234,29,44);font-size:14px;font-weight:500;margin:8px 0 16px;" style-active="opacity:0.6;">Hablar con Soporte</button>
+        </div>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <!-- ============ RECOLECCIÓN (check-in ok) ============ -->
+    <sc-if value="{{ isRecoleccion }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;animation:fadeIn 0.35s ease;">
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;">
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">Recolección</div>
+          <button onClick="{{ goChatSupport }}" style="position:absolute;left:320px;top:11px;width:24px;height:24px;"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.25" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5"></circle><path d="M9.7 9.4 a2.4 2.4 0 1 1 3.4 2.5 c-0.7 0.3 -1.1 0.7 -1.1 1.5 v0.3" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5" stroke-linecap="round"></path><circle cx="12" cy="16.4" r="1" fill="rgb(234,29,44)"></circle></svg></button>
+        </div>
+        <div style="position:absolute;left:97px;top:78px;width:166px;height:24px;display:flex;align-items:center;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(80,167,115,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="8" viewBox="0 0 12 10"><path d="M1 5 l3.4 3.4 L11 1.4" fill="none" stroke="rgb(80,167,115)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div style="width:45px;height:1px;background:rgb(80,167,115);margin:0 4px;opacity:0.4;"></div>
+          <div style="width:24px;height:24px;border-radius:50%;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;width:24px;height:24px;border-radius:50%;background:rgb(80,167,115);animation:stepPulse 1.8s ease-out infinite;"></div>
+            <div style="position:relative;width:10px;height:10px;border-radius:50%;background:rgb(80,167,115);box-shadow:0 0 0 3px #fff;"></div>
+          </div>
+          <div style="width:45px;height:1px;background:rgb(220,220,220);margin:0 4px;"></div>
+          <div style="width:8px;height:8px;border-radius:50%;background:rgb(166,166,165);margin:0 8px;"></div>
+        </div>
+        <div style="position:absolute;left:0;top:108px;width:360px;height:532px;border-radius:8px 8px 0 0;background:rgb(247,247,247);box-shadow:0 -2px 10px rgba(62,62,62,0.08);">
+          <div style="position:absolute;left:160px;top:8px;width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);"></div>
+        </div>
+        <div style="position:absolute;left:16px;top:147px;width:328px;height:44px;border-radius:8px;background:rgb(242,242,242);display:flex;align-items:center;gap:9px;padding:0 12px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M12 3 L22 20 H2 z" fill="none" stroke="rgb(62,62,62)" stroke-width="1.6" stroke-linejoin="round"></path><line x1="12" y1="9.5" x2="12" y2="14.5" stroke="rgb(62,62,62)" stroke-width="1.6" stroke-linecap="round"></line><circle cx="12" cy="17" r="1" fill="rgb(62,62,62)"></circle></svg>
+          <span style="font-size:13px;font-weight:400;line-height:18px;letter-spacing:0.25px;color:rgb(113,113,113);">Verifica que el pedido corresponda a tu código antes de recogerlo</span>
+        </div>
+        <div style="position:absolute;left:16px;top:199px;width:328px;height:56px;background:#fff;border-radius:8px;box-shadow:inset 0 0 0 1px rgb(242,242,242);display:flex;align-items:center;padding:0 16px;">
+          <span style="font-size:18px;font-weight:500;line-height:22px;color:rgb(62,62,62);">{{ restaurantName }}</span>
+        </div>
+        <div style="{{ prepCardStyle }}">
+          <div style="flex-shrink:0;">{{ prepCardIcon }}</div>
+          <div style="display:flex;flex-direction:column;">
+            <span style="{{ prepCardTitleStyle }}">{{ prepCardTitle }}</span>
+            <span style="{{ prepCardSubStyle }}">{{ prepCardSub }}</span>
+          </div>
+        </div>
+        <div style="position:absolute;left:16px;top:335px;width:328px;background:#fff;border-radius:8px;box-shadow:inset 0 0 0 1px rgb(242,242,242);">
+          <div style="padding:14px 16px 12px;font-size:15px;font-weight:500;color:rgb(62,62,62);">1 Pedido</div>
+          <div style="height:1px;background:rgb(242,242,242);margin:0 16px;"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px 14px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:16px;color:rgb(62,62,62);"><span style="font-weight:300;">1</span> · <span style="font-weight:400;">4153</span></span>
+              <span style="display:inline-flex;align-items:center;gap:4px;background:rgb(248,235,253);color:rgb(155,55,170);font-size:11px;font-weight:600;letter-spacing:0.3px;padding:4px 8px;border-radius:12px;"><svg width="13" height="11" viewBox="0 0 24 20"><rect x="1" y="3" width="22" height="14" rx="3" fill="none" stroke="rgb(155,55,170)" stroke-width="1.8"></rect><line x1="1" y1="8" x2="23" y2="8" stroke="rgb(155,55,170)" stroke-width="1.8"></line></svg>EFECTIVO</span>
+              <sc-if value="{{ orderReady }}" hint-placeholder-val="{{ false }}">
+                <span style="background:rgb(224,247,235);color:rgb(46,145,95);font-size:11px;font-weight:600;letter-spacing:0.3px;padding:4px 8px;border-radius:12px;">LISTO</span>
+              </sc-if>
+            </div>
+            <button onClick="{{ openReceipt }}" style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;" style-active="opacity:0.5;"><svg width="18" height="20" viewBox="0 0 18 20"><path d="M2 1 h14 v16 l-2 -1.5 -2 1.5 -2 -1.5 -2 1.5 -2 -1.5 -2 1.5 z" fill="none" stroke="rgb(62,62,62)" stroke-width="1.4" stroke-linejoin="round"></path><line x1="5" y1="6" x2="13" y2="6" stroke="rgb(62,62,62)" stroke-width="1.3"></line><line x1="5" y1="10" x2="13" y2="10" stroke="rgb(62,62,62)" stroke-width="1.3"></line></svg></button>
+          </div>
+        </div>
+        <div style="position:absolute;left:0;top:556px;width:360px;height:84px;background:#fff;border-top:0.5px solid rgb(242,242,242);">
+          <button onClick="{{ goExitCodeIntro }}" disabled="{{ orderNotReady }}" style="{{ salirButtonStyle }}" style-active="transform:scale(0.985);">Salir de la recolección</button>
+        </div>
+      </div>
+      <sc-if value="{{ receiptOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeReceipt }}" style="position:absolute;inset:0;background:rgba(34,42,46,0.35);animation:fadeIn 0.22s ease;"></div>
+        <div style="position:absolute;left:0;bottom:0;width:360px;max-height:600px;overflow-y:auto;border-radius:8px 8px 0 0;background:#fff;box-shadow:0 -2px 16px rgba(0,0,0,0.12);animation:sheetUp 0.3s cubic-bezier(0.2,0.8,0.2,1);display:flex;flex-direction:column;align-items:center;padding:8px 16px 16px;">
+          <div style="width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);margin-bottom:16px;"></div>
+          <div style="width:180px;height:99px;overflow:hidden;">
+            <div style="width:180px;height:180px;transform:scale(0.55);transform-origin:top center;">
+              <x-import component="MotoboyIllustration" from="./figparts/MotoboyIllustration.jsx" hint-size="180px,180px"></x-import>
+            </div>
+          </div>
+          <div style="width:328px;font-size:20px;font-weight:500;text-align:center;line-height:26px;color:rgb(26,26,26);margin-top:4px;">{{ restaurantName }}</div>
+          <div style="width:328px;font-size:15px;font-weight:400;text-align:center;line-height:20px;color:rgb(113,113,113);margin-top:6px;">Rodolfo Coelho | Pedido nro. 4153</div>
+          <div style="width:328px;background:rgb(247,247,247);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+            <span style="font-size:15px;font-weight:400;color:rgb(62,62,62);">1 x Arroz Rojo</span>
+            <span style="font-size:15px;font-weight:400;color:rgb(62,62,62);">1 x Coca Cola</span>
+            <span style="font-size:15px;font-weight:400;color:rgb(62,62,62);">1 x Pizza</span>
+          </div>
+          <div style="width:328px;display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:15px;font-weight:400;color:rgb(113,113,113);">Cliente pagará con</span>
+              <span style="font-size:15px;font-weight:400;color:rgb(62,62,62);">$ 50,00</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:15px;font-weight:400;color:rgb(113,113,113);">Valor del pedido</span>
+              <span style="font-size:15px;font-weight:400;color:rgb(62,62,62);">$ 41,53</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:15px;font-weight:600;color:rgb(62,62,62);">Cambio para el cliente</span>
+              <span style="font-size:15px;font-weight:600;color:rgb(62,62,62);">$ 8,47</span>
+            </div>
+          </div>
+          <button onClick="{{ closeReceipt }}" style="width:328px;height:52px;border-radius:4px;background:rgb(234,29,44);color:#fff;font-size:14px;font-weight:500;margin-top:20px;" style-active="transform:scale(0.985);background:rgb(200,24,38);">¡Entendido!</button>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <!-- ============ CÓDIGO ENTREGA DOMIS iFOOD: intro ============ -->
+    <sc-if value="{{ isExitCodeIntro }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;animation:screenIn 0.25s ease;">
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;">
+          <button onClick="{{ goRecoleccionFromExit }}" style="position:absolute;left:16px;top:11px;width:24px;height:24px;" style-active="transform:scale(0.9);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">Código entrega Domis iFood</div>
+        </div>
+        <div style="position:absolute;left:82px;top:120px;width:196px;height:216px;">
+          <img src="assets/exit-code-illustration.png" alt="Cómo encontrar el código" style="width:100%;height:100%;object-fit:contain;"></img>
+        </div>
+        <div style="position:absolute;left:28px;top:341px;width:304px;text-align:center;font-size:20px;font-weight:500;line-height:26px;color:rgb(26,26,26);">¿Cómo encontrar el código?</div>
+        <div style="position:absolute;left:43px;top:375px;width:272px;text-align:center;font-size:14px;font-weight:300;line-height:18px;color:rgb(113,113,113);">Encuéntralo en el parte superior de la calcomanía que está en el pedido</div>
+        <div style="position:absolute;left:16px;top:556px;width:328px;">
+          <button onClick="{{ goExitCodeEntry }}" style="width:100%;height:52px;border-radius:4px;background:rgb(234,29,44);color:#fff;font-size:14px;font-weight:500;" style-active="transform:scale(0.985);background:rgb(200,24,38);">Escribir el código</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CÓDIGO ENTREGA DOMIS iFOOD: ingresar código ============ -->
+    <sc-if value="{{ isExitCodeEntry }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;animation:screenIn 0.25s ease;">
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;">
+          <button onClick="{{ goExitCodeIntro }}" style="position:absolute;left:16px;top:11px;width:24px;height:24px;" style-active="transform:scale(0.9);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;color:rgb(62,62,62);">Código entrega Domis iFood</div>
+        </div>
+        <div style="position:absolute;left:32px;top:108px;width:296px;text-align:center;font-size:22px;font-weight:500;line-height:28px;color:rgb(26,26,26);">Escribe el código entrega Domis iFood</div>
+        <div style="position:absolute;left:40px;top:180px;width:280px;text-align:center;font-size:14px;font-weight:300;line-height:20px;color:rgb(113,113,113);">Este código te ayudará a garantizar que estás con el pedido correcto.</div>
+        <div style="position:absolute;left:0;top:232px;width:360px;display:flex;justify-content:center;gap:14px;">
+          <sc-for list="{{ exitDigits }}" as="d" hint-placeholder-count="4">
+            <input ref="{{ d.inputRef }}" value="{{ d.value }}" onChange="{{ d.onChange }}" onKeyDown="{{ d.onKeyDown }}" maxlength="1" inputmode="numeric" style="{{ d.boxStyle }}" style-focus="border-color:rgb(234,29,44);box-shadow:0 0 0 3px rgba(234,29,44,0.12);"></input>
+          </sc-for>
+        </div>
+        <div style="position:absolute;left:16px;top:344px;width:328px;border-radius:10px;background:rgb(247,247,247);display:flex;align-items:flex-start;gap:10px;padding:14px 16px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><path d="M12 3 L22 20 H2 z" fill="none" stroke="rgb(62,62,62)" stroke-width="1.6" stroke-linejoin="round"></path><line x1="12" y1="9.5" x2="12" y2="14.5" stroke="rgb(62,62,62)" stroke-width="1.6" stroke-linecap="round"></line><circle cx="12" cy="17" r="1" fill="rgb(62,62,62)"></circle></svg>
+          <span style="font-size:13px;font-weight:400;line-height:19px;letter-spacing:0.2px;color:rgb(113,113,113);">Recuerda que el código está en la parte superior de la calcomanía del pedido y solo debes ingresar <strong style="font-weight:600;color:rgb(62,62,62);">los últimos 4 números.</strong></span>
+        </div>
+        <button onClick="{{ goChatSupport }}" style="position:absolute;left:0;top:474px;width:360px;text-align:center;font-size:14px;font-weight:500;color:rgb(234,29,44);" style-active="opacity:0.6;">Tengo un problema</button>
+        <div style="position:absolute;left:16px;top:556px;width:328px;">
+          <button onClick="{{ submitExitCode }}" disabled="{{ exitCodeIncomplete }}" style="{{ exitConfirmButtonStyle }}" style-active="transform:scale(0.985);">Confirmar</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CÓDIGO ENTREGA DOMIS iFOOD: aceptado ============ -->
+    <sc-if value="{{ isExitCodeAccepted }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;overflow:hidden;">
+        <div style="position:absolute;left:-23px;top:-45px;width:420px;height:719px;background:url('assets/map.png') center / cover no-repeat;"></div>
+      </div>
+      <div style="position:absolute;inset:0;background:rgba(34,42,46,0.35);animation:fadeIn 0.22s ease;"></div>
+      <div style="position:absolute;left:0;bottom:0;width:360px;border-radius:8px 8px 0 0;background:#fff;box-shadow:0 -2px 16px rgba(0,0,0,0.12);animation:sheetUp 0.34s cubic-bezier(0.2,0.8,0.2,1);display:flex;flex-direction:column;align-items:center;padding:8px 16px 20px;">
+        <div style="width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);margin-bottom:20px;"></div>
+        <div style="width:150px;height:150px;border-radius:50%;background:rgb(252,238,240);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <div style="transform:scale(1.05);transform-origin:center;width:98.2px;height:94px;">
+            <x-import component="ImgHandshake94" from="./figparts/ImgHandshake94.jsx" hint-size="96px,92px"></x-import>
+          </div>
+        </div>
+        <div style="margin-top:24px;font-size:22px;font-weight:500;line-height:28px;letter-spacing:0.15px;color:rgb(62,62,62);">Código aceptado</div>
+        <div style="margin-top:12px;width:296px;text-align:center;font-size:14px;font-weight:300;line-height:20px;letter-spacing:0.25px;color:rgb(62,62,62);">Tu código <strong style="font-weight:600;">{{ exitCodeValue }}</strong> ha sido validado, ya puedes mostrarlo en el lugar de recolección</div>
+        <button onClick="{{ confirmExit }}" style="margin-top:28px;width:328px;height:52px;border-radius:4px;background:rgb(234,29,44);color:#fff;font-size:14px;font-weight:500;" style-active="transform:scale(0.985);background:rgb(200,24,38);">Salir de la recolección</button>
+      </div>
+    </sc-if>
+
+
+    <!-- ============ ENTREGA (lista de pendientes, após código correto) ============ -->
+    <sc-if value="{{ isEntrega }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgb(247,247,247);animation:screenIn 0.3s ease;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:120px;background:#fff;"></div>
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <div style="position:absolute;left:0;top:24px;width:360px;height:48px;background:#fff;">
+          <button onClick="{{ restart }}" style="position:absolute;left:6px;top:1px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;" style-active="transform:scale(0.9);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div style="position:absolute;left:0;top:16px;width:360px;text-align:center;font-size:12px;font-weight:500;letter-spacing:0.5px;color:rgb(62,62,62);">ENTREGA</div>
+          <button onClick="{{ goChatSupport }}" style="position:absolute;left:316px;top:9px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.25" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5"></circle><path d="M9.7 9.4 a2.4 2.4 0 1 1 3.4 2.5 c-0.7 0.3 -1.1 0.7 -1.1 1.5 v0.3" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5" stroke-linecap="round"></path><circle cx="12" cy="16.4" r="1" fill="rgb(234,29,44)"></circle></svg></button>
+        </div>
+        <div style="position:absolute;left:0;top:78px;width:360px;height:24px;display:flex;align-items:center;justify-content:center;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(80,167,115,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="8" viewBox="0 0 12 10"><path d="M1 5 l3.4 3.4 L11 1.4" fill="none" stroke="rgb(80,167,115)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div style="width:42px;height:1px;background:rgb(80,167,115);margin:0 4px;opacity:0.4;"></div>
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(80,167,115,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="8" viewBox="0 0 12 10"><path d="M1 5 l3.4 3.4 L11 1.4" fill="none" stroke="rgb(80,167,115)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div style="width:42px;height:1px;background:rgb(80,167,115);margin:0 4px;opacity:0.4;"></div>
+          <div style="width:24px;height:24px;border-radius:50%;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;width:24px;height:24px;border-radius:50%;background:rgb(80,167,115);animation:stepPulse 1.8s ease-out infinite;"></div>
+            <div style="position:relative;width:10px;height:10px;border-radius:50%;background:rgb(80,167,115);box-shadow:0 0 0 3px #fff;"></div>
+          </div>
+        </div>
+        <div style="position:absolute;left:0;top:120px;width:360px;height:520px;border-radius:12px 12px 0 0;background:rgb(240,240,240);box-shadow:0 2px 8px rgba(135,149,161,0.4);">
+          <div style="position:absolute;left:160px;top:9px;width:40px;height:5px;border-radius:2.5px;background:rgb(210,210,210);"></div>
+        </div>
+        <div style="position:absolute;left:16px;top:154px;width:328px;height:52px;border-radius:10px;background:rgb(237,237,237);padding:4px;display:flex;align-items:center;">
+          <div style="width:160px;height:44px;border-radius:8px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:rgb(234,29,44);">Pendientes</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:300;color:rgb(62,62,62);">Entregados</div>
+        </div>
+        <div style="position:absolute;left:16px;top:222px;width:328px;background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.05), 0 6px 16px rgba(0,0,0,0.04);padding:18px;">
+          <button onClick="{{ goEntregaMap }}" style="width:100%;display:flex;align-items:center;gap:14px;text-align:left;" style-active="opacity:0.6;">
+            <div style="width:44px;height:44px;border-radius:50%;background:rgb(247,240,240);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;font-weight:600;letter-spacing:0.5px;color:rgb(234,29,44);">TA</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:17px;font-weight:600;line-height:22px;color:rgb(26,26,26);">Tarsila do Amaral</div>
+              <div style="margin-top:2px;font-size:14px;font-weight:300;line-height:19px;color:rgb(150,150,150);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Bloco C, sala 73 · 7º andar</div>
+            </div>
+            <svg width="22" height="22" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M9.5 5 L16.4 12 L9.5 19" fill="none" stroke="rgb(190,190,190)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <div style="margin-top:14px;display:flex;align-items:center;gap:8px;">
+            <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:rgb(62,62,62);background:rgb(245,245,245);border-radius:6px;padding:5px 10px;"><svg width="15" height="16" viewBox="0 0 20 21"><path d="M5 6 V5 a5 5 0 0 1 10 0 V6 h1.5 l1 12 a1.5 1.5 0 0 1 -1.5 1.6 H4 a1.5 1.5 0 0 1 -1.5 -1.6 l1 -12 z" fill="none" stroke="rgb(120,120,120)" stroke-width="1.4" stroke-linejoin="round"></path></svg>1 pedido</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:rgb(46,145,95);background:rgba(46,145,95,0.1);border-radius:6px;padding:5px 10px;"><svg width="15" height="15" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="rgb(46,145,95)" stroke-width="1.5"></circle><path d="M6.5 10 l2.2 2.2 L14 7.5" fill="none" stroke="rgb(46,145,95)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>Pagado</span>
+          </div>
+          <div style="margin-top:16px;height:1px;background:rgb(240,240,240);"></div>
+          <div style="margin-top:16px;border-radius:10px;background:rgb(247,247,247);display:flex;align-items:center;gap:12px;padding:13px 14px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="rgb(51,51,51)"></circle><line x1="12" y1="7" x2="12" y2="13" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></line><circle cx="12" cy="16.5" r="1.1" fill="#fff"></circle></svg>
+            <span style="font-size:15px;font-weight:400;line-height:19px;color:rgb(62,62,62);">Pide el código al cliente</span>
+          </div>
+          <div style="width:100%;margin-top:14px;height:44px;border-radius:8px;box-shadow:inset 0 0 0 1.5px rgb(234,29,44);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:rgb(234,29,44);">Insertar código</div>
+        </div>
+        <div style="position:absolute;left:0;top:556px;width:360px;height:84px;background:#fff;border-top:0.5px solid rgb(240,240,240);">
+          <div style="position:absolute;left:16px;top:16px;width:328px;height:52px;border-radius:6px;box-shadow:inset 0 0 0 1px rgb(220,220,220);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;color:rgb(180,180,180);">Finalizar entrega</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ ENTREGA MAPA (rota de entrega) ============ -->
+    <sc-if value="{{ isEntregaMap }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;overflow:hidden;background:#fff;animation:screenIn 0.3s ease;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:520px;background:url('assets/entrega-route-map.png') center top / cover no-repeat;"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:90px;background:linear-gradient(180deg, rgba(255,255,255,0.85) 20%, rgba(255,255,255,0) 100%);"></div>
+        <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
+        <button onClick="{{ goEntrega }}" style="position:absolute;left:9px;top:27px;width:39px;height:39px;border-radius:8px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;" style-active="transform:scale(0.94);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+        <div style="position:absolute;left:103px;top:31px;width:160px;height:32px;border-radius:8px;background:rgb(242,242,242);padding:2px;display:flex;align-items:center;">
+          <div style="width:76px;height:28px;border-radius:8px;background:#fff;box-shadow:0 2px 2px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:rgb(234,29,44);">Mapa</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:300;color:rgb(62,62,62);">Recorrido</div>
+        </div>
+        <button onClick="{{ goChatSupport }}" style="position:absolute;left:312px;top:27px;width:39px;height:39px;border-radius:8px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.25" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5"></circle><path d="M9.7 9.4 a2.4 2.4 0 1 1 3.4 2.5 c-0.7 0.3 -1.1 0.7 -1.1 1.5 v0.3" fill="none" stroke="rgb(234,29,44)" stroke-width="1.5" stroke-linecap="round"></path><circle cx="12" cy="16.4" r="1" fill="rgb(234,29,44)"></circle></svg></button>
+        <div style="position:absolute;left:0;top:472px;width:360px;height:168px;border-radius:16px 16px 0 0;background:#fff;box-shadow:0 -2px 12px rgba(0,0,0,0.1);">
+          <div style="position:absolute;left:160px;top:10px;width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);"></div>
+          <div style="position:absolute;left:24px;top:34px;width:212px;font-size:22px;font-weight:600;line-height:28px;color:rgb(26,26,26);">Tarsila do Amaral</div>
+          <div style="position:absolute;left:24px;top:74px;width:212px;font-size:15px;font-weight:300;line-height:22px;color:rgb(113,113,113);">Av. dos Autônomos Seletivos, 3844 - Osasco</div>
+          <button style="position:absolute;left:256px;top:34px;width:80px;height:80px;border-radius:10px;box-shadow:inset 0 0 0 1.5px rgb(234,29,44);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;" style-active="transform:scale(0.96);background:rgb(254,242,243);">
+            <svg width="30" height="30" viewBox="0 0 30 30"><rect x="4.4" y="4.4" width="21.2" height="21.2" rx="4" transform="rotate(45 15 15)" fill="rgb(234,29,44)"></rect><path d="M12.5 12 h4 v4 M16.5 12 L11.5 17" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span style="font-size:14px;font-weight:600;color:rgb(234,29,44);">Mapa</span>
+          </button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ overlay: sheet de confirmação descendo sobre a tela Recolección já revelada ============ -->
+    <sc-if value="{{ qrValidSheetVisible }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ qrValidScrimStyle }}"></div>
+      <div style="{{ qrValidSheetMotionStyle }}">
+        <div style="width:360px;border-radius:8px 8px 0 0;background:#fff;box-shadow:0 -2px 16px rgba(0,0,0,0.08);padding:8px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:24px;">
+          <div style="width:40px;height:5px;border-radius:2.5px;background:rgb(220,220,220);margin-bottom:8px;"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+            <div style="position:relative;width:96px;height:92px;">
+              <div style="transform:scale(0.979);transform-origin:0 0;width:98.2px;height:94px;">
+                <x-import component="ImgHandshake94" from="./figparts/ImgHandshake94.jsx" hint-size="96px,92px"></x-import>
+              </div>
+              <img src="assets/qr-mini.svg" style="position:absolute;left:37px;top:16px;width:15.5px;height:15.5px;transform:rotate(-6deg);" alt="">
+            </div>
+            <div style="width:328px;font-size:20px;font-weight:500;text-align:center;line-height:28px;letter-spacing:0.15px;color:rgb(62,62,62);">¡Código QR confirmado!</div>
+            <div style="width:328px;font-size:14px;font-weight:300;text-align:center;line-height:20px;letter-spacing:0.25px;color:rgb(62,62,62);">Tu código ha sido validado.<br><br>Ahora puedes empezar tu recolección</div>
+          </div>
+          <button onClick="{{ goRecoleccion }}" style="width:328px;height:52px;border-radius:4px;background:rgb(234,29,44);color:#fff;font-size:14px;font-weight:500;margin-bottom:16px;" style-active="transform:scale(0.985);background:rgb(200,24,38);">¡Entendido!</button>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: {&quot;width&quot;: 480, &quot;height&quot;: 780},
+  &quot;qrOutcome&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;valido&quot;, &quot;options&quot;: [&quot;valido&quot;, &quot;no_confirmado&quot;, &quot;invalido&quot;, &quot;excedido&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Simulação&quot;},
+  &quot;restaurantName&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Habib's Butantã&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Conteúdo&quot;},
+  &quot;prepTime&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;12-15 min&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Conteúdo&quot;},
+  &quot;showDevNav&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Simulação&quot;}
+}">
+class Component extends DCLogic {
+  state = {
+    step: 'map',
+    reasonKey: null,
+    otherText: '',
+    invalidAttempts: 0,
+    sheetClosing: false,
+    dragY: 0,
+    dragging: false,
+    mapSheetOpen: false,
+    loadingFor: null,
+    scanPhase: 'idle',
+    qrValidClosing: false,
+    qrValidClosingAnim: false,
+    receiptOpen: false,
+    orderReady: false,
+    orderReadyNoticeOpen: false,
+    exitCodeDigits: ['', '', '', ''],
+  };
+
+  digitRefs = [React.createRef(), React.createRef(), React.createRef(), React.createRef()];
+
+  onDigitInput = (i) => (e) => {
+    const v = e.target.value.replace(/[^0-9]/g, '').slice(-1);
+    const digits = this.state.exitCodeDigits.slice();
+    digits[i] = v;
+    this.setState({ exitCodeDigits: digits });
+    if (v && i < 3) { const r = this.digitRefs[i + 1].current; if (r) r.focus(); }
+  };
+
+  onDigitKeyDown = (i) => (e) => {
+    if (e.key === 'Backspace' && !this.state.exitCodeDigits[i] && i > 0) {
+      const r = this.digitRefs[i - 1].current; if (r) r.focus();
+    }
+  };
+
+  goExitCodeIntro = () => this.setState({ step: 'exit-code-intro', exitCodeDigits: ['', '', '', ''] });
+  goExitCodeEntry = () => {
+    this.setState({ step: 'exit-code-entry', exitCodeDigits: ['', '', '', ''] });
+    const code = ['1', '2', '3', '4'];
+    clearTimeout(this._autoFillT);
+    const fill = (i) => {
+      this._autoFillT = setTimeout(() => {
+        const digits = code.slice(0, i + 1).concat(['', '', '', '']).slice(0, 4);
+        this.setState({ exitCodeDigits: digits });
+        if (i < 3) fill(i + 1);
+      }, i === 0 ? 500 : 260);
+    };
+    fill(0);
+  };
+  goRecoleccionFromExit = () => this.setState({ step: 'recoleccion' });
+
+  submitExitCode = () => {
+    if (this.state.exitCodeDigits.some((d) => !d)) return;
+    this.setState({ step: 'loading', loadingFor: 'exit' });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ step: 'exit-code-accepted' }), 1400);
+  };
+
+  confirmExit = () => this.go('entrega');
+  goDeliveryCode = () => this.setState({ step: 'exit-code-intro', exitCodeDigits: ['', '', '', ''] });
+
+  openReceipt = () => {
+    clearTimeout(this._orderReadyT);
+    this.setState({ receiptOpen: true });
+  };
+  closeReceipt = () => {
+    this.setState({ receiptOpen: false });
+    if (!this.state.orderReady) this.startOrderReadyTimer();
+  };
+
+  startOrderReadyTimer = () => {
+    clearTimeout(this._orderReadyT);
+    this._orderReadyT = setTimeout(() => this.setState({ orderReady: true }), 4000);
+  };
+
+  dismissOrderReadyNotice = () => this.setState({ orderReadyNoticeOpen: false });
+
+  toggleMapSheet = () => this.setState((s) => ({ mapSheetOpen: !s.mapSheetOpen }));
+  expandMapSheet = () => this.setState({ mapSheetOpen: true });
+  collapseMapSheet = () => this.setState({ mapSheetOpen: false });
+
+  sheetDismissTarget() {
+    const s = this.state.step;
+    if (s === 'qr-valido') return 'recoleccion';
+    if (s === 'qr-no-confirmado' || s === 'qr-invalido') return 'camera';
+    return null; // qr-excedido: não pode ser dispensado
+  }
+
+  sheetNavigate = (step) => {
+    if (this.state.sheetClosing) return;
+    const origin = this.state.step;
+    this.setState({ sheetClosing: true, dragging: false });
+    clearTimeout(this._sheetT);
+    this._sheetT = setTimeout(() => {
+      this.setState({ step, sheetClosing: false, dragY: 0, scanPhase: 'idle', ...(step === 'chat' ? { chatOrigin: origin } : {}) });
+      if (step === 'camera') this.startAutoScan();
+    }, 240);
+  };
+
+  scrimClick = () => {
+    const t = this.sheetDismissTarget();
+    if (t) this.sheetNavigate(t);
+  };
+
+  onSheetPointerDown = (e) => {
+    if (this.state.sheetClosing) return;
+    if (e.target && e.target.closest && e.target.closest('button')) return;
+    this._startY = e.clientY;
+    this.setState({ dragging: true, dragY: 0 });
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
+  };
+
+  onSheetPointerMove = (e) => {
+    if (!this.state.dragging) return;
+    this.setState({ dragY: Math.max(0, e.clientY - this._startY) });
+  };
+
+  onSheetPointerUp = () => {
+    if (!this.state.dragging) return;
+    const { dragY } = this.state;
+    this.setState({ dragging: false });
+    const t = this.sheetDismissTarget();
+    if (dragY > 80 && t) this.sheetNavigate(t);
+    else this.setState({ dragY: 0 });
+  };
+
+  REASONS = [
+    { key: 'not_found', label: 'No encontré el código' },
+    { key: 'no_read', label: 'Mi celular no leyó el código' },
+    { key: 'no_code', label: 'Restaurante sin código' },
+    { key: 'refused', label: 'Restaurante no quiere dar el código' },
+    { key: 'other', label: 'Otro' },
+  ];
+
+  go = (step) => this.setState({ step });
+
+  goChatSupport = () => this.setState({ chatOrigin: this.state.step, step: 'chat' });
+
+  jumpTo = (e) => {
+    const step = e.target.value;
+    this.setState({ step, scanPhase: 'idle', orderReady: false, orderReadyNoticeOpen: false });
+    if (step === 'camera') this.startAutoScan();
+    if (step === 'recoleccion') this.startOrderReadyTimer();
+  };
+
+  selectReason = (key) => this.setState({ reasonKey: key });
+
+  setOtherText = (e) => this.setState({ otherText: e.target.value });
+
+  submitReasons = () => {
+    if (this.continueDisabled()) return;
+    this.setState({ chatOrigin: 'problem-reasons', step: 'chat' });
+  };
+
+  continueDisabled = () => {
+    const { reasonKey, otherText } = this.state;
+    if (!reasonKey) return true;
+    if (reasonKey === 'other' && !otherText.trim()) return true;
+    return false;
+  };
+
+  triggerScan = () => {
+    if (this.state.scanPhase !== 'idle') return;
+    clearTimeout(this._autoScanT);
+    this.setState({ scanPhase: 'locked' });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => {
+      this.setState({ scanPhase: 'verifying' });
+      this._t = setTimeout(() => this.resolveScan(), 900);
+    }, 450);
+  };
+
+  startAutoScan = () => {
+    clearTimeout(this._autoScanT);
+    this._autoScanT = setTimeout(() => {
+      if (this.state.step === 'camera' && this.state.scanPhase === 'idle') this.triggerScan();
+    }, 3000);
+  };
+
+  confirmArrival = () => {
+    this.setState({ step: 'loading', loadingFor: 'arrival', mapSheetOpen: true });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => {
+      if (this.state.step !== 'loading') return;
+      this.setState({ step: 'info-qr' });
+    }, 1400);
+  };
+
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._sheetT); clearTimeout(this._autoScanT); clearTimeout(this._orderReadyT); clearTimeout(this._autoFillT); cancelAnimationFrame(this._qrValidT1); cancelAnimationFrame(this._qrValidT2); }
+
+  resolveScan = () => {
+    if (this.state.step !== 'camera' || this.state.scanPhase !== 'verifying') return;
+    const attempts = this.state.invalidAttempts;
+    if (attempts >= 2) {
+      this.setState({ step: 'qr-excedido', scanPhase: 'idle' });
+      return;
+    }
+    const outcome = this.props.qrOutcome ?? 'valido';
+    if (outcome === 'valido') {
+      this.setState({ step: 'qr-valido', invalidAttempts: 0, scanPhase: 'idle' });
+    } else if (outcome === 'no_confirmado') {
+      this.setState({ step: 'qr-no-confirmado', scanPhase: 'idle' });
+    } else if (outcome === 'excedido') {
+      this.setState({ step: 'qr-excedido', scanPhase: 'idle' });
+    } else {
+      this.setState((s) => ({ step: 'qr-invalido', invalidAttempts: s.invalidAttempts + 1, scanPhase: 'idle' }));
+    }
+  };
+
+  retryScan = () => this.setState({ step: 'camera', scanPhase: 'idle' });
+
+  goRecoleccion = () => {
+    clearTimeout(this._t);
+    cancelAnimationFrame(this._qrValidT1);
+    cancelAnimationFrame(this._qrValidT2);
+    this.setState({ step: 'recoleccion', qrValidClosing: true, qrValidClosingAnim: false });
+    this._qrValidT1 = requestAnimationFrame(() => {
+      this._qrValidT2 = requestAnimationFrame(() => this.setState({ qrValidClosingAnim: true }));
+    });
+    this._t = setTimeout(() => this.setState({ qrValidClosing: false, qrValidClosingAnim: false }), 350);
+    this.startOrderReadyTimer();
+  };
+
+  cameraScreenStyle = () => ({
+    position: 'absolute', inset: 0, background: '#2a2a2a', overflow: 'hidden',
+    animation: 'screenIn 0.25s ease',
+    opacity: this.state.scanPhase === 'verifying' ? 0 : 1,
+    transition: 'opacity 0.5s ease 0.4s',
+  });
+
+  scanlineStyle = () => ({
+    position: 'absolute', left: 10, right: 10, height: 2,
+    background: 'rgb(234,29,44)', boxShadow: '0 0 8px rgba(234,29,44,0.9)', borderRadius: 1,
+    opacity: this.state.scanPhase === 'idle' ? 1 : 0,
+    transition: 'opacity 0.2s ease',
+    animation: 'scanY 2.4s ease-in-out infinite',
+  });
+
+  cornerStyle = (corner) => {
+    const on = this.state.scanPhase !== 'idle';
+    const color = on ? 'rgb(80,167,115)' : 'rgba(255,255,255,0.85)';
+    const base = { position: 'absolute', width: 28, height: 28, transition: 'border-color 0.25s ease, transform 0.25s ease', transform: on ? 'scale(1.08)' : 'scale(1)' };
+    if (corner === 'tl') return { ...base, left: -2, top: -2, borderTop: '3px solid ' + color, borderLeft: '3px solid ' + color, borderTopLeftRadius: 6 };
+    if (corner === 'tr') return { ...base, right: -2, top: -2, borderTop: '3px solid ' + color, borderRight: '3px solid ' + color, borderTopRightRadius: 6 };
+    if (corner === 'bl') return { ...base, left: -2, bottom: -2, borderBottom: '3px solid ' + color, borderLeft: '3px solid ' + color, borderBottomLeftRadius: 6 };
+    return { ...base, right: -2, bottom: -2, borderBottom: '3px solid ' + color, borderRight: '3px solid ' + color, borderBottomRightRadius: 6 };
+  };
+
+  scanBadgeStyle = () => ({
+    position: 'absolute', left: '50%', top: '50%', width: 34, height: 34, marginLeft: -17, marginTop: -17,
+    opacity: this.state.scanPhase === 'idle' ? 0 : 1,
+    transform: this.state.scanPhase === 'idle' ? 'scale(0.4)' : 'scale(1)',
+    animation: this.state.scanPhase !== 'idle' ? 'checkPop 0.4s cubic-bezier(0.3,1.4,0.4,1)' : 'none',
+    filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.35))',
+  });
+
+  verifyingSpinnerStyle = () => ({
+    width: 14, height: 14, borderRadius: '50%',
+    border: '2px solid rgba(255,255,255,0.35)', borderTopColor: '#fff',
+    display: this.state.scanPhase === 'verifying' ? 'block' : 'none',
+    animation: 'spin360 0.7s linear infinite',
+  });
+
+  restart = () => this.setState({ step: 'map', reasonKey: null, otherText: '', invalidAttempts: 0 });
+
+  renderVals() {
+    const { step, reasonKey, otherText } = this.state;
+    const reasons = this.REASONS.map((r) => {
+      const checked = reasonKey === r.key;
+      return {
+        label: r.label,
+        checked,
+        select: () => this.selectReason(r.key),
+        rowStyle: {
+          position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          gap: 12, minHeight: 56, padding: '0 16px', marginBottom: 10, borderRadius: 12, cursor: 'pointer',
+          background: checked ? 'rgb(254,242,243)' : '#fff',
+          boxShadow: checked ? 'inset 0 0 0 1.5px rgb(234,29,44)' : 'inset 0 0 0 1.5px rgb(238,238,238)',
+          transition: 'background 0.15s ease, box-shadow 0.15s ease',
+        },
+        radioStyle: {
+          flexShrink: 0, width: 22, height: 22, borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: checked ? 'inset 0 0 0 2px rgb(234,29,44)' : 'inset 0 0 0 2px rgb(200,200,200)',
+          transition: 'box-shadow 0.15s ease',
+        },
+      };
+    });
+    const isOther = reasonKey === 'other';
+    const disabled = this.continueDisabled();
+    const reasonObj = this.REASONS.find((r) => r.key === reasonKey);
+    const reasonMessage = reasonKey === 'other'
+      ? (otherText.trim() || 'Tengo un problema con el código QR')
+      : (reasonObj ? reasonObj.label : 'Tengo un problema con el código QR');
+
+    const isOutcomeStep = ['qr-no-confirmado', 'qr-invalido', 'qr-excedido'].includes(step);
+
+    return {
+      step,
+      showDevNav: this.props.showDevNav ?? false,
+      restaurantName: this.props.restaurantName ?? "Habib's Butantã",
+      prepTime: this.props.prepTime ?? '12-15 min',
+      receiptOpen: this.state.receiptOpen,
+      openReceipt: this.openReceipt,
+      closeReceipt: this.closeReceipt,
+      orderReady: this.state.orderReady,
+      orderNotReady: !this.state.orderReady,
+      prepCardStyle: {
+        position: 'absolute', left: 16, top: 263, width: 328, height: 64, borderRadius: 8,
+        display: 'flex', alignItems: 'center', gap: 12, padding: '0 16px',
+        transition: 'background 0.3s ease, box-shadow 0.3s ease',
+        background: this.state.orderReady ? 'rgb(240,250,244)' : '#fff',
+        boxShadow: this.state.orderReady ? 'inset 0 0 0 1px rgb(200,232,213)' : 'inset 0 0 0 1px rgb(242,242,242)',
+      },
+      prepCardIcon: this.state.orderReady
+        ? React.createElement('svg', { width: 24, height: 24, viewBox: '0 0 24 24' },
+            React.createElement('circle', { cx: 12, cy: 12, r: 9.5, fill: 'rgb(80,167,115)' }),
+            React.createElement('path', { d: 'M8 12 l2.6 2.6 L16 9', fill: 'none', stroke: '#fff', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' }))
+        : React.createElement('svg', { width: 24, height: 24, viewBox: '0 0 24 24' },
+            React.createElement('circle', { cx: 12, cy: 12, r: 9.5, fill: 'none', stroke: 'rgb(234,29,44)', strokeWidth: 1.6 }),
+            React.createElement('path', { d: 'M12 7 v5 l3.5 2', fill: 'none', stroke: 'rgb(234,29,44)', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' })),
+      prepCardTitle: this.state.orderReady ? '¡Pedido listo!' : (this.props.prepTime ?? '12-15 min'),
+      prepCardSub: this.state.orderReady ? 'Listo para recolección' : 'Tiempo de preparo',
+      prepCardTitleStyle: { fontSize: 16, fontWeight: 500, lineHeight: '20px', color: this.state.orderReady ? 'rgb(46,145,95)' : 'rgb(62,62,62)' },
+      prepCardSubStyle: { fontSize: 12, fontWeight: 400, lineHeight: '16px', color: this.state.orderReady ? 'rgb(46,145,95)' : 'rgb(113,113,113)', opacity: this.state.orderReady ? 0.85 : 1 },
+      orderReadyNoticeOpen: this.state.orderReadyNoticeOpen,
+      dismissOrderReadyNotice: this.dismissOrderReadyNotice,
+      salirButtonStyle: {
+        position: 'absolute', left: 16, top: 16, width: 328, height: 52, borderRadius: 4,
+        fontSize: 14, fontWeight: 500, transition: 'background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease',
+        ...(this.state.orderReady
+          ? { boxShadow: 'inset 0 0 0 1px rgb(234,29,44)', color: 'rgb(234,29,44)', background: '#fff', cursor: 'pointer' }
+          : { boxShadow: 'inset 0 0 0 1px rgb(224,224,224)', color: 'rgb(180,180,180)', background: 'rgb(247,247,247)', cursor: 'not-allowed' }),
+      },
+      jumpTo: this.jumpTo,
+
+      isMap: step === 'map',
+      isInfoQR: step === 'info-qr',
+      isProblem: step === 'problem-reasons',
+      isChat: step === 'chat',
+      isCamera: step === 'camera',
+      isLoading: step === 'loading',
+      loadingTitle: (this.state.loadingFor === 'arrival' || this.state.loadingFor === 'exit') ? 'Recolección' : 'Código QR',
+      loadingSubtitle: this.state.loadingFor === 'arrival' ? 'Confirmando tu llegada...' : 'Validando el código...',
+      scanDisabled: this.state.scanPhase !== 'idle',
+      cameraScreenStyle: this.cameraScreenStyle(),
+      scanlineStyle: this.scanlineStyle(),
+      cornerStyleTL: this.cornerStyle('tl'),
+      cornerStyleTR: this.cornerStyle('tr'),
+      cornerStyleBL: this.cornerStyle('bl'),
+      cornerStyleBR: this.cornerStyle('br'),
+      scanBadgeStyle: this.scanBadgeStyle(),
+      verifyingSpinnerStyle: this.verifyingSpinnerStyle(),
+      cameraCaption: this.state.scanPhase === 'idle'
+        ? 'Toca el marco para escanear'
+        : (this.state.scanPhase === 'locked' ? '¡Código detectado!' : 'Verificando código...'),
+      infoQRScreenStyle: {
+        position: 'absolute', inset: 0, background: '#fff',
+        animation: (this.state.loadingFor === 'arrival' ? 'revealUp' : 'screenIn') + ' 0.3s cubic-bezier(0.2,0.8,0.2,1)',
+      },
+      isOutcome: isOutcomeStep,
+      isNoConfirmado: step === 'qr-no-confirmado',
+      isInvalido: step === 'qr-invalido',
+      isExcedido: step === 'qr-excedido',
+      isRecoleccion: step === 'recoleccion' || step === 'qr-valido',
+      isEntrega: step === 'entrega',
+      isEntregaMap: step === 'entrega-map',
+      isExitCodeIntro: step === 'exit-code-intro',
+      isExitCodeEntry: step === 'exit-code-entry',
+      isExitCodeAccepted: step === 'exit-code-accepted',
+      exitDigits: [0, 1, 2, 3].map((i) => ({
+        index: i,
+        value: this.state.exitCodeDigits[i] || '',
+        inputRef: this.digitRefs[i],
+        onChange: this.onDigitInput(i),
+        onKeyDown: this.onDigitKeyDown(i),
+        boxStyle: {
+          width: 60, height: 68, textAlign: 'center', fontSize: 28, fontWeight: 600,
+          color: 'rgb(62,62,62)', borderRadius: 12, background: '#fff',
+          border: this.state.exitCodeDigits[i] ? '1.5px solid rgb(234,29,44)' : '1.5px solid rgb(224,224,224)',
+          transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+          outline: 'none',
+        },
+      })),
+      exitCodeIncomplete: this.state.exitCodeDigits.some((d) => !d),
+      exitCodeValue: this.state.exitCodeDigits.join('') || '····',
+      exitConfirmButtonStyle: {
+        width: '100%', height: 52, borderRadius: 4, fontSize: 14, fontWeight: 500,
+        transition: 'background 0.2s ease, color 0.2s ease',
+        ...(this.state.exitCodeDigits.some((d) => !d)
+          ? { background: 'rgb(247,247,247)', color: 'rgb(180,180,180)', cursor: 'not-allowed' }
+          : { background: 'rgb(234,29,44)', color: '#fff', cursor: 'pointer' }),
+      },
+      goExitCodeIntro: this.goExitCodeIntro,
+      goExitCodeEntry: this.goExitCodeEntry,
+      goRecoleccionFromExit: this.goRecoleccionFromExit,
+      goDeliveryCode: this.goDeliveryCode,
+      goEntrega: () => this.go('entrega'),
+      goEntregaMap: () => this.go('entrega-map'),
+      submitExitCode: this.submitExitCode,
+      confirmExit: this.confirmExit,
+      qrValidSheetVisible: step === 'qr-valido' || this.state.qrValidClosing,
+      qrValidScrimStyle: {
+        position: 'absolute', inset: 0, background: 'rgba(34,42,46,0.55)', zIndex: 4,
+        opacity: this.state.qrValidClosingAnim ? 0 : 1,
+        transition: 'opacity 0.3s ease',
+      },
+      qrValidSheetMotionStyle: {
+        position: 'absolute', left: 0, bottom: 0, width: 360, zIndex: 5,
+        transform: this.state.qrValidClosingAnim ? 'translateY(110%)' : 'translateY(0)',
+        transition: 'transform 0.32s cubic-bezier(0.4,0,1,1)',
+      },
+
+      goMap: () => this.setState({ step: 'map', mapSheetOpen: false }),
+      goMapExpanded: () => this.setState({ step: 'map', mapSheetOpen: true }),
+      mapSheetOpen: this.state.mapSheetOpen,
+      toggleMapSheet: this.toggleMapSheet,
+      expandMapSheet: this.expandMapSheet,
+      collapseMapSheet: this.collapseMapSheet,
+      mapSheetStyle: {
+        position: 'absolute', left: 0, top: 0, width: 360, height: 640,
+        transform: this.state.mapSheetOpen ? 'translateY(0)' : 'translateY(389px)',
+        transition: 'transform 0.34s cubic-bezier(0.2,0.8,0.2,1)',
+      },
+      mapNavBarStyle: {
+        position: 'absolute', left: 0, top: 0, width: 360, height: 120, zIndex: 2,
+        opacity: this.state.mapSheetOpen ? 1 : 0,
+        pointerEvents: this.state.mapSheetOpen ? 'auto' : 'none',
+        transition: 'opacity 0.28s ease',
+      },
+      confirmArrival: this.confirmArrival,
+      goInfoQR: () => this.go('info-qr'),
+      goProblem: () => this.setState({ problemOrigin: this.state.step, step: 'problem-reasons' }),
+      goCamera: () => { this.setState({ step: 'camera', scanPhase: 'idle' }); this.startAutoScan(); },
+      goChatSupport: this.goChatSupport,
+      goRecoleccion: this.goRecoleccion,
+      goBackFromChat: () => this.go(this.state.chatOrigin ?? 'info-qr'),
+      goBackFromProblem: () => this.go(this.state.problemOrigin ?? 'info-qr'),
+
+      reasons,
+      isOther,
+      otherText,
+      continueDisabled: disabled,
+      continueBg: disabled ? 'rgb(220,220,220)' : 'rgb(234,29,44)',
+      continueButtonStyle: {
+        position: 'absolute', left: 16, top: 16, width: 328, height: 52, borderRadius: 4,
+        fontSize: 14, fontWeight: 500, transition: 'background 0.2s ease, color 0.2s ease',
+        ...(disabled
+          ? { background: 'rgb(247,247,247)', color: 'rgb(180,180,180)', cursor: 'not-allowed' }
+          : { background: 'rgb(234,29,44)', color: '#fff', cursor: 'pointer' }),
+      },
+      submitReasons: this.submitReasons,
+      setOtherText: this.setOtherText,
+
+      hasReason: !!reasonKey,
+      reasonMessage,
+
+      triggerScan: this.triggerScan,
+      retryScan: () => this.sheetNavigate('camera'),
+      sheetChat: () => this.sheetNavigate('chat'),
+
+      restart: this.restart,
+
+      scrimClick: this.scrimClick,
+      onSheetPointerDown: this.onSheetPointerDown,
+      onSheetPointerMove: this.onSheetPointerMove,
+      onSheetPointerUp: this.onSheetPointerUp,
+      sheetMotionStyle: {
+        position: 'absolute', left: 0, bottom: 0, width: 360,
+        touchAction: 'none',
+        transform: this.state.sheetClosing ? 'translateY(110%)' : 'translateY(' + this.state.dragY + 'px)',
+        transition: this.state.sheetClosing
+          ? 'transform 0.24s cubic-bezier(0.4,0,1,1)'
+          : (this.state.dragging ? 'none' : 'transform 0.3s cubic-bezier(0.2,0.8,0.2,1)'),
+        animation: 'sheetUp 0.32s cubic-bezier(0.2,0.8,0.2,1)',
+      },
+      scrimStyle: {
+        position: 'absolute', inset: 0, background: 'rgba(34,42,46,0.55)',
+        animation: 'fadeIn 0.25s ease',
+        opacity: this.state.sheetClosing ? 0 : 1,
+        transition: 'opacity 0.22s ease',
+      },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

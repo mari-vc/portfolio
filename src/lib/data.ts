@@ -327,9 +327,19 @@ export type Project = {
   closing: L;
   // true → a página do projeto embute o KypcarDemo interativo abaixo da capa.
   demo?: boolean;
+  // protótipo navegável embutido via iframe (arquivo em /public/prototypes/…),
+  // renderizado logo abaixo da Abordagem
+  prototypeEmbed?: { src: string; title: L; hint: L };
   // user flow desenhado a traço (opcional) — título + legenda; o desenho em si
   // é um componente por projeto (hoje só o HandshakeFlow), renderizado após a Abordagem.
   flowDiagram?: { title: L; caption: L };
+  // segundo fluxo desenhado (opcional) — o checkout do Handshake, renderizado
+  // logo antes da frase de fecho, com a imagem do fluxo real embaixo
+  checkoutFlow?: {
+    title: L
+    caption: L
+    image?: { src: string; alt: L; width: number; height: number }
+  };
   // análise de mercado (opcional) — tabela comparativa de referências + insight estratégico
   marketAnalysis?: {
     intro: L;
@@ -773,6 +783,14 @@ export const projects: Project[] = [
         en: "I designed the flow to validate the courier's arrival at the restaurant: a main path in three steps and alternative routes to handle exceptions, prioritizing a trust-based approach before applying any penalty.",
       },
     },
+    prototypeEmbed: {
+      src: "/prototypes/handshake/index.html",
+      title: { pt: "Protótipo navegável", en: "Interactive prototype" },
+      hint: {
+        pt: "O caminho feliz de ponta a ponta: chegue ao restaurante, escaneie o QR code na parede para o check-in e finalize com o código da nota fiscal no checkout.",
+        en: "The end-to-end happy path: arrive at the restaurant, scan the QR code on the wall to check in, and finish with the receipt code at checkout.",
+      },
+    },
     pillarsTitle: { pt: "Decisões de design", en: "Design decisions" },
     pillarsLayout: "list",
     pillarsIntro: {
@@ -798,8 +816,8 @@ export const projects: Project[] = [
         title: { pt: "Código único na nota fiscal", en: "Unique code on the receipt" },
         doodle: "receipt",
         text: {
-          pt: "No check-out, um código impresso na nota fiscal conecta o entregador ao pedido correto. A entrega só é liberada após essa validação, criando uma segunda camada de segurança contra fraudes.",
-          en: "At check-out, a code printed on the receipt connects the courier to the correct order. Delivery is only released after this validation, creating a second layer of protection against fraud.",
+          pt: "No checkout, um código impresso na nota fiscal conecta o entregador ao pedido correto. A entrega só é liberada após essa validação, criando uma segunda camada de segurança contra fraudes.",
+          en: "At checkout, a code printed on the receipt connects the courier to the correct order. Delivery is only released after this validation, creating a second layer of protection against fraud.",
         },
       },
       {
@@ -827,9 +845,22 @@ export const projects: Project[] = [
       },
       {
         label: { pt: "R$ 260 milhões", en: "R$260 million" },
-        value: "Em pedidos mensais protegidos contra fraude de check-out",
+        value: "Em pedidos mensais protegidos contra fraude de checkout",
       },
     ],
+    checkoutFlow: {
+      title: { pt: "User flow do checkout (MVP)", en: "Checkout user flow (MVP)" },
+      caption: {
+        pt: "No checkout, a validação sai da parede e vai para a nota fiscal: o entregador digita os quatro últimos números do código impresso para confirmar que está com o pedido certo, com a mesma tolerância a erro antes de qualquer bloqueio.",
+        en: "At checkout, validation moves from the wall to the receipt: the courier types the last four digits of the printed code to confirm they have the right order, with the same tolerance for error before any block.",
+      },
+      image: {
+        src: "/work/checkout-flow.png",
+        alt: { pt: "Fluxo de checkout e validação do pedido na retirada", en: "Checkout and order validation flow at pickup" },
+        width: 24762,
+        height: 9984,
+      },
+    },
     closing: {
       pt: "O melhor design nem sempre vive na tela. No Handshake, a interface era um QR code na parede do restaurante e o impacto se media em fraude evitada.",
       en: "The best design does not always live on a screen. In Handshake, the interface was a QR code on the restaurant wall and the impact was measured in fraud prevented.",
