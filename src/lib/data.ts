@@ -764,15 +764,29 @@ export const projects: Project[] = [
       {
         title: { pt: "Aprender antes de escalar", en: "Learn before scaling" },
         text: {
-          pt: "O rollout aconteceu de forma gradual: primeiro em dois restaurantes do McDonald's para validar compreensão e adesão ao fluxo, depois em sete unidades para medir o impacto operacional. Os indicadores pioraram nos primeiros dias e se estabilizaram logo depois, evidenciando uma curva natural de aprendizado, e não rejeição à solução.",
-          en: "The rollout happened gradually: first at two McDonald's restaurants to validate comprehension and adherence to the flow, then at seven locations to measure operational impact. Indicators dipped in the first days and stabilized shortly after, showing a natural learning curve rather than rejection of the solution.",
+          pt: "O primeiro teste rodou em janeiro de 2022, no pico do almoço, em dois restaurantes do McDonald's escolhidos por perfis opostos de operação: o ponto mais movimentado da rede e uma unidade dentro de shopping center. Ali a pergunta era de comportamento, não de métrica: o entregador entendia o fluxo, não o via como etapa extra e reconhecia o valor de impedir que outro entregador levasse o pedido.",
+          en: "The first test ran in January 2022, during the lunch rush, at two McDonald's restaurants chosen for opposite operational profiles: the busiest location in the network and a shopping-mall unit. There the question was about behavior, not metrics: couriers understood the flow, did not see it as an extra step, and recognized the value of preventing another courier from taking the order.",
         },
       },
       {
-        title: { pt: "Evoluir a solução com o que aprendemos", en: "Evolve the solution with what we learned" },
+        title: { pt: "Deixar os microtempos provarem a hipótese", en: "Let the microtimes prove the hypothesis" },
         text: {
-          pt: "Os testes geraram melhorias importantes antes da expansão da funcionalidade: criamos um fluxo alternativo para entregadores com câmera danificada, orientações para restaurantes manterem os QR Codes visíveis e atualizados e uma estratégia para lidar com grandes redes que possuíam múltiplos identificadores por loja.",
-          en: "The tests generated important improvements before the feature expanded: we created an alternative flow for couriers with a damaged camera, guidance for restaurants to keep QR Codes visible and up to date, and a strategy for handling large chains with multiple identifiers per store.",
+          pt: "O segundo teste, em sete unidades, respondia uma pergunta específica: o que acontece com os microtempos DRE (a caminho do restaurante) e NRE (no restaurante) quando a chegada passa a ser validada? O Contact Rate saltou de cerca de 5% para 12% na ativação e logo se estabilizou — curva de aprendizado, não rejeição. E o NRE caiu quase pela metade (de 5,7 para 2,8 minutos no ponto mais crítico) enquanto o DRE subiu, confirmando o check-in falso e revelando os microtempos reais da operação.",
+          en: "The second test, at seven locations, answered one specific question: what happens to the DRE (heading to the restaurant) and NRE (at the restaurant) microtimes once arrival is validated? Contact Rate jumped from about 5% to 12% at activation and soon stabilized — a learning curve, not rejection. And NRE nearly halved (from 5.7 to 2.8 minutes at the most critical location) while DRE rose, confirming the fake check-in and revealing the operation's real microtimes.",
+        },
+      },
+      {
+        title: { pt: "Tratar cada risco antes de escalar", en: "Address every risk before scaling" },
+        text: {
+          pt: "Os testes expuseram riscos operacionais e cada um virou um ajuste no fluxo. Câmera danificada cancelava e realocava o pedido automaticamente, sem o suporte poder corrigir o status: passamos a permitir a mudança automática via ticket, validando a localização pelo geofence. Restaurantes que não trocavam o código ou deixavam o QR fora de vista atrasavam a operação: criamos um guia explicando as vantagens de manter o código visível e atualizado. E grandes redes com múltiplos identificadores por loja ganharam um ID principal definido.",
+          en: "The tests exposed operational risks, and each one became a change in the flow. A damaged camera auto-cancelled and reallocated the order, with support unable to fix the status: we allowed the status to change automatically via ticket, validating location through the geofence. Restaurants that did not rotate the code or kept the QR out of sight slowed the operation: we created a guide explaining the benefits of keeping it visible and up to date. And large chains with multiple identifiers per store got one defined main ID.",
+        },
+      },
+      {
+        title: { pt: "Escalar em ondas", en: "Scale in waves" },
+        text: {
+          pt: "Com os riscos endereçados, o rollout seguiu em ondas: ativação ao longo de um mês em todos os pontos do McDonald's e, na sequência, expansão para os demais pontos de grandes contas (KA). Só então, com o check-in consolidado e as lições absorvidas, partimos para o segundo fluxo da jornada: a validação da retirada do pedido no checkout.",
+          en: "With the risks addressed, the rollout moved in waves: activation across all McDonald's locations over one month, followed by expansion to the remaining key-account (KA) locations. Only then, with check-in consolidated and the lessons absorbed, did we move to the journey's second flow: validating order pickup at checkout.",
         },
       },
     ],
@@ -813,11 +827,11 @@ export const projects: Project[] = [
         },
       },
       {
-        title: { pt: "Código único na nota fiscal", en: "Unique code on the receipt" },
+        title: { pt: "Código na nota, não outro QR", en: "A code on the receipt, not another QR" },
         doodle: "receipt",
         text: {
-          pt: "No checkout, um código impresso na nota fiscal conecta o entregador ao pedido correto. A entrega só é liberada após essa validação, criando uma segunda camada de segurança contra fraudes.",
-          en: "At checkout, a code printed on the receipt connects the courier to the correct order. Delivery is only released after this validation, creating a second layer of protection against fraud.",
+          pt: "A experiência do check-in mostrou que a qualidade e o estado da câmera do celular tornavam a leitura de QR pouco confiável. Por isso o checkout usou um código alfanumérico impresso na própria nota fiscal: o funcionário passa o código, o entregador digita e a validação libera a entrega, sem depender da câmera.",
+          en: "The check-in taught us that phone-camera quality and condition made QR scanning unreliable. So checkout used an alphanumeric code printed on the receipt itself: the employee shares it, the courier types it, and validation releases the order — no camera required.",
         },
       },
       {
@@ -851,8 +865,8 @@ export const projects: Project[] = [
     checkoutFlow: {
       title: { pt: "User flow do checkout (MVP)", en: "Checkout user flow (MVP)" },
       caption: {
-        pt: "No checkout, a validação sai da parede e vai para a nota fiscal: o entregador digita os quatro últimos números do código impresso para confirmar que está com o pedido certo, com a mesma tolerância a erro antes de qualquer bloqueio.",
-        en: "At checkout, validation moves from the wall to the receipt: the courier types the last four digits of the printed code to confirm they have the right order, with the same tolerance for error before any block.",
+        pt: "O checkout pedia mais controle que o check-in: é no encontro entre entregador e pedido que a fraude de fato acontece. Aqui a validação sai da parede e vai para a nota fiscal: o funcionário do restaurante passa um código alfanumérico de quatro dígitos, o entregador digita para confirmar que está com o pedido certo e o funcionário valida — com a mesma tolerância a erro antes de qualquer bloqueio.",
+        en: "Checkout demanded more control than check-in: fraud happens precisely where courier and order meet. Here validation moves from the wall to the receipt: the restaurant employee shares a four-character alphanumeric code, the courier types it to confirm they have the right order, and the employee validates — with the same tolerance for error before any block.",
       },
       image: {
         src: "/work/checkout-flow.png",

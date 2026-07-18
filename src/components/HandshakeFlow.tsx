@@ -160,10 +160,10 @@ export function HandshakeFlow({ lang }: { lang: Locale }) {
 
 const checkoutLabels = {
   pt: {
-    start: ["Pedido pronto", "para retirada"],
-    code: ["Digita os 4 últimos", "números da nota"],
+    start: ["Entregador chega", "ao restaurante"],
+    code: ["Funcionário passa o", "código alfanumérico"],
     valid: ["Código", "válido?"],
-    done: ["Checkout", "confirmado"],
+    done: ["Retira o pedido", "e entrega"],
     attempts: ["Ainda tem", "tentativas?"],
     retry: ["Tenta de novo"],
     support: ["Falar com", "o suporte"],
@@ -171,10 +171,10 @@ const checkoutLabels = {
     no: "não",
   },
   en: {
-    start: ["Order ready", "for pickup"],
-    code: ["Enters the last 4", "digits on the receipt"],
+    start: ["Courier arrives", "at the restaurant"],
+    code: ["Staff shares the", "alphanumeric code"],
     valid: ["Valid", "code?"],
-    done: ["Checkout", "confirmed"],
+    done: ["Picks up the order", "and delivers"],
     attempts: ["Attempts", "left?"],
     retry: ["Tries again"],
     support: ["Talk to", "support"],
