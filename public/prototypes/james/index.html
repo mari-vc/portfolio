@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="prototype">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: transparent; font-family: 'Montserrat', -apple-system, sans-serif; }
+    * { box-sizing: border-box; }
+    button { font-family: 'Montserrat', -apple-system, sans-serif; cursor: pointer; border: none; background: none; padding: 0; text-align: left; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes screenIn { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes revealUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes caretBlink { 0%, 45% { opacity: 1; } 55%, 100% { opacity: 0; } }
+  </style>
+</helmet>
+
+<div style="width:360px;height:640px;position:relative;">
+
+  <sc-if value="{{ showDevNav }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed;top:20px;left:20px;background:#1a1a1a;color:#fff;padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.6;z-index:50;max-width:220px;box-shadow:0 8px 24px rgba(0,0,0,0.3);">
+      <div style="font-weight:600;margin-bottom:6px;opacity:0.6;letter-spacing:0.04em;text-transform:uppercase;font-size:10px;">Ir para tela</div>
+      <select value="{{ step }}" onChange="{{ jumpTo }}" style="width:100%;background:#2a2a2a;color:#fff;border:1px solid #444;border-radius:6px;padding:6px 8px;font-size:12px;">
+        <option value="splash">Splash</option>
+        <option value="home">Home (mercados)</option>
+        <option value="busca">Busca inicial (histórico)</option>
+        <option value="campo">Busca (campo focado)</option>
+        <option value="auto">Autocomplete</option>
+        <option value="resultados">Resultados</option>
+        <option value="ordenar">Ordenar</option>
+      </select>
+    </div>
+  </sc-if>
+
+  <div data-screen-label="{{ step }}" style="width:360px;height:640px;position:relative;overflow:hidden;background:#fff;">
+
+    <!-- ============ SPLASH ============ -->
+    <sc-if value="{{ isSplash }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ goHome }}" style="position:absolute;inset:0;background:rgb(140,100,220);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+        <svg width="150" height="64" viewBox="0 0 150 64">
+          <text x="75" y="42" text-anchor="middle" fill="#fff" font-family="'Montserrat',sans-serif" font-size="40" font-weight="700" font-style="italic" transform="rotate(-4 75 32)">James</text>
+          <path d="M22 52 C 60 58, 96 58, 128 51" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" transform="rotate(-4 75 52)"></path>
+        </svg>
+      </button>
+    </sc-if>
+
+    <!-- ============ HOME (MERCADOS) ============ -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:screenIn 0.3s ease;">
+        <!-- header roxo -->
+        <div style="position:absolute;left:0;top:0;width:360px;height:132px;background:rgb(140,100,220);"></div>
+        <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
+        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;left:0;top:28px;width:360px;display:flex;align-items:center;justify-content:center;gap:6px;color:#fff;font-size:14px;font-weight:600;">
+          <svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2.5 C8 2.5 5 5.6 5 9.5 c0 5 7 12 7 12 s7 -7 7 -12 c0 -3.9 -3 -7 -7 -7 z" fill="none" stroke="#fff" stroke-width="2"></path><circle cx="12" cy="9.5" r="2.4" fill="#fff"></circle></svg>
+          Rua Estrela, 35
+          <svg width="10" height="10" viewBox="0 0 18 9"><path d="M1 1 L9 8 L17 1" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path></svg>
+        </div>
+        <div style="position:absolute;right:14px;top:26px;width:22px;height:22px;border-radius:6px;box-shadow:inset 0 0 0 1.6px rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;">%</div>
+        <!-- tabs de categoria -->
+        <div style="position:absolute;left:0;top:62px;width:360px;display:flex;gap:20px;padding:0 16px;font-size:13px;color:rgba(255,255,255,0.75);white-space:nowrap;">
+          <div style="font-weight:700;color:#fff;padding-bottom:6px;border-bottom:2.5px solid #fff;">mercados</div>
+          <div style="font-weight:400;">restaurantes</div>
+          <div style="font-weight:400;">farmácias</div>
+          <div style="font-weight:400;">ver mais</div>
+        </div>
+        <!-- barra de busca -->
+        <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:96px;width:328px;height:44px;border-radius:22px;background:#fff;box-shadow:0 2px 8px rgba(40,20,90,0.18);display:flex;align-items:center;gap:10px;padding:0 16px;" style-active="transform:scale(0.985);">
+          <svg width="17" height="17" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
+          <span style="font-size:13.5px;color:rgb(140,140,146);">Procure por item ou estabelecimento</span>
+        </button>
+        <!-- banners -->
+        <div style="position:absolute;left:16px;top:158px;width:344px;display:flex;gap:12px;">
+          <div style="width:104px;">
+            <div style="width:104px;height:118px;border-radius:12px;background:linear-gradient(160deg, rgb(28,24,60), rgb(64,38,110));box-shadow:0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;font-style:italic;">Lacta</div>
+            <div style="margin-top:8px;font-size:12px;font-weight:600;color:rgb(40,40,44);">Natal Lacta</div>
+          </div>
+          <div style="width:104px;">
+            <div style="width:104px;height:118px;border-radius:12px;background:linear-gradient(160deg, rgb(205,228,246), rgb(240,248,255));box-shadow:0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;color:rgb(110,150,190);font-size:12px;font-weight:600;">Para seu Baby</div>
+            <div style="margin-top:8px;font-size:12px;font-weight:600;color:rgb(40,40,44);">Baby</div>
+          </div>
+          <div style="width:104px;">
+            <div style="width:104px;height:118px;border-radius:12px;background:linear-gradient(160deg, rgb(120,80,200), rgb(160,120,235));box-shadow:0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;text-align:center;">extra</div>
+            <div style="margin-top:8px;font-size:12px;font-weight:600;color:rgb(40,40,44);">Supermercados</div>
+          </div>
+        </div>
+        <!-- explorar -->
+        <div style="position:absolute;left:16px;top:322px;font-size:17px;font-weight:700;color:rgb(30,30,34);">Explorar</div>
+        <div style="position:absolute;left:16px;top:354px;width:328px;border-radius:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
+          <div style="height:120px;background:linear-gradient(140deg, rgb(226,240,224), rgb(244,250,240));position:relative;">
+            <div style="position:absolute;left:12px;top:10px;background:#fff;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-style:italic;color:rgb(140,100,220);">Prime</div>
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;">
+              <svg width="34" height="34" viewBox="0 0 34 34"><path d="M10 24 C6 20, 8 12, 15 11 C14 6, 22 4, 24 9 C30 9, 31 17, 26 19 C28 24, 22 28, 18 25 C15 28, 11 27, 10 24 Z" fill="rgb(28,130,80)"></path></svg>
+            </div>
+          </div>
+          <div style="padding:12px 14px 14px;">
+            <div style="font-size:15px;font-weight:700;color:rgb(30,30,34);">Pão De Açúcar</div>
+            <div style="margin-top:3px;font-size:12px;color:rgb(130,130,136);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">R. Domingos de Morais, 486 - Vila Marian...</div>
+            <div style="margin-top:9px;display:flex;align-items:center;justify-content:space-between;">
+              <span style="display:inline-flex;align-items:center;gap:6px;background:rgb(64,205,200);color:#fff;font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">⬡ entrega à calcular</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;background:rgb(238,238,241);color:rgb(90,90,96);font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">◷ 51m</span>
+            </div>
+          </div>
+        </div>
+        <!-- tab bar -->
+        <div style="position:absolute;left:0;bottom:0;width:360px;height:58px;background:#fff;box-shadow:0 -1px 8px rgba(0,0,0,0.07);display:flex;">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(60,60,66);font-weight:600;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 11 L12 4 L20 11 V20 H14 V15 H10 V20 H4 Z" fill="none" stroke="rgb(60,60,66)" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+            Início
+          </div>
+          <button onClick="{{ goBusca }}" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(140,140,146)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            Buscar
+          </button>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8"></rect><path d="M9 9 H15 M9 13 H15" stroke="rgb(140,140,146)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            Pedidos
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8"></circle><path d="M5.5 20 C6.5 15.8, 9 14, 12 14 C15 14, 17.5 15.8, 18.5 20" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            Conta
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ BUSCA INICIAL (HISTÓRICO + CATEGORIAS) ============ -->
+    <sc-if value="{{ isBusca }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:screenIn 0.3s ease;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:rgb(140,100,220);"></div>
+        <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
+        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
+          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
+          <span style="font-size:13px;color:rgb(140,140,146);">Procure por item ou estabelecimento</span>
+        </button>
+        <div style="position:absolute;left:16px;top:92px;font-size:15px;font-weight:700;color:rgb(30,30,34);">Busca recente</div>
+        <div style="position:absolute;left:0;top:118px;width:360px;padding:0 16px;">
+          <sc-for list="{{ historico }}" as="hrow" hint-placeholder-count="6">
+            <button onClick="{{ hrow.go }}" style="width:328px;display:flex;align-items:center;gap:12px;padding:7px 0;" style-active="opacity:0.6;">
+              <div style="{{ hrow.avatarStyle }}">{{ hrow.initial }}</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:13.5px;font-weight:600;color:rgb(35,35,40);">{{ hrow.nome }}</div>
+                <div style="margin-top:1px;font-size:11.5px;color:rgb(130,130,136);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
+              </div>
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1 L11 11 M11 1 L1 11" stroke="rgb(150,150,156)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            </button>
+          </sc-for>
+        </div>
+        <div style="position:absolute;left:16px;top:432px;font-size:15px;font-weight:700;color:rgb(30,30,34);">Categoria</div>
+        <div style="position:absolute;left:16px;top:458px;width:344px;display:flex;gap:12px;">
+          <div style="width:104px;">
+            <div style="width:104px;height:86px;border-radius:12px;background:linear-gradient(150deg, rgb(250,240,228), rgb(255,250,242));box-shadow:0 1px 6px rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:center;font-size:26px;">🍣</div>
+            <div style="margin-top:6px;font-size:11.5px;font-weight:600;color:rgb(50,50,55);text-align:center;">Japonesa</div>
+          </div>
+          <button onClick="{{ goResultados }}" style="width:104px;" style-active="opacity:0.7;">
+            <div style="width:104px;height:86px;border-radius:12px;background:linear-gradient(150deg, rgb(46,40,42), rgb(80,64,60));box-shadow:0 1px 6px rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:center;font-size:26px;">🍕</div>
+            <div style="margin-top:6px;font-size:11.5px;font-weight:600;color:rgb(50,50,55);text-align:center;">Pizzaria</div>
+          </button>
+          <div style="width:104px;">
+            <div style="width:104px;height:86px;border-radius:12px;background:linear-gradient(150deg, rgb(120,80,200), rgb(170,135,235));box-shadow:0 1px 6px rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:center;font-size:26px;">🛒</div>
+            <div style="margin-top:6px;font-size:11.5px;font-weight:600;color:rgb(50,50,55);text-align:center;">Mercado</div>
+          </div>
+        </div>
+        <!-- tab bar -->
+        <div style="position:absolute;left:0;bottom:0;width:360px;height:58px;background:#fff;box-shadow:0 -1px 8px rgba(0,0,0,0.07);display:flex;">
+          <button onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 11 L12 4 L20 11 V20 H14 V15 H10 V20 H4 Z" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+            Início
+          </button>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(60,60,66);font-weight:600;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(60,60,66)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(60,60,66)" stroke-width="2" stroke-linecap="round"></path></svg>
+            Buscar
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8"></rect><path d="M9 9 H15 M9 13 H15" stroke="rgb(140,140,146)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            Pedidos
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8"></circle><path d="M5.5 20 C6.5 15.8, 9 14, 12 14 C15 14, 17.5 15.8, 18.5 20" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            Conta
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CAMPO FOCADO (TECLADO) ============ -->
+    <sc-if value="{{ isCampo }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:fadeIn 0.2s ease;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:rgb(140,100,220);"></div>
+        <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
+        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
+          <span style="width:2px;height:16px;background:rgb(140,100,220);animation:caretBlink 1s infinite;"></span>
+        </div>
+        <!-- teclado: qualquer tecla digita "Piz" -->
+        <div style="position:absolute;left:0;bottom:0;width:360px;background:rgb(209,212,219);padding:8px 4px 24px;">
+          <sc-for list="{{ tecladoLinhas }}" as="linha" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:center;gap:5px;margin-bottom:8px;">
+              <sc-for list="{{ linha.teclas }}" as="tk" hint-placeholder-count="10">
+                <button onClick="{{ tk.digita }}" style="min-width:28px;height:40px;border-radius:5px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;color:rgb(30,30,34);padding:0 6px;" style-active="background:rgb(230,232,236);">{{ tk.ch }}</button>
+              </sc-for>
+            </div>
+          </sc-for>
+          <div style="display:flex;justify-content:center;gap:5px;">
+            <button onClick="{{ goAuto }}" style="width:200px;height:40px;border-radius:5px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:14px;color:rgb(30,30,34);" style-active="background:rgb(230,232,236);">space</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ AUTOCOMPLETE ============ -->
+    <sc-if value="{{ isAuto }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:fadeIn 0.2s ease;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:rgb(140,100,220);"></div>
+        <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
+        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
+          <span style="font-size:13.5px;color:rgb(30,30,34);">Piz</span>
+          <span style="width:2px;height:16px;background:rgb(140,100,220);animation:caretBlink 1s infinite;margin-left:-6px;"></span>
+          <span style="flex:1;"></span>
+          <svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(200,200,206)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg>
+        </div>
+        <div style="position:absolute;left:0;top:90px;width:360px;padding:0 20px;">
+          <sc-for list="{{ sugestoes }}" as="sg" hint-placeholder-count="7">
+            <button onClick="{{ sg.go }}" style="width:320px;padding:8px 0;" style-active="opacity:0.6;">
+              <div style="font-size:13.5px;color:rgb(35,35,40);"><b style="font-weight:700;">Piz</b>{{ sg.resto }}</div>
+              <div style="margin-top:1px;font-size:11px;color:rgb(140,140,146);">{{ sg.onde }}</div>
+            </button>
+          </sc-for>
+        </div>
+        <!-- teclado estático -->
+        <div style="position:absolute;left:0;bottom:0;width:360px;background:rgb(209,212,219);padding:8px 4px 24px;">
+          <sc-for list="{{ tecladoLinhas }}" as="linha" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:center;gap:5px;margin-bottom:8px;">
+              <sc-for list="{{ linha.teclas }}" as="tk" hint-placeholder-count="10">
+                <div style="min-width:28px;height:40px;border-radius:5px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;color:rgb(30,30,34);padding:0 6px;">{{ tk.ch }}</div>
+              </sc-for>
+            </div>
+          </sc-for>
+          <div style="display:flex;justify-content:center;gap:5px;">
+            <div style="width:200px;height:40px;border-radius:5px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:14px;color:rgb(30,30,34);">space</div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ RESULTADOS ============ -->
+    <sc-if value="{{ isResultados }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:screenIn 0.3s ease;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:rgb(140,100,220);"></div>
+        <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
+        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
+          <span style="font-size:13.5px;color:rgb(30,30,34);">Pizza</span>
+          <span style="flex:1;"></span>
+          <button onClick="{{ goBusca }}" style="display:flex;" style-active="opacity:0.6;"><svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(200,200,206)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></button>
+        </div>
+        <!-- contagem + ordenar/filtrar -->
+        <div style="position:absolute;left:16px;top:90px;font-size:12px;font-weight:600;color:rgb(60,60,66);">1211 resultados</div>
+        <div style="position:absolute;right:16px;top:84px;display:flex;gap:8px;">
+          <button onClick="{{ goOrdenar }}" style="height:30px;border-radius:15px;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);" style-active="transform:scale(0.96);">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M8 4 V20 M8 20 L5 16.5 M8 20 L11 16.5 M16 20 V4 M16 4 L13 7.5 M16 4 L19 7.5" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
+            Ordenar
+          </button>
+          <div style="height:30px;border-radius:15px;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M4 7 H20 M7 12 H17 M10 17 H14" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round"></path></svg>
+            Filtrar
+          </div>
+        </div>
+        <div style="position:absolute;left:0;top:124px;bottom:58px;width:360px;overflow:hidden;padding:0 16px;">
+          <!-- Bráz Elettrica -->
+          <div style="border-radius:12px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.06);padding:12px 14px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;">
+              <div style="width:38px;height:38px;border-radius:8px;background:rgb(24,24,28);color:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;text-align:center;line-height:1.2;">BRÁZ</div>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="font-size:13.5px;font-weight:700;color:rgb(30,30,34);">Bráz Elettrica - Jardins</div>
+                  <div style="font-size:11.5px;font-weight:700;color:rgb(150,150,156);">4,1 <span style="color:rgb(235,190,50);">★</span></div>
+                </div>
+                <div style="margin-top:2px;font-size:11.5px;color:rgb(130,130,136);">Pizzaria · 2,1 km</div>
+                <div style="margin-top:1px;font-size:11.5px;color:rgb(130,130,136);">Frete R$ 3,99 · 20 - 30 min</div>
+              </div>
+            </div>
+            <button onClick="{{ togglePratos }}" style="width:100%;margin-top:10px;padding-top:10px;border-top:1px solid rgb(240,240,243);display:flex;align-items:center;justify-content:space-between;" style-active="opacity:0.6;">
+              <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
+                <svg width="13" height="13" viewBox="0 0 24 24"><path d="M7 3 V11 M4 3 V7 C4 9, 10 9, 10 7 V3 M7 11 V21 M16 3 C14 3, 13 8, 13 11 H19 C19 8, 18 3, 16 3 Z M16 11 V21" stroke="rgb(50,50,56)" stroke-width="1.7" stroke-linecap="round" fill="none"></path></svg>
+                Pratos mais pedidos
+              </span>
+              <svg width="12" height="12" viewBox="0 0 18 9" style="{{ chevronStyle }}"><path d="M1 1 L9 8 L17 1" fill="none" stroke="rgb(90,90,96)" stroke-width="2" stroke-linecap="round"></path></svg>
+            </button>
+            <sc-if value="{{ pratosOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:10px;margin-top:12px;animation:revealUp 0.25s ease;">
+                <div style="width:88px;">
+                  <div style="width:88px;height:64px;border-radius:9px;background:linear-gradient(140deg, rgb(196,74,52), rgb(233,150,92));"></div>
+                  <div style="margin-top:5px;font-size:10.5px;color:rgb(90,90,96);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Ok... Mozzarella!</div>
+                  <div style="font-size:11px;font-weight:700;color:rgb(30,30,34);">R$ 27,00</div>
+                </div>
+                <div style="width:88px;">
+                  <div style="width:88px;height:64px;border-radius:9px;background:linear-gradient(140deg, rgb(90,120,62), rgb(170,190,120));"></div>
+                  <div style="margin-top:5px;font-size:10.5px;color:rgb(90,90,96);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Cajupiry</div>
+                  <div style="font-size:11px;font-weight:700;color:rgb(30,30,34);">R$ 33,00</div>
+                </div>
+                <div style="width:88px;">
+                  <div style="width:88px;height:64px;border-radius:9px;background:linear-gradient(140deg, rgb(120,96,70), rgb(200,176,140));"></div>
+                  <div style="margin-top:5px;font-size:10.5px;color:rgb(90,90,96);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Shroomz</div>
+                  <div style="font-size:11px;font-weight:700;color:rgb(30,30,34);">R$ 33,00</div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <!-- Pizza Hut -->
+          <div style="border-radius:12px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.06);padding:12px 14px;margin-bottom:10px;">
+            <div style="display:flex;gap:10px;">
+              <div style="width:38px;height:38px;border-radius:50%;background:rgb(200,32,38);color:#fff;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:700;text-align:center;line-height:1.15;">Pizza<br>Hut</div>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="font-size:13.5px;font-weight:700;color:rgb(30,30,34);">Pizza Hut - Santa Cruz</div>
+                  <div style="font-size:11.5px;font-weight:700;color:rgb(150,150,156);">4,5 <span style="color:rgb(235,190,50);">★</span></div>
+                </div>
+                <div style="margin-top:2px;font-size:11.5px;color:rgb(130,130,136);">Pizzaria · 3,3 km</div>
+                <div style="margin-top:1px;font-size:11.5px;color:rgb(130,130,136);">Frete R$ 7,99 · 33 min</div>
+                <div style="margin-top:6px;"><span style="display:inline-flex;align-items:center;gap:5px;background:rgb(238,230,252);color:rgb(122,82,204);font-size:10.5px;font-weight:600;border-radius:10px;padding:3px 9px;">⊘ compre 1 leve 2</span></div>
+              </div>
+            </div>
+            <div style="width:100%;margin-top:10px;padding-top:10px;border-top:1px solid rgb(240,240,243);display:flex;align-items:center;justify-content:space-between;">
+              <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
+                <svg width="13" height="13" viewBox="0 0 24 24"><path d="M7 3 V11 M4 3 V7 C4 9, 10 9, 10 7 V3 M7 11 V21 M16 3 C14 3, 13 8, 13 11 H19 C19 8, 18 3, 16 3 Z M16 11 V21" stroke="rgb(50,50,56)" stroke-width="1.7" stroke-linecap="round" fill="none"></path></svg>
+                Pratos mais pedidos
+              </span>
+              <svg width="12" height="12" viewBox="0 0 18 9"><path d="M1 1 L9 8 L17 1" fill="none" stroke="rgb(90,90,96)" stroke-width="2" stroke-linecap="round"></path></svg>
+            </div>
+          </div>
+          <!-- Vô Agenor -->
+          <div style="border-radius:12px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.06);padding:12px 14px;">
+            <div style="display:flex;gap:10px;">
+              <div style="width:38px;height:38px;border-radius:8px;background:rgb(244,240,234);color:rgb(120,110,96);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;letter-spacing:0.06em;">RASCAL</div>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="font-size:13.5px;font-weight:700;color:rgb(30,30,34);">Vô Agenor Pizza &amp; Pasta</div>
+                  <div style="font-size:11.5px;font-weight:700;color:rgb(150,150,156);">4,4 <span style="color:rgb(235,190,50);">★</span></div>
+                </div>
+                <div style="margin-top:2px;font-size:11.5px;color:rgb(130,130,136);">Pizzaria · 3,5 km</div>
+                <div style="margin-top:1px;font-size:11.5px;"><span style="color:rgb(46,160,90);font-weight:600;">Frete Grátis</span><span style="color:rgb(130,130,136);"> · 33 min</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- tab bar -->
+        <div style="position:absolute;left:0;bottom:0;width:360px;height:58px;background:#fff;box-shadow:0 -1px 8px rgba(0,0,0,0.07);display:flex;">
+          <button onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 11 L12 4 L20 11 V20 H14 V15 H10 V20 H4 Z" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+            Início
+          </button>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(60,60,66);font-weight:600;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(60,60,66)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(60,60,66)" stroke-width="2" stroke-linecap="round"></path></svg>
+            Buscar
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8"></rect><path d="M9 9 H15 M9 13 H15" stroke="rgb(140,140,146)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            Pedidos
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8"></circle><path d="M5.5 20 C6.5 15.8, 9 14, 12 14 C15 14, 17.5 15.8, 18.5 20" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            Conta
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ ORDENAR ============ -->
+    <sc-if value="{{ isOrdenar }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;animation:screenIn 0.3s ease;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:64px;background:rgb(140,100,220);"></div>
+        <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
+        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <button onClick="{{ goResultados }}" style="position:absolute;left:10px;top:28px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;" style-active="transform:scale(0.9);">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </button>
+        <div style="position:absolute;left:0;top:32px;width:360px;text-align:center;font-size:15px;font-weight:700;color:#fff;">Ordenar</div>
+        <div style="position:absolute;left:16px;top:84px;font-size:13px;font-weight:700;color:rgb(30,30,34);">Ordenar por</div>
+        <div style="position:absolute;left:0;top:112px;width:360px;padding:0 16px;">
+          <sc-for list="{{ ordens }}" as="op" hint-placeholder-count="6">
+            <button onClick="{{ op.pick }}" style="width:328px;display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid rgb(242,242,245);" style-active="opacity:0.6;">
+              <span style="display:flex;align-items:center;gap:12px;font-size:13.5px;color:rgb(45,45,50);">
+                <span style="width:18px;text-align:center;color:rgb(130,130,136);">{{ op.icone }}</span>
+                {{ op.label }}
+              </span>
+              <sc-if value="{{ op.checked }}" hint-placeholder-val="{{ false }}">
+                <svg width="15" height="15" viewBox="0 0 24 24"><path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="rgb(30,30,34)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: {&quot;width&quot;: 480, &quot;height&quot;: 780},
+  &quot;showDevNav&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Simulação&quot;}
+}">
+class Component extends DCLogic {
+  state = {
+    step: 'splash',
+    pratosOpen: false,
+    sortBy: 'tempo',
+  };
+
+  go = (step) => () => this.setState({ step });
+  jumpTo = (e) => this.setState({ step: e.target.value, pratosOpen: false });
+
+  ORDENS = [
+    { key: 'padrao', label: 'Ordenação Padrão', icone: '⇅' },
+    { key: 'preco', label: 'Preço', icone: '◉' },
+    { key: 'avaliacao', label: 'Avaliação', icone: '☆' },
+    { key: 'tempo', label: 'Tempo de entrega', icone: '◷' },
+    { key: 'taxa', label: 'Taxa de entrega', icone: '⬡' },
+    { key: 'distancia', label: 'Distância', icone: '◈' },
+  ];
+
+  HISTORICO = [
+    { nome: 'La Tonda Pizzaria & Esfiharia', meta: 'Pizzaria  36 min', initial: 'T', bg: 'rgb(38,34,32)', fg: 'rgb(235,170,60)' },
+    { nome: 'Sushi', meta: '763 resultados', initial: 'S', bg: 'rgb(240,150,60)', fg: '#fff' },
+    { nome: 'Bullguer', meta: 'Hamburgueria  60 min', initial: 'B', bg: 'rgb(28,28,30)', fg: '#fff' },
+    { nome: 'Pão de Açúcar  - Jardins', meta: 'Mercado  34 min', initial: 'P', bg: 'rgb(222,240,228)', fg: 'rgb(28,130,80)' },
+    { nome: 'Pizza', meta: '1211 resultados', initial: 'P', bg: 'rgb(196,74,52)', fg: '#fff' },
+    { nome: 'Petlove', meta: 'Pet Shop  ', metaExtra: 'Fechado', initial: 'P', bg: 'rgb(110,60,200)', fg: '#fff' },
+  ];
+
+  SUGESTOES = [
+    { resto: 'za', onde: 'em todas categorias' },
+    { resto: 'za Hut', onde: 'em restaurante' },
+    { resto: 'za Doce', onde: 'em restaurante' },
+    { resto: 'za de mussarela Seara', onde: 'em mercado' },
+    { resto: 'za Vegana', onde: 'em restaurante' },
+    { resto: 'za de Mussarela SADIA 440g', onde: 'em mercado' },
+    { resto: 'za Mille', onde: 'em restaurante' },
+  ];
+
+  TECLADO = [
+    ['Q','W','E','R','T','Y','U','I','O','P'],
+    ['A','S','D','F','G','H','J','K','L'],
+    ['⇧','Z','X','C','V','B','N','M','⌫'],
+  ];
+
+  togglePratos = () => this.setState({ pratosOpen: !this.state.pratosOpen });
+
+  renderVals() {
+    const { step, pratosOpen, sortBy } = this.state;
+    return {
+      step,
+      showDevNav: this.props.showDevNav ?? false,
+      jumpTo: this.jumpTo,
+      isSplash: step === 'splash',
+      isHome: step === 'home',
+      isBusca: step === 'busca',
+      isCampo: step === 'campo',
+      isAuto: step === 'auto',
+      isResultados: step === 'resultados',
+      isOrdenar: step === 'ordenar',
+      goHome: this.go('home'),
+      goBusca: this.go('busca'),
+      goCampo: this.go('campo'),
+      goAuto: this.go('auto'),
+      goResultados: this.go('resultados'),
+      goOrdenar: this.go('ordenar'),
+      historico: this.HISTORICO.map((h2) => ({
+        nome: h2.nome,
+        meta: h2.meta,
+        metaExtra: h2.metaExtra || '',
+        metaExtraStyle: { color: 'rgb(226,70,70)', fontWeight: 600 },
+        initial: h2.initial,
+        avatarStyle: {
+          width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
+          background: h2.bg, color: h2.fg,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 14, fontWeight: 700,
+        },
+        go: this.go('resultados'),
+      })),
+      sugestoes: this.SUGESTOES.map((s) => ({ ...s, go: this.go('resultados') })),
+      tecladoLinhas: this.TECLADO.map((linha) => ({
+        teclas: linha.map((ch) => ({ ch, digita: this.go('auto') })),
+      })),
+      pratosOpen,
+      togglePratos: this.togglePratos,
+      chevronStyle: { transform: pratosOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' },
+      ordens: this.ORDENS.map((o) => ({
+        label: o.label,
+        icone: o.icone,
+        checked: sortBy === o.key,
+        pick: () => this.setState({ sortBy: o.key, step: 'resultados' }),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

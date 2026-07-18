@@ -67,6 +67,27 @@ const sketches: Record<string, ReactNode> = {
       <path d="M362 84 L 370 100 L 388 102 L 375 114 L 379 132 L 363 122 L 347 131 L 352 113 L 339 100 L 357 99 Z" {...blue} strokeWidth={3} />
     </g>
   ),
+  // Telefone com campo de busca e resultados, varrido por uma lupa azul
+  "james-delivery": (
+    <g transform="rotate(3 240 180)">
+      <path d="M156 66 C 154 58, 160 52, 170 51 L 292 48 C 302 48, 308 54, 309 64 L 314 292 C 314 302, 308 308, 298 309 L 176 312 C 166 312, 160 306, 159 296 Z" {...stroke} />
+      <path d="M204 68 C 220 66, 238 66, 252 67" {...thin} />
+      <path d="M178 100 C 177 92, 183 87, 191 86 L 275 84 C 283 84, 289 89, 289 97 L 290 108 C 290 116, 284 121, 276 122 L 192 124 C 184 124, 178 119, 178 111 Z" {...stroke} />
+      <circle cx="200" cy="103" r="7" {...thin} />
+      <path d="M205 108 L 211 114" {...thin} />
+      <path d="M222 104 C 240 101, 258 101, 272 103" {...thin} strokeDasharray="2 8" />
+      <circle cx="198" cy="156" r="11" {...thin} />
+      <path d="M218 150 C 240 148, 262 148, 278 150 M218 164 C 234 162, 248 162, 258 163" {...thin} />
+      <circle cx="198" cy="200" r="11" {...thin} />
+      <path d="M218 194 C 240 192, 262 192, 278 194 M218 208 C 234 206, 248 206, 258 207" {...thin} />
+      <circle cx="198" cy="244" r="11" {...thin} />
+      <path d="M218 238 C 240 236, 262 236, 278 238 M218 252 C 234 250, 248 250, 258 251" {...thin} />
+      <path d="M164 322 C 200 328, 250 328, 288 320" {...thin} strokeDasharray="1 9" />
+      <path d="M366 148 C 344 150, 328 168, 330 192 C 332 216, 352 232, 376 230 C 400 228, 416 210, 414 186 C 412 162, 390 146, 366 148" {...blue} />
+      <path d="M362 160 C 350 164, 342 172, 340 184" {...blue} strokeWidth={2.5} />
+      <path d="M394 224 L 418 260 C 424 268, 434 268, 440 262 C 446 256, 445 247, 438 240 L 404 210" {...blue} />
+    </g>
+  ),
   // Carro de lado com um pin de localização circulado de azul pousando no teto
   kypcar: (
     <g>

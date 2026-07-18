@@ -15,7 +15,7 @@ export function FeaturedWork({ lang, dict }: { lang: Locale; dict: Dict }) {
         </h2>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2">
         {visibleProjects.map((project) => (
           <Link
             key={project.slug}
@@ -44,14 +44,17 @@ export function FeaturedWork({ lang, dict }: { lang: Locale; dict: Dict }) {
                 {t(project.summary, lang)}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-line px-2.5 py-0.5 text-xs text-muted"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {project.tags.map((tag) => {
+                  const label = typeof tag === "string" ? tag : t(tag, lang);
+                  return (
+                    <span
+                      key={label}
+                      className="rounded-full border border-line px-2.5 py-0.5 text-xs text-muted"
+                    >
+                      {label}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </Link>

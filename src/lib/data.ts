@@ -278,7 +278,9 @@ export type Project = {
   clientUrl?: string;
   year: string;
   role: L;
-  tags: string[];
+  // string quando o termo é igual nos dois idiomas (ex.: "Mobile"); L quando
+  // precisa traduzir (ex.: Logística/Logistics)
+  tags: (string | L)[];
   summary: L;
   // true → oculto do grid de trabalhos e da navegação "próximo projeto",
   // mas a página de detalhe continua existindo (link direto ainda funciona)
@@ -357,6 +359,207 @@ export type Project = {
 
 // 3 últimos trabalhos (seção 4) — cada um abre uma página de detalhe
 export const projects: Project[] = [
+  {
+    slug: "handshake-restaurante",
+    title: {
+      pt: "Handshake: confiabilidade com baixo atrito",
+      en: "Handshake: reliability with low friction",
+    },
+    client: "iFood",
+    year: "2022",
+    role: {
+      pt: "Senior Product Designer · Logística Latam",
+      en: "Senior Product Designer · Latam Logistics",
+    },
+    tags: ["Mobile", "Research", { pt: "Logística", en: "Logistics" }],
+    summary: {
+      pt: "O desafio não era criar mais uma etapa no fluxo do entregador. Era garantir que cada pedido chegasse à pessoa certa sem comprometer velocidade, experiência ou escala.",
+      en: "The challenge wasn't adding one more step to the courier's flow. It was making sure every order reached the right person without compromising speed, experience, or scale.",
+    },
+    overview: {
+      pt: "No iFood, um pedido passa por uma sequência simples: um entregador chega ao restaurante, retira o pedido e segue para a entrega. Mas dois desses momentos não possuíam qualquer mecanismo de validação.\n\nNa chegada ao restaurante, alguns entregadores confirmavam presença antes de realmente chegar, comprometendo métricas importantes da operação. Já na retirada do pedido, não existia uma forma confiável de garantir que o entregador certo retirasse o pedido certo. Sem essa prova, dois problemas conviviam: de um lado fraudes e roubos, de outro trocas de pedido que aconteciam por engano, no aperto da operação.\n\nComo Product Designer da equipe, conduzi a pesquisa, a ideação e a validação de dois novos fluxos da jornada do entregador, criando novos pontos de validação que aumentaram a confiabilidade da operação sem comprometer a experiência de quem entrega.",
+      en: "At iFood, an order goes through a simple sequence: a courier arrives at the restaurant, picks up the order, and heads out for delivery. But two of these moments had no validation mechanism at all.\n\nAt arrival, some couriers confirmed presence before actually reaching the restaurant, compromising key operational metrics. At pickup, there was no reliable way to guarantee the right courier picked up the right order. Without that proof, two problems coexisted: fraud and theft on one side, and honest order mix-ups in the rush of the operation on the other.\n\nAs the Product Designer on the team, I led the research, ideation, and validation of two new flows in the courier journey, creating new validation points that increased operational reliability without compromising the courier experience.",
+    },
+    problem: {
+      intro: {
+        pt: "O problema tinha escala. Todos os meses, milhares de pedidos eram impactados pela ausência desses mecanismos de validação. Sem uma forma de comprovar quem havia chegado ao restaurante e quem havia retirado cada pedido, a operação perdia confiabilidade. Parte das perdas vinha de fraude, parte vinha de erro honesto na entrega do pedido, e o iFood absorvia integralmente os custos dos pedidos cancelados nos dois casos.",
+        en: "The problem had scale. Every month, thousands of orders were affected by the absence of these validation mechanisms. With no way to prove who had arrived at the restaurant and who had picked up each order, the operation lost reliability. Some of the losses came from fraud, some from honest mistakes handing over the order — and iFood fully absorbed the cost of cancelled orders in both cases.",
+      },
+      stats: [
+        {
+          pt: "9.700 pedidos/mês cancelados por ausência de validação na retirada.",
+          en: "9,700 orders/month cancelled due to lack of pickup validation.",
+        },
+        {
+          pt: "886 pedidos/mês associados a roubo de pacotes.",
+          en: "886 orders/month linked to parcel theft.",
+        },
+        {
+          pt: "0,68% dos pedidos apresentavam trocas na retirada.",
+          en: "0.68% of orders had courier/order mismatches at pickup.",
+        },
+        {
+          pt: "100% do valor dos pedidos cancelados era absorvido pelo iFood.",
+          en: "100% of cancelled order value was absorbed by iFood.",
+        },
+      ],
+    },
+    challenge: {
+      pt: "Criar dois novos pontos de validação na jornada do entregador, garantindo que o entregador certo retirasse o pedido certo, no restaurante certo, sem aumentar o atrito da operação, comprometer a experiência de quem entrega ou impactar indicadores como Contact Rate.",
+      en: "Create two new validation points in the courier's journey, making sure the right courier picked up the right order, at the right restaurant, without adding friction to the operation, compromising the courier experience, or impacting metrics like Contact Rate.",
+    },
+    approach: [
+      {
+        title: { pt: "Pessoas antes da tecnologia", en: "People before technology" },
+        text: {
+          pt: "Comecei entrevistando entregadores para entender onde a operação realmente falhava. As conversas revelaram duas lacunas importantes: não existia uma forma confiável de validar a chegada ao restaurante nem a retirada do pedido. Eles descreveram tanto esquemas de fraude já conhecidos no campo quanto trocas de pedido que aconteciam por engano, quando várias sacolas parecidas saíam ao mesmo tempo.",
+          en: "I started by interviewing couriers to understand where the operation was actually failing. The conversations revealed two important gaps: there was no reliable way to validate arrival at the restaurant or order pickup. They described both fraud schemes already known in the field and order mix-ups that happened by accident, when several similar bags went out at once.",
+        },
+      },
+      {
+        title: { pt: "Entender a causa antes de discutir soluções", en: "Understand the cause before discussing solutions" },
+        text: {
+          pt: "Facilitei sessões de ideação com engenharia e designers dos times de Restaurante e Consumidor. Antes de discutir tecnologia, utilizamos 5 Why's para identificar a causa raiz dos problemas e alinhar uma solução única para toda a jornada.",
+          en: "I facilitated ideation sessions with engineering and designers from the Restaurant and Consumer teams. Before discussing technology, we used 5 Whys to identify the root cause of the problems and align on a single solution for the whole journey.",
+        },
+        image: {
+          src: "/work/5-whys.png",
+          alt: { pt: "Quadro de ideação com a técnica dos 5 Why's", en: "Ideation board using the 5 Whys technique" },
+        },
+      },
+      {
+        title: { pt: "Validar a hipótese antes de escalar", en: "Validate the hypothesis before scaling" },
+        text: {
+          pt: "Antes de desenvolver qualquer solução, precisávamos comprovar que um novo fluxo realmente reduziria tanto a fraude quanto a troca de pedidos, aumentando a confiabilidade da operação. A prioridade era validar o comportamento antes de investir na implementação.",
+          en: "Before building any solution, we needed to prove that a new flow would actually reduce both fraud and order mix-ups, increasing the operation's reliability. The priority was validating behavior before investing in implementation.",
+        },
+      },
+      {
+        title: { pt: "Começar pelo menor risco", en: "Start with the lowest risk" },
+        text: {
+          pt: "Escolhemos iniciar pela validação de chegada ao restaurante, um fluxo com menor potencial de impacto no Contact Rate. Os aprendizados dessa primeira etapa serviram como base para desenhar a validação da retirada do pedido.",
+          en: "We chose to start with restaurant-arrival validation, a flow with lower potential impact on the Contact Rate. The learnings from this first step became the foundation for designing order-pickup validation.",
+        },
+      },
+      {
+        title: { pt: "Aprender antes de escalar", en: "Learn before scaling" },
+        text: {
+          pt: "O primeiro teste rodou em janeiro de 2022, no pico do almoço, em dois restaurantes do McDonald's escolhidos por perfis opostos de operação: o ponto mais movimentado da rede e uma unidade dentro de shopping center. Ali a pergunta era de comportamento, não de métrica: o entregador entendia o fluxo, não o via como etapa extra e reconhecia o valor de impedir que outro entregador levasse o pedido.",
+          en: "The first test ran in January 2022, during the lunch rush, at two McDonald's restaurants chosen for opposite operational profiles: the busiest location in the network and a shopping-mall unit. There the question was about behavior, not metrics: couriers understood the flow, did not see it as an extra step, and recognized the value of preventing another courier from taking the order.",
+        },
+      },
+      {
+        title: { pt: "Deixar os microtempos provarem a hipótese", en: "Let the microtimes prove the hypothesis" },
+        text: {
+          pt: "O segundo teste, em sete unidades, respondia uma pergunta específica: o que acontece com os microtempos DRE (a caminho do restaurante) e NRE (no restaurante) quando a chegada passa a ser validada? O Contact Rate saltou de cerca de 5% para 12% na ativação e logo se estabilizou — curva de aprendizado, não rejeição. E o NRE caiu quase pela metade (de 5,7 para 2,8 minutos no ponto mais crítico) enquanto o DRE subiu, confirmando o check-in falso e revelando os microtempos reais da operação.",
+          en: "The second test, at seven locations, answered one specific question: what happens to the DRE (heading to the restaurant) and NRE (at the restaurant) microtimes once arrival is validated? Contact Rate jumped from about 5% to 12% at activation and soon stabilized — a learning curve, not rejection. And NRE nearly halved (from 5.7 to 2.8 minutes at the most critical location) while DRE rose, confirming the fake check-in and revealing the operation's real microtimes.",
+        },
+      },
+      {
+        title: { pt: "Tratar cada risco antes de escalar", en: "Address every risk before scaling" },
+        text: {
+          pt: "Os testes expuseram riscos operacionais e cada um virou um ajuste no fluxo. Câmera danificada cancelava e realocava o pedido automaticamente, sem o suporte poder corrigir o status: passamos a permitir a mudança automática via ticket, validando a localização pelo geofence. Restaurantes que não trocavam o código ou deixavam o QR fora de vista atrasavam a operação: criamos um guia explicando as vantagens de manter o código visível e atualizado. E grandes redes com múltiplos identificadores por loja ganharam um ID principal definido.",
+          en: "The tests exposed operational risks, and each one became a change in the flow. A damaged camera auto-cancelled and reallocated the order, with support unable to fix the status: we allowed the status to change automatically via ticket, validating location through the geofence. Restaurants that did not rotate the code or kept the QR out of sight slowed the operation: we created a guide explaining the benefits of keeping it visible and up to date. And large chains with multiple identifiers per store got one defined main ID.",
+        },
+      },
+      {
+        title: { pt: "Escalar em ondas", en: "Scale in waves" },
+        text: {
+          pt: "Com os riscos endereçados, o rollout seguiu em ondas: ativação ao longo de um mês em todos os pontos do McDonald's e, na sequência, expansão para os demais pontos de grandes contas (KA). Só então, com o check-in consolidado e as lições absorvidas, partimos para o segundo fluxo da jornada: a validação da retirada do pedido no checkout.",
+          en: "With the risks addressed, the rollout moved in waves: activation across all McDonald's locations over one month, followed by expansion to the remaining key-account (KA) locations. Only then, with check-in consolidated and the lessons absorbed, did we move to the journey's second flow: validating order pickup at checkout.",
+        },
+      },
+    ],
+    flowDiagram: {
+      title: { pt: "User flow do check-in (MVP)", en: "Check-in user flow (MVP)" },
+      caption: {
+        pt: "Desenhei o fluxo de validação da chegada do entregador ao restaurante: um caminho principal em três etapas e rotas alternativas para lidar com exceções, priorizando uma abordagem baseada em confiança antes de aplicar qualquer penalização.",
+        en: "I designed the flow to validate the courier's arrival at the restaurant: a main path in three steps and alternative routes to handle exceptions, prioritizing a trust-based approach before applying any penalty.",
+      },
+    },
+    prototypeEmbed: {
+      src: "/prototypes/handshake/index.html",
+      title: { pt: "Protótipo navegável", en: "Interactive prototype" },
+      hint: {
+        pt: "O caminho feliz de ponta a ponta: chegue ao restaurante, escaneie o QR code na parede para o check-in e finalize com o código da nota fiscal no checkout.",
+        en: "The end-to-end happy path: arrive at the restaurant, scan the QR code on the wall to check in, and finish with the receipt code at checkout.",
+      },
+    },
+    pillarsTitle: { pt: "Decisões de design", en: "Design decisions" },
+    pillarsLayout: "list",
+    pillarsIntro: {
+      pt: "Decisões pensadas para o MVP: validar o valor da solução com o menor investimento possível antes de evoluir para uma versão mais robusta.",
+      en: "Decisions scoped for the MVP: validate the solution's value with the smallest possible investment before evolving into a more robust version.",
+    },
+    pillars: [
+      {
+        title: { pt: "QR code na parede, não no app", en: "QR code on the wall, not in the app" },
+        text: {
+          pt: "Para validar presença física no restaurante, o entregador escaneia um QR code fixado no local. A solução reduz a complexidade tecnológica ao mínimo necessário: uma interação simples, barata e escalável para um problema de milhões de entregas.",
+          en: "To validate physical presence at the restaurant, the courier scans a QR code fixed on-site. The solution keeps technological complexity to the bare minimum: a simple, cheap, and scalable interaction for a problem spanning millions of deliveries.",
+        },
+      },
+      {
+        title: { pt: "QR codes rotativos", en: "Rotating QR codes" },
+        text: {
+          pt: "Para evitar que uma foto do código fosse reutilizada em outro momento, cada restaurante possui múltiplos QR codes que alternam conforme a data. Assim, o sistema dificulta tentativas de check-in falso sem adicionar fricção ao entregador.",
+          en: "To prevent a photo of the code from being reused later, each restaurant has multiple QR codes that rotate by date. This makes fake check-in attempts harder without adding friction for the courier.",
+        },
+      },
+      {
+        title: { pt: "Código na nota, não outro QR", en: "A code on the receipt, not another QR" },
+        doodle: "receipt",
+        text: {
+          pt: "A experiência do check-in mostrou que a qualidade e o estado da câmera do celular tornavam a leitura de QR pouco confiável. Por isso o checkout usou um código alfanumérico impresso na própria nota fiscal: o funcionário passa o código, o entregador digita e a validação libera a entrega, sem depender da câmera.",
+          en: "The check-in taught us that phone-camera quality and condition made QR scanning unreliable. So checkout used an alphanumeric code printed on the receipt itself: the employee shares it, the courier types it, and validation releases the order — no camera required.",
+        },
+      },
+      {
+        title: { pt: "Erros tratados com confiança", en: "Errors handled with trust" },
+        text: {
+          pt: "Nem todo erro indica uma tentativa de fraude. Um código desatualizado na loja correta pode ser validado automaticamente após alguns minutos, enquanto tentativas inválidas recebem múltiplas chances antes de qualquer penalização. O fluxo assume boa-fé até que existam sinais reais de abuso.",
+          en: "Not every error signals a fraud attempt. An outdated code at the right store can be auto-validated after a few minutes, while invalid attempts get multiple chances before any penalty. The flow assumes good faith until there are real signs of abuse.",
+        },
+        imageAfter: {
+          src: "/work/check-in-flow.png",
+          alt: { pt: "Fluxo de check-in do entregador no restaurante", en: "Courier check-in flow at the restaurant" },
+          width: 15090,
+          height: 14526,
+        },
+      },
+    ],
+    outcome: [
+      {
+        label: { pt: "Preparo mais rápido", en: "Faster prep time" },
+        value: "O McDonald's registrou queda no tempo de preparo já no piloto de 7 pontos",
+      },
+      {
+        label: { pt: "Hipótese confirmada", en: "Hypothesis confirmed" },
+        value: "NRE caiu e DRE subiu, provando o check-in falso e destravando microtempos reais",
+      },
+      {
+        label: { pt: "R$ 260 milhões", en: "R$260 million" },
+        value: "Em pedidos mensais protegidos contra fraude de checkout",
+      },
+    ],
+    checkoutFlow: {
+      title: { pt: "User flow do checkout (MVP)", en: "Checkout user flow (MVP)" },
+      caption: {
+        pt: "O checkout pedia mais controle que o check-in: é no encontro entre entregador e pedido que as perdas de fato acontecem, seja por má-fé, seja por engano. Aqui a validação sai da parede e vai para a nota fiscal: o funcionário do restaurante passa um código alfanumérico de quatro dígitos, o entregador digita para confirmar que está com o pedido certo e o funcionário valida — com a mesma tolerância a erro antes de qualquer bloqueio.",
+        en: "Checkout demanded more control than check-in: losses happen precisely where courier and order meet, whether through bad faith or plain mistake. Here validation moves from the wall to the receipt: the restaurant employee shares a four-character alphanumeric code, the courier types it to confirm they have the right order, and the employee validates — with the same tolerance for error before any block.",
+      },
+      image: {
+        src: "/work/checkout-flow.png",
+        alt: { pt: "Fluxo de checkout e validação do pedido na retirada", en: "Checkout and order validation flow at pickup" },
+        width: 24762,
+        height: 9984,
+      },
+    },
+    closing: {
+      pt: "O melhor design nem sempre vive na tela. No Handshake, a interface era um QR code na parede do restaurante e o impacto se media em pedido certo na mão certa.",
+      en: "The best design does not always live on a screen. In Handshake, the interface was a QR code on the restaurant wall and the impact was measured in the right order reaching the right hands.",
+    },
+  },
   {
     slug: "design-system",
     title: {
@@ -680,204 +883,258 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "handshake-restaurante",
+    slug: "james-delivery",
     title: {
-      pt: "Handshake: como tornamos a retirada confiável sem criar atrito na operação",
-      en: "Handshake: how we made order pickup reliable without adding friction to operations",
+      pt: "James Delivery: uma busca que entende o que o usuário procura",
+      en: "James Delivery: a search that understands what users are looking for",
     },
-    client: "iFood",
-    year: "2022",
+    client: "James Delivery",
+    year: "2021",
     role: {
-      pt: "Senior Product Designer · Logística Latam",
-      en: "Senior Product Designer · Latam Logistics",
+      pt: "Product Designer · Estudo de caso",
+      en: "Product Designer · Case study",
     },
-    tags: ["Mobile", "Research", "Logística"],
+    tags: ["Mobile", "Research", { pt: "Busca", en: "Search" }],
     summary: {
-      pt: "O desafio não era criar mais uma etapa no fluxo do entregador. Era garantir que cada pedido chegasse à pessoa certa sem comprometer velocidade, experiência ou escala.",
-      en: "The challenge wasn't adding one more step to the courier's flow. It was making sure every order reached the right person without compromising speed, experience, or scale.",
+      pt: "Uma semana para diagnosticar por que a busca de um super app devolvia tão pouco, e redesenhá-la de ponta a ponta: da pesquisa ao protótipo.",
+      en: "One week to diagnose why a super app's search returned so little — and redesign it end to end, from research to prototype.",
     },
     overview: {
-      pt: "No iFood, um pedido passa por uma sequência simples: um entregador chega ao restaurante, retira o pedido e segue para a entrega. Mas dois desses momentos não possuíam qualquer mecanismo de validação.\n\nNa chegada ao restaurante, alguns entregadores confirmavam presença antes de realmente chegar, comprometendo métricas importantes da operação. Já na retirada do pedido, não existia uma forma confiável de garantir que o entregador certo retirasse o pedido certo. Sem essa prova, dois problemas conviviam: de um lado fraudes e roubos, de outro trocas de pedido que aconteciam por engano, no aperto da operação.\n\nComo Product Designer da equipe, conduzi a pesquisa, a ideação e a validação de dois novos fluxos da jornada do entregador, criando novos pontos de validação que aumentaram a confiabilidade da operação sem comprometer a experiência de quem entrega.",
-      en: "At iFood, an order goes through a simple sequence: a courier arrives at the restaurant, picks up the order, and heads out for delivery. But two of these moments had no validation mechanism at all.\n\nAt arrival, some couriers confirmed presence before actually reaching the restaurant, compromising key operational metrics. At pickup, there was no reliable way to guarantee the right courier picked up the right order. Without that proof, two problems coexisted: fraud and theft on one side, and honest order mix-ups in the rush of the operation on the other.\n\nAs the Product Designer on the team, I led the research, ideation, and validation of two new flows in the courier journey, creating new validation points that increased operational reliability without compromising the courier experience.",
+      pt: "Case desenvolvido em uma semana para o processo seletivo de Product Designer do iFood. O desafio: escolher um problema real de um produto digital existente e resolvê-lo, mostrando o processo inteiro, da descoberta à interface.\n\nEscolhi a busca do James Delivery, um app que reunia de supermercado a serviços como eletricista. Num catálogo tão largo, a busca é o caminho mais curto entre a pessoa e o que ela quer, mas a do James devolvia pouco: só lojas, sem filtros, sem ordenação, sem histórico.\n\nUsei o Double Diamond como guia: pesquisa e benchmark no Descobrir, hipóteses e recorte no Definir, fluxo, componentes e protótipo no Desenvolver. Como o projeto não foi a mercado, o case para honestamente no terceiro estágio.",
+      en: "A case developed in one week for iFood's Product Designer selection process. The brief: pick a real problem in an existing digital product and solve it, showing the whole process from discovery to interface.\n\nI chose search in James Delivery, an app spanning everything from groceries to services like electricians. In a catalog that wide, search is the shortest path between a person and what they want — but James' search returned little: only stores, no filters, no sorting, no history.\n\nThe Double Diamond guided the work: research and benchmarking in Discover, hypotheses and scoping in Define, flow, components and prototype in Develop. Since the project never shipped, the case honestly stops at the third stage.",
     },
     problem: {
       intro: {
-        pt: "O problema tinha escala. Todos os meses, milhares de pedidos eram impactados pela ausência desses mecanismos de validação. Sem uma forma de comprovar quem havia chegado ao restaurante e quem havia retirado cada pedido, a operação perdia confiabilidade. Parte das perdas vinha de fraude, parte vinha de erro honesto na entrega do pedido, e o iFood absorvia integralmente os custos dos pedidos cancelados nos dois casos.",
-        en: "The problem had scale. Every month, thousands of orders were affected by the absence of these validation mechanisms. With no way to prove who had arrived at the restaurant and who had picked up each order, the operation lost reliability. Some of the losses came from fraud, some from honest mistakes handing over the order — and iFood fully absorbed the cost of cancelled orders in both cases.",
+        pt: "A busca era a porta de entrada do app e entregava pouco. O diagnóstico cruzou quatro fontes: o mapeamento do fluxo atual, um benchmark com seis players, a análise das reviews de 2020 nas lojas e entrevistas com usuários.",
+        en: "Search was the app's front door, and it delivered little. The diagnosis crossed four sources: mapping the current flow, a six-player benchmark, an analysis of 2020 store reviews, and user interviews.",
       },
       stats: [
         {
-          pt: "9.700 pedidos/mês cancelados por ausência de validação na retirada.",
-          en: "9,700 orders/month cancelled due to lack of pickup validation.",
+          pt: "Nota 3,4 no Google Play, com a busca entre as reclamações recorrentes nas reviews de 2020.",
+          en: "3.4 rating on Google Play, with search among the recurring complaints in 2020 reviews.",
         },
         {
-          pt: "886 pedidos/mês associados a roubo de pacotes.",
-          en: "886 orders/month linked to parcel theft.",
+          pt: "A busca retornava apenas lojas e restaurantes: itens, pratos e produtos ficavam invisíveis.",
+          en: "Search returned only stores and restaurants: items, dishes, and products were invisible.",
         },
         {
-          pt: "0,68% dos pedidos apresentavam trocas na retirada.",
-          en: "0.68% of orders had courier/order mismatches at pickup.",
+          pt: "Zero filtros e zero critérios de ordenação, contra cinco e seis no iFood.",
+          en: "Zero filters and zero sorting criteria, against five and six on iFood.",
         },
         {
-          pt: "100% do valor dos pedidos cancelados era absorvido pelo iFood.",
-          en: "100% of cancelled order value was absorbed by iFood.",
+          pt: "Sem histórico de buscas e sem feedback de resultado vazio: a tela simplesmente ficava em branco.",
+          en: "No search history and no empty-state feedback: the screen simply went blank.",
         },
       ],
     },
     challenge: {
-      pt: "Criar dois novos pontos de validação na jornada do entregador, garantindo que o entregador certo retirasse o pedido certo, no restaurante certo, sem aumentar o atrito da operação, comprometer a experiência de quem entrega ou impactar indicadores como Contact Rate.",
-      en: "Create two new validation points in the courier's journey, making sure the right courier picked up the right order, at the right restaurant, without adding friction to the operation, compromising the courier experience, or impacting metrics like Contact Rate.",
+      pt: "Entender a fundo o fluxo de busca atual, mapear evidências e transformá-las em hipóteses capazes de sustentar uma nova proposta, ajudando o usuário a chegar mais rápido a resultados relevantes.",
+      en: "Deeply understand the current search flow, map evidence, and turn it into hypotheses strong enough to support a new proposal — helping users reach relevant results faster.",
+    },
+    constraints: {
+      pt: "Uma semana de prazo, produto de terceiros sem acesso a dados internos e o compromisso de manter consistência com os componentes existentes do app. Sem ida a mercado: o case se encerra no protótipo.",
+      en: "A one-week deadline, a third-party product with no access to internal data, and a commitment to stay consistent with the app's existing components. No market release: the case ends at the prototype.",
+    },
+    uxAnalysis: {
+      intro: {
+        pt: "Comparei a busca do James com a dos maiores players de delivery da América Latina, eixo a eixo: o que existe na busca, o que cada resultado informa, o que dá para buscar, filtros, ordenação e histórico.",
+        en: "I compared James' search with the biggest delivery players in Latin America, axis by axis: what the search offers, what each result shows, what can be searched, filters, sorting, and history.",
+      },
+      references: [
+        {
+          name: "iFood",
+          pattern: {
+            pt: "A busca mais completa do benchmark: filtros por modo de entrega, distância, taxa e pagamento, seis critérios de ordenação, histórico com atalhos e resultado por prato e por item de mercado.",
+            en: "The most complete search in the benchmark: filters by delivery mode, distance, fee, and payment, six sorting criteria, history with shortcuts, and results by dish and grocery item.",
+          },
+          takeaway: {
+            pt: "Virou a régua de completude do redesign: autocomplete, histórico e resultado por item entraram no recorte da primeira fase.",
+            en: "It became the redesign's completeness bar: autocomplete, history, and item-level results made the first-phase cut.",
+          },
+        },
+        {
+          name: "Rappi",
+          pattern: {
+            pt: "Resultado em formatos distintos por categoria: loja, item de mercado e prato aparecem com apresentações próprias, cada uma com a informação que importa.",
+            en: "Results in distinct formats per category: store, grocery item, and dish each get their own presentation, with the information that matters.",
+          },
+          takeaway: {
+            pt: "Inspirou os formatos diferentes de resultado por categoria na tela de busca proposta.",
+            en: "It inspired the per-category result formats in the proposed search screen.",
+          },
+        },
+        {
+          name: "Uber Eats",
+          pattern: {
+            pt: "Histórico de buscas que guarda até consultas sem resultado, e ordenação por avaliação, tempo de entrega e popularidade.",
+            en: "Search history that keeps even no-result queries, plus sorting by rating, delivery time, and popularity.",
+          },
+          takeaway: {
+            pt: "Reforçou o histórico como atalho de repetição, uma dor citada diretamente nas entrevistas.",
+            en: "It reinforced history as a repetition shortcut — a pain mentioned directly in the interviews.",
+          },
+        },
+        {
+          name: "Domicilios.com",
+          pattern: {
+            pt: "O único player do benchmark que permitia apagar itens e limpar o histórico de buscas por completo.",
+            en: "The only player in the benchmark that let users delete items and fully clear their search history.",
+          },
+          takeaway: {
+            pt: "O controle do usuário sobre o próprio histórico entrou na proposta desde o primeiro rabisco.",
+            en: "User control over their own history entered the proposal from the first sketch.",
+          },
+        },
+        {
+          name: "Merqueo",
+          pattern: {
+            pt: "Focado em mercado: busca por item com autocomplete e ordenação por preço, mas sem filtros e sem histórico.",
+            en: "Grocery-focused: item search with autocomplete and price sorting, but no filters and no history.",
+          },
+          takeaway: {
+            pt: "Mostrou que buscar item de mercado é padrão da categoria, não um luxo: o James, usado principalmente para mercado, não tinha.",
+            en: "It showed that grocery item search is category table stakes, not a luxury — and James, used mostly for groceries, didn't have it.",
+          },
+        },
+      ],
+      insight: {
+        pt: "Dos seis players, o James era o único sem filtro, sem ordenação e sem histórico ao mesmo tempo. Não era um problema de acabamento: eram capacidades básicas da categoria que simplesmente não existiam.",
+        en: "Of the six players, James was the only one with no filter, no sorting, and no history at the same time. It wasn't a polish problem: these were basic category capabilities that simply didn't exist.",
+      },
     },
     approach: [
       {
-        title: { pt: "Pessoas antes da tecnologia", en: "People before technology" },
+        title: { pt: "Boas práticas antes de opinião", en: "Best practices before opinion" },
         text: {
-          pt: "Comecei entrevistando entregadores para entender onde a operação realmente falhava. As conversas revelaram duas lacunas importantes: não existia uma forma confiável de validar a chegada ao restaurante nem a retirada do pedido. Eles descreveram tanto esquemas de fraude já conhecidos no campo quanto trocas de pedido que aconteciam por engano, quando várias sacolas parecidas saíam ao mesmo tempo.",
-          en: "I started by interviewing couriers to understand where the operation was actually failing. The conversations revealed two important gaps: there was no reliable way to validate arrival at the restaurant or order pickup. They described both fraud schemes already known in the field and order mix-ups that happened by accident, when several similar bags went out at once.",
+          pt: "Comecei por desk research em fontes como NN/g e Baymard, destilada num checklist de dezoito boas práticas de busca mobile: do ícone de lupa visível ao autocomplete a partir do terceiro caractere, passando pelo estado de resultado vazio.",
+          en: "I started with desk research across sources like NN/g and Baymard, distilled into a checklist of eighteen mobile search best practices: from a visible magnifying glass to autocomplete from the third character, down to the empty-result state.",
         },
       },
       {
-        title: { pt: "Entender a causa antes de discutir soluções", en: "Understand the cause before discussing solutions" },
+        title: { pt: "Mapear o fluxo atual", en: "Mapping the current flow" },
         text: {
-          pt: "Facilitei sessões de ideação com engenharia e designers dos times de Restaurante e Consumidor. Antes de discutir tecnologia, utilizamos 5 Why's para identificar a causa raiz dos problemas e alinhar uma solução única para toda a jornada.",
-          en: "I facilitated ideation sessions with engineering and designers from the Restaurant and Consumer teams. Before discussing technology, we used 5 Whys to identify the root cause of the problems and align on a single solution for the whole journey.",
+          pt: "Mapeei o fluxo real da busca tela a tela. O mapa expôs sugestões sem distinção visual entre categorias, retorno restrito a lojas, tags inconsistentes entre telas e nenhum feedback quando a busca não encontrava nada.",
+          en: "I mapped the real search flow screen by screen. The map exposed suggestions with no visual distinction between categories, results limited to stores, inconsistent tags across screens, and zero feedback when a search found nothing.",
         },
         image: {
-          src: "/work/5-whys.png",
-          alt: { pt: "Quadro de ideação com a técnica dos 5 Why's", en: "Ideation board using the 5 Whys technique" },
+          src: "/work/james-current-flow.png",
+          alt: { pt: "Mapeamento do fluxo de busca original no Miro", en: "Mapping of the original search flow in Miro" },
         },
       },
       {
-        title: { pt: "Validar a hipótese antes de escalar", en: "Validate the hypothesis before scaling" },
+        title: { pt: "Ouvir as lojas e os usuários", en: "Listening to stores and users" },
         text: {
-          pt: "Antes de desenvolver qualquer solução, precisávamos comprovar que um novo fluxo realmente reduziria tanto a fraude quanto a troca de pedidos, aumentando a confiabilidade da operação. A prioridade era validar o comportamento antes de investir na implementação.",
-          en: "Before building any solution, we needed to prove that a new flow would actually reduce both fraud and order mix-ups, increasing the operation's reliability. The priority was validating behavior before investing in implementation.",
+          pt: "Classifiquei as reviews de 2020 da Google Play e da App Store por tema: busca por item, filtro, resultado errado. Depois, cinco entrevistas remotas aprofundaram as dores. Uma fala resume o problema: 'Nesse app eu não achei onde filtrar a pesquisa. Ou não tem, ou não está fácil.'",
+          en: "I classified 2020 reviews from Google Play and the App Store by theme: item search, filtering, wrong results. Then five remote interviews went deeper into the pains. One quote sums it up: 'In this app I couldn't find where to filter the search. Either it doesn't exist, or it isn't easy.'",
         },
       },
       {
-        title: { pt: "Começar pelo menor risco", en: "Start with the lowest risk" },
+        title: { pt: "Hipóteses ancoradas em evidência", en: "Hypotheses anchored in evidence" },
         text: {
-          pt: "Escolhemos iniciar pela validação de chegada ao restaurante, um fluxo com menor potencial de impacto no Contact Rate. Os aprendizados dessa primeira etapa serviram como base para desenhar a validação da retirada do pedido.",
-          en: "We chose to start with restaurant-arrival validation, a flow with lower potential impact on the Contact Rate. The learnings from this first step became the foundation for designing order-pickup validation.",
+          pt: "Nove hipóteses conectaram as evidências ao valor de negócio, do campo de busca mais visível ao efeito de avaliações na decisão. Delas saiu o recorte da primeira fase: sete entregas, da home redesenhada à tela de filtros.",
+          en: "Nine hypotheses connected the evidence to business value, from a more visible search field to the effect of ratings on decisions. From them came the first-phase cut: seven deliverables, from the redesigned home to the filter screen.",
         },
       },
       {
-        title: { pt: "Aprender antes de escalar", en: "Learn before scaling" },
+        title: { pt: "Rabiscar antes de desenhar", en: "Sketch before designing" },
         text: {
-          pt: "O primeiro teste rodou em janeiro de 2022, no pico do almoço, em dois restaurantes do McDonald's escolhidos por perfis opostos de operação: o ponto mais movimentado da rede e uma unidade dentro de shopping center. Ali a pergunta era de comportamento, não de métrica: o entregador entendia o fluxo, não o via como etapa extra e reconhecia o valor de impedir que outro entregador levasse o pedido.",
-          en: "The first test ran in January 2022, during the lunch rush, at two McDonald's restaurants chosen for opposite operational profiles: the busiest location in the network and a shopping-mall unit. There the question was about behavior, not metrics: couriers understood the flow, did not see it as an extra step, and recognized the value of preventing another courier from taking the order.",
+          pt: "Fluxos rabiscados à mão para explorar caminhos enquanto era barato errar, e uma conversa de viabilidade técnica antes de qualquer tela: negociar o que entra agora e o que fica para depois faz parte do design.",
+          en: "Hand-drawn flows to explore paths while mistakes were still cheap, and a technical feasibility conversation before any screen: negotiating what ships now and what waits is part of the design.",
+        },
+        image: {
+          src: "/work/james-draft-flow-1.jpg",
+          alt: { pt: "Rascunho à mão do novo fluxo de busca", en: "Hand-drawn draft of the new search flow" },
         },
       },
       {
-        title: { pt: "Deixar os microtempos provarem a hipótese", en: "Let the microtimes prove the hypothesis" },
+        title: { pt: "Consistência com o que já existe", en: "Consistency with what already exists" },
         text: {
-          pt: "O segundo teste, em sete unidades, respondia uma pergunta específica: o que acontece com os microtempos DRE (a caminho do restaurante) e NRE (no restaurante) quando a chegada passa a ser validada? O Contact Rate saltou de cerca de 5% para 12% na ativação e logo se estabilizou — curva de aprendizado, não rejeição. E o NRE caiu quase pela metade (de 5,7 para 2,8 minutos no ponto mais crítico) enquanto o DRE subiu, confirmando o check-in falso e revelando os microtempos reais da operação.",
-          en: "The second test, at seven locations, answered one specific question: what happens to the DRE (heading to the restaurant) and NRE (at the restaurant) microtimes once arrival is validated? Contact Rate jumped from about 5% to 12% at activation and soon stabilized — a learning curve, not rejection. And NRE nearly halved (from 5.7 to 2.8 minutes at the most critical location) while DRE rose, confirming the fake check-in and revealing the operation's real microtimes.",
+          pt: "Mapeei os componentes existentes do app para definir o caminho visual do redesign. A proposta precisava parecer do James, e ser plausível de construir com o que o time já tinha.",
+          en: "I mapped the app's existing components to set the redesign's visual path. The proposal had to look like James — and be plausible to build with what the team already had.",
+        },
+        image: {
+          src: "/work/james-components.png",
+          alt: { pt: "Mapeamento dos componentes existentes do app", en: "Mapping of the app's existing components" },
         },
       },
       {
-        title: { pt: "Tratar cada risco antes de escalar", en: "Address every risk before scaling" },
+        title: { pt: "O fluxo proposto", en: "The proposed flow" },
         text: {
-          pt: "Os testes expuseram riscos operacionais e cada um virou um ajuste no fluxo. Câmera danificada cancelava e realocava o pedido automaticamente, sem o suporte poder corrigir o status: passamos a permitir a mudança automática via ticket, validando a localização pelo geofence. Restaurantes que não trocavam o código ou deixavam o QR fora de vista atrasavam a operação: criamos um guia explicando as vantagens de manter o código visível e atualizado. E grandes redes com múltiplos identificadores por loja ganharam um ID principal definido.",
-          en: "The tests exposed operational risks, and each one became a change in the flow. A damaged camera auto-cancelled and reallocated the order, with support unable to fix the status: we allowed the status to change automatically via ticket, validating location through the geofence. Restaurants that did not rotate the code or kept the QR out of sight slowed the operation: we created a guide explaining the benefits of keeping it visible and up to date. And large chains with multiple identifiers per store got one defined main ID.",
+          pt: "O fluxo ideal conecta as quatro frentes da proposta: home com busca em evidência, tela inicial de busca com histórico e categorias, autocomplete e página de resultados com refino.",
+          en: "The ideal flow connects the proposal's four fronts: a home with search in evidence, an initial search screen with history and categories, autocomplete, and a results page with refinement.",
+        },
+        image: {
+          src: "/work/james-new-flow.png",
+          alt: { pt: "Fluxo proposto para a nova busca", en: "Proposed flow for the new search" },
         },
       },
       {
-        title: { pt: "Escalar em ondas", en: "Scale in waves" },
+        title: { pt: "O que viria depois", en: "What would come next" },
         text: {
-          pt: "Com os riscos endereçados, o rollout seguiu em ondas: ativação ao longo de um mês em todos os pontos do McDonald's e, na sequência, expansão para os demais pontos de grandes contas (KA). Só então, com o check-in consolidado e as lições absorvidas, partimos para o segundo fluxo da jornada: a validação da retirada do pedido no checkout.",
-          en: "With the risks addressed, the rollout moved in waves: activation across all McDonald's locations over one month, followed by expansion to the remaining key-account (KA) locations. Only then, with check-in consolidated and the lessons absorbed, did we move to the journey's second flow: validating order pickup at checkout.",
+          pt: "O prazo encerrou o case no protótipo. Os próximos passos já estavam nomeados: estressar cenários de uso, definir métricas de sucesso, rodar testes de usabilidade e refinar tecnicamente com o time de desenvolvimento.",
+          en: "The deadline ended the case at the prototype. The next steps were already named: stress use-case scenarios, define success metrics, run usability tests, and refine technically with the development team.",
         },
       },
     ],
-    flowDiagram: {
-      title: { pt: "User flow do check-in (MVP)", en: "Check-in user flow (MVP)" },
-      caption: {
-        pt: "Desenhei o fluxo de validação da chegada do entregador ao restaurante: um caminho principal em três etapas e rotas alternativas para lidar com exceções, priorizando uma abordagem baseada em confiança antes de aplicar qualquer penalização.",
-        en: "I designed the flow to validate the courier's arrival at the restaurant: a main path in three steps and alternative routes to handle exceptions, prioritizing a trust-based approach before applying any penalty.",
-      },
-    },
     prototypeEmbed: {
-      src: "/prototypes/handshake/index.html",
+      src: "/prototypes/james/index.html",
       title: { pt: "Protótipo navegável", en: "Interactive prototype" },
       hint: {
-        pt: "O caminho feliz de ponta a ponta: chegue ao restaurante, escaneie o QR code na parede para o check-in e finalize com o código da nota fiscal no checkout.",
-        en: "The end-to-end happy path: arrive at the restaurant, scan the QR code on the wall to check in, and finish with the receipt code at checkout.",
+        pt: "Percorra o fluxo proposto: da home à busca, do autocomplete aos resultados com ordenação. Toque na tela para começar.",
+        en: "Walk the proposed flow: from home to search, from autocomplete to sorted results. Tap the screen to start.",
       },
     },
-    pillarsTitle: { pt: "Decisões de design", en: "Design decisions" },
-    pillarsLayout: "list",
+    pillarsTitle: { pt: "Layout e mudanças", en: "Layout & changes" },
     pillarsIntro: {
-      pt: "Decisões pensadas para o MVP: validar o valor da solução com o menor investimento possível antes de evoluir para uma versão mais robusta.",
-      en: "Decisions scoped for the MVP: validate the solution's value with the smallest possible investment before evolving into a more robust version.",
+      pt: "Cada decisão de tela ancora numa evidência da pesquisa: boas práticas, benchmark, reviews ou uma fala de entrevista.",
+      en: "Every screen decision is anchored in research evidence: best practices, the benchmark, store reviews, or an interview quote.",
     },
+    pillarsLayout: "list",
     pillars: [
       {
-        title: { pt: "QR code na parede, não no app", en: "QR code on the wall, not in the app" },
+        title: { pt: "Home com busca em evidência", en: "Home with search in evidence" },
         text: {
-          pt: "Para validar presença física no restaurante, o entregador escaneia um QR code fixado no local. A solução reduz a complexidade tecnológica ao mínimo necessário: uma interação simples, barata e escalável para um problema de milhões de entregas.",
-          en: "To validate physical presence at the restaurant, the courier scans a QR code fixed on-site. The solution keeps technological complexity to the bare minimum: a simple, cheap, and scalable interaction for a problem spanning millions of deliveries.",
+          pt: "Mercado vira a categoria padrão, refletindo o uso real do app. O endereço de entrega ganha destaque para evitar pedidos errados, e a busca entra na tab bar e em todas as páginas, deixando claro que dá para procurar item ou estabelecimento.",
+          en: "Groceries become the default category, reflecting how the app is actually used. The delivery address gains prominence to prevent wrong orders, and search joins the tab bar and every page, making it clear you can look for an item or an establishment.",
         },
+        imageAfter: { src: "/work/james-layout-1.png", alt: { pt: "Antes e depois da home com busca em evidência", en: "Before and after of the home with search in evidence" }, width: 2048, height: 1253 },
       },
       {
-        title: { pt: "QR codes rotativos", en: "Rotating QR codes" },
+        title: { pt: "Busca inicial como atalho", en: "Initial search as a shortcut" },
         text: {
-          pt: "Para evitar que uma foto do código fosse reutilizada em outro momento, cada restaurante possui múltiplos QR codes que alternam conforme a data. Assim, o sistema dificulta tentativas de check-in falso sem adicionar fricção ao entregador.",
-          en: "To prevent a photo of the code from being reused later, each restaurant has multiple QR codes that rotate by date. This makes fake check-in attempts harder without adding friction for the courier.",
+          pt: "Histórico personalizado pelo uso, com formatos distintos para restaurante, mercado e categoria, tempo de entrega e aviso de fechado antes do clique, e controle para apagar cada item.",
+          en: "History personalized by usage, with distinct formats for restaurant, grocery, and category, delivery time and closed status before the tap, and control to delete each entry.",
         },
+        imageAfter: { src: "/work/james-layout-2.png", alt: { pt: "Antes e depois da tela inicial de busca com histórico e categorias", en: "Before and after of the initial search screen with history and categories" }, width: 2048, height: 1253 },
       },
       {
-        title: { pt: "Código na nota, não outro QR", en: "A code on the receipt, not another QR" },
-        doodle: "receipt",
+        title: { pt: "Autocomplete que constrói a consulta", en: "Autocomplete that builds the query" },
         text: {
-          pt: "A experiência do check-in mostrou que a qualidade e o estado da câmera do celular tornavam a leitura de QR pouco confiável. Por isso o checkout usou um código alfanumérico impresso na própria nota fiscal: o funcionário passa o código, o entregador digita e a validação libera a entrega, sem depender da câmera.",
-          en: "The check-in taught us that phone-camera quality and condition made QR scanning unreliable. So checkout used an alphanumeric code printed on the receipt itself: the employee shares it, the courier types it, and validation releases the order — no camera required.",
+          pt: "Sugestões a partir do terceiro caractere, informando onde cada resultado vive: em todas as categorias, num restaurante ou num mercado. Menos digitação, menos erro.",
+          en: "Suggestions from the third character on, showing where each result lives: across all categories, in a restaurant, or in a grocery store. Less typing, fewer mistakes.",
         },
+        imageAfter: { src: "/work/james-layout-3.png", alt: { pt: "Antes e depois do autocomplete da busca", en: "Before and after of search autocomplete" }, width: 2048, height: 1253 },
       },
       {
-        title: { pt: "Erros tratados com confiança", en: "Errors handled with trust" },
+        title: { pt: "Resultados que ajudam a decidir", en: "Results that help decide" },
         text: {
-          pt: "Nem todo erro indica uma tentativa de fraude. Um código desatualizado na loja correta pode ser validado automaticamente após alguns minutos, enquanto tentativas inválidas recebem múltiplas chances antes de qualquer penalização. O fluxo assume boa-fé até que existam sinais reais de abuso.",
-          en: "Not every error signals a fraud attempt. An outdated code at the right store can be auto-validated after a few minutes, while invalid attempts get multiple chances before any penalty. The flow assumes good faith until there are real signs of abuse.",
+          pt: "Contagem de resultados, ordenação e filtro à mão, e cards com o que as entrevistas pediram: distância, frete, tempo, avaliação e promoções em tags de destaque.",
+          en: "Result count, sorting and filtering at hand, and cards with what the interviews asked for: distance, delivery fee, time, rating, and promotions in highlighted tags.",
         },
-        imageAfter: {
-          src: "/work/check-in-flow.png",
-          alt: { pt: "Fluxo de check-in do entregador no restaurante", en: "Courier check-in flow at the restaurant" },
-          width: 15090,
-          height: 14526,
+        imageAfter: { src: "/work/james-layout-4.png", alt: { pt: "Antes e depois da página de resultados da busca", en: "Before and after of the search results page" }, width: 2048, height: 1253 },
+      },
+      {
+        title: { pt: "O prato sem abrir o restaurante", en: "The dish without opening the restaurant" },
+        text: {
+          pt: "Os pratos mais pedidos expandem no próprio resultado, com preço, evitando a segunda busca dentro da página de cada restaurante que os usuários descreveram como cansativa.",
+          en: "Most-ordered dishes expand right in the result, with prices, avoiding the second search inside each restaurant page that users described as tiring.",
         },
+        imageAfter: { src: "/work/james-layout-5.png", alt: { pt: "Pratos mais pedidos expandidos direto no resultado da busca", en: "Most-ordered dishes expanded right in the search result" }, width: 2048, height: 1253 },
       },
     ],
-    outcome: [
-      {
-        label: { pt: "Preparo mais rápido", en: "Faster prep time" },
-        value: "O McDonald's registrou queda no tempo de preparo já no piloto de 7 pontos",
-      },
-      {
-        label: { pt: "Hipótese confirmada", en: "Hypothesis confirmed" },
-        value: "NRE caiu e DRE subiu, provando o check-in falso e destravando microtempos reais",
-      },
-      {
-        label: { pt: "R$ 260 milhões", en: "R$260 million" },
-        value: "Em pedidos mensais protegidos contra fraude de checkout",
-      },
-    ],
-    checkoutFlow: {
-      title: { pt: "User flow do checkout (MVP)", en: "Checkout user flow (MVP)" },
-      caption: {
-        pt: "O checkout pedia mais controle que o check-in: é no encontro entre entregador e pedido que as perdas de fato acontecem, seja por má-fé, seja por engano. Aqui a validação sai da parede e vai para a nota fiscal: o funcionário do restaurante passa um código alfanumérico de quatro dígitos, o entregador digita para confirmar que está com o pedido certo e o funcionário valida — com a mesma tolerância a erro antes de qualquer bloqueio.",
-        en: "Checkout demanded more control than check-in: losses happen precisely where courier and order meet, whether through bad faith or plain mistake. Here validation moves from the wall to the receipt: the restaurant employee shares a four-character alphanumeric code, the courier types it to confirm they have the right order, and the employee validates — with the same tolerance for error before any block.",
-      },
-      image: {
-        src: "/work/checkout-flow.png",
-        alt: { pt: "Fluxo de checkout e validação do pedido na retirada", en: "Checkout and order validation flow at pickup" },
-        width: 24762,
-        height: 9984,
-      },
-    },
     closing: {
-      pt: "O melhor design nem sempre vive na tela. No Handshake, a interface era um QR code na parede do restaurante e o impacto se media em pedido certo na mão certa.",
-      en: "The best design does not always live on a screen. In Handshake, the interface was a QR code on the restaurant wall and the impact was measured in the right order reaching the right hands.",
+      pt: "Case de uma semana, encerrado no protótipo: sem números de mercado, o que fica é o método. Evidência antes de hipótese, hipótese antes de tela, e cada mudança de layout apontando de volta para a pesquisa que a justificou.",
+      en: "A one-week case that ends at the prototype: with no market numbers, what remains is the method — evidence before hypotheses, hypotheses before screens, and every layout change pointing back to the research that justified it.",
     },
   },
   {
@@ -893,7 +1150,7 @@ export const projects: Project[] = [
       pt: "Staff Product Designer · Growth",
       en: "Staff Product Designer · Growth",
     },
-    tags: ["Growth", "Ativação", "Experimentação"],
+    tags: ["Growth", { pt: "Ativação", en: "Activation" }, { pt: "Experimentação", en: "Experimentation" }],
     summary: {
       pt: "Novo onboarding orientado a valor que elevou a ativação de novos usuários em 27% no primeiro mês.",
       en: "New value-oriented onboarding that increased new user activation by 27% in the first month.",

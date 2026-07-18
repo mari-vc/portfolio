@@ -127,14 +127,17 @@ export default async function ProjectPage({
           </dl>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-line px-3 py-1 text-xs text-muted"
-              >
-                {tag}
-              </span>
-            ))}
+            {project.tags.map((tag) => {
+              const label = typeof tag === "string" ? tag : t(tag, lang)
+              return (
+                <span
+                  key={label}
+                  className="rounded-full border border-line px-3 py-1 text-xs text-muted"
+                >
+                  {label}
+                </span>
+              )
+            })}
           </div>
 
           <Block title={dict.work_detail.overview}>{t(project.overview, lang)}</Block>
