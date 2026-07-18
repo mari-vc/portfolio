@@ -595,7 +595,23 @@
     <!-- ============ ENTREGA MAPA (rota de entrega) ============ -->
     <sc-if value="{{ isEntregaMap }}" hint-placeholder-val="{{ false }}">
       <div style="position:absolute;inset:0;overflow:hidden;background:#fff;animation:screenIn 0.3s ease;">
-        <div style="position:absolute;left:0;top:0;width:360px;height:520px;background:url('assets/entrega-route-map.png') center top / cover no-repeat;"></div>
+        <div style="position:absolute;left:-23px;top:-105px;width:420px;height:719px;background:url('assets/map.png') center / cover no-repeat;"></div>
+
+        <!-- rota Recolección 2 → Entrega 1, mesmo traçado de ruas da tela Mapa (deslocado 60px p/ caber acima da sheet) -->
+        <svg width="360" height="520" viewBox="0 0 360 520" style="position:absolute;left:0;top:0;pointer-events:none;">
+          <path d="M 204 429.5 L 207 399 L 210 370.5 L 212.5 342 L 213.5 320.5 L 215 297 L 209.3 295.4 L 203.2 292.5 L 198.9 288.7 L 195.5 281.6 L 192.2 274 L 189.4 265.4 L 186 256.9 L 180.3 252.8 L 164.2 257.6 L 148.9 259.7 L 133.7 268.3 L 118.5 277.8 L 103.3 290.1 L 88.5 301" fill="none" stroke="rgb(234,29,44)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+
+        <!-- destino: Entrega 1 -->
+        <div style="position:absolute;left:44px;top:246px;width:89px;height:36px;background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(62,62,62,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:rgb(62,62,62);">Entrega 1</div>
+        <div style="position:absolute;left:81px;top:293.5px;width:15px;height:15px;border-radius:50%;background:rgb(234,29,44);box-shadow:inset 0 0 0 2px #fff;"></div>
+
+        <!-- posição atual do entregador: Recolección 2 -->
+        <div style="position:absolute;left:148.6px;top:375px;width:111px;height:36px;background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(62,62,62,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:rgb(62,62,62);">Recolección 2</div>
+        <div style="position:absolute;left:176px;top:401.5px;width:56px;height:56px;border-radius:50%;background:rgba(80,167,115,0.16);"></div>
+        <div style="position:absolute;left:190px;top:415.5px;width:28px;height:28px;border-radius:50%;background:rgba(80,167,115,0.3);"></div>
+        <div style="position:absolute;left:198px;top:423.5px;width:12px;height:12px;border-radius:50%;background:rgb(80,167,115);box-shadow:inset 0 0 0 2px #fff;"></div>
+
         <div style="position:absolute;left:0;top:0;width:360px;height:90px;background:linear-gradient(180deg, rgba(255,255,255,0.85) 20%, rgba(255,255,255,0) 100%);"></div>
         <div style="position:absolute;left:300px;top:7px;width:44px;font-size:13px;font-weight:500;line-height:16px;color:rgb(62,62,62);text-align:right;">12:00</div>
         <button onClick="{{ goEntrega }}" style="position:absolute;left:9px;top:27px;width:39px;height:39px;border-radius:8px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;" style-active="transform:scale(0.94);"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="rgb(234,29,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
