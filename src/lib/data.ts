@@ -682,8 +682,8 @@ export const projects: Project[] = [
   {
     slug: "handshake-restaurante",
     title: {
-      pt: "Handshake: como reduzimos fraudes sem aumentar o atrito da operação",
-      en: "Handshake: how we cut fraud without adding friction to operations",
+      pt: "Handshake: como tornamos a retirada confiável sem criar atrito na operação",
+      en: "Handshake: how we made order pickup reliable without adding friction to operations",
     },
     client: "iFood",
     year: "2022",
@@ -697,13 +697,13 @@ export const projects: Project[] = [
       en: "The challenge wasn't adding one more step to the courier's flow. It was making sure every order reached the right person without compromising speed, experience, or scale.",
     },
     overview: {
-      pt: "No iFood, um pedido passa por uma sequência simples: um entregador chega ao restaurante, retira o pedido e segue para a entrega. Mas dois desses momentos não possuíam qualquer mecanismo de validação.\n\nNa chegada ao restaurante, alguns entregadores confirmavam presença antes de realmente chegar, comprometendo métricas importantes da operação. Já na retirada do pedido, não existia uma forma confiável de garantir que o entregador certo retirasse o pedido certo, abrindo espaço para fraudes, roubos e trocas de pacotes.\n\nComo Product Designer da equipe, conduzi a pesquisa, a ideação e a validação de dois novos fluxos da jornada do entregador, criando novos pontos de validação que aumentaram a confiabilidade da operação sem comprometer a experiência de quem entrega.",
-      en: "At iFood, an order goes through a simple sequence: a courier arrives at the restaurant, picks up the order, and heads out for delivery. But two of these moments had no validation mechanism at all.\n\nAt arrival, some couriers confirmed presence before actually reaching the restaurant, compromising key operational metrics. At pickup, there was no reliable way to guarantee the right courier picked up the right order, leaving room for fraud, theft, and package swaps.\n\nAs the Product Designer on the team, I led the research, ideation, and validation of two new flows in the courier journey, creating new validation points that increased operational reliability without compromising the courier experience.",
+      pt: "No iFood, um pedido passa por uma sequência simples: um entregador chega ao restaurante, retira o pedido e segue para a entrega. Mas dois desses momentos não possuíam qualquer mecanismo de validação.\n\nNa chegada ao restaurante, alguns entregadores confirmavam presença antes de realmente chegar, comprometendo métricas importantes da operação. Já na retirada do pedido, não existia uma forma confiável de garantir que o entregador certo retirasse o pedido certo. Sem essa prova, dois problemas conviviam: de um lado fraudes e roubos, de outro trocas de pedido que aconteciam por engano, no aperto da operação.\n\nComo Product Designer da equipe, conduzi a pesquisa, a ideação e a validação de dois novos fluxos da jornada do entregador, criando novos pontos de validação que aumentaram a confiabilidade da operação sem comprometer a experiência de quem entrega.",
+      en: "At iFood, an order goes through a simple sequence: a courier arrives at the restaurant, picks up the order, and heads out for delivery. But two of these moments had no validation mechanism at all.\n\nAt arrival, some couriers confirmed presence before actually reaching the restaurant, compromising key operational metrics. At pickup, there was no reliable way to guarantee the right courier picked up the right order. Without that proof, two problems coexisted: fraud and theft on one side, and honest order mix-ups in the rush of the operation on the other.\n\nAs the Product Designer on the team, I led the research, ideation, and validation of two new flows in the courier journey, creating new validation points that increased operational reliability without compromising the courier experience.",
     },
     problem: {
       intro: {
-        pt: "O problema tinha escala. Todos os meses, milhares de pedidos eram impactados pela ausência desses mecanismos de validação. Sem uma forma de comprovar quem havia chegado ao restaurante e quem havia retirado cada pedido, a operação perdia confiabilidade, fraudes aconteciam e o iFood absorvia integralmente os custos dos pedidos cancelados.",
-        en: "The problem had scale. Every month, thousands of orders were affected by the absence of these validation mechanisms. With no way to prove who had arrived at the restaurant and who had picked up each order, the operation lost reliability, fraud happened, and iFood fully absorbed the cost of cancelled orders.",
+        pt: "O problema tinha escala. Todos os meses, milhares de pedidos eram impactados pela ausência desses mecanismos de validação. Sem uma forma de comprovar quem havia chegado ao restaurante e quem havia retirado cada pedido, a operação perdia confiabilidade. Parte das perdas vinha de fraude, parte vinha de erro honesto na entrega do pedido, e o iFood absorvia integralmente os custos dos pedidos cancelados nos dois casos.",
+        en: "The problem had scale. Every month, thousands of orders were affected by the absence of these validation mechanisms. With no way to prove who had arrived at the restaurant and who had picked up each order, the operation lost reliability. Some of the losses came from fraud, some from honest mistakes handing over the order — and iFood fully absorbed the cost of cancelled orders in both cases.",
       },
       stats: [
         {
@@ -732,8 +732,8 @@ export const projects: Project[] = [
       {
         title: { pt: "Pessoas antes da tecnologia", en: "People before technology" },
         text: {
-          pt: "Comecei entrevistando entregadores para entender onde a operação realmente falhava. As conversas revelaram duas lacunas importantes: não existia uma forma confiável de validar a chegada ao restaurante nem a retirada do pedido, além de exporem esquemas de fraude já conhecidos por quem estava no campo.",
-          en: "I started by interviewing couriers to understand where the operation was actually failing. The conversations revealed two important gaps: there was no reliable way to validate arrival at the restaurant or order pickup, and they exposed fraud schemes already known to people in the field.",
+          pt: "Comecei entrevistando entregadores para entender onde a operação realmente falhava. As conversas revelaram duas lacunas importantes: não existia uma forma confiável de validar a chegada ao restaurante nem a retirada do pedido. Eles descreveram tanto esquemas de fraude já conhecidos no campo quanto trocas de pedido que aconteciam por engano, quando várias sacolas parecidas saíam ao mesmo tempo.",
+          en: "I started by interviewing couriers to understand where the operation was actually failing. The conversations revealed two important gaps: there was no reliable way to validate arrival at the restaurant or order pickup. They described both fraud schemes already known in the field and order mix-ups that happened by accident, when several similar bags went out at once.",
         },
       },
       {
@@ -750,8 +750,8 @@ export const projects: Project[] = [
       {
         title: { pt: "Validar a hipótese antes de escalar", en: "Validate the hypothesis before scaling" },
         text: {
-          pt: "Antes de desenvolver qualquer solução, precisávamos comprovar que um novo fluxo realmente reduziria fraudes e aumentaria a confiabilidade da operação. A prioridade era validar o comportamento antes de investir na implementação.",
-          en: "Before building any solution, we needed to prove that a new flow would actually reduce fraud and increase the operation's reliability. The priority was validating behavior before investing in implementation.",
+          pt: "Antes de desenvolver qualquer solução, precisávamos comprovar que um novo fluxo realmente reduziria tanto a fraude quanto a troca de pedidos, aumentando a confiabilidade da operação. A prioridade era validar o comportamento antes de investir na implementação.",
+          en: "Before building any solution, we needed to prove that a new flow would actually reduce both fraud and order mix-ups, increasing the operation's reliability. The priority was validating behavior before investing in implementation.",
         },
       },
       {
@@ -865,8 +865,8 @@ export const projects: Project[] = [
     checkoutFlow: {
       title: { pt: "User flow do checkout (MVP)", en: "Checkout user flow (MVP)" },
       caption: {
-        pt: "O checkout pedia mais controle que o check-in: é no encontro entre entregador e pedido que a fraude de fato acontece. Aqui a validação sai da parede e vai para a nota fiscal: o funcionário do restaurante passa um código alfanumérico de quatro dígitos, o entregador digita para confirmar que está com o pedido certo e o funcionário valida — com a mesma tolerância a erro antes de qualquer bloqueio.",
-        en: "Checkout demanded more control than check-in: fraud happens precisely where courier and order meet. Here validation moves from the wall to the receipt: the restaurant employee shares a four-character alphanumeric code, the courier types it to confirm they have the right order, and the employee validates — with the same tolerance for error before any block.",
+        pt: "O checkout pedia mais controle que o check-in: é no encontro entre entregador e pedido que as perdas de fato acontecem, seja por má-fé, seja por engano. Aqui a validação sai da parede e vai para a nota fiscal: o funcionário do restaurante passa um código alfanumérico de quatro dígitos, o entregador digita para confirmar que está com o pedido certo e o funcionário valida — com a mesma tolerância a erro antes de qualquer bloqueio.",
+        en: "Checkout demanded more control than check-in: losses happen precisely where courier and order meet, whether through bad faith or plain mistake. Here validation moves from the wall to the receipt: the restaurant employee shares a four-character alphanumeric code, the courier types it to confirm they have the right order, and the employee validates — with the same tolerance for error before any block.",
       },
       image: {
         src: "/work/checkout-flow.png",
@@ -876,8 +876,8 @@ export const projects: Project[] = [
       },
     },
     closing: {
-      pt: "O melhor design nem sempre vive na tela. No Handshake, a interface era um QR code na parede do restaurante e o impacto se media em fraude evitada.",
-      en: "The best design does not always live on a screen. In Handshake, the interface was a QR code on the restaurant wall and the impact was measured in fraud prevented.",
+      pt: "O melhor design nem sempre vive na tela. No Handshake, a interface era um QR code na parede do restaurante e o impacto se media em pedido certo na mão certa.",
+      en: "The best design does not always live on a screen. In Handshake, the interface was a QR code on the restaurant wall and the impact was measured in the right order reaching the right hands.",
     },
   },
   {
