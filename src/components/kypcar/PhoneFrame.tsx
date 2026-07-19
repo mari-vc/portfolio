@@ -101,19 +101,6 @@ export function PhoneFrame({
         <path d={`M${width * 0.003} ${height * 0.17} L${width * 0.003} ${height * 0.225}`} stroke={INK} strokeWidth={width * 0.013} strokeLinecap="round" />
         <path d={`M${width * 0.003} ${height * 0.255} L${width * 0.003} ${height * 0.31}`} stroke={INK} strokeWidth={width * 0.013} strokeLinecap="round" />
         <path d={`M${width * 0.997} ${height * 0.21} L${width * 0.997} ${height * 0.29}`} stroke={INK} strokeWidth={width * 0.016} strokeLinecap="round" />
-        {/* dynamic island, contornado à mão em vez de sólido/geométrico */}
-        {!bare && (
-          <path
-            d={`M${width * 0.42} ${height * 0.027}
-                C${width * 0.39} ${height * 0.026} ${width * 0.37} ${height * 0.033} ${width * 0.37} ${height * 0.042}
-                C${width * 0.37} ${height * 0.052} ${width * 0.39} ${height * 0.058} ${width * 0.42} ${height * 0.057}
-                L${width * 0.58} ${height * 0.058}
-                C${width * 0.61} ${height * 0.059} ${width * 0.63} ${height * 0.052} ${width * 0.63} ${height * 0.043}
-                C${width * 0.63} ${height * 0.033} ${width * 0.61} ${height * 0.026} ${width * 0.58} ${height * 0.028}
-                Z`}
-            fill="none" stroke={INK} strokeWidth={width * 0.01} strokeLinejoin="round"
-          />
-        )}
       </svg>
 
       {/* tela real, recortada dentro do corpo ilustrado */}
@@ -133,6 +120,38 @@ export function PhoneFrame({
             <StatusBar />
           </div>
         )}
+        {/* Dynamic island como overlay visível (o desenho no corpo do SVG
+            ficava atrás da tela). É o sinal mais forte de "iPhone atual".
+            Sólida em tinta, como o recorte real, borda levemente irregular no
+            espírito dos doodles. Cheia no modo com chrome (Kypcar, tela livre
+            no topo) e alinhada ao relógio da status bar; mais compacta e alta
+            no modo bare (James), cujo conteúdo já desenha um header apertado. */}
+        <div
+          style={{
+            position: "absolute",
+            top: bare ? width * 0.012 : width * 0.044,
+            left: 0, right: 0,
+            display: "flex", justifyContent: "center", zIndex: 40, pointerEvents: "none",
+          }}
+        >
+          {bare ? (
+            // James: header apertado só comporta uma ilha mais baixa e larga.
+            <svg width={width * 0.27} height={width * 0.054} viewBox="0 0 100 20" aria-hidden="true">
+              <path
+                d="M10 1 C4 0.9, 1 4, 1.1 10 C1 16, 4 19.1, 10 19 L90 19 C96 19.1, 99 16, 98.9 10 C99 4, 96 0.9, 90 1 Z"
+                fill={INK} stroke={INK} strokeWidth="1" strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            // Kypcar: tela livre no topo comporta a ilha cheia, proporção real.
+            <svg width={width * 0.31} height={width * 0.087} viewBox="0 0 100 28" aria-hidden="true">
+              <path
+                d="M14 1 C6 0.9, 1 6, 1.1 14 C1 22, 6 27.1, 14 27 L86 27 C94 27.1, 99 22, 98.9 14 C99 6, 94 0.9, 86 1 Z"
+                fill={INK} stroke={INK} strokeWidth="1" strokeLinejoin="round"
+              />
+            </svg>
+          )}
+        </div>
         <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
           <div style={{ flex: 1, overflow: "hidden" }}>{children}</div>
         </div>
