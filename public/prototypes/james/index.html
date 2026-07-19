@@ -132,10 +132,10 @@
             </div>
           </div>
           <div style="padding:12px 14px 14px;">
-            <div style="font-size:15px;font-weight:700;color:rgb(30,30,34);">Pão De Açúcar</div>
+            <div style="font-size:15px;font-weight:700;color:rgb(30,30,34);">Pão de Açúcar</div>
             <div style="margin-top:3px;font-size:12px;color:rgb(130,130,136);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">R. Domingos de Morais, 486 - Vila Marian...</div>
             <div style="margin-top:9px;display:flex;align-items:center;justify-content:space-between;">
-              <span style="display:inline-flex;align-items:center;gap:6px;background:rgb(64,205,200);color:#fff;font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">⬡ entrega à calcular</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;background:rgb(64,205,200);color:#fff;font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">⬡ entrega a calcular</span>
               <span style="display:inline-flex;align-items:center;gap:5px;background:rgb(238,238,241);color:rgb(90,90,96);font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">◷ 51m</span>
             </div>
           </div>
@@ -172,17 +172,21 @@
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:13px;color:rgb(140,140,146);">Procure por item ou estabelecimento</span>
         </button>
-        <div style="position:absolute;left:16px;top:92px;font-size:15px;font-weight:700;color:rgb(30,30,34);">Busca recente</div>
+        <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:16px;top:92px;font-size:15px;font-weight:700;color:rgb(30,30,34);">Busca recente</div></sc-if>
         <div style="position:absolute;left:0;top:118px;width:360px;padding:0 16px;">
           <sc-for list="{{ historico }}" as="hrow" hint-placeholder-count="6">
-            <button onClick="{{ hrow.go }}" style="width:328px;display:flex;align-items:center;gap:12px;padding:7px 0;" style-active="opacity:0.6;">
-              <div style="{{ hrow.avatarStyle }}">{{ hrow.initial }}</div>
-              <div style="flex:1;min-width:0;">
-                <div style="font-size:13.5px;font-weight:600;color:rgb(35,35,40);">{{ hrow.nome }}</div>
-                <div style="margin-top:1px;font-size:11.5px;color:rgb(130,130,136);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
-              </div>
-              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1 L11 11 M11 1 L1 11" stroke="rgb(150,150,156)" stroke-width="1.6" stroke-linecap="round"></path></svg>
-            </button>
+            <div style="width:328px;display:flex;align-items:center;">
+              <button onClick="{{ hrow.go }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:7px 0;text-align:left;" style-active="opacity:0.6;">
+                <div style="{{ hrow.avatarStyle }}">{{ hrow.initial }}</div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:13.5px;font-weight:600;color:rgb(35,35,40);">{{ hrow.nome }}</div>
+                  <div style="margin-top:1px;font-size:11.5px;color:rgb(130,130,136);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
+                </div>
+              </button>
+              <button onClick="{{ hrow.remover }}" aria-label="Remover da busca recente" style="width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;" style-active="opacity:0.45;">
+                <svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1 L11 11 M11 1 L1 11" stroke="rgb(150,150,156)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+              </button>
+            </div>
           </sc-for>
         </div>
         <div style="position:absolute;left:16px;top:432px;font-size:15px;font-weight:700;color:rgb(30,30,34);">Categoria</div>
@@ -236,17 +240,21 @@
           </span>
         </div>
         <!-- histórico visível com o campo focado: evita a tela vazia entre campo e teclado -->
-        <div style="position:absolute;left:16px;top:92px;font-size:15px;font-weight:700;color:rgb(30,30,34);">Busca recente</div>
+        <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:16px;top:92px;font-size:15px;font-weight:700;color:rgb(30,30,34);">Busca recente</div></sc-if>
         <div style="position:absolute;left:0;top:118px;width:360px;padding:0 16px;">
           <sc-for list="{{ historico }}" as="hrow" hint-placeholder-count="6">
-            <button onClick="{{ hrow.go }}" style="width:328px;display:flex;align-items:center;gap:12px;padding:7px 0;" style-active="opacity:0.6;">
-              <div style="{{ hrow.avatarStyle }}">{{ hrow.initial }}</div>
-              <div style="flex:1;min-width:0;">
-                <div style="font-size:13.5px;font-weight:600;color:rgb(35,35,40);">{{ hrow.nome }}</div>
-                <div style="margin-top:1px;font-size:11.5px;color:rgb(130,130,136);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
-              </div>
-              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1 L11 11 M11 1 L1 11" stroke="rgb(150,150,156)" stroke-width="1.6" stroke-linecap="round"></path></svg>
-            </button>
+            <div style="width:328px;display:flex;align-items:center;">
+              <button onClick="{{ hrow.go }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:7px 0;text-align:left;" style-active="opacity:0.6;">
+                <div style="{{ hrow.avatarStyle }}">{{ hrow.initial }}</div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:13.5px;font-weight:600;color:rgb(35,35,40);">{{ hrow.nome }}</div>
+                  <div style="margin-top:1px;font-size:11.5px;color:rgb(130,130,136);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
+                </div>
+              </button>
+              <button onClick="{{ hrow.remover }}" aria-label="Remover da busca recente" style="width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;" style-active="opacity:0.45;">
+                <svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1 L11 11 M11 1 L1 11" stroke="rgb(150,150,156)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+              </button>
+            </div>
           </sc-for>
         </div>
         <!-- teclado: qualquer tecla digita "Piz" -->
@@ -392,7 +400,7 @@
           <!-- Vô Agenor -->
           <div style="border-radius:12px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.06);padding:12px 14px;margin-bottom:10px;">
             <div style="display:flex;gap:10px;">
-              <div style="width:38px;height:38px;border-radius:8px;background:rgb(244,240,234);color:rgb(120,110,96);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;letter-spacing:0.06em;">RASCAL</div>
+              <div style="width:38px;height:38px;border-radius:8px;background:rgb(244,240,234);color:rgb(120,110,96);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;letter-spacing:0.06em;">AGENOR</div>
               <div style="flex:1;">
                 <div style="display:flex;align-items:center;justify-content:space-between;">
                   <div style="font-size:13.5px;font-weight:700;color:rgb(30,30,34);">Vô Agenor Pizza &amp; Pasta</div>
@@ -482,6 +490,7 @@ class Component extends DCLogic {
     digitado: '',
     teclaAtiva: null,
     saindo: false,
+    removidos: [],
   };
 
   QUERY = 'Piz';
@@ -534,6 +543,10 @@ class Component extends DCLogic {
 
   // O splash segue montado durante a saida (por cima, via z-index) enquanto a
   // home entra por baixo. Sem isso nao ha o que animar: sc-if desmonta na hora.
+  removerHistorico = (nome) => () => {
+    this.setState((s) => ({ removidos: s.removidos.concat(nome) }));
+  };
+
   hoverTimer = null;
 
   // Hover sustentado: so avanca se a intencao se mantiver por 400ms. Sem isso,
@@ -573,7 +586,7 @@ class Component extends DCLogic {
   ];
 
   SUGESTOES = [
-    { resto: 'za', onde: 'em todas categorias' },
+    { resto: 'za', onde: 'em todas as categorias' },
     { resto: 'za Hut', onde: 'em restaurante' },
     { resto: 'za Doce', onde: 'em restaurante' },
     { resto: 'za de mussarela Seara', onde: 'em mercado' },
@@ -615,7 +628,8 @@ class Component extends DCLogic {
       goAuto: this.go('auto'),
       goResultados: this.go('resultados'),
       goOrdenar: this.go('ordenar'),
-      historico: this.HISTORICO.map((h2) => ({
+      temHistorico: this.HISTORICO.some((h2) => !this.state.removidos.includes(h2.nome)),
+      historico: this.HISTORICO.filter((h2) => !this.state.removidos.includes(h2.nome)).map((h2) => ({
         nome: h2.nome,
         meta: h2.meta,
         metaExtra: h2.metaExtra || '',
@@ -628,6 +642,7 @@ class Component extends DCLogic {
           fontSize: 14, fontWeight: 700,
         },
         go: this.go('resultados'),
+        remover: this.removerHistorico(h2.nome),
       })),
       sugestoes: this.SUGESTOES.map((s) => ({ ...s, go: this.go('resultados') })),
       digitado: this.state.digitado,
