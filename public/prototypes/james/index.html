@@ -54,30 +54,39 @@
     <!-- ============ HOME (MERCADOS) ============ -->
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
       <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:screenIn 0.3s ease;">
-        <!-- header roxo -->
-        <div style="position:absolute;left:0;top:0;width:360px;height:132px;background:rgb(140,100,220);"></div>
-        <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
-        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
-        <div style="position:absolute;left:0;top:28px;width:360px;display:flex;align-items:center;justify-content:center;gap:6px;color:#fff;font-size:14px;font-weight:600;">
-          <svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2.5 C8 2.5 5 5.6 5 9.5 c0 5 7 12 7 12 s7 -7 7 -12 c0 -3.9 -3 -7 -7 -7 z" fill="none" stroke="#fff" stroke-width="2"></path><circle cx="12" cy="9.5" r="2.4" fill="#fff"></circle></svg>
+        <!-- header roxo: status bar + endereço + tabs; a busca desce para o fundo cinza -->
+        <div style="position:absolute;left:0;top:0;width:360px;height:100px;background:rgb(140,100,220);"></div>
+        <div style="position:absolute;left:16px;top:8px;font-size:12.5px;font-weight:600;color:#fff;letter-spacing:0.2px;">9:41</div>
+        <!-- status bar: sinal, wi-fi e bateria como ícones, no lugar dos glifos de texto -->
+        <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:5px;">
+          <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg>
+          <svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg>
+          <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg>
+        </div>
+        <!-- endereço alinhado à esquerda, como no app real -->
+        <div style="position:absolute;left:16px;top:36px;display:flex;align-items:center;gap:6px;color:#fff;font-size:15px;font-weight:700;">
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5 C8 2.5 5 5.6 5 9.5 c0 5 7 12 7 12 s7 -7 7 -12 c0 -3.9 -3 -7 -7 -7 z" fill="none" stroke="#fff" stroke-width="2"></path><circle cx="12" cy="9.5" r="2.4" fill="#fff"></circle></svg>
           Rua Estrela, 35
-          <svg width="10" height="10" viewBox="0 0 18 9"><path d="M1 1 L9 8 L17 1" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path></svg>
+          <svg width="10" height="10" viewBox="0 0 18 9" style="margin-left:1px;"><path d="M1 1 L9 8 L17 1" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </div>
-        <div style="position:absolute;right:14px;top:26px;width:22px;height:22px;border-radius:6px;box-shadow:inset 0 0 0 1.6px rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;">%</div>
-        <!-- tabs de categoria -->
-        <div style="position:absolute;left:0;top:62px;width:360px;display:flex;gap:20px;padding:0 16px;font-size:13px;color:rgba(255,255,255,0.75);white-space:nowrap;">
-          <div style="font-weight:700;color:#fff;padding-bottom:6px;border-bottom:2.5px solid #fff;">mercados</div>
-          <div style="font-weight:400;">restaurantes</div>
-          <div style="font-weight:400;">farmácias</div>
-          <div style="font-weight:400;">ver mais</div>
+        <!-- desconto: etiqueta em vez do quadrado com "%" -->
+        <div style="position:absolute;right:14px;top:34px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;">
+          <svg width="21" height="21" viewBox="0 0 24 24"><path d="M12.7 2.9 H19.1 a2 2 0 0 1 2 2 v6.4 a2 2 0 0 1 -0.59 1.42 l-7.79 7.79 a2 2 0 0 1 -2.83 0 l-6.4 -6.4 a2 2 0 0 1 0 -2.83 l7.79 -7.79 a2 2 0 0 1 1.42 -0.59 z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"></path><circle cx="16.9" cy="7.1" r="1.5" fill="#fff"></circle></svg>
         </div>
-        <!-- barra de busca -->
-        <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:96px;width:328px;height:44px;border-radius:22px;background:#fff;box-shadow:0 2px 8px rgba(40,20,90,0.18);display:flex;align-items:center;gap:10px;padding:0 16px;" style-active="transform:scale(0.985);">
-          <svg width="17" height="17" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
+        <!-- tabs: sublinhado do ativo encosta na base do header -->
+        <div style="position:absolute;left:0;top:70px;width:360px;display:flex;gap:20px;padding:0 16px;font-size:13px;color:rgba(255,255,255,0.72);white-space:nowrap;">
+          <div style="font-weight:700;color:#fff;padding-bottom:12px;border-bottom:2.5px solid #fff;">mercados</div>
+          <div style="font-weight:400;padding-bottom:12px;">restaurantes</div>
+          <div style="font-weight:400;padding-bottom:12px;">farmácias</div>
+          <div style="font-weight:400;padding-bottom:12px;">ver mais</div>
+        </div>
+        <!-- barra de busca, já sobre o fundo cinza -->
+        <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:110px;width:328px;height:44px;border-radius:22px;background:#fff;box-shadow:0 2px 10px rgba(40,20,90,0.10);display:flex;align-items:center;gap:10px;padding:0 16px;" style-active="transform:scale(0.985);">
+          <svg width="17" height="17" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(150,150,156)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(150,150,156)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:13.5px;color:rgb(140,140,146);">Procure por item ou estabelecimento</span>
         </button>
         <!-- banners -->
-        <div style="position:absolute;left:16px;top:158px;width:344px;display:flex;gap:12px;">
+        <div style="position:absolute;left:16px;top:164px;width:344px;display:flex;gap:12px;">
           <div style="width:104px;">
             <div style="width:104px;height:118px;border-radius:12px;background:linear-gradient(160deg, rgb(28,24,60), rgb(64,38,110));box-shadow:0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;font-style:italic;">Lacta</div>
             <div style="margin-top:8px;font-size:12px;font-weight:600;color:rgb(40,40,44);">Natal Lacta</div>
@@ -92,9 +101,9 @@
           </div>
         </div>
         <!-- explorar -->
-        <div style="position:absolute;left:16px;top:322px;font-size:17px;font-weight:700;color:rgb(30,30,34);">Explorar</div>
-        <div style="position:absolute;left:16px;top:354px;width:328px;border-radius:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
-          <div style="height:120px;background:linear-gradient(140deg, rgb(226,240,224), rgb(244,250,240));position:relative;">
+        <div style="position:absolute;left:16px;top:328px;font-size:17px;font-weight:700;color:rgb(30,30,34);">Explorar</div>
+        <div style="position:absolute;left:16px;top:360px;width:328px;border-radius:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
+          <div style="height:120px;background:linear-gradient(140deg, rgb(24,120,74), rgb(96,186,128));position:relative;">
             <div style="position:absolute;left:12px;top:10px;background:#fff;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-style:italic;color:rgb(140,100,220);">Prime</div>
             <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;">
               <svg width="34" height="34" viewBox="0 0 34 34"><path d="M10 24 C6 20, 8 12, 15 11 C14 6, 22 4, 24 9 C30 9, 31 17, 26 19 C28 24, 22 28, 18 25 C15 28, 11 27, 10 24 Z" fill="rgb(28,130,80)"></path></svg>
@@ -136,7 +145,7 @@
       <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:screenIn 0.3s ease;">
         <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:rgb(140,100,220);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
-        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:13px;color:rgb(140,140,146);">Procure por item ou estabelecimento</span>
@@ -196,10 +205,24 @@
       <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:fadeIn 0.2s ease;">
         <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:rgb(140,100,220);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
-        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="width:2px;height:16px;background:rgb(140,100,220);animation:caretBlink 1s infinite;"></span>
+        </div>
+        <!-- histórico visível com o campo focado: evita a tela vazia entre campo e teclado -->
+        <div style="position:absolute;left:16px;top:92px;font-size:15px;font-weight:700;color:rgb(30,30,34);">Busca recente</div>
+        <div style="position:absolute;left:0;top:118px;width:360px;padding:0 16px;">
+          <sc-for list="{{ historico }}" as="hrow" hint-placeholder-count="6">
+            <button onClick="{{ hrow.go }}" style="width:328px;display:flex;align-items:center;gap:12px;padding:7px 0;" style-active="opacity:0.6;">
+              <div style="{{ hrow.avatarStyle }}">{{ hrow.initial }}</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:13.5px;font-weight:600;color:rgb(35,35,40);">{{ hrow.nome }}</div>
+                <div style="margin-top:1px;font-size:11.5px;color:rgb(130,130,136);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
+              </div>
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1 L11 11 M11 1 L1 11" stroke="rgb(150,150,156)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            </button>
+          </sc-for>
         </div>
         <!-- teclado: qualquer tecla digita "Piz" -->
         <div style="position:absolute;left:0;bottom:0;width:360px;background:rgb(209,212,219);padding:8px 4px 24px;">
@@ -222,7 +245,7 @@
       <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:fadeIn 0.2s ease;">
         <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:rgb(140,100,220);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
-        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:13.5px;color:rgb(30,30,34);">Piz</span>
@@ -259,7 +282,7 @@
       <div style="position:absolute;inset:0;background:rgb(246,246,248);animation:screenIn 0.3s ease;">
         <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:rgb(140,100,220);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
-        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:13.5px;color:rgb(30,30,34);">Pizza</span>
@@ -342,7 +365,7 @@
             </div>
           </div>
           <!-- Vô Agenor -->
-          <div style="border-radius:12px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.06);padding:12px 14px;">
+          <div style="border-radius:12px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.06);padding:12px 14px;margin-bottom:10px;">
             <div style="display:flex;gap:10px;">
               <div style="width:38px;height:38px;border-radius:8px;background:rgb(244,240,234);color:rgb(120,110,96);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;letter-spacing:0.06em;">RASCAL</div>
               <div style="flex:1;">
@@ -352,6 +375,20 @@
                 </div>
                 <div style="margin-top:2px;font-size:11.5px;color:rgb(130,130,136);">Pizzaria · 3,5 km</div>
                 <div style="margin-top:1px;font-size:11.5px;"><span style="color:rgb(46,160,90);font-weight:600;">Frete Grátis</span><span style="color:rgb(130,130,136);"> · 33 min</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- Carlos Pizza -->
+          <div style="border-radius:12px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.06);padding:12px 14px;">
+            <div style="display:flex;gap:10px;">
+              <div style="width:38px;height:38px;border-radius:8px;background:rgb(28,28,30);color:#fff;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;letter-spacing:0.06em;">CARLOS</div>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="font-size:13.5px;font-weight:700;color:rgb(30,30,34);">Carlos Pizza - Vila Madalena</div>
+                  <div style="font-size:11.5px;font-weight:700;color:rgb(150,150,156);">4,7 <span style="color:rgb(235,190,50);">&#9733;</span></div>
+                </div>
+                <div style="margin-top:2px;font-size:11.5px;color:rgb(130,130,136);">Pizzaria &middot; 4,1 km</div>
+                <div style="margin-top:1px;font-size:11.5px;"><span style="color:rgb(130,130,136);">Frete R$ 6,99 &middot; 40 - 50 min</span></div>
               </div>
             </div>
           </div>
@@ -383,7 +420,7 @@
       <div style="position:absolute;inset:0;background:#fff;animation:screenIn 0.3s ease;">
         <div style="position:absolute;left:0;top:0;width:360px;height:64px;background:rgb(140,100,220);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
-        <div style="position:absolute;right:16px;top:8px;font-size:11px;color:#fff;letter-spacing:2px;">▮▮▮ ⌁ ▐</div>
+        <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <button onClick="{{ goResultados }}" style="position:absolute;left:10px;top:28px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;" style-active="transform:scale(0.9);">
           <svg width="20" height="20" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
@@ -393,7 +430,6 @@
           <sc-for list="{{ ordens }}" as="op" hint-placeholder-count="6">
             <button onClick="{{ op.pick }}" style="width:328px;display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid rgb(242,242,245);" style-active="opacity:0.6;">
               <span style="display:flex;align-items:center;gap:12px;font-size:13.5px;color:rgb(45,45,50);">
-                <span style="width:18px;text-align:center;color:rgb(130,130,136);">{{ op.icone }}</span>
                 {{ op.label }}
               </span>
               <sc-if value="{{ op.checked }}" hint-placeholder-val="{{ false }}">
@@ -423,12 +459,12 @@ class Component extends DCLogic {
   jumpTo = (e) => this.setState({ step: e.target.value, pratosOpen: false });
 
   ORDENS = [
-    { key: 'padrao', label: 'Ordenação Padrão', icone: '⇅' },
-    { key: 'preco', label: 'Preço', icone: '◉' },
-    { key: 'avaliacao', label: 'Avaliação', icone: '☆' },
-    { key: 'tempo', label: 'Tempo de entrega', icone: '◷' },
-    { key: 'taxa', label: 'Taxa de entrega', icone: '⬡' },
-    { key: 'distancia', label: 'Distância', icone: '◈' },
+    { key: 'padrao', label: 'Ordenação Padrão' },
+    { key: 'preco', label: 'Preço' },
+    { key: 'avaliacao', label: 'Avaliação' },
+    { key: 'tempo', label: 'Tempo de entrega' },
+    { key: 'taxa', label: 'Taxa de entrega' },
+    { key: 'distancia', label: 'Distância' },
   ];
 
   HISTORICO = [
@@ -500,7 +536,6 @@ class Component extends DCLogic {
       chevronStyle: { transform: pratosOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' },
       ordens: this.ORDENS.map((o) => ({
         label: o.label,
-        icone: o.icone,
         checked: sortBy === o.key,
         pick: () => this.setState({ sortBy: o.key, step: 'resultados' }),
       })),
