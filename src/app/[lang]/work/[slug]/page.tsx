@@ -369,6 +369,7 @@ export default async function ProjectPage({
               <PrototypeEmbed
                 src={project.prototypeEmbed.src}
                 title={t(project.prototypeEmbed.title, lang)}
+                lang={lang}
               />
             </section>
           )}

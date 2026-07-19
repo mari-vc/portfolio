@@ -16,7 +16,18 @@ const PHONE_H = 670;
 const DESIGN_W = 420;
 const DESIGN_H = 700;
 
-export function PrototypeEmbed({ src, title }: { src: string; title: string }) {
+export function PrototypeEmbed({
+  src,
+  title,
+  lang,
+}: {
+  src: string;
+  title: string;
+  lang?: string;
+}) {
+  // O protótipo lê ?lang= para traduzir a própria interface, acompanhando o
+  // idioma do case. Nomes de loja, pratos e preços seguem em português.
+  const srcComIdioma = lang ? `${src}?lang=${lang}` : src;
   return (
     <div
       className="mt-6"
@@ -41,7 +52,7 @@ export function PrototypeEmbed({ src, title }: { src: string; title: string }) {
       >
         <PhoneFrame width={PHONE_W} height={PHONE_H} bare>
           <iframe
-            src={src}
+            src={srcComIdioma}
             title={title}
             loading="lazy"
             style={{ width: "100%", height: "100%", border: 0, display: "block" }}
