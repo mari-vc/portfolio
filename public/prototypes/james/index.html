@@ -33,6 +33,12 @@
     .splash-logo { animation: logoIn 0.62s cubic-bezier(0.16, 0.84, 0.44, 1) both, respira 3s ease-in-out 0.9s infinite; }
     .splash-out  { animation: splashOut 0.42s cubic-bezier(0.4, 0, 0.9, 0.6) forwards; pointer-events: none; }
     .scr-launch  { animation: launchIn 0.42s cubic-bezier(0.16, 0.84, 0.44, 1); }
+    /* Ordenar e um estado dos resultados, nao uma tela: o sheet sobe e o
+       contexto atras permanece visivel. */
+    @keyframes scrimIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .sheet-scrim { animation: scrimIn 0.24s ease; }
+    .sheet-card  { animation: sheetUp 0.32s cubic-bezier(0.16, 0.84, 0.44, 1); }
     @media (prefers-reduced-motion: reduce) {
       .scr-fwd, .scr-back, .scr-same, .scr-launch { animation: fadeIn 0.12s ease; }
       .splash-logo { animation: fadeIn 0.12s ease; }
@@ -77,7 +83,7 @@
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
         <!-- header roxo: status bar + endereço + tabs; a busca desce para o fundo cinza -->
-        <div style="position:absolute;left:0;top:0;width:360px;height:100px;background:#49539F;"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:146px;background:#49539F;"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12.5px;font-weight:600;color:#fff;letter-spacing:0.2px;">9:41</div>
         <!-- status bar: sinal, wi-fi e bateria como ícones, no lugar dos glifos de texto -->
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:5px;">
@@ -96,14 +102,14 @@
           <svg width="21" height="21" viewBox="0 0 24 24"><path d="M12.7 2.9 H19.1 a2 2 0 0 1 2 2 v6.4 a2 2 0 0 1 -0.59 1.42 l-7.79 7.79 a2 2 0 0 1 -2.83 0 l-6.4 -6.4 a2 2 0 0 1 0 -2.83 l7.79 -7.79 a2 2 0 0 1 1.42 -0.59 z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"></path><circle cx="16.9" cy="7.1" r="1.5" fill="#fff"></circle></svg>
         </div>
         <!-- tabs: sublinhado do ativo encosta na base do header -->
-        <div style="position:absolute;left:0;top:70px;width:360px;display:flex;gap:20px;padding:0 16px;font-size:13px;color:rgba(255,255,255,0.72);white-space:nowrap;">
+        <div style="position:absolute;left:0;top:116px;width:360px;display:flex;gap:20px;padding:0 16px;font-size:13px;color:rgba(255,255,255,0.72);white-space:nowrap;">
           <div style="font-weight:700;color:#fff;padding-bottom:12px;border-bottom:2.5px solid #fff;">mercados</div>
           <div style="font-weight:400;padding-bottom:12px;">restaurantes</div>
           <div style="font-weight:400;padding-bottom:12px;">farmácias</div>
           <div style="font-weight:400;padding-bottom:12px;">ver mais</div>
         </div>
         <!-- barra de busca, já sobre o fundo cinza -->
-        <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:110px;width:328px;height:44px;border-radius:22px;background:#fff;box-shadow:0 2px 10px rgba(40,20,90,0.10);display:flex;align-items:center;gap:10px;padding:0 16px;" style-active="transform:scale(0.985);">
+        <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:64px;width:328px;height:44px;border-radius:22px;background:#fff;box-shadow:0 2px 10px rgba(40,20,90,0.10);display:flex;align-items:center;gap:10px;padding:0 16px;" style-active="transform:scale(0.985);">
           <svg width="17" height="17" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(150,150,156)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(150,150,156)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:13.5px;color:rgb(140,140,146);">Procure por item ou estabelecimento</span>
         </button>
@@ -114,7 +120,7 @@
             <div style="margin-top:8px;font-size:12px;font-weight:600;color:rgb(40,40,44);">Natal Lacta</div>
           </div>
           <div style="width:104px;">
-            <div style="width:104px;height:118px;border-radius:12px;background:linear-gradient(160deg, rgb(205,228,246), rgb(240,248,255));box-shadow:0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;color:rgb(110,150,190);font-size:12px;font-weight:600;">Para seu Baby</div>
+            <div style="width:104px;height:118px;border-radius:12px;background:linear-gradient(160deg, rgb(205,228,246), rgb(240,248,255));box-shadow:0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;color:rgb(63,102,141);font-size:12px;font-weight:600;">Para seu Baby</div>
             <div style="margin-top:8px;font-size:12px;font-weight:600;color:rgb(40,40,44);">Baby</div>
           </div>
           <div style="width:104px;">
@@ -449,24 +455,22 @@
     </sc-if>
 
     <!-- ============ ORDENAR ============ -->
-    <sc-if value="{{ isOrdenar }}" hint-placeholder-val="{{ false }}">
-      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:#fff;">
-        <div style="position:absolute;left:0;top:0;width:360px;height:64px;background:#49539F;"></div>
-        <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
-        <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
-        <button onClick="{{ goResultados }}" style="position:absolute;left:10px;top:28px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;" style-active="transform:scale(0.9);">
-          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M14.5 4.5 L7.6 12 L14.5 19.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        </button>
-        <div style="position:absolute;left:0;top:32px;width:360px;text-align:center;font-size:15px;font-weight:700;color:#fff;">Ordenar</div>
-        <div style="position:absolute;left:16px;top:84px;font-size:13px;font-weight:700;color:rgb(30,30,34);">Ordenar por</div>
-        <div style="position:absolute;left:0;top:112px;width:360px;padding:0 16px;">
+    <sc-if value="{{ sheetAberto }}" hint-placeholder-val="{{ false }}">
+      <div class="sheet-scrim" onClick="{{ fecharOrdenar }}" style="position:absolute;inset:0;background:rgba(20,20,30,0.45);z-index:8;"></div>
+      <div class="sheet-card" style="position:absolute;left:0;right:0;bottom:0;z-index:9;background:#fff;border-radius:16px 16px 0 0;padding-bottom:10px;">
+        <div style="width:38px;height:4px;border-radius:2px;background:rgb(214,214,220);margin:8px auto 4px;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 16px 4px;">
+          <div style="font-size:14px;font-weight:700;color:rgb(30,30,34);">Ordenar por</div>
+          <button onClick="{{ fecharOrdenar }}" aria-label="Fechar" style="width:44px;height:44px;margin-right:-12px;display:flex;align-items:center;justify-content:center;" style-active="opacity:0.5;">
+            <svg width="14" height="14" viewBox="0 0 12 12"><path d="M1 1 L11 11 M11 1 L1 11" stroke="rgb(120,120,128)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          </button>
+        </div>
+        <div style="padding:0 16px;">
           <sc-for list="{{ ordens }}" as="op" hint-placeholder-count="6">
-            <button onClick="{{ op.pick }}" style="width:328px;display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid rgb(242,242,245);" style-active="opacity:0.6;">
-              <span style="display:flex;align-items:center;gap:12px;font-size:13.5px;color:rgb(45,45,50);">
-                {{ op.label }}
-              </span>
+            <button onClick="{{ op.pick }}" style="{{ op.rowStyle }}" style-active="opacity:0.6;">
+              <span style="{{ op.labelStyle }}">{{ op.label }}</span>
               <sc-if value="{{ op.checked }}" hint-placeholder-val="{{ false }}">
-                <svg width="15" height="15" viewBox="0 0 24 24"><path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="rgb(30,30,34)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24"><path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#49539F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               </sc-if>
             </button>
           </sc-for>
@@ -491,6 +495,7 @@ class Component extends DCLogic {
     teclaAtiva: null,
     saindo: false,
     removidos: [],
+    sheetAberto: false,
   };
 
   QUERY = 'Piz';
@@ -518,7 +523,7 @@ class Component extends DCLogic {
 
   // Profundidade de cada tela na jornada. Busca, campo focado e autocomplete
   // dividem o mesmo nível: são estados da mesma tela, não navegação.
-  DEPTH = { splash: 0, home: 1, busca: 2, campo: 2, auto: 2, resultados: 3, ordenar: 4 };
+  DEPTH = { splash: 0, home: 1, busca: 2, campo: 2, auto: 2, resultados: 3 };
 
   direction = (from, to) => {
     const a = this.DEPTH[from] ?? 0;
@@ -530,12 +535,15 @@ class Component extends DCLogic {
 
   go = (step) => () => {
     this.limparTimers();
-    this.setState((s) => ({ step, dir: this.direction(s.step, step), saindo: false }));
+    this.setState((s) => ({ step, dir: this.direction(s.step, step), saindo: false, sheetAberto: false }));
     if (step === 'campo') this.iniciarDigitacao();
   };
 
   jumpTo = (e) => {
-    const step = e.target.value;
+    const alvo = e.target.value;
+    const abrirSheet = alvo === 'ordenar';
+    const step = abrirSheet ? 'resultados' : alvo;
+    this.setState({ sheetAberto: abrirSheet });
     this.limparTimers();
     this.setState({ step, pratosOpen: false, dir: 'same', saindo: false });
     if (step === 'campo') this.iniciarDigitacao();
@@ -543,6 +551,9 @@ class Component extends DCLogic {
 
   // O splash segue montado durante a saida (por cima, via z-index) enquanto a
   // home entra por baixo. Sem isso nao ha o que animar: sc-if desmonta na hora.
+  abrirOrdenar = () => this.setState({ sheetAberto: true });
+  fecharOrdenar = () => this.setState({ sheetAberto: false });
+
   removerHistorico = (nome) => () => {
     this.setState((s) => ({ removidos: s.removidos.concat(nome) }));
   };
@@ -621,13 +632,15 @@ class Component extends DCLogic {
       isCampo: step === 'campo',
       isAuto: step === 'auto',
       isResultados: step === 'resultados',
-      isOrdenar: step === 'ordenar',
       goHome: this.go('home'),
       goBusca: this.go('busca'),
       goCampo: this.go('campo'),
       goAuto: this.go('auto'),
       goResultados: this.go('resultados'),
-      goOrdenar: this.go('ordenar'),
+      goOrdenar: this.abrirOrdenar,
+      abrirOrdenar: this.abrirOrdenar,
+      fecharOrdenar: this.fecharOrdenar,
+      sheetAberto: this.state.sheetAberto,
       temHistorico: this.HISTORICO.some((h2) => !this.state.removidos.includes(h2.nome)),
       historico: this.HISTORICO.filter((h2) => !this.state.removidos.includes(h2.nome)).map((h2) => ({
         nome: h2.nome,
@@ -671,7 +684,16 @@ class Component extends DCLogic {
       ordens: this.ORDENS.map((o) => ({
         label: o.label,
         checked: sortBy === o.key,
-        pick: () => this.setState({ sortBy: o.key, step: 'resultados' }),
+        pick: () => this.setState({ sortBy: o.key, sheetAberto: false }),
+        rowStyle: {
+          width: 328, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '13px 2px', borderBottom: '1px solid rgb(238,238,242)',
+        },
+        labelStyle: {
+          fontSize: 13.5,
+          color: this.state.sortBy === o.key ? '#49539F' : 'rgb(45,45,50)',
+          fontWeight: this.state.sortBy === o.key ? 700 : 400,
+        },
       })),
     };
   }
