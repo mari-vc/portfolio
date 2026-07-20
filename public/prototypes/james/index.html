@@ -83,7 +83,7 @@
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
         <!-- header roxo: status bar + endereço + tabs; a busca desce para o fundo cinza -->
-        <div style="position:absolute;left:0;top:0;width:360px;height:146px;background:#49539F;"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:146px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12.5px;font-weight:600;color:#fff;letter-spacing:0.2px;">9:41</div>
         <!-- status bar: sinal, wi-fi e bateria como ícones, no lugar dos glifos de texto -->
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:5px;">
@@ -181,7 +181,7 @@
     <!-- ============ BUSCA INICIAL (HISTÓRICO + CATEGORIAS) ============ -->
     <sc-if value="{{ isBusca }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:#49539F;"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
@@ -245,7 +245,7 @@
     <!-- ============ CAMPO FOCADO (TECLADO) ============ -->
     <sc-if value="{{ isCampo }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:#49539F;"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
@@ -292,7 +292,7 @@
     <!-- ============ AUTOCOMPLETE ============ -->
     <sc-if value="{{ isAuto }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:#49539F;"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
@@ -329,7 +329,7 @@
     <!-- ============ RESULTADOS ============ -->
     <sc-if value="{{ isResultados }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:#49539F;"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12px;font-weight:600;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:8px;display:flex;align-items:flex-end;gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7.4" width="3" height="3.6" rx="0.8" fill="#fff"></rect><rect x="4.6" y="5" width="3" height="6" rx="0.8" fill="#fff"></rect><rect x="9.3" y="2.6" width="3" height="8.4" rx="0.8" fill="#fff"></rect><rect x="14" y="0" width="3" height="11" rx="0.8" fill="#fff"></rect></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 3.1 A10 10 0 0 1 14 3.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><path d="M3.5 5.9 A6.2 6.2 0 0 1 11.5 5.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="7.5" cy="9.3" r="1.4" fill="#fff"></circle></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="20.8" height="10.8" rx="3.2" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.1"></rect><rect x="2.2" y="2.2" width="17.6" height="7.6" rx="2" fill="#fff"></rect><path d="M23.1 4.3 v3.4 a1.9 1.9 0 0 0 0 -3.4 z" fill="#fff" fill-opacity="0.55"></path></svg></div>
         <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
