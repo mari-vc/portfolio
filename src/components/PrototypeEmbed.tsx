@@ -9,12 +9,12 @@ import { PhoneFrame } from "./kypcar/PhoneFrame";
 // 3,8% por lado), então um phone de 390×670 abre uma tela de ~360×640 — a
 // medida exata em que o protótipo foi desenhado.
 const PHONE_W = 390;
-const PHONE_H = 670;
+const PHONE_H = 810;
 
 // Tamanho de design (phone + respiro), escalado proporcionalmente via
 // container-query (cqw) para caber em qualquer largura sem cortar no mobile.
 const DESIGN_W = 420;
-const DESIGN_H = 700;
+const DESIGN_H = 840;
 
 export function PrototypeEmbed({
   src,
