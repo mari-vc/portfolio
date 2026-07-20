@@ -82,8 +82,8 @@
     <!-- ============ HOME (MERCADOS) ============ -->
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <!-- header roxo: status bar + endereço + tabs; a busca desce para o fundo cinza -->
-        <div style="position:absolute;left:0;top:0;width:360px;height:146px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+        <!-- header roxo: status bar + endereço; a busca fecha o header. As verticais viram tiles no corpo (padrão Snoonu), no lugar das tabs de texto -->
+        <div style="position:absolute;left:0;top:0;width:360px;height:120px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:8px;font-size:12.5px;font-weight:600;color:#fff;letter-spacing:0.2px;">9:41</div>
         <!-- status bar: sinal, wi-fi e bateria como ícones, no lugar dos glifos de texto -->
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:5px;">
@@ -101,20 +101,32 @@
         <div style="position:absolute;right:14px;top:34px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;">
           <svg width="21" height="21" viewBox="0 0 24 24"><path d="M12.7 2.9 H19.1 a2 2 0 0 1 2 2 v6.4 a2 2 0 0 1 -0.59 1.42 l-7.79 7.79 a2 2 0 0 1 -2.83 0 l-6.4 -6.4 a2 2 0 0 1 0 -2.83 l7.79 -7.79 a2 2 0 0 1 1.42 -0.59 z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"></path><circle cx="16.9" cy="7.1" r="1.5" fill="#fff"></circle></svg>
         </div>
-        <!-- tabs: sublinhado do ativo encosta na base do header -->
-        <div style="position:absolute;left:0;top:116px;width:360px;display:flex;gap:20px;padding:0 16px;font-size:13px;color:rgba(255,255,255,0.72);white-space:nowrap;">
-          <div style="font-weight:700;color:#fff;padding-bottom:12px;border-bottom:2.5px solid #fff;">{{ t.tabs.0 }}</div>
-          <div style="font-weight:400;padding-bottom:12px;">{{ t.tabs.1 }}</div>
-          <div style="font-weight:400;padding-bottom:12px;">{{ t.tabs.2 }}</div>
-          <div style="font-weight:400;padding-bottom:12px;">{{ t.tabs.3 }}</div>
-        </div>
-        <!-- barra de busca, já sobre o fundo cinza -->
+        <!-- barra de busca -->
         <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:64px;width:328px;height:44px;border-radius:22px;background:#fff;box-shadow:0 8px 22px rgba(18,20,50,0.20);display:flex;align-items:center;gap:10px;padding:0 16px;" style-active="transform:scale(0.985);">
           <svg width="17" height="17" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(150,150,156)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(150,150,156)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:14px;color:rgb(132,132,140);">{{ t.buscarPlaceholder }}</span>
         </button>
-        <!-- promo em destaque: banner full-width + paginação, no lugar dos 3 tiles chapados (padrão Snoonu/Bolt/DoorDash) -->
-        <div style="position:absolute;left:16px;top:164px;width:328px;height:118px;border-radius:18px;background:linear-gradient(150deg, rgb(28,24,60), rgb(78,46,130));box-shadow:0 6px 20px rgba(30,32,60,0.12);overflow:hidden;">
+        <!-- verticais como tiles (padrão Snoonu), no lugar das tabs de texto -->
+        <div style="position:absolute;left:16px;top:138px;width:328px;display:flex;justify-content:space-between;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:7px;width:74px;">
+            <div style="width:64px;height:64px;border-radius:18px;background:rgb(226,244,233);display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 2px 8px rgba(30,32,60,0.06);">🛒</div>
+            <span style="font-size:11.5px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.0 }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:7px;width:74px;">
+            <div style="width:64px;height:64px;border-radius:18px;background:rgb(252,236,224);display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 2px 8px rgba(30,32,60,0.06);">🍔</div>
+            <span style="font-size:11.5px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.1 }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:7px;width:74px;">
+            <div style="width:64px;height:64px;border-radius:18px;background:rgb(224,238,252);display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 2px 8px rgba(30,32,60,0.06);">💊</div>
+            <span style="font-size:11.5px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.2 }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:7px;width:74px;">
+            <div style="width:64px;height:64px;border-radius:18px;background:rgb(238,238,243);display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 2px 8px rgba(30,32,60,0.06);"><svg width="22" height="22" viewBox="0 0 22 22"><g fill="rgb(96,96,104)"><circle cx="4" cy="4" r="2"></circle><circle cx="11" cy="4" r="2"></circle><circle cx="18" cy="4" r="2"></circle><circle cx="4" cy="11" r="2"></circle><circle cx="11" cy="11" r="2"></circle><circle cx="18" cy="11" r="2"></circle><circle cx="4" cy="18" r="2"></circle><circle cx="11" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></g></svg></div>
+            <span style="font-size:11.5px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.3 }}</span>
+          </div>
+        </div>
+        <!-- promo em destaque: banner full-width + paginação (padrão Snoonu/Bolt/DoorDash) -->
+        <div style="position:absolute;left:16px;top:240px;width:328px;height:118px;border-radius:18px;background:linear-gradient(150deg, rgb(28,24,60), rgb(78,46,130));box-shadow:0 6px 20px rgba(30,32,60,0.12);overflow:hidden;">
           <div style="position:absolute;left:16px;top:14px;right:104px;display:flex;flex-direction:column;align-items:flex-start;">
             <span style="background:rgba(255,255,255,0.16);color:#fff;font-size:9px;font-weight:700;letter-spacing:0.05em;border-radius:999px;padding:3px 9px;">{{ t.oferta }}</span>
             <div style="margin-top:7px;font-size:16px;font-weight:700;color:#fff;">Natal Lacta</div>
@@ -128,18 +140,17 @@
             </div>
           </div>
         </div>
-        <!-- paginação do carrossel de promos -->
-        <div style="position:absolute;left:0;top:300px;width:360px;display:flex;justify-content:center;gap:6px;">
+        <div style="position:absolute;left:0;top:372px;width:360px;display:flex;justify-content:center;gap:6px;">
           <div style="width:18px;height:6px;border-radius:3px;background:#49539F;"></div>
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
         </div>
-        <!-- explorar, com link "ver tudo" (padrão comum a todos os 4 players) -->
-        <div style="position:absolute;left:16px;top:330px;width:328px;display:flex;align-items:baseline;justify-content:space-between;">
+        <!-- explorar -->
+        <div style="position:absolute;left:16px;top:398px;width:328px;display:flex;align-items:baseline;justify-content:space-between;">
           <span style="font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.explorar }}</span>
           <span style="font-size:12.5px;font-weight:600;color:#49539F;">{{ t.verTudo }} →</span>
         </div>
-        <div style="position:absolute;left:16px;top:358px;width:328px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
+        <div style="position:absolute;left:16px;top:426px;width:328px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
           <div style="height:120px;background:linear-gradient(140deg, rgb(24,120,74), rgb(96,186,128));position:relative;">
             <div style="position:absolute;left:12px;top:10px;background:#fff;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-style:italic;color:#49539F;">Prime</div>
             <div style="position:absolute;right:10px;top:10px;display:inline-flex;align-items:center;gap:3px;background:rgba(18,20,28,0.55);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;">★ 4,6</div>
@@ -153,31 +164,6 @@
             <div style="margin-top:9px;display:flex;align-items:center;justify-content:space-between;">
               <span style="display:inline-flex;align-items:center;gap:6px;background:rgb(64,205,200);color:#fff;font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">⬡ {{ t.entregaCalcular }}</span>
               <span style="display:inline-flex;align-items:center;gap:5px;background:rgb(238,238,241);color:rgb(90,90,96);font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">◷ 51m</span>
-            </div>
-          </div>
-        </div>
-        <!-- perto de você: segunda seção, linha de lojas compactas (padrão Bolt/DoorDash) para a home respirar na altura maior -->
-        <div style="position:absolute;left:16px;top:584px;width:328px;display:flex;align-items:baseline;justify-content:space-between;">
-          <span style="font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.pertoDeVoce }}</span>
-          <span style="font-size:12.5px;font-weight:600;color:#49539F;">{{ t.verTudo }} →</span>
-        </div>
-        <div style="position:absolute;left:16px;top:610px;width:328px;display:flex;gap:12px;">
-          <div style="width:158px;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
-            <div style="height:54px;background:linear-gradient(140deg, rgb(196,74,52), rgb(233,150,92));position:relative;">
-              <div style="position:absolute;right:8px;top:8px;display:inline-flex;align-items:center;gap:3px;background:rgba(18,20,28,0.55);color:#fff;font-size:10px;font-weight:700;border-radius:999px;padding:2px 7px;">★ 4,7</div>
-            </div>
-            <div style="padding:8px 10px 10px;">
-              <div style="font-size:13px;font-weight:700;color:rgb(24,24,28);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Hortifruti</div>
-              <div style="margin-top:2px;font-size:11px;color:rgb(130,130,136);">1,2 km · 25 min</div>
-            </div>
-          </div>
-          <div style="width:158px;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
-            <div style="height:54px;background:linear-gradient(140deg, rgb(28,90,150), rgb(96,150,205));position:relative;">
-              <div style="position:absolute;right:8px;top:8px;display:inline-flex;align-items:center;gap:3px;background:rgba(18,20,28,0.55);color:#fff;font-size:10px;font-weight:700;border-radius:999px;padding:2px 7px;">★ 4,5</div>
-            </div>
-            <div style="padding:8px 10px 10px;">
-              <div style="font-size:13px;font-weight:700;color:rgb(24,24,28);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Carrefour Bairro</div>
-              <div style="margin-top:2px;font-size:11px;color:rgb(130,130,136);">2,0 km · 30 min</div>
             </div>
           </div>
         </div>
