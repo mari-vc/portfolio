@@ -10,11 +10,11 @@
 <helmet>
   <meta name="design_doc_mode" content="prototype">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <style>
-    body { margin: 0; background: transparent; font-family: 'Montserrat', -apple-system, sans-serif; }
+    body { margin: 0; background: transparent; font-family: 'Manrope', -apple-system, sans-serif; }
     * { box-sizing: border-box; }
-    button { font-family: 'Montserrat', -apple-system, sans-serif; cursor: pointer; border: none; background: none; padding: 0; text-align: left; }
+    button { font-family: 'Manrope', -apple-system, sans-serif; cursor: pointer; border: none; background: none; padding: 0; text-align: left; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     /* Transições dirigidas pela profundidade da navegação: avançar entra pela
        direita, voltar entra pela esquerda, e mudanças no mesmo nível (busca →
@@ -70,7 +70,7 @@
 
     <!-- ============ SPLASH ============ -->
     <sc-if value="{{ mostraSplash }}" hint-placeholder-val="{{ true }}">
-      <button class="{{ splashClasse }}" onClick="{{ sairDoSplash }}" onMouseEnter="{{ aguardarHover }}" onMouseLeave="{{ cancelarHover }}" style="position:absolute;inset:0;z-index:5;background:#49539F;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <button class="{{ splashClasse }}" onClick="{{ sairDoSplash }}" onMouseEnter="{{ aguardarHover }}" onMouseLeave="{{ cancelarHover }}" style="position:absolute;inset:0;z-index:5;background:#7A52CC;display:flex;align-items:center;justify-content:center;cursor:pointer;">
         <svg class="splash-logo" width="178" height="80" viewBox="0 0 2000 894" fill="none">
           <path d="M1893.46 564.256C1906.32 563.795 1944.66 562.263 1952.65 569.637C1975.36 590.6 1934.52 648.956 1921.67 667.931C1906.45 690.409 1898.13 693.7 1873.36 693.03C1765.01 690.102 1656.75 683.053 1548.36 684.058C1188.6 689.769 829.774 722.292 474.853 781.357C460.442 783.722 435.259 789.97 421.909 789.583C398.803 788.913 412.787 756.069 425.079 746.688L425.644 746.263C432.592 740.972 550.136 718.278 564.59 715.41C889.056 650.695 1217.16 605.817 1547.08 581.028C1617.91 575.867 1688.8 571.673 1759.75 568.445C1804.58 566.404 1848.55 564.157 1893.46 564.256Z" fill="#fff"></path>
           <path d="M1920.28 0H1933.16C1981.42 11.4157 1973.31 19.1689 1969.01 59.9363C1967.47 75.2944 1966.72 90.7223 1966.76 106.158C1966.36 189.274 1984.07 277.369 1994.89 359.914C1996.41 371.421 1997.74 384.741 2000 395.928V416.831C1998.12 425.798 1997.12 430.325 1993.53 438.686C1982.76 463.789 1955.75 478.258 1931.48 487.596C1889.47 503.768 1833.6 505.278 1792.29 486.842C1759.07 472.024 1738.64 442.284 1727.94 408.754C1726.98 405.77 1724.68 401.155 1721.58 399.747C1716.97 400.426 1704.64 412.642 1700.73 416.626C1646.94 471.709 1545.02 508.521 1476.5 460.69C1450.3 442.402 1449.92 411.986 1424.43 453.86C1402.14 490.484 1353.54 515.246 1310.48 504.446C1223.79 482.697 1267.89 335.119 1280.19 275.251C1235.94 315.795 1204.3 389.299 1175.6 441.597C1153.58 481.695 1146.11 525.33 1089.19 520.495C1070.09 520.796 1060.47 507.381 1062.23 488.277C1068.33 422.093 1086.28 355.951 1091.72 289.691C1081.1 307.112 1068.53 324.453 1058.1 341.936C1036.54 378.076 1014.98 414.467 993.76 450.789L955.573 516.707C948.977 528.154 942.031 541.111 934.758 551.922C929.967 559.043 921.851 566.299 914.266 569.452C863.303 590.639 866.765 546.163 852.851 540.941C847.062 540.854 842.823 547.042 840.269 551.527C813.999 596.24 775.81 619.162 722.981 606.674C684.02 598.151 685.152 564.819 681.946 532.572C681.452 527.6 682.41 515.847 676.629 514.905C665.465 520.671 614.792 624.477 598.151 637.507C582.646 650.513 564.959 652.906 545.161 651.785C483.61 648.297 473.798 584.361 477.307 534.623C479.617 508.595 486.602 483.794 494.508 458.755C525.655 360.112 573.888 254.501 651.284 183.528C681.065 156.217 725.485 134.91 763.33 156.47C780.319 166.149 791.372 180.482 801.696 153.939C808.003 138.82 823.664 120.621 841.538 123.184C851.112 124.558 864.862 129.2 873.442 133.062C886.074 138.749 914.652 146.057 906.951 164.819C899.319 186.817 889.12 207.238 879.626 228.136C857.22 277.191 835.086 326.369 813.226 375.669C803.897 396.517 751.887 493.688 769.648 514.192C794.624 543.022 844.44 476.118 857.029 454.612C891.688 395.409 914.474 329.463 936.204 264.051C946.762 232.525 957.134 200.936 967.319 169.287C973.228 150.556 987.295 78.5567 1012.94 84.1292C1109.71 105.151 1102.98 95.5824 1070.85 180.615L1027.59 295.065C1023.35 306.283 1012.11 333.454 1011.21 343.811C1023.63 328.719 1043.78 296.393 1055.58 278.609L1149.19 136.932C1165.21 112.514 1180.97 87.8491 1197.5 63.7983C1207.06 49.8782 1220.54 47.3835 1235.99 52.4709C1291.36 70.7062 1291 66.4841 1268.16 115.667C1262.1 128.965 1256.31 142.382 1250.79 155.914C1233.81 197.183 1221.14 236.926 1208.41 279.502C1245.42 225.137 1288.3 169.328 1328.46 117.123C1336.04 108.534 1348.94 88.4481 1357.64 82.3614C1374.8 70.3469 1414.99 102.133 1432.65 108.467C1435.23 109.393 1441.39 115.492 1442.52 117.255C1447.18 124.446 1442.22 135.169 1438.64 141.912C1390.71 224.375 1364.12 315.932 1343.86 408.534C1342.22 416.054 1341.63 426.241 1352.02 427.529C1362.43 428.821 1374.72 410.459 1380.74 403.559C1401.9 377.535 1422.85 350.346 1436.37 319.381C1447.37 294.531 1450.42 272.053 1457.1 246.233C1463.62 221.045 1472.26 196.45 1482.91 172.713C1504.41 124.942 1540.34 70.105 1579.78 36.2577C1623.33 1.31544 1697.26 15.5391 1729.89 58.1136C1757.65 94.3211 1746.87 147.208 1728.54 184.854C1701.91 239.526 1644.31 270.713 1592.02 296.544C1574.95 304.979 1555.62 310.449 1539.76 320.883C1513.81 338.589 1513.44 397.406 1550.35 402.088C1559.46 403.25 1575.94 398.386 1585.33 395.666C1638.63 380.229 1685.87 349.082 1723.34 308.399C1739.38 291.844 1750.87 271.071 1767.18 254.997C1776.79 245.525 1790.68 251.047 1801.18 255.674C1804.69 257.425 1809.33 259.137 1812.65 261.034C1840.63 277.03 1868.69 285.213 1837.62 317.288C1815.65 339.964 1785.34 384.183 1810.41 414.906C1817.29 423.485 1827.34 428.914 1838.29 429.956C1851.1 431.146 1868.19 425.563 1877.66 417.031C1911.06 386.931 1900.81 336.477 1893.54 297.723C1888.69 271.858 1885.35 247.938 1883.39 221.987C1882.67 212.346 1885.38 195.866 1879.37 188.615C1878.06 188.175 1876.02 187.257 1874.85 188.343C1858.6 203.557 1841.01 211.405 1819.39 200.573C1814.5 199.909 1800 186.969 1807.51 182.239C1846.41 157.709 1866.18 129.746 1876.02 83.0424C1882.2 53.6401 1881.44 10.7174 1920.28 0ZM577.687 569.558C585.624 559.183 596.483 540.114 603.729 528.169L648.571 453.961L728.675 320.713C742.745 297.245 756.906 273.733 770.784 250.137C772.338 247.496 777.161 238.504 776.954 235.525C776.708 231.988 775.212 228.458 772.223 226.218C765.362 221.079 753.759 222.411 745.516 222.994C711.97 234.52 690.703 267.94 671.729 296.05C641.268 340.639 613.995 387.328 590.116 435.766C574.81 467.083 560.184 498.421 553.204 532.647C550.132 547.717 545.682 579.545 571.415 573.762C572.901 573.405 576.435 570.759 577.687 569.558ZM1568.83 244.085C1606.27 222.901 1667.35 180.946 1681.96 137.229C1688.6 117.356 1679.62 100.268 1656.23 100.949C1628.72 106.097 1595.91 139.759 1581.36 162.814C1567.67 184.493 1548.58 215.805 1546.53 241.261C1545.71 251.46 1562.55 248.434 1568.83 244.085Z" fill="#fff"></path>
@@ -81,9 +81,9 @@
 
     <!-- ============ HOME (MERCADOS) ============ -->
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
-      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
+      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:#FAF5F0;">
         <!-- header roxo: status bar + endereço; a busca fecha o header. As verticais viram tiles no corpo (padrão Snoonu), no lugar das tabs de texto -->
-        <div style="position:absolute;left:0;top:0;width:360px;height:130px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:130px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <!-- status bar: sinal, wi-fi e bateria como ícones, no lugar dos glifos de texto -->
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;">
@@ -108,19 +108,19 @@
         </button>
         <!-- verticais como ícones ilustrados sobre tile neutro (o card off-white já vem na arte) -->
         <div style="position:absolute;left:16px;top:162px;width:328px;display:flex;justify-content:space-between;">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:74px;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0px;width:74px;">
             <img src="cat/mercado.png" alt="" style="width:72px;height:72px;object-fit:contain;display:block;">
             <span style="font-size:12px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.0 }}</span>
           </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:74px;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0px;width:74px;">
             <img src="cat/restaurante.png" alt="" style="width:72px;height:72px;object-fit:contain;display:block;">
             <span style="font-size:12px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.1 }}</span>
           </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:74px;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0px;width:74px;">
             <img src="cat/farmacia.png" alt="" style="width:72px;height:72px;object-fit:contain;display:block;">
             <span style="font-size:12px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.2 }}</span>
           </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:74px;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0px;width:74px;">
             <img src="cat/pet.png" alt="" style="width:72px;height:72px;object-fit:contain;display:block;">
             <span style="font-size:12px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.3 }}</span>
           </div>
@@ -131,28 +131,28 @@
             <span style="background:rgba(255,255,255,0.16);color:#fff;font-size:9px;font-weight:700;letter-spacing:0.05em;border-radius:999px;padding:3px 9px;">{{ t.oferta }}</span>
             <div style="margin-top:7px;font-size:16px;font-weight:700;color:#fff;">Natal Lacta</div>
             <div style="margin-top:2px;font-size:11.5px;color:rgba(255,255,255,0.82);">{{ t.promoSub }}</div>
-            <button style="margin-top:9px;background:#fff;color:#49539F;font-size:11px;font-weight:700;border-radius:999px;padding:6px 14px;" style-active="opacity:0.85;">{{ t.comprar }}</button>
+            <button style="margin-top:9px;background:#fff;color:#7A52CC;font-size:11px;font-weight:700;border-radius:999px;padding:6px 14px;" style-active="opacity:0.85;">{{ t.comprar }}</button>
           </div>
           <div style="position:absolute;right:-16px;top:50%;transform:translateY(-50%);width:104px;height:104px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
             <div style="width:64px;height:64px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;">
-              <span style="font-size:17px;font-weight:800;color:#49539F;">50%</span>
-              <span style="font-size:8px;font-weight:700;letter-spacing:0.08em;color:#49539F;margin-top:2px;">OFF</span>
+              <span style="font-size:17px;font-weight:800;color:#7A52CC;">50%</span>
+              <span style="font-size:8px;font-weight:700;letter-spacing:0.08em;color:#7A52CC;margin-top:2px;">OFF</span>
             </div>
           </div>
         </div>
         <div style="position:absolute;left:0;top:406px;width:360px;display:flex;justify-content:center;gap:6px;">
-          <div style="width:18px;height:6px;border-radius:3px;background:#49539F;"></div>
+          <div style="width:18px;height:6px;border-radius:3px;background:#7A52CC;"></div>
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
         </div>
         <!-- explorar -->
         <div style="position:absolute;left:16px;top:440px;width:328px;display:flex;align-items:baseline;justify-content:space-between;">
           <span style="font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.explorar }}</span>
-          <span style="font-size:12.5px;font-weight:600;color:#49539F;">{{ t.verTudo }} →</span>
+          <span style="font-size:12.5px;font-weight:600;color:#7A52CC;">{{ t.verTudo }} →</span>
         </div>
         <div style="position:absolute;left:16px;top:470px;width:328px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
           <div style="height:120px;background:linear-gradient(140deg, rgb(24,120,74), rgb(96,186,128));position:relative;">
-            <div style="position:absolute;left:12px;top:10px;background:#fff;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-style:italic;color:#49539F;">Prime</div>
+            <div style="position:absolute;left:12px;top:10px;background:#fff;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-style:italic;color:#7A52CC;">Prime</div>
             <div style="position:absolute;right:10px;top:10px;display:inline-flex;align-items:center;gap:3px;background:rgba(18,20,28,0.55);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;">★ 4,6</div>
             <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;">
               <svg width="34" height="34" viewBox="0 0 34 34"><path d="M10 24 C6 20, 8 12, 15 11 C14 6, 22 4, 24 9 C30 9, 31 17, 26 19 C28 24, 22 28, 18 25 C15 28, 11 27, 10 24 Z" fill="rgb(28,130,80)"></path></svg>
@@ -191,8 +191,8 @@
 
     <!-- ============ BUSCA INICIAL (HISTÓRICO + CATEGORIAS) ============ -->
     <sc-if value="{{ isBusca }}" hint-placeholder-val="{{ false }}">
-      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:#FAF5F0;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
         <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
@@ -255,15 +255,15 @@
 
     <!-- ============ CAMPO FOCADO (TECLADO) ============ -->
     <sc-if value="{{ isCampo }}" hint-placeholder-val="{{ false }}">
-      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:#FAF5F0;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
         <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="display:flex;align-items:center;">
             <span style="font-size:14px;color:rgb(24,24,28);">{{ digitado }}</span>
-            <span style="width:2px;height:16px;background:#49539F;animation:caretBlink 1s infinite;margin-left:1px;"></span>
+            <span style="width:2px;height:16px;background:#7A52CC;animation:caretBlink 1s infinite;margin-left:1px;"></span>
           </span>
         </div>
         <!-- histórico visível com o campo focado: evita a tela vazia entre campo e teclado -->
@@ -302,14 +302,14 @@
 
     <!-- ============ AUTOCOMPLETE ============ -->
     <sc-if value="{{ isAuto }}" hint-placeholder-val="{{ false }}">
-      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:#FAF5F0;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
         <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:14px;color:rgb(24,24,28);">{{ queryTexto }}</span>
-          <span style="width:2px;height:16px;background:#49539F;animation:caretBlink 1s infinite;margin-left:-6px;"></span>
+          <span style="width:2px;height:16px;background:#7A52CC;animation:caretBlink 1s infinite;margin-left:-6px;"></span>
           <span style="flex:1;"></span>
           <svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(200,200,206)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg>
         </div>
@@ -339,8 +339,8 @@
 
     <!-- ============ RESULTADOS ============ -->
     <sc-if value="{{ isResultados }}" hint-placeholder-val="{{ false }}">
-      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+      <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:#FAF5F0;">
+        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
         <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
@@ -741,17 +741,17 @@ class Component extends DCLogic {
         },
         labelStyle: {
           fontSize: 14,
-          color: this.state.sortBy === o ? '#49539F' : 'rgb(45,45,50)',
+          color: this.state.sortBy === o ? '#7A52CC' : 'rgb(45,45,50)',
           fontWeight: this.state.sortBy === o ? 700 : 400,
         },
         radioOuter: {
           width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
-          border: '2px solid ' + (this.state.sortBy === o ? '#49539F' : 'rgb(206,206,214)'),
+          border: '2px solid ' + (this.state.sortBy === o ? '#7A52CC' : 'rgb(206,206,214)'),
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         },
         radioInner: {
           width: 10, height: 10, borderRadius: '50%',
-          background: this.state.sortBy === o ? '#49539F' : 'transparent',
+          background: this.state.sortBy === o ? '#7A52CC' : 'transparent',
         },
       })),
     };
