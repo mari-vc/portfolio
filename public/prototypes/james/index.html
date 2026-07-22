@@ -83,7 +83,7 @@
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
         <!-- header roxo: status bar + endereço; a busca fecha o header. As verticais viram tiles no corpo (padrão Snoonu), no lugar das tabs de texto -->
-        <div style="position:absolute;left:0;top:0;width:360px;height:120px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:130px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <!-- status bar: sinal, wi-fi e bateria como ícones, no lugar dos glifos de texto -->
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;">
@@ -92,22 +92,22 @@
           <svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg>
         </div>
         <!-- endereço alinhado à esquerda, como no app real -->
-        <div style="position:absolute;left:16px;top:36px;display:flex;align-items:center;gap:6px;color:#fff;font-size:15px;font-weight:700;">
+        <div style="position:absolute;left:16px;top:42px;display:flex;align-items:center;gap:6px;color:#fff;font-size:15px;font-weight:700;">
           <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5 C8 2.5 5 5.6 5 9.5 c0 5 7 12 7 12 s7 -7 7 -12 c0 -3.9 -3 -7 -7 -7 z" fill="none" stroke="#fff" stroke-width="2"></path><circle cx="12" cy="9.5" r="2.4" fill="#fff"></circle></svg>
           Rua Estrela, 35
           <svg width="10" height="10" viewBox="0 0 18 9" style="margin-left:1px;"><path d="M1 1 L9 8 L17 1" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </div>
         <!-- desconto: etiqueta em vez do quadrado com "%" -->
-        <div style="position:absolute;right:14px;top:34px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;right:14px;top:40px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;">
           <svg width="21" height="21" viewBox="0 0 24 24"><path d="M12.7 2.9 H19.1 a2 2 0 0 1 2 2 v6.4 a2 2 0 0 1 -0.59 1.42 l-7.79 7.79 a2 2 0 0 1 -2.83 0 l-6.4 -6.4 a2 2 0 0 1 0 -2.83 l7.79 -7.79 a2 2 0 0 1 1.42 -0.59 z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"></path><circle cx="16.9" cy="7.1" r="1.5" fill="#fff"></circle></svg>
         </div>
         <!-- barra de busca -->
-        <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:64px;width:328px;height:44px;border-radius:22px;background:#fff;box-shadow:0 8px 22px rgba(18,20,50,0.20);display:flex;align-items:center;gap:10px;padding:0 16px;" style-active="transform:scale(0.985);">
+        <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:72px;width:328px;height:44px;border-radius:22px;background:#fff;box-shadow:0 8px 22px rgba(18,20,50,0.20);display:flex;align-items:center;gap:10px;padding:0 16px;" style-active="transform:scale(0.985);">
           <svg width="17" height="17" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(150,150,156)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(150,150,156)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:14px;color:rgb(132,132,140);">{{ t.buscarPlaceholder }}</span>
         </button>
         <!-- verticais como ícones ilustrados sobre tile neutro (o card off-white já vem na arte) -->
-        <div style="position:absolute;left:16px;top:150px;width:328px;display:flex;justify-content:space-between;">
+        <div style="position:absolute;left:16px;top:162px;width:328px;display:flex;justify-content:space-between;">
           <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:74px;">
             <img src="cat/mercado.png" alt="" style="width:64px;height:64px;object-fit:contain;display:block;">
             <span style="font-size:12px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.0 }}</span>
@@ -126,7 +126,7 @@
           </div>
         </div>
         <!-- promo em destaque: banner full-width + paginação (padrão Snoonu/Bolt/DoorDash) -->
-        <div style="position:absolute;left:16px;top:262px;width:328px;height:118px;border-radius:18px;background:linear-gradient(150deg, rgb(28,24,60), rgb(78,46,130));box-shadow:0 6px 20px rgba(30,32,60,0.12);overflow:hidden;">
+        <div style="position:absolute;left:16px;top:276px;width:328px;height:118px;border-radius:18px;background:linear-gradient(150deg, rgb(28,24,60), rgb(78,46,130));box-shadow:0 6px 20px rgba(30,32,60,0.12);overflow:hidden;">
           <div style="position:absolute;left:16px;top:14px;right:104px;display:flex;flex-direction:column;align-items:flex-start;">
             <span style="background:rgba(255,255,255,0.16);color:#fff;font-size:9px;font-weight:700;letter-spacing:0.05em;border-radius:999px;padding:3px 9px;">{{ t.oferta }}</span>
             <div style="margin-top:7px;font-size:16px;font-weight:700;color:#fff;">Natal Lacta</div>
@@ -140,17 +140,17 @@
             </div>
           </div>
         </div>
-        <div style="position:absolute;left:0;top:392px;width:360px;display:flex;justify-content:center;gap:6px;">
+        <div style="position:absolute;left:0;top:406px;width:360px;display:flex;justify-content:center;gap:6px;">
           <div style="width:18px;height:6px;border-radius:3px;background:#49539F;"></div>
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
         </div>
         <!-- explorar -->
-        <div style="position:absolute;left:16px;top:426px;width:328px;display:flex;align-items:baseline;justify-content:space-between;">
+        <div style="position:absolute;left:16px;top:440px;width:328px;display:flex;align-items:baseline;justify-content:space-between;">
           <span style="font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.explorar }}</span>
           <span style="font-size:12.5px;font-weight:600;color:#49539F;">{{ t.verTudo }} →</span>
         </div>
-        <div style="position:absolute;left:16px;top:456px;width:328px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
+        <div style="position:absolute;left:16px;top:470px;width:328px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
           <div style="height:120px;background:linear-gradient(140deg, rgb(24,120,74), rgb(96,186,128));position:relative;">
             <div style="position:absolute;left:12px;top:10px;background:#fff;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-style:italic;color:#49539F;">Prime</div>
             <div style="position:absolute;right:10px;top:10px;display:inline-flex;align-items:center;gap:3px;background:rgba(18,20,28,0.55);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;">★ 4,6</div>
@@ -192,15 +192,15 @@
     <!-- ============ BUSCA INICIAL (HISTÓRICO + CATEGORIAS) ============ -->
     <sc-if value="{{ isBusca }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
+        <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:14px;color:rgb(132,132,140);">{{ t.buscarPlaceholder }}</span>
         </button>
-        <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:16px;top:92px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.buscaRecente }}</div></sc-if>
-        <div style="position:absolute;left:0;top:118px;width:360px;padding:0 16px;">
+        <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:16px;top:116px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.buscaRecente }}</div></sc-if>
+        <div style="position:absolute;left:0;top:144px;width:360px;padding:0 16px;">
           <sc-for list="{{ historico }}" as="hrow" hint-placeholder-count="6">
             <div style="width:328px;display:flex;align-items:center;">
               <button onClick="{{ hrow.go }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:10px 0;text-align:left;" style-active="opacity:0.6;">
@@ -216,8 +216,8 @@
             </div>
           </sc-for>
         </div>
-        <div style="position:absolute;left:16px;top:474px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.categoria }}</div>
-        <div style="position:absolute;left:16px;top:502px;width:344px;display:flex;gap:12px;">
+        <div style="position:absolute;left:16px;top:500px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.categoria }}</div>
+        <div style="position:absolute;left:16px;top:528px;width:344px;display:flex;gap:12px;">
           <div style="width:104px;">
             <div style="width:104px;height:104px;border-radius:18px;background:linear-gradient(150deg, rgb(250,240,228), rgb(255,250,242));box-shadow:0 4px 16px rgba(30,32,60,0.07);display:flex;align-items:center;justify-content:center;font-size:26px;">🍣</div>
             <div style="margin-top:6px;font-size:11.5px;font-weight:600;color:rgb(50,50,55);text-align:center;">{{ t.cat.japonesa }}</div>
@@ -256,10 +256,10 @@
     <!-- ============ CAMPO FOCADO (TECLADO) ============ -->
     <sc-if value="{{ isCampo }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
+        <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="display:flex;align-items:center;">
             <span style="font-size:14px;color:rgb(24,24,28);">{{ digitado }}</span>
@@ -267,8 +267,8 @@
           </span>
         </div>
         <!-- histórico visível com o campo focado: evita a tela vazia entre campo e teclado -->
-        <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:16px;top:92px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.buscaRecente }}</div></sc-if>
-        <div style="position:absolute;left:0;top:118px;width:360px;padding:0 16px;">
+        <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:16px;top:116px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.buscaRecente }}</div></sc-if>
+        <div style="position:absolute;left:0;top:144px;width:360px;padding:0 16px;">
           <sc-for list="{{ historico }}" as="hrow" hint-placeholder-count="6">
             <div style="width:328px;display:flex;align-items:center;">
               <button onClick="{{ hrow.go }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:10px 0;text-align:left;" style-active="opacity:0.6;">
@@ -303,17 +303,17 @@
     <!-- ============ AUTOCOMPLETE ============ -->
     <sc-if value="{{ isAuto }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
+        <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:14px;color:rgb(24,24,28);">{{ queryTexto }}</span>
           <span style="width:2px;height:16px;background:#49539F;animation:caretBlink 1s infinite;margin-left:-6px;"></span>
           <span style="flex:1;"></span>
           <svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(200,200,206)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg>
         </div>
-        <div style="position:absolute;left:0;top:90px;width:360px;padding:0 20px;">
+        <div style="position:absolute;left:0;top:116px;width:360px;padding:0 20px;">
           <sc-for list="{{ sugestoes }}" as="sg" hint-placeholder-count="7">
             <button onClick="{{ sg.go }}" style="width:320px;padding:8px 0;" style-active="opacity:0.6;">
               <div style="font-size:13.5px;color:rgb(35,35,40);"><b style="font-weight:700;">Piz</b>{{ sg.resto }}</div>
@@ -340,18 +340,18 @@
     <!-- ============ RESULTADOS ============ -->
     <sc-if value="{{ isResultados }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:rgb(246,246,248);">
-        <div style="position:absolute;left:0;top:0;width:360px;height:76px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #5560AE 0%, #49539F 52%, #3F488A 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <div style="position:absolute;left:16px;top:28px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
+        <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:14px;color:rgb(24,24,28);">Pizza</span>
           <span style="flex:1;"></span>
           <button onClick="{{ goBusca }}" style="display:flex;" style-active="opacity:0.6;"><svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(200,200,206)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></button>
         </div>
         <!-- contagem + ordenar/filtrar -->
-        <div style="position:absolute;left:16px;top:90px;font-size:12px;font-weight:600;color:rgb(60,60,66);">1211 {{ t.resultados }}</div>
-        <div style="position:absolute;right:16px;top:84px;display:flex;gap:8px;">
+        <div style="position:absolute;left:16px;top:114px;font-size:12px;font-weight:600;color:rgb(60,60,66);">1211 {{ t.resultados }}</div>
+        <div style="position:absolute;right:16px;top:108px;display:flex;gap:8px;">
           <button onClick="{{ goOrdenar }}" style="height:30px;border-radius:999px;background:#fff;box-shadow:0 4px 14px rgba(30,32,60,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);" style-active="transform:scale(0.96);">
             <svg width="13" height="13" viewBox="0 0 24 24"><path d="M8 4 V20 M8 20 L5 16.5 M8 20 L11 16.5 M16 20 V4 M16 4 L13 7.5 M16 4 L19 7.5" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
             {{ t.ordenar }}
@@ -361,7 +361,7 @@
             {{ t.filtrar }}
           </div>
         </div>
-        <div style="position:absolute;left:0;top:124px;bottom:58px;width:360px;overflow:hidden;padding:0 16px;">
+        <div style="position:absolute;left:0;top:148px;bottom:58px;width:360px;overflow:hidden;padding:0 16px;">
           <!-- Bráz Elettrica -->
           <div style="border-radius:18px;background:#fff;box-shadow:0 4px 16px rgba(30,32,60,0.07);padding:14px 16px;margin-bottom:14px;">
             <div style="display:flex;gap:10px;">
