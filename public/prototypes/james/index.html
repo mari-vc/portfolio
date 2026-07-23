@@ -414,8 +414,8 @@
           <button onClick="{{ limparBusca }}" aria-label="{{ t.limpar }}" style="width:44px;height:44px;margin-right:-13px;display:flex;align-items:center;justify-content:center;" style-active="opacity:0.6;"><svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(62,48,96)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></button>
         </div>
         <!-- contagem + ordenar/filtrar -->
-        <div style="position:absolute;left:16px;top:122px;font-size:12px;font-weight:600;color:rgb(60,60,66);">1211 {{ t.resultados }}</div>
-        <div style="position:absolute;right:16px;top:108px;display:flex;gap:8px;">
+        <div class="{{ corpoResultadosAnim }}" style="position:absolute;left:16px;top:122px;font-size:12px;font-weight:600;color:rgb(60,60,66);">1211 {{ t.resultados }}</div>
+        <div class="{{ corpoResultadosAnim }}" style="position:absolute;right:16px;top:108px;display:flex;gap:8px;">
           <button onClick="{{ goOrdenar }}" style="height:44px;display:flex;align-items:center;padding:0;background:none;" style-active="transform:scale(0.96);">
             <span style="height:36px;border-radius:999px;background:#fff;box-shadow:0 4px 14px rgba(30,32,60,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);"><svg width="13" height="13" viewBox="0 0 24 24"><path d="M8 4 V20 M8 20 L5 16.5 M8 20 L11 16.5 M16 20 V4 M16 4 L13 7.5 M16 4 L19 7.5" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>{{ t.ordenar }}</span>
           </button>
@@ -423,7 +423,7 @@
             <span style="height:36px;border-radius:999px;background:#fff;box-shadow:0 4px 14px rgba(30,32,60,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);"><svg width="13" height="13" viewBox="0 0 24 24"><path d="M4 7 H20 M7 12 H17 M10 17 H14" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round"></path></svg>{{ t.filtrar }}</span>
           </div>
         </div>
-        <div style="position:absolute;left:0;top:164px;bottom:58px;width:360px;overflow:hidden;padding:0 16px;">
+        <div class="{{ corpoResultadosAnim }}" style="position:absolute;left:0;top:164px;bottom:58px;width:360px;overflow:hidden;padding:0 16px;">
           <!-- Bráz Elettrica -->
           <div style="border-radius:18px;background:#fff;box-shadow:0 4px 16px rgba(30,32,60,0.07);padding:14px 16px;margin-bottom:14px;">
             <div style="display:flex;gap:10px;">
@@ -657,9 +657,15 @@ class Component extends DCLogic {
   // dividem o mesmo nível: são estados da mesma tela, não navegação.
   TEM_TECLADO = ['campo', 'auto'];
 
+  // As quatro telas de busca dividem o mesmo header de 94px, o mesmo campo em
+  // top:42px e a mesma nav. São estados de uma superfície só: entre elas nada
+  // desliza nem esmaece, só o corpo troca.
+  FAMILIA_BUSCA = ['busca', 'campo', 'auto', 'resultados'];
+
   DEPTH = { splash: 0, home: 1, busca: 2, campo: 2, auto: 2, resultados: 3 };
 
   direction = (from, to) => {
+    if (this.FAMILIA_BUSCA.includes(from) && this.FAMILIA_BUSCA.includes(to)) return 'same';
     const a = this.DEPTH[from] ?? 0;
     const b = this.DEPTH[to] ?? 0;
     if (b > a) return 'fwd';
@@ -667,11 +673,11 @@ class Component extends DCLogic {
     return 'same';
   };
 
-  // home e busca compartilham header e campo de busca; entre elas a navegação
-  // não desliza a tela — o header colapsa/expande e o campo sobe/desce
+  // home e a superfície de busca compartilham o campo; entre elas a tela não
+  // desliza — o header colapsa/expande e o campo sobe/desce
   morphEntre = (de, para) => {
-    if (de === 'home' && para === 'busca') return 'abrir';
-    if (de === 'busca' && para === 'home') return 'fechar';
+    if (de === 'home' && this.FAMILIA_BUSCA.includes(para)) return 'abrir';
+    if (this.FAMILIA_BUSCA.includes(de) && para === 'home') return 'fechar';
     return null;
   };
 
@@ -782,6 +788,8 @@ class Component extends DCLogic {
       // busca e campo mostram o mesmo histórico; só vindo dos resultados o
       // corpo da tela troca de verdade e merece uma entrada
       corpoBuscaAnim: (step === 'campo' && this.state.de === 'resultados') ? 'conteudo-entra' : '',
+      corpoResultadosAnim: (step === 'resultados' && this.FAMILIA_BUSCA.includes(this.state.de))
+        ? 'conteudo-entra' : '',
       // ao abrir a busca, o header carrega cópias da saudação/endereço/mascote
       // que dissolvem enquanto ele colapsa e as engole
       mostraFantasma: this.state.morph === 'abrir',
