@@ -144,10 +144,7 @@
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
         </div>
         <!-- explorar -->
-        <div style="position:absolute;left:16px;top:476px;width:328px;display:flex;align-items:baseline;justify-content:space-between;">
-          <span style="font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.explorar }}</span>
-          <span style="font-size:12.5px;font-weight:600;color:#7A52CC;">{{ t.verTudo }}</span>
-        </div>
+        <div style="position:absolute;left:16px;top:476px;width:328px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.explorar }}</div>
         <div style="position:absolute;left:16px;top:508px;width:328px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
           <div style="height:92px;background:linear-gradient(140deg, rgb(24,120,74), rgb(96,186,128));position:relative;">
             <div style="position:absolute;left:12px;top:10px;background:#fff;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-style:italic;color:#7A52CC;">Prime</div>
@@ -381,17 +378,17 @@
             <div style="{{ pratosWrapStyle }}">
               <div style="display:flex;gap:10px;padding-top:12px;">
                 <div style="width:88px;">
-                  <div style="width:88px;height:64px;border-radius:12px;background:linear-gradient(140deg, rgb(196,74,52), rgb(233,150,92));"></div>
+                  <div style="width:88px;height:64px;border-radius:12px;background:rgb(245,241,236);overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="cat/prato-mozzarella.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                   <div style="margin-top:5px;font-size:10.5px;color:rgb(90,90,96);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Ok... Mozzarella!</div>
                   <div style="font-size:11px;font-weight:700;color:rgb(30,30,34);">R$ 27,00</div>
                 </div>
                 <div style="width:88px;">
-                  <div style="width:88px;height:64px;border-radius:12px;background:linear-gradient(140deg, rgb(90,120,62), rgb(170,190,120));"></div>
+                  <div style="width:88px;height:64px;border-radius:12px;background:rgb(245,241,236);overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="cat/prato-cajupiry.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                   <div style="margin-top:5px;font-size:10.5px;color:rgb(90,90,96);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Cajupiry</div>
                   <div style="font-size:11px;font-weight:700;color:rgb(30,30,34);">R$ 33,00</div>
                 </div>
                 <div style="width:88px;">
-                  <div style="width:88px;height:64px;border-radius:12px;background:linear-gradient(140deg, rgb(120,96,70), rgb(200,176,140));"></div>
+                  <div style="width:88px;height:64px;border-radius:12px;background:rgb(245,241,236);overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="cat/prato-shroomz.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                   <div style="margin-top:5px;font-size:10.5px;color:rgb(90,90,96);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Shroomz</div>
                   <div style="font-size:11px;font-weight:700;color:rgb(30,30,34);">R$ 33,00</div>
                 </div>
@@ -507,7 +504,7 @@ class Component extends DCLogic {
       tabs: ['mercados', 'restaurantes', 'farmácias', 'pet'],
       saudacao: 'Qual seu pedido hoje?', buscarPlaceholder: 'Procure por item ou estabelecimento',
       explorar: 'Explorar', entregaCalcular: 'entrega a calcular',
-      verTudo: 'Ver tudo', pertoDeVoce: 'Perto de você', oferta: 'OFERTA', comprar: 'Comprar', promoSub: 'Até 50% OFF na ceia',
+      pertoDeVoce: 'Perto de você', oferta: 'OFERTA', comprar: 'Comprar', promoSub: 'Até 50% OFF na ceia',
       supermercados: 'Supermercados', paraSeuBaby: 'Para seu Baby',
       navInicio: 'Início', navBuscar: 'Buscar', navPedidos: 'Pedidos', navConta: 'Conta',
       buscaRecente: 'Busca recente', categoria: 'Categoria',
@@ -523,7 +520,7 @@ class Component extends DCLogic {
       tabs: ['markets', 'restaurants', 'pharmacies', 'pet'],
       saudacao: 'What are you ordering today?', buscarPlaceholder: 'Search for an item or store',
       explorar: 'Explore', entregaCalcular: 'delivery to be calculated',
-      verTudo: 'See all', pertoDeVoce: 'Near you', oferta: 'OFFER', comprar: 'Shop now', promoSub: 'Up to 50% OFF this season',
+      pertoDeVoce: 'Near you', oferta: 'OFFER', comprar: 'Shop now', promoSub: 'Up to 50% OFF this season',
       supermercados: 'Supermarkets', paraSeuBaby: 'For your Baby',
       navInicio: 'Home', navBuscar: 'Search', navPedidos: 'Orders', navConta: 'Account',
       buscaRecente: 'Recent searches', categoria: 'Category',
