@@ -23,7 +23,12 @@
     @keyframes popIn  { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
     .scr-fwd  { animation: pushIn 0.3s cubic-bezier(0.22, 0.61, 0.36, 1); }
     .scr-back { animation: popIn 0.3s cubic-bezier(0.22, 0.61, 0.36, 1); }
-    .scr-same { animation: fadeIn 0.18s ease; }
+    /* busca/campo/auto são a mesma tela em estados diferentes: um crossfade
+     da tela inteira revelava o container branco atrás e lia como piscada.
+     Só o que muda de fato (o teclado) se anima. */
+  .scr-same { animation: none; }
+  @keyframes tecladoSobe { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .teclado-sobe { animation: tecladoSobe 0.26s cubic-bezier(0.2, 0, 0, 1); }
     /* Transição de elemento compartilhado entre home e busca: o header colapsa
        para a altura da busca e o campo sobe junto, em vez de a tela deslizar. */
     @keyframes hdrColapsa { from { height: 196px; } to { height: 94px; } }
@@ -316,7 +321,7 @@
           </sc-for>
         </div>
         <!-- teclado: qualquer tecla digita "Piz" -->
-        <div style="position:absolute;left:0;bottom:0;width:360px;background:rgb(209,212,219);padding:8px 4px 24px;">
+        <div class="{{ tecladoAnim }}" style="position:absolute;left:0;bottom:0;width:360px;background:rgb(209,212,219);padding:8px 4px 24px;">
           <sc-for list="{{ tecladoLinhas }}" as="linha" hint-placeholder-count="3">
             <div style="display:flex;justify-content:center;gap:5px;margin-bottom:8px;">
               <sc-for list="{{ linha.teclas }}" as="tk" hint-placeholder-count="10">
@@ -342,7 +347,7 @@
           <span style="font-size:13.5px;font-weight:600;color:rgb(38,28,66);">{{ queryTexto }}</span>
           <span style="width:2px;height:16px;background:#7A52CC;animation:caretBlink 1s infinite;margin-left:-6px;"></span>
           <span style="flex:1;"></span>
-          <svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(62,48,96)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          <button onClick="{{ limparBusca }}" aria-label="{{ t.limpar }}" style="width:44px;height:44px;margin-right:-13px;display:flex;align-items:center;justify-content:center;background:none;border:none;padding:0;cursor:pointer;"><svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(62,48,96)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></button>
         </div>
         <div style="position:absolute;left:0;top:116px;width:360px;padding:0 20px;">
           <sc-for list="{{ sugestoes }}" as="sg" hint-placeholder-count="7">
@@ -582,6 +587,7 @@ class Component extends DCLogic {
     removidos: [],
     sheetAberto: false,
     morph: null,   // 'abrir' | 'fechar' quando o header morfa entre home e busca
+    de: null,      // tela de origem da última navegação
   };
 
   QUERY = 'Piz';
@@ -633,6 +639,7 @@ class Component extends DCLogic {
       step,
       dir: this.direction(s.step, step),
       morph: this.morphEntre(s.step, step),
+      de: s.step,
       saindo: false,
       sheetAberto: false,
     }));
@@ -653,6 +660,12 @@ class Component extends DCLogic {
   // home entra por baixo. Sem isso nao ha o que animar: sc-if desmonta na hora.
   abrirOrdenar = () => this.setState({ sheetAberto: true });
   fecharOrdenar = () => this.setState({ sheetAberto: false });
+
+  // o X limpa a consulta e devolve o campo focado vazio — sem redigitar
+  limparBusca = () => {
+    this.limparTimers();
+    this.setState({ step: 'campo', dir: 'same', morph: null, de: 'auto', digitado: '', teclaAtiva: null });
+  };
 
   removerHistorico = (nome) => () => {
     this.setState((s) => ({ removidos: s.removidos.concat(nome) }));
@@ -718,6 +731,9 @@ class Component extends DCLogic {
       hdrAnim: this.state.morph === 'abrir' ? 'hdr-colapsa' : this.state.morph === 'fechar' ? 'hdr-expande' : '',
       campoAnim: this.state.morph === 'abrir' ? 'campo-sobe' : this.state.morph === 'fechar' ? 'campo-desce' : '',
       conteudoAnim: this.state.morph ? 'conteudo-entra' : '',
+      limparBusca: this.limparBusca,
+      // o teclado só desliza quando aparece de fato (vindo da busca)
+      tecladoAnim: (step === 'campo' && this.state.de === 'busca') ? 'teclado-sobe' : '',
       // ao abrir a busca, o header carrega cópias da saudação/endereço/mascote
       // que dissolvem enquanto ele colapsa e as engole
       mostraFantasma: this.state.morph === 'abrir',
