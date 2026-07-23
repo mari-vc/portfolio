@@ -158,7 +158,7 @@
           </div>
           <div style="padding:12px 14px 14px;">
             <div style="font-size:16px;font-weight:700;color:rgb(24,24,28);">Pão de Açúcar</div>
-            <div style="margin-top:3px;font-size:12px;color:rgb(130,130,136);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">R. Domingos de Morais, 486 - Vila Marian...</div>
+            <div style="margin-top:3px;font-size:12px;color:rgb(104,104,112);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">R. Domingos de Morais, 486 - Vila Marian...</div>
             <div style="margin-top:9px;display:flex;align-items:center;justify-content:space-between;">
               <span style="display:inline-flex;align-items:center;gap:6px;background:rgb(64,205,200);color:#fff;font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">⬡ {{ t.entregaCalcular }}</span>
               <span style="display:inline-flex;align-items:center;gap:5px;background:rgb(238,238,241);color:rgb(90,90,96);font-size:11px;font-weight:600;border-radius:12px;padding:4px 10px;">◷ 51m</span>
@@ -193,9 +193,9 @@
         <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
-          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
-          <span style="font-size:14px;color:rgb(132,132,140);">{{ t.buscarPlaceholder }}</span>
+        <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:42px;width:328px;height:40px;border-radius:20px;background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.45);display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
+          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(62,48,96)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(62,48,96)" stroke-width="2" stroke-linecap="round"></path></svg>
+          <span style="font-size:13.5px;font-weight:500;color:rgb(62,48,96);">{{ t.buscarPlaceholder }}</span>
         </button>
         <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:16px;top:116px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.buscaRecente }}</div></sc-if>
         <div style="position:absolute;left:0;top:144px;width:360px;padding:0 16px;">
@@ -205,7 +205,7 @@
                 <div style="{{ hrow.avatarStyle }}">{{ hrow.initial }}</div>
                 <div style="flex:1;min-width:0;">
                   <div style="font-size:14.5px;font-weight:700;color:rgb(28,28,32);">{{ hrow.nome }}</div>
-                  <div style="margin-top:2px;font-size:12px;color:rgb(122,122,130);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
+                  <div style="margin-top:2px;font-size:12px;color:rgb(104,104,112);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
                 </div>
               </button>
               <button onClick="{{ hrow.remover }}" aria-label="{{ t.remover }}" style="width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;" style-active="opacity:0.45;">
@@ -215,21 +215,22 @@
           </sc-for>
         </div>
         <div style="position:absolute;left:16px;top:500px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.categoria }}</div>
+        <!-- mesma forma dos tiles de vertical da home: tile claro, arte centrada, rótulo abaixo -->
         <div style="position:absolute;left:16px;top:528px;width:344px;display:flex;gap:12px;">
           <div style="width:104px;">
-            <div style="width:104px;height:104px;border-radius:18px;background:linear-gradient(150deg, rgb(250,240,228), rgb(255,250,242));box-shadow:0 4px 16px rgba(30,32,60,0.07);display:flex;align-items:center;justify-content:center;font-size:26px;">🍣</div>
-            <div style="margin-top:6px;font-size:11.5px;font-weight:600;color:rgb(50,50,55);text-align:center;">{{ t.cat.japonesa }}</div>
+            <div style="width:104px;height:104px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(30,32,60,0.07);display:flex;align-items:center;justify-content:center;font-size:44px;line-height:1;">🍣</div>
+            <div style="margin-top:6px;font-size:12px;font-weight:600;color:rgb(45,45,50);text-align:center;">{{ t.cat.japonesa }}</div>
           </div>
           <button onClick="{{ goResultados }}" style="width:104px;" style-active="opacity:0.7;">
-            <div style="width:104px;height:104px;border-radius:18px;background:linear-gradient(150deg, rgb(46,40,42), rgb(80,64,60));box-shadow:0 4px 16px rgba(30,32,60,0.07);display:flex;align-items:center;justify-content:center;font-size:26px;">🍕</div>
-            <div style="margin-top:6px;font-size:11.5px;font-weight:600;color:rgb(50,50,55);text-align:center;">{{ t.cat.pizzaria }}</div>
+            <div style="width:104px;height:104px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(30,32,60,0.07);display:flex;align-items:center;justify-content:center;font-size:44px;line-height:1;">🍕</div>
+            <div style="margin-top:6px;font-size:12px;font-weight:600;color:rgb(45,45,50);text-align:center;">{{ t.cat.pizzaria }}</div>
           </button>
           <div style="width:104px;">
-            <div style="width:104px;height:104px;border-radius:18px;background:linear-gradient(150deg, rgb(60,69,132), rgb(99,109,183));box-shadow:0 4px 16px rgba(30,32,60,0.07);display:flex;align-items:center;justify-content:center;font-size:26px;">🛒</div>
-            <div style="margin-top:6px;font-size:11.5px;font-weight:600;color:rgb(50,50,55);text-align:center;">{{ t.cat.mercado }}</div>
+            <div style="width:104px;height:104px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(30,32,60,0.07);display:flex;align-items:center;justify-content:center;font-size:44px;line-height:1;">🛒</div>
+            <div style="margin-top:6px;font-size:12px;font-weight:600;color:rgb(45,45,50);text-align:center;">{{ t.cat.mercado }}</div>
           </div>
         </div>
-        <!-- tab bar -->
+      <!-- tab bar -->
         <div style="position:absolute;left:0;bottom:0;width:360px;height:58px;background:#fff;box-shadow:0 -4px 18px rgba(30,32,60,0.07);display:flex;">
           <button onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:rgb(140,140,146);font-weight:500;">
             <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 11 L12 4 L20 11 V20 H14 V15 H10 V20 H4 Z" fill="none" stroke="rgb(140,140,146)" stroke-width="1.8" stroke-linejoin="round"></path></svg>
@@ -257,10 +258,10 @@
         <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
-          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
+        <div style="position:absolute;left:16px;top:42px;width:328px;height:40px;border-radius:20px;background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.45);display:flex;align-items:center;gap:10px;padding:0 14px;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(62,48,96)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(62,48,96)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="display:flex;align-items:center;">
-            <span style="font-size:14px;color:rgb(24,24,28);">{{ digitado }}</span>
+            <span style="font-size:13.5px;font-weight:600;color:rgb(38,28,66);">{{ digitado }}</span>
             <span style="width:2px;height:16px;background:#7A52CC;animation:caretBlink 1s infinite;margin-left:1px;"></span>
           </span>
         </div>
@@ -273,7 +274,7 @@
                 <div style="{{ hrow.avatarStyle }}">{{ hrow.initial }}</div>
                 <div style="flex:1;min-width:0;">
                   <div style="font-size:14.5px;font-weight:700;color:rgb(28,28,32);">{{ hrow.nome }}</div>
-                  <div style="margin-top:2px;font-size:12px;color:rgb(122,122,130);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
+                  <div style="margin-top:2px;font-size:12px;color:rgb(104,104,112);">{{ hrow.meta }}<span style="{{ hrow.metaExtraStyle }}">{{ hrow.metaExtra }}</span></div>
                 </div>
               </button>
               <button onClick="{{ hrow.remover }}" aria-label="{{ t.remover }}" style="width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;" style-active="opacity:0.45;">
@@ -304,9 +305,9 @@
         <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
-          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
-          <span style="font-size:14px;color:rgb(24,24,28);">{{ queryTexto }}</span>
+        <div style="position:absolute;left:16px;top:42px;width:328px;height:40px;border-radius:20px;background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.45);display:flex;align-items:center;gap:10px;padding:0 14px;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(62,48,96)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(62,48,96)" stroke-width="2" stroke-linecap="round"></path></svg>
+          <span style="font-size:13.5px;font-weight:600;color:rgb(38,28,66);">{{ queryTexto }}</span>
           <span style="width:2px;height:16px;background:#7A52CC;animation:caretBlink 1s infinite;margin-left:-6px;"></span>
           <span style="flex:1;"></span>
           <svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(200,200,206)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg>
@@ -341,25 +342,25 @@
         <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <div style="position:absolute;left:16px;top:42px;width:328px;height:38px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;">
-          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(120,120,125)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(120,120,125)" stroke-width="2" stroke-linecap="round"></path></svg>
-          <span style="font-size:14px;color:rgb(24,24,28);">Pizza</span>
+        <div style="position:absolute;left:16px;top:42px;width:328px;height:40px;border-radius:20px;background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.45);display:flex;align-items:center;gap:10px;padding:0 14px;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(62,48,96)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(62,48,96)" stroke-width="2" stroke-linecap="round"></path></svg>
+          <span style="font-size:13.5px;font-weight:600;color:rgb(38,28,66);">Pizza</span>
           <span style="flex:1;"></span>
-          <button onClick="{{ goBusca }}" style="display:flex;" style-active="opacity:0.6;"><svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(200,200,206)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></button>
+          <button onClick="{{ goBusca }}" aria-label="{{ t.limpar }}" style="width:44px;height:44px;margin-right:-13px;display:flex;align-items:center;justify-content:center;" style-active="opacity:0.6;"><svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="rgb(200,200,206)"></circle><path d="M8.5 8.5 L15.5 15.5 M15.5 8.5 L8.5 15.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></button>
         </div>
         <!-- contagem + ordenar/filtrar -->
-        <div style="position:absolute;left:16px;top:114px;font-size:12px;font-weight:600;color:rgb(60,60,66);">1211 {{ t.resultados }}</div>
+        <div style="position:absolute;left:16px;top:122px;font-size:12px;font-weight:600;color:rgb(60,60,66);">1211 {{ t.resultados }}</div>
         <div style="position:absolute;right:16px;top:108px;display:flex;gap:8px;">
-          <button onClick="{{ goOrdenar }}" style="height:30px;border-radius:999px;background:#fff;box-shadow:0 4px 14px rgba(30,32,60,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);" style-active="transform:scale(0.96);">
+          <button onClick="{{ goOrdenar }}" style="height:44px;border-radius:999px;background:#fff;box-shadow:0 4px 14px rgba(30,32,60,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);" style-active="transform:scale(0.96);">
             <svg width="13" height="13" viewBox="0 0 24 24"><path d="M8 4 V20 M8 20 L5 16.5 M8 20 L11 16.5 M16 20 V4 M16 4 L13 7.5 M16 4 L19 7.5" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
             {{ t.ordenar }}
           </button>
-          <div style="height:30px;border-radius:999px;background:#fff;box-shadow:0 4px 14px rgba(30,32,60,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
+          <div style="height:44px;border-radius:999px;background:#fff;box-shadow:0 4px 14px rgba(30,32,60,0.09);display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
             <svg width="13" height="13" viewBox="0 0 24 24"><path d="M4 7 H20 M7 12 H17 M10 17 H14" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round"></path></svg>
             {{ t.filtrar }}
           </div>
         </div>
-        <div style="position:absolute;left:0;top:148px;bottom:58px;width:360px;overflow:hidden;padding:0 16px;">
+        <div style="position:absolute;left:0;top:164px;bottom:58px;width:360px;overflow:hidden;padding:0 16px;">
           <!-- Bráz Elettrica -->
           <div style="border-radius:18px;background:#fff;box-shadow:0 4px 16px rgba(30,32,60,0.07);padding:14px 16px;margin-bottom:14px;">
             <div style="display:flex;gap:10px;">
@@ -369,10 +370,10 @@
                   <div style="font-size:15px;font-weight:700;color:rgb(24,24,28);line-height:1.25;">Bráz Elettrica - Jardins</div>
                   <span style="display:inline-flex;align-items:center;gap:3px;flex-shrink:0;background:rgb(255,246,222);color:rgb(138,98,6);font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap;">★ 4,1</span>
                 </div>
-                <div style="margin-top:6px;font-size:12px;color:rgb(122,122,130);">2,1 km · 20 - 30 min · {{ t.frete }} R$ 3,99</div>
+                <div style="margin-top:6px;font-size:12px;color:rgb(104,104,112);">2,1 km · 20 - 30 min · {{ t.frete }} R$ 3,99</div>
               </div>
             </div>
-            <button onClick="{{ togglePratos }}" style="width:100%;margin-top:10px;padding-top:10px;border-top:1px solid rgb(240,240,243);display:flex;align-items:center;justify-content:space-between;" style-active="opacity:0.6;">
+            <button onClick="{{ togglePratos }}" style="width:100%;height:44px;margin-top:6px;padding-top:6px;border-top:1px solid rgb(240,240,243);display:flex;align-items:center;justify-content:space-between;" style-active="opacity:0.6;">
               <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
                 <svg width="13" height="13" viewBox="0 0 24 24"><path d="M7 3 V11 M4 3 V7 C4 9, 10 9, 10 7 V3 M7 11 V21 M16 3 C14 3, 13 8, 13 11 H19 C19 8, 18 3, 16 3 Z M16 11 V21" stroke="rgb(50,50,56)" stroke-width="1.7" stroke-linecap="round" fill="none"></path></svg>
                 {{ t.pratosMaisPedidos }}
@@ -408,11 +409,11 @@
                   <div style="font-size:15px;font-weight:700;color:rgb(24,24,28);line-height:1.25;">Pizza Hut - Santa Cruz</div>
                   <span style="display:inline-flex;align-items:center;gap:3px;flex-shrink:0;background:rgb(255,246,222);color:rgb(138,98,6);font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap;">★ 4,5</span>
                 </div>
-                <div style="margin-top:6px;font-size:12px;color:rgb(122,122,130);">3,3 km · 33 min · {{ t.frete }} R$ 7,99</div>
+                <div style="margin-top:6px;font-size:12px;color:rgb(104,104,112);">3,3 km · 33 min · {{ t.frete }} R$ 7,99</div>
                 <div style="margin-top:6px;"><span style="display:inline-flex;align-items:center;gap:5px;background:rgb(230,233,252);color:rgb(62,71,136);font-size:10.5px;font-weight:600;border-radius:999px;padding:4px 10px;">{{ t.compreLeve }}</span></div>
               </div>
             </div>
-            <div style="width:100%;margin-top:10px;padding-top:10px;border-top:1px solid rgb(240,240,243);display:flex;align-items:center;justify-content:space-between;">
+            <div style="width:100%;height:44px;margin-top:6px;padding-top:6px;border-top:1px solid rgb(240,240,243);display:flex;align-items:center;justify-content:space-between;">
               <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
                 <svg width="13" height="13" viewBox="0 0 24 24"><path d="M7 3 V11 M4 3 V7 C4 9, 10 9, 10 7 V3 M7 11 V21 M16 3 C14 3, 13 8, 13 11 H19 C19 8, 18 3, 16 3 Z M16 11 V21" stroke="rgb(50,50,56)" stroke-width="1.7" stroke-linecap="round" fill="none"></path></svg>
                 {{ t.pratosMaisPedidos }}
@@ -429,7 +430,7 @@
                   <div style="font-size:15px;font-weight:700;color:rgb(24,24,28);line-height:1.25;">Vô Agenor Pizza &amp; Pasta</div>
                   <span style="display:inline-flex;align-items:center;gap:3px;flex-shrink:0;background:rgb(255,246,222);color:rgb(138,98,6);font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap;">★ 4,4</span>
                 </div>
-                <div style="margin-top:6px;font-size:12px;color:rgb(122,122,130);">3,5 km · 33 min · <span style="color:rgb(22,110,64);font-weight:700;">{{ t.freteGratis }}</span></div>
+                <div style="margin-top:6px;font-size:12px;color:rgb(104,104,112);">3,5 km · 33 min · <span style="color:rgb(22,110,64);font-weight:700;">{{ t.freteGratis }}</span></div>
               </div>
             </div>
           </div>
@@ -442,7 +443,7 @@
                   <div style="font-size:15px;font-weight:700;color:rgb(24,24,28);line-height:1.25;">Carlos Pizza - Vila Madalena</div>
                   <span style="display:inline-flex;align-items:center;gap:3px;flex-shrink:0;background:rgb(255,246,222);color:rgb(138,98,6);font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap;">★ 4,7</span>
                 </div>
-                <div style="margin-top:6px;font-size:12px;color:rgb(122,122,130);">4,1 km · 40 - 50 min · {{ t.frete }} R$ 6,99</div>
+                <div style="margin-top:6px;font-size:12px;color:rgb(104,104,112);">4,1 km · 40 - 50 min · {{ t.frete }} R$ 6,99</div>
               </div>
             </div>
           </div>
@@ -515,7 +516,7 @@ class Component extends DCLogic {
       resultados: 'resultados', filtrar: 'Filtrar', ordenar: 'Ordenar', ordenarPor: 'Ordenar por',
       pratosMaisPedidos: 'Pratos mais pedidos',
       frete: 'Frete', freteGratis: 'Frete Grátis', compreLeve: 'compre 1 leve 2',
-      fechado: 'Fechado', remover: 'Remover da busca recente', fechar: 'Fechar',
+      fechado: 'Fechado', remover: 'Remover da busca recente', fechar: 'Fechar', limpar: 'Limpar busca',
       cat: { pizzaria: 'Pizzaria', hamburgueria: 'Hamburgueria', mercado: 'Mercado', petshop: 'Pet Shop', japonesa: 'Japonesa' },
       onde: { todas: 'em todas as categorias', restaurante: 'em restaurante', mercado: 'em mercado' },
       ordens: ['Ordenação Padrão', 'Preço', 'Avaliação', 'Tempo de entrega', 'Taxa de entrega', 'Distância'],
@@ -531,7 +532,7 @@ class Component extends DCLogic {
       resultados: 'results', filtrar: 'Filter', ordenar: 'Sort', ordenarPor: 'Sort by',
       pratosMaisPedidos: 'Most ordered dishes',
       frete: 'Delivery', freteGratis: 'Free delivery', compreLeve: 'buy 1 get 2',
-      fechado: 'Closed', remover: 'Remove from recent searches', fechar: 'Close',
+      fechado: 'Closed', remover: 'Remove from recent searches', fechar: 'Close', limpar: 'Clear search',
       cat: { pizzaria: 'Pizza', hamburgueria: 'Burgers', mercado: 'Market', petshop: 'Pet Shop', japonesa: 'Japanese' },
       onde: { todas: 'in all categories', restaurante: 'in restaurants', mercado: 'in markets' },
       ordens: ['Default sorting', 'Price', 'Rating', 'Delivery time', 'Delivery fee', 'Distance'],
@@ -694,7 +695,13 @@ class Component extends DCLogic {
         nome: h2.nome,
         meta: h2.count ? (h2.count + ' ' + this.T.resultados) : (this.T.cat[h2.cat] + '  ' + (h2.tempo || '')),
         metaExtra: h2.fechado ? this.T.fechado : '',
-        metaExtraStyle: { color: 'rgb(226,70,70)', fontWeight: 600 },
+        // o chip só existe quando há status; sem isso, linhas sem "Fechado"
+        // renderizavam uma pílula vazia
+        metaExtraStyle: h2.fechado ? {
+          color: 'rgb(198,40,40)', fontWeight: 700,
+          border: '1px solid rgb(232,190,190)', background: 'rgb(253,242,242)',
+          borderRadius: 999, padding: '1px 7px', marginLeft: 4, fontSize: 10.5,
+        } : {},
         initial: h2.initial,
         avatarStyle: {
           width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
