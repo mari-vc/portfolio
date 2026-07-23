@@ -24,6 +24,28 @@
     .scr-fwd  { animation: pushIn 0.3s cubic-bezier(0.22, 0.61, 0.36, 1); }
     .scr-back { animation: popIn 0.3s cubic-bezier(0.22, 0.61, 0.36, 1); }
     .scr-same { animation: fadeIn 0.18s ease; }
+    /* Transição de elemento compartilhado entre home e busca: o header colapsa
+       para a altura da busca e o campo sobe junto, em vez de a tela deslizar. */
+    @keyframes hdrColapsa { from { height: 196px; } to { height: 94px; } }
+    @keyframes hdrExpande { from { height: 94px; }  to { height: 196px; } }
+    @keyframes campoSobe  { from { top: 142px; }    to { top: 42px; } }
+    @keyframes campoDesce { from { top: 42px; }     to { top: 142px; } }
+    /* conteúdo da tela que chega entra DEPOIS do container assentar, não junto */
+    @keyframes conteudoEntra { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .scr-morph { animation: none; }
+    /* curva "emphasized": sai decidido e assenta devagar — padrão de container transform.
+       Abrir a busca é a ação pedida (mais curto, responsivo); voltar é desfazer (um respiro
+       mais longo, para o header reconstruir sem parecer um salto). */
+    .hdr-colapsa  { animation: hdrColapsa 0.30s cubic-bezier(0.2, 0, 0, 1); }
+    .campo-sobe   { animation: campoSobe  0.30s cubic-bezier(0.2, 0, 0, 1); }
+    .hdr-expande  { animation: hdrExpande 0.36s cubic-bezier(0.2, 0, 0, 1); }
+    .campo-desce  { animation: campoDesce 0.36s cubic-bezier(0.2, 0, 0, 1); }
+    /* both: o conteúdo fica invisível durante o atraso, em vez de piscar */
+    .conteudo-entra { animation: conteudoEntra 0.24s cubic-bezier(0.2, 0, 0, 1) 0.1s both; }
+    @media (prefers-reduced-motion: reduce) {
+      .hdr-colapsa, .hdr-expande, .campo-sobe, .campo-desce { animation: none; }
+      .conteudo-entra { animation: fadeIn 0.12s ease; }
+    }
     /* Abrir o app nao e navegacao lateral: a home se revela SOB o splash,
        que escala e some por cima. Por isso splash -> home nao usa pushIn. */
     @keyframes logoIn    { from { opacity: 0; transform: scale(0.86); } to { opacity: 1; transform: scale(1); } }
@@ -83,7 +105,7 @@
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:#FAF5F0;">
         <!-- header: saudação + endereço + busca, com o mascote recortado à direita (como no app real) -->
-        <div style="position:absolute;left:0;top:0;width:360px;height:196px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);overflow:hidden;">
+        <div class="{{ hdrAnim }}" style="position:absolute;left:0;top:0;width:360px;height:196px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);overflow:hidden;">
           <img src="cat/mascote.png" alt="" style="position:absolute;right:-8px;bottom:-16px;width:137px;height:180px;object-fit:contain;">
         </div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
@@ -100,12 +122,12 @@
           <svg width="10" height="10" viewBox="0 0 18 9" style="margin-left:1px;"><path d="M1 1 L9 8 L17 1" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </div>
         <!-- barra de busca -->
-        <button onClick="{{ goBusca }}" style="position:absolute;left:16px;top:142px;width:328px;height:40px;border-radius:20px;background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.45);box-shadow:0 6px 18px rgba(18,20,50,0.14);display:flex;align-items:center;gap:10px;padding:0 15px;" style-active="transform:scale(0.985);">
+        <button onClick="{{ goBusca }}" class="{{ campoAnim }}" style="position:absolute;left:16px;top:142px;width:328px;height:40px;border-radius:20px;background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.45);box-shadow:0 6px 18px rgba(18,20,50,0.14);display:flex;align-items:center;gap:10px;padding:0 15px;" style-active="transform:scale(0.985);">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(62,48,96)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(62,48,96)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:13.5px;font-weight:500;color:rgb(62,48,96);">{{ t.buscarPlaceholder }}</span>
         </button>
         <!-- <!-- verticais como ícones ilustrados sobre tile neutro (o card off-white já vem na arte) -->
-        <div style="position:absolute;left:16px;top:210px;width:328px;display:flex;justify-content:space-between;">
+        <div class="{{ conteudoAnim }}" style="position:absolute;left:16px;top:210px;width:328px;display:flex;justify-content:space-between;">
           <div style="display:flex;flex-direction:column;align-items:center;gap:0px;width:74px;">
             <img src="cat/mercado.png" alt="" style="width:72px;height:72px;object-fit:contain;display:block;">
             <span style="font-size:12px;font-weight:600;color:rgb(45,45,50);text-transform:capitalize;">{{ t.tabs.0 }}</span>
@@ -124,7 +146,7 @@
           </div>
         </div>
         <!-- promo em destaque: banner full-width + paginação (padrão Snoonu/Bolt/DoorDash) -->
-        <div style="position:absolute;left:16px;top:324px;width:328px;height:123px;border-radius:18px;background:linear-gradient(150deg, rgb(28,24,60), rgb(78,46,130));box-shadow:0 6px 20px rgba(30,32,60,0.12);overflow:hidden;">
+        <div class="{{ conteudoAnim }}" style="position:absolute;left:16px;top:324px;width:328px;height:123px;border-radius:18px;background:linear-gradient(150deg, rgb(28,24,60), rgb(78,46,130));box-shadow:0 6px 20px rgba(30,32,60,0.12);overflow:hidden;">
           <div style="position:absolute;left:16px;top:10px;right:104px;display:flex;flex-direction:column;align-items:flex-start;">
             <span style="background:rgba(255,255,255,0.16);color:#fff;font-size:9px;font-weight:700;letter-spacing:0.05em;border-radius:999px;padding:3px 9px;">{{ t.oferta }}</span>
             <div style="margin-top:7px;font-size:16px;font-weight:700;color:#fff;">Natal Lacta</div>
@@ -138,14 +160,14 @@
             </div>
           </div>
         </div>
-        <div style="position:absolute;left:0;top:458px;width:360px;display:flex;justify-content:center;gap:6px;">
+        <div class="{{ conteudoAnim }}" style="position:absolute;left:0;top:458px;width:360px;display:flex;justify-content:center;gap:6px;">
           <div style="width:18px;height:6px;border-radius:3px;background:#7A52CC;"></div>
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
           <div style="width:6px;height:6px;border-radius:3px;background:rgb(210,210,218);"></div>
         </div>
         <!-- explorar -->
-        <div style="position:absolute;left:16px;top:476px;width:328px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.explorar }}</div>
-        <div style="position:absolute;left:16px;top:508px;width:328px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
+        <div class="{{ conteudoAnim }}" style="position:absolute;left:16px;top:476px;width:328px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.explorar }}</div>
+        <div class="{{ conteudoAnim }}" style="position:absolute;left:16px;top:508px;width:328px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
           <div style="height:92px;background:linear-gradient(140deg, rgb(24,120,74), rgb(96,186,128));position:relative;">
             <div style="position:absolute;left:12px;top:10px;background:#fff;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-style:italic;color:#7A52CC;">Prime</div>
             <div style="position:absolute;right:10px;top:10px;display:inline-flex;align-items:center;gap:3px;background:rgba(18,20,28,0.55);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;">★ 4,6</div>
@@ -187,15 +209,15 @@
     <!-- ============ BUSCA INICIAL (HISTÓRICO + CATEGORIAS) ============ -->
     <sc-if value="{{ isBusca }}" hint-placeholder-val="{{ false }}">
       <div class="{{ screenAnim }}" style="position:absolute;inset:0;background:#FAF5F0;">
-        <div style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
+        <div class="{{ hdrAnim }}" style="position:absolute;left:0;top:0;width:360px;height:94px;background:linear-gradient(155deg, #7A52CC 0%, #6D41C7 52%, #6337BB 100%);box-shadow:0 5px 18px rgba(30,32,60,0.10);"></div>
         <div style="position:absolute;left:16px;top:4px;font-family:-apple-system, 'SF Pro', system-ui;font-size:17px;font-weight:590;line-height:22px;color:#fff;">9:41</div>
         <div style="position:absolute;right:14px;top:9px;display:flex;align-items:flex-end;gap:7px;"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff"></rect><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff"></rect><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff"></rect><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff"></rect></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff"></path><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff"></path><circle cx="8.5" cy="10.5" r="1.5" fill="#fff"></circle></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" stroke-opacity="0.35" fill="none"></rect><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"></rect><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fill-opacity="0.4"></path></svg></div>
-        <button onClick="{{ goCampo }}" style="position:absolute;left:16px;top:42px;width:328px;height:40px;border-radius:20px;background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.45);display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
+        <button onClick="{{ goCampo }}" class="{{ campoAnim }}" style="position:absolute;left:16px;top:42px;width:328px;height:40px;border-radius:20px;background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.45);display:flex;align-items:center;gap:10px;padding:0 14px;" style-active="transform:scale(0.985);">
           <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="rgb(62,48,96)" stroke-width="2"></circle><path d="M15.5 15.5 L21 21" stroke="rgb(62,48,96)" stroke-width="2" stroke-linecap="round"></path></svg>
           <span style="font-size:13.5px;font-weight:500;color:rgb(62,48,96);">{{ t.buscarPlaceholder }}</span>
         </button>
-        <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:16px;top:118px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.buscaRecente }}</div></sc-if>
-        <div style="position:absolute;left:0;top:148px;width:360px;padding:0 16px;">
+        <sc-if value="{{ temHistorico }}" hint-placeholder-val="{{ true }}"><div class="{{ conteudoAnim }}" style="position:absolute;left:16px;top:118px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.buscaRecente }}</div></sc-if>
+        <div class="{{ conteudoAnim }}" style="position:absolute;left:0;top:148px;width:360px;padding:0 16px;">
           <sc-for list="{{ historico }}" as="hrow" hint-placeholder-count="6">
             <div style="width:328px;display:flex;align-items:center;">
               <button onClick="{{ hrow.go }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:10px 0;text-align:left;" style-active="opacity:0.6;">
@@ -211,9 +233,9 @@
             </div>
           </sc-for>
         </div>
-        <div style="position:absolute;left:16px;top:532px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.categoria }}</div>
+        <div class="{{ conteudoAnim }}" style="position:absolute;left:16px;top:532px;font-size:17px;font-weight:700;color:rgb(24,24,28);">{{ t.categoria }}</div>
         <!-- mesma forma dos tiles de vertical da home: tile claro, arte centrada, rótulo abaixo -->
-        <div style="position:absolute;left:16px;top:564px;width:344px;display:flex;gap:12px;">
+        <div class="{{ conteudoAnim }}" style="position:absolute;left:16px;top:564px;width:344px;display:flex;gap:12px;">
           <div style="width:104px;">
             <div style="width:104px;height:104px;border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(30,32,60,0.07);display:flex;align-items:center;justify-content:center;"><img src="cat/japonesa.png" alt="" style="width:78px;height:78px;object-fit:contain;display:block;"></div>
             <div style="margin-top:6px;font-size:12px;font-weight:600;color:rgb(45,45,50);text-align:center;">{{ t.cat.japonesa }}</div>
@@ -370,7 +392,7 @@
             </div>
             <button onClick="{{ togglePratos }}" style="width:100%;height:44px;margin-top:6px;padding-top:6px;border-top:1px solid rgb(240,240,243);display:flex;align-items:center;justify-content:space-between;" style-active="opacity:0.6;">
               <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
-                <svg width="13" height="13" viewBox="0 0 24 24"><path d="M7 3 V11 M4 3 V7 C4 9, 10 9, 10 7 V3 M7 11 V21 M16 3 C14 3, 13 8, 13 11 H19 C19 8, 18 3, 16 3 Z M16 11 V21" stroke="rgb(50,50,56)" stroke-width="1.7" stroke-linecap="round" fill="none"></path></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
                 {{ t.pratosMaisPedidos }}
               </span>
               <svg width="12" height="12" viewBox="0 0 18 9" style="{{ chevronStyle }}"><path d="M1 1 L9 8 L17 1" fill="none" stroke="rgb(90,90,96)" stroke-width="2" stroke-linecap="round"></path></svg>
@@ -410,7 +432,7 @@
             </div>
             <div style="width:100%;height:44px;margin-top:6px;padding-top:6px;border-top:1px solid rgb(240,240,243);display:flex;align-items:center;justify-content:space-between;">
               <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:rgb(50,50,56);">
-                <svg width="13" height="13" viewBox="0 0 24 24"><path d="M7 3 V11 M4 3 V7 C4 9, 10 9, 10 7 V3 M7 11 V21 M16 3 C14 3, 13 8, 13 11 H19 C19 8, 18 3, 16 3 Z M16 11 V21" stroke="rgb(50,50,56)" stroke-width="1.7" stroke-linecap="round" fill="none"></path></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgb(50,50,56)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
                 {{ t.pratosMaisPedidos }}
               </span>
               <svg width="12" height="12" viewBox="0 0 18 9"><path d="M1 1 L9 8 L17 1" fill="none" stroke="rgb(90,90,96)" stroke-width="2" stroke-linecap="round"></path></svg>
@@ -546,6 +568,7 @@ class Component extends DCLogic {
     saindo: false,
     removidos: [],
     sheetAberto: false,
+    morph: null,   // 'abrir' | 'fechar' quando o header morfa entre home e busca
   };
 
   QUERY = 'Piz';
@@ -583,9 +606,23 @@ class Component extends DCLogic {
     return 'same';
   };
 
+  // home e busca compartilham header e campo de busca; entre elas a navegação
+  // não desliza a tela — o header colapsa/expande e o campo sobe/desce
+  morphEntre = (de, para) => {
+    if (de === 'home' && para === 'busca') return 'abrir';
+    if (de === 'busca' && para === 'home') return 'fechar';
+    return null;
+  };
+
   go = (step) => () => {
     this.limparTimers();
-    this.setState((s) => ({ step, dir: this.direction(s.step, step), saindo: false, sheetAberto: false }));
+    this.setState((s) => ({
+      step,
+      dir: this.direction(s.step, step),
+      morph: this.morphEntre(s.step, step),
+      saindo: false,
+      sheetAberto: false,
+    }));
     if (step === 'campo') this.iniciarDigitacao();
   };
 
@@ -595,7 +632,7 @@ class Component extends DCLogic {
     const step = abrirSheet ? 'resultados' : alvo;
     this.setState({ sheetAberto: abrirSheet });
     this.limparTimers();
-    this.setState({ step, pratosOpen: false, dir: 'same', saindo: false });
+    this.setState({ step, pratosOpen: false, dir: 'same', morph: null, saindo: false });
     if (step === 'campo') this.iniciarDigitacao();
   };
 
@@ -663,7 +700,11 @@ class Component extends DCLogic {
       step,
       showDevNav: this.props.showDevNav ?? false,
       jumpTo: this.jumpTo,
-      screenAnim: 'scr-' + this.state.dir,
+      // no morph a tela não desliza: a continuidade vem do header
+      screenAnim: this.state.morph ? 'scr-morph' : 'scr-' + this.state.dir,
+      hdrAnim: this.state.morph === 'abrir' ? 'hdr-colapsa' : this.state.morph === 'fechar' ? 'hdr-expande' : '',
+      campoAnim: this.state.morph === 'abrir' ? 'campo-sobe' : this.state.morph === 'fechar' ? 'campo-desce' : '',
+      conteudoAnim: this.state.morph ? 'conteudo-entra' : '',
       t: this.T,
       isSplash: step === 'splash',
       mostraSplash: step === 'splash' || this.state.saindo,
@@ -746,7 +787,9 @@ class Component extends DCLogic {
         pick: () => this.setState({ sortBy: o, sheetAberto: false }),
         rowStyle: {
           width: 328, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '13px 2px', borderBottom: '1px solid rgb(238,238,242)',
+          padding: '13px 2px',
+          // divider separa itens; o último não tem nada abaixo para separar
+          borderBottom: i < this.ORDENS.length - 1 ? '1px solid rgb(238,238,242)' : 'none',
         },
         labelStyle: {
           fontSize: 14,
