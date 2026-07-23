@@ -26,9 +26,14 @@ export function Hero({ lang, dict }: { lang: Locale; dict: Dict }) {
             {dict.hero.heading}
           </h1>
 
-          <p className="mt-2 text-lg leading-relaxed text-muted md:max-w-md">
-            {dict.hero.subtitle}
-          </p>
+          {dict.hero.subtitle.split("\n\n").map((paragraph, i) => (
+            <p
+              key={i}
+              className="mt-2 text-lg leading-relaxed text-muted md:max-w-md"
+            >
+              {paragraph}
+            </p>
+          ))}
 
           <div className="hero-cta-buttons mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
             <Link
