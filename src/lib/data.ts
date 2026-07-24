@@ -18,12 +18,12 @@ export const profile = {
   email: "hello@marivc.com",
   // Mini sobre (seção About)
   aboutShort: {
-    pt: "Meu trabalho acontece na interseção entre estratégia, tecnologia e design, colaborando com equipes para tomar melhores decisões e criar experiências que fazem sentido para as pessoas.",
-    en: "My work sits at the intersection of strategy, technology, and design, collaborating with teams to make better decisions and create experiences that make sense to people.",
+    pt: "Meu trabalho acontece na interseção entre estratégia, tecnologia e design. Gosto de colaborar com diferentes áreas para entender problemas, alinhar decisões e construir produtos que façam sentido para quem usa e para quem os desenvolve.",
+    en: "My work sits at the intersection of strategy, technology, and design. I like collaborating across different areas to understand problems, align decisions, and build products that make sense for the people who use them and the people who build them.",
   } as L,
   aboutShort2: {
-    pt: "Não acredito que bom design seja apenas bonito. Acredito que bom design torna decisões mais fáceis, produtos mais intuitivos e times mais eficientes.",
-    en: "I don't believe good design is just about being beautiful. I believe good design makes decisions easier, products more intuitive, and teams more efficient.",
+    pt: "Para mim, design não é sobre adicionar complexidade, mas removê-la. Quando um produto é intuitivo, as pessoas quase não percebem o trabalho de design, apenas conseguem fazer o que vieram fazer.",
+    en: "To me, design isn't about adding complexity, but removing it. When a product is intuitive, people barely notice the design work — they just get done what they came to do.",
   } as L,
   socials: {
     linkedin: "https://www.linkedin.com/in/marivc/",
@@ -37,8 +37,8 @@ export const profile = {
 // Frase de impacto (seção 5)
 export const impactQuote = {
   text: {
-    pt: "Bom design se sente. Quando tudo funciona, ele cumpriu seu papel.",
-    en: "Good design is felt. When everything works, it has done its job.",
+    pt: "Bom design quase passa despercebido. Quando tudo funciona, ele cumpriu seu papel.",
+    en: "Good design almost goes unnoticed. When everything works, it has done its job.",
   } as L,
   attribution: {
     pt: "minha bússola de trabalho",
