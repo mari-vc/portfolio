@@ -12,8 +12,12 @@ export function Contact({ lang, dict }: { lang: Locale; dict: Dict }) {
         <div>
           <h2 className="font-hand max-w-2xl text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
             {dict.contact.heading_1}
-            <br />
-            <span className="text-muted">{dict.contact.heading_2}</span>
+            {dict.contact.heading_2 && (
+              <>
+                <br />
+                <span className="text-muted">{dict.contact.heading_2}</span>
+              </>
+            )}
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-muted">
             {dict.contact.body}
