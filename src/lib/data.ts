@@ -191,8 +191,8 @@ export const aboutPage = {
       role: "Product Designer Sênior",
       place: "Nomad",
       blurb: {
-        pt: "Simplifiquei experiências de investimento e ajudei a evoluir produtos financeiros por meio de pesquisa, sistemas e colaboração multidisciplinar.",
-        en: "Simplified investment experiences and helped evolve financial products through research, systems, and cross-functional collaboration.",
+        pt: "Simplifiquei jornadas de investimento e ajudei a evoluir produtos financeiros por meio de pesquisa, sistemas e colaboração multidisciplinar.",
+        en: "Simplified investment journeys and helped evolve financial products through research, systems, and cross-functional collaboration.",
       },
     },
     {
@@ -209,8 +209,8 @@ export const aboutPage = {
       role: "Senior Product Designer, LATAM",
       place: "iFood",
       blurb: {
-        pt: "Liderei iniciativas para entregadores na América Latina, adaptando produtos a diferentes mercados e influenciando soluções que escalaram entre países.",
-        en: "Led initiatives for couriers across Latin America, adapting products to different markets and shaping solutions that scaled across countries.",
+        pt: "Liderei iniciativas para entregadores na Colômbia adaptando produtos a diferentes mercados e influenciando decisões em escala regional.",
+        en: "Led initiatives for couriers in Colombia, adapting products to different markets and shaping decisions at a regional scale.",
       },
     },
     {
