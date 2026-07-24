@@ -227,8 +227,8 @@ export const aboutPage = {
       role: "Product Designer Júnior → Pleno",
       place: "Claro",
       blurb: {
-        pt: "Ajudei a definir a linguagem visual e os padrões de um ecossistema digital antes da adoção de Design Systems.",
-        en: "Helped define the visual language and patterns of a digital ecosystem before Design Systems were widely adopted.",
+        pt: "Ajudei a definir linguagem visual e padrões de experiência para um ecossistema digital antes da adoção de um Design System.",
+        en: "Helped define visual language and experience patterns for a digital ecosystem before Design Systems were widely adopted.",
       },
     },
     {
@@ -236,15 +236,15 @@ export const aboutPage = {
       role: "Product Designer Júnior",
       place: "Accenture/Concrete",
       blurb: {
-        pt: "Trabalhei no projeto do Itaú, contribuindo para a evolução de produtos digitais e descobrindo meu interesse por resolver problemas complexos, muito antes de desenhar interfaces.",
-        en: "Worked on the Itaú project, contributing to the evolution of digital products and discovering my interest in solving complex problems, long before designing interfaces.",
+        pt: "Trabalhei na evolução de produtos digitais do Itaú, utilizando pesquisa e descoberta para resolver problemas antes de desenhar interfaces.",
+        en: "Worked on the evolution of Itaú's digital products, using research and discovery to solve problems before designing interfaces.",
       },
     },
   ] as { period: L; role: string; place: string; blurb: L }[],
   education: {
     degrees: [
       {
-        degree: { pt: "Bacharelado em Design de Produto Industrial", en: "Bachelor of Industrial Product Design" },
+        degree: { pt: "Bacharelado em Design de Produto", en: "Bachelor of Product Design" },
         school: "IESAM",
         period: { pt: "2009 – 2013 · Pará, Brasil", en: "2009 – 2013 · Pará, Brazil" },
       },
