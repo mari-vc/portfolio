@@ -182,8 +182,8 @@ export const aboutPage = {
       role: "Especialista em Design de Produto",
       place: "StarkBank",
       blurb: {
-        pt: "Estruturei a área de Design, liderei a criação do Design System e estabeleci processos para escalar produtos internos.",
-        en: "I structured the Design practice, led the creation of the Design System, and set up processes to scale internal products.",
+        pt: "Ajudei a estruturar a área de Design, liderando a criação do Design System e estabelecendo processos para escalar produtos e fortalecer a consistência da experiência.",
+        en: "Helped structure the Design practice, leading the creation of the Design System and setting up processes to scale products and strengthen experience consistency.",
       },
     },
     {
@@ -206,7 +206,7 @@ export const aboutPage = {
     },
     {
       period: { pt: "Jan 2021 – Mar 2022", en: "Jan 2021 – Mar 2022" },
-      role: "Senior Product Designer, LATAM",
+      role: "Product Designer Sênior, LATAM",
       place: "iFood",
       blurb: {
         pt: "Liderei iniciativas para entregadores na Colômbia adaptando produtos a diferentes mercados e influenciando decisões em escala regional.",
