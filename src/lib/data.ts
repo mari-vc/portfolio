@@ -125,45 +125,45 @@ export const curiosities: {
 export const aboutPage = {
   body: [
     {
-      pt: "Sempre gostei de trazer clareza ao caos. Foi isso que me levou ao Design de Produto em 2015 e continua guiando a forma como trabalho hoje.",
-      en: "I've always loved bringing clarity to chaos. That's what led me to Product Design in 2015, and it still guides how I work today.",
+      pt: "Trabalho com Design de Produto desde 2015, transformando problemas complexos em experiências mais simples, claras e fáceis de usar.",
+      en: "I've worked in Product Design since 2015, turning complex problems into experiences that are simpler, clearer, and easier to use.",
     },
     {
-      pt: "Ao longo da minha carreira, trabalhei em diferentes contextos, de grandes empresas a startups, desenhando produtos para fintechs, logística, saúde, streaming e, mais recentemente, IA.",
-      en: "Throughout my career, I've worked across different contexts, from large companies to startups, designing products for fintech, logistics, healthcare, streaming, and more recently, AI.",
+      pt: "Ao longo da minha carreira, atuei em empresas de diferentes portes e em produtos de fintech, logística, saúde, streaming e, mais recentemente, inteligência artificial.",
+      en: "Throughout my career, I've worked at companies of different sizes and on products across fintech, logistics, healthcare, streaming, and more recently, artificial intelligence.",
     },
     {
-      pt: "Hoje, meu trabalho vai além de desenhar interfaces. Gosto de ajudar equipes a tomar melhores decisões, criar sistemas que escalam e transformar problemas complexos em produtos simples para as pessoas.",
-      en: "Today, my work goes beyond designing interfaces. I enjoy helping teams make better decisions, building systems that scale, and turning complex problems into simple products for people.",
+      pt: "Hoje, conecto estratégia, design e tecnologia para ajudar equipes a tomar melhores decisões, construir sistemas que escalam e levar boas ideias até produtos que funcionam de verdade.",
+      en: "Today, I connect strategy, design, and technology to help teams make better decisions, build systems that scale, and take good ideas all the way to products that truly work.",
     },
   ] as L[],
   principles: [
     {
       title: { pt: "Clareza", en: "Clarity" },
       text: {
-        pt: "Quanto mais complexo o problema, mais acredito na importância da clareza. Uma das partes que mais gosto no meu trabalho é ajudar a organizar o cenário, encontrar o que realmente importa e criar um caminho antes de partir para as definições.",
-        en: "The more complex the problem, the more I believe in the importance of clarity. One of my favorite parts of the job is helping organize the landscape, finding what really matters, and building a path before moving into decisions.",
+        pt: "Problemas complexos não precisam gerar experiências complicadas. Busco organizar informações, criar hierarquias e tornar evidente o que realmente importa em cada decisão.",
+        en: "Complex problems don't have to lead to complicated experiences. I work to organize information, create hierarchy, and make what really matters evident in every decision.",
       },
     },
     {
       title: { pt: "Colaboração", en: "Collaboration" },
       text: {
-        pt: "O papel de um designer vai além da interface: envolve mediar diferentes perspectivas, dar contexto às decisões e conectar pessoas. Os melhores produtos que ajudei a construir nasceram dessa colaboração.",
-        en: "A designer's role goes beyond the interface: it means mediating different perspectives, giving context to decisions, and connecting people. The best products I've helped build were born from that collaboration.",
+        pt: "Design não acontece de forma isolada. Gosto de construir soluções junto a produto, engenharia e negócio, reunindo diferentes perspectivas desde o início.",
+        en: "Design doesn't happen in isolation. I like building solutions together with product, engineering, and business, bringing different perspectives in from the start.",
       },
     },
     {
       title: { pt: "Pensamento sistêmico", en: "Systems thinking" },
       text: {
-        pt: "Gosto de resolver problemas de uma forma que continue fazendo sentido amanhã. Escalar uma solução vai além de criar componentes: envolve identificar padrões, pensar em diferentes níveis de entrega e tomar decisões que possam ser adaptadas e reutilizadas conforme o produto evolui.",
-        en: "I like solving problems in ways that keep making sense tomorrow. Scaling a solution goes beyond creating components: it means identifying patterns, thinking across different levels of delivery, and making decisions that can be adapted and reused as the product evolves.",
+        pt: "Antes de resolver uma tela, procuro entender o sistema ao redor dela. Isso significa considerar regras, dependências, diferentes jornadas e como a solução poderá evoluir ao longo do tempo.",
+        en: "Before solving a screen, I try to understand the system around it. That means considering rules, dependencies, different journeys, and how the solution might evolve over time.",
       },
     },
     {
       title: { pt: "Pragmatismo", en: "Pragmatism" },
       text: {
-        pt: "Nem todo problema precisa da solução mais sofisticada. Acredito em encontrar o equilíbrio entre impacto, esforço e velocidade, escolhendo a abordagem que faz mais sentido para o momento do produto e do negócio.",
-        en: "Not every problem needs the most sophisticated solution. I believe in finding the balance between impact, effort, and speed, choosing the approach that makes the most sense for where the product and the business are.",
+        pt: "Nem todo problema pede a solução mais sofisticada. Procuro equilibrar impacto, esforço e velocidade, escolhendo o nível de profundidade adequado para cada momento do produto e do negócio.",
+        en: "Not every problem calls for the most sophisticated solution. I aim to balance impact, effort, and speed, choosing the right level of depth for each moment of the product and the business.",
       },
     },
   ] as { title: L; text: L }[],
@@ -173,22 +173,22 @@ export const aboutPage = {
       role: "Staff Product Designer",
       place: "Pump",
       blurb: {
-        pt: "Conectando design e código para construir produtos de IA, do Design System às interfaces em produção.",
-        en: "Connecting design and code to build AI products, from the Design System to production interfaces.",
+        pt: "Conecto design e código na construção de produtos de IA, do Design System às interfaces em produção.",
+        en: "I connect design and code to build AI products, from the Design System to production interfaces.",
       },
     },
     {
       period: { pt: "Jan 2024 – Jan 2026", en: "Jan 2024 – Jan 2026" },
-      role: "Specialist Product Designer",
+      role: "Especialista em Design de Produto",
       place: "StarkBank",
       blurb: {
-        pt: "Ajudei a estruturar a área de Design, liderando a criação do Design System e estabelecendo processos para escalar produtos internos.",
-        en: "Helped structure the Design practice, leading the creation of the Design System and setting up processes to scale internal products.",
+        pt: "Estruturei a área de Design, liderei a criação do Design System e estabeleci processos para escalar produtos internos.",
+        en: "I structured the Design practice, led the creation of the Design System, and set up processes to scale internal products.",
       },
     },
     {
       period: { pt: "Jul 2023 – Dez 2023", en: "Jul 2023 – Dec 2023" },
-      role: "Senior Product Designer",
+      role: "Product Designer Sênior",
       place: "Nomad",
       blurb: {
         pt: "Simplifiquei experiências de investimento e ajudei a evoluir produtos financeiros por meio de pesquisa, sistemas e colaboração multidisciplinar.",
@@ -197,7 +197,7 @@ export const aboutPage = {
     },
     {
       period: { pt: "Mar 2022 – Set 2022", en: "Mar 2022 – Sep 2022" },
-      role: "Product Design Consultant",
+      role: "Consultora de Design de Produto",
       place: "Decisiv",
       blurb: {
         pt: "Transformei fluxos operacionais complexos em ferramentas mais claras e eficientes para equipes de manutenção e logística.",

@@ -18,11 +18,10 @@ export function IconButton({
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
       download={download}
-      aria-label={label}
-      title={label}
-      className="group flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-foreground transition-colors hover:border-accent hover:text-accent"
+      className="group inline-flex h-11 shrink-0 items-center gap-2.5 rounded-full border border-line px-5 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
     >
       {icon === "linkedin" ? <LinkedinIcon /> : <DownloadIcon />}
+      <span>{label}</span>
     </Link>
   );
 }
