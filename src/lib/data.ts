@@ -651,39 +651,36 @@ export const projects: Project[] = [
       {
         title: { pt: "Tokens em camadas", en: "Layered tokens" },
         text: {
-          pt: "Primitivos alinhados ao Tailwind geram paletas white-label inteiras em OKLCh a partir de poucos valores de marca. Tokens semânticos são a única camada que um componente tem permissão de tocar: a regra é que ele nunca referencia um primitivo direto.",
-          en: "Tailwind aligned primitives generate whole white-label palettes in OKLCh from a handful of brand values. Semantic tokens are the only layer a component is allowed to touch: the rule is it never references a primitive directly.",
+          pt: "Organizamos tokens em camadas para separar decisões globais das específicas de cada marca. Isso tornou a customização previsível sem aumentar a complexidade.",
+          en: "We organized tokens in layers to separate global decisions from the ones specific to each brand. That made customization predictable without adding complexity.",
         },
       },
       {
         title: { pt: "O sistema audita a si mesmo", en: "The system audits itself" },
         text: {
-          pt: "Antes de qualquer merge, um comando roda no CI e reprova cor em hexadecimal, valores literais e paletas depreciadas. Ele também prova que todo par de texto e fundo passa em contraste WCAG AA nos dois temas. A disciplina não depende de review manual: é um portão que se recusa a abrir.",
-          en: "Before any merge, a command runs in CI and rejects hardcoded hex colors, literal values, and deprecated palettes. It also proves every text and background pair passes WCAG AA contrast in both themes. The discipline doesn't depend on manual review: it's a gate that refuses to open.",
+          pt: "O próprio sistema identifica inconsistências antes que elas cheguem ao produto. Revisões deixam de depender apenas de inspeção manual.",
+          en: "The system itself catches inconsistencies before they reach the product. Reviews no longer depend on manual inspection alone.",
         },
       },
       {
-        title: { pt: "Atelier, o workbench", en: "Atelier, the workbench" },
+        title: { pt: "Atelier + Workbench", en: "Atelier + Workbench" },
         text: {
-          pt: "109 componentes e suas fundações, cada um construído e documentado em isolamento: anatomia, tokens, estados e props nascem no mesmo PR do código. É a fonte da verdade entre design e engenharia: ninguém precisa adivinhar como montar uma tela.",
-          en: "109 components and their foundations, each built and documented in isolation: anatomy, tokens, states, and props are born in the same PR as the code. It's the source of truth between design and engineering: no one has to guess how to assemble a screen.",
+          pt: "Componentes, documentação, exemplos e testes vivem no mesmo ambiente, mantendo design e implementação sincronizados.",
+          en: "Components, documentation, examples, and tests all live in the same environment, keeping design and implementation in sync.",
         },
       },
       {
         title: { pt: "Extensível pelos clientes", en: "Extensible by customers" },
         text: {
-          pt: "Sobre essa base documentada, os próprios clientes da Pump montam widgets dentro da plataforma, com os mesmos componentes e padrões do produto.",
-          en: "On top of that documented foundation, Pump's own customers assemble widgets inside the platform, using the same components and patterns as the product.",
+          pt: "Clientes podem criar componentes e padrões próprios utilizando a mesma infraestrutura, sem perder compatibilidade com o sistema principal.",
+          en: "Customers can build their own components and patterns on the same infrastructure, without losing compatibility with the core system.",
         },
       },
       {
-        title: {
-          pt: "Agentes como consumidores de primeira classe",
-          en: "Agents as first-class consumers",
-        },
+        title: { pt: "Agentes como consumidores de primeira classe", en: "Agents as first-class consumers" },
         text: {
-          pt: "Cada componente carrega um bloco de contexto para agentes: regras de variante, diretrizes de tamanho e anti-padrões, num formato denso feito para consumo por LLM, com o schema de props ao lado e um clique para copiar. O CI recusa componente que não traga o seu. E um manifesto MCP publicado descreve o contrato da API no formato que o backend realmente emite, para o agente depurar sem traduzir nada no meio do caminho.",
-          en: "Every component carries an agent context block: variant rules, sizing guidelines, and anti-patterns in a dense format built for LLM consumption, with the prop schema alongside and one click to copy. CI rejects any component that doesn't ship one. And a published MCP manifest describes the API contract in the exact shape the backend emits, so agents debug without translating anything along the way.",
+          pt: "A IA deixou de ser apenas uma ferramenta de criação e passou a consumir o próprio sistema. Componentes, contratos e documentação foram estruturados para que agentes compreendam e gerem interfaces com a mesma previsibilidade esperada por pessoas.",
+          en: "AI stopped being only a tool for creating and became a consumer of the system itself. Components, contracts, and documentation were structured so agents can understand and generate interfaces with the same predictability expected of people.",
         },
       },
     ],
