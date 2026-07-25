@@ -583,8 +583,8 @@ export const projects: Project[] = [
     },
     comparisonTable: {
       intro: {
-        pt: "Repensando o papel de um Design System.",
-        en: "Rethinking the role of a Design System.",
+        pt: "Mudando o papel do Design System",
+        en: "Changing the role of the Design System",
       },
       rows: [
         {
@@ -625,25 +625,25 @@ export const projects: Project[] = [
       ],
     },
     challenge: {
-      pt: "O desafio era construir uma plataforma capaz de escalar em três frentes ao mesmo tempo: velocidade, personalização e autonomia.\n\nEnquanto novas funcionalidades precisavam chegar rápido e com qualidade, cada cliente deveria ter sua própria identidade visual sem gerar retrabalho. Além disso, a plataforma precisava permitir que os próprios usuários construíssem interfaces dentro do produto. E, com a chegada da IA, o sistema também precisava ser estruturado para que agentes pudessem utilizá-lo de forma previsível e confiável.\n\nEm vez de resolver cada necessidade separadamente, o objetivo era criar uma única arquitetura capaz de sustentar todas elas.",
-      en: "The challenge was to build a platform able to scale on three fronts at once: development, personalization, and autonomy.\n\nWhile new features needed to ship fast and with quality, each client had to have their own visual identity without generating rework. Beyond that, the platform had to let users themselves build interfaces inside the product. And with the arrival of AI, the system also had to be structured so agents could use it in a predictable, reliable way.\n\nInstead of solving each need separately, the goal was to create a single architecture able to sustain all of them.",
+      pt: "O desafio nunca foi criar mais componentes. Era construir um sistema capaz de escalar em três frentes ao mesmo tempo:\n\n- velocidade de desenvolvimento;\n- autonomia dos times;\n- consistência das experiências.\n\nCom a chegada da IA surgiu um novo consumidor da plataforma: agentes também precisavam compreender e construir interfaces de forma previsível.\n\nEm vez de resolver cada problema separadamente, optamos por criar uma arquitetura capaz de sustentá-los juntos.",
+      en: "The challenge was never to build more components. It was to build a system able to scale on three fronts at once:\n\n- development speed;\n- team autonomy;\n- consistency across experiences.\n\nWith the arrival of AI a new consumer of the platform appeared: agents also had to understand and build interfaces predictably.\n\nInstead of solving each problem separately, we chose to build one architecture able to carry them together.",
     },
     approach: [
       {
-        pt: "Sem handoff. Conduzo cada feature do escopo e do wireframe ao protótipo de alta fidelidade, à implementação em produção e à revisão de qualidade. Nenhuma decisão de design se perde na passagem, porque não existe passagem.",
-        en: "No handoff. I take every feature from scope and wireframe to high-fidelity prototype, production implementation, and quality review. No design decision gets lost in the handoff, because there is no handoff.",
+        pt: "Construímos cada componente para funcionar em produção desde o primeiro dia. O objetivo deixou de ser representar interfaces e passou a ser gerar interfaces confiáveis.",
+        en: "We built every component to run in production from day one. The goal stopped being to represent interfaces and became to generate reliable ones.",
       },
       {
-        pt: "Componente antes de tela. Acessibilidade (contraste, foco, leitor de tela) e os cinco idiomas entram já no primeiro rascunho, não como um ajuste no fim.",
-        en: "Components before screens. Accessibility (contrast, focus, screen reader) and all five languages come in with the first sketch, not as a fix at the end.",
+        pt: "Componentes nasceram de tokens, contratos e regras compartilhadas. A interface passou a ser consequência dessas decisões, não sua origem.",
+        en: "Components came out of tokens, contracts, and shared rules. The interface became a consequence of those decisions, not their origin.",
       },
       {
-        pt: "Padrão em vez de exceção. Quando um caso novo aparece, ele volta para o sistema, e não para uma tela solta. É assim que a consistência escala sem travar a velocidade.",
-        en: "Patterns over exceptions. When a new case shows up, it goes back into the system, not onto a one-off screen. That's how consistency scales without slowing the team down.",
+        pt: "Cada novo caso de uso reforça o sistema em vez de criar exceções. Assim, a consistência cresce junto com o produto.",
+        en: "Every new use case reinforces the system instead of creating exceptions. That way consistency grows along with the product.",
       },
       {
-        pt: "White-label além das cores. Assim como a cor já era configurável por marca, passei a aplicar o mesmo princípio para forma e espaço: cada tenant define sua densidade e arredondamento de forma global, sem tocar em componente nenhum.",
-        en: "White-label beyond colors. Just as color was already configurable per brand, I extended the same principle to shape and space: each tenant sets their density and roundness globally, without touching a single component.",
+        pt: "White-label deixou de ser apenas troca de cores. Marcas, temas e comportamentos passaram a ser configurados por tokens, permitindo evolução global sem alterar componentes.",
+        en: "White-label stopped being just a color swap. Brands, themes, and behaviors are configured through tokens, allowing global evolution without touching components.",
       },
     ],
     pillarsTitle: { pt: "Decisões arquiteturais", en: "Architectural decisions" },

@@ -533,15 +533,31 @@ export default async function ProjectPage({
 }
 
 function Block({ title, children }: { title: string; children: string }) {
-  const paragraphs = children.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean)
+  const blocks = children.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean)
+  // um bloco cujas linhas começam todas com "-" ou "*" vira lista; o resto é parágrafo
+  const isList = (block: string) =>
+    block.split('\n').every((line) => /^\s*[-*]\s+/.test(line))
   return (
     <section className="mt-12">
       <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{title}</h2>
-      {paragraphs.map((p, i) => (
-        <p key={i} className={`${i === 0 ? 'mt-5' : 'mt-4'} text-base leading-relaxed`}>
-          {p}
-        </p>
-      ))}
+      {blocks.map((block, i) =>
+        isList(block) ? (
+          <ul key={i} className="mt-4 space-y-2">
+            {block.split('\n').map((line, j) => (
+              <li
+                key={j}
+                className="relative pl-5 text-base leading-relaxed before:absolute before:left-0 before:top-[0.7em] before:h-1.5 before:w-1.5 before:rounded-full before:bg-accent"
+              >
+                {line.replace(/^\s*[-*]\s+/, '')}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p key={i} className={`${i === 0 ? 'mt-5' : 'mt-4'} text-base leading-relaxed`}>
+            {block}
+          </p>
+        ),
+      )}
     </section>
   )
 }
