@@ -574,12 +574,12 @@ export const projects: Project[] = [
     },
     tags: ["Design System", "White-label", "AI-native"],
     summary: {
-      pt: "O Atelier não foi criado para organizar componentes. Foi criado para tornar a evolução do produto previsível.",
-      en: "Atelier wasn't created to organize components. It was created to make product evolution predictable.",
+      pt: "Quando IA começou a construir interfaces, percebemos que o Design System precisava deixar de ser uma biblioteca e passar a ser infraestrutura.",
+      en: "When AI started building interfaces, we realized the Design System had to stop being a library and become infrastructure.",
     },
     overview: {
-      pt: "À medida que a plataforma crescia, três problemas surgiam ao mesmo tempo.\n\nO Design System precisava acompanhar a velocidade de desenvolvimento, permitir que cada cliente personalizasse sua experiência sem gerar retrabalho e, ao mesmo tempo, servir como base para interfaces construídas por usuários e por agentes de IA.\n\nConduzi a criação do Atelier para resolver essas três necessidades em uma única arquitetura. Em vez de uma biblioteca de componentes, construímos uma infraestrutura onde design, documentação e código evoluem juntos.\n\nEm cerca de oito semanas, o sistema chegou a 109 componentes documentados, eliminou inconsistências entre Figma e código e passou a sustentar toda a evolução da plataforma.",
-      en: "As the platform grew, three problems emerged at the same time.\n\nThe Design System had to keep up with the pace of development, let each client personalize their experience without generating rework, and at the same time serve as the foundation for interfaces built by users and AI agents.\n\nI led the creation of Atelier to solve these three needs in a single architecture. Instead of a component library, we built infrastructure where design, documentation, and code evolve together.\n\nIn about eight weeks, the system reached 109 documented components, eliminated inconsistencies between Figma and code, and became the foundation sustaining the entire platform's evolution.",
+      pt: "Conforme a plataforma crescia, cada nova funcionalidade aumentava a distância entre design e implementação. Componentes duplicados, inconsistências e documentação desatualizada eram sintomas de um problema maior: o sistema não acompanhava a velocidade do produto.\n\nO Atelier nasceu para resolver isso. Em vez de manter apenas uma biblioteca de componentes, criamos uma infraestrutura onde design, documentação e código evoluem juntos.",
+      en: "As the platform grew, every new feature widened the gap between design and implementation. Duplicated components, inconsistencies, and outdated documentation were symptoms of a bigger problem: the system was not keeping up with the pace of the product.\\n\\nAtelier was born to fix that. Instead of maintaining just a component library, we built an infrastructure where design, documentation, and code evolve together.",
     },
     comparisonTable: {
       intro: {
