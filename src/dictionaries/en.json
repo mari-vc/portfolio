@@ -80,7 +80,7 @@
   },
   "email_menu": {
     "default": "Default mail app",
-    "copy": "Copy address",
-    "copied": "Address copied"
+    "copy": "Copy email",
+    "copied": "Email copied"
   }
 }
