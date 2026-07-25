@@ -500,7 +500,7 @@ export default async function ProjectPage({
             </section>
           )}
 
-          <p className="mt-12 font-hand max-w-2xl text-2xl leading-relaxed text-foreground sm:text-3xl">
+          <p className="mt-12 font-hand max-w-2xl text-2xl leading-relaxed text-foreground">
             {t(project.closing, lang)}
           </p>
 
