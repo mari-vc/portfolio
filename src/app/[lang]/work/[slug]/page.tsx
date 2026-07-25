@@ -438,8 +438,16 @@ export default async function ProjectPage({
                 </ol>
               ) : (
                 <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-                  {project.pillars.map((pillar, i) => (
-                    <div key={i} className="bg-card p-6">
+                  {project.pillars.map((pillar, i, arr) => (
+                    <div
+                      key={i}
+                      // com contagem ímpar o último card ficaria sozinho na linha e o
+                      // bg-line do container (que faz os divisores de 1px) apareceria
+                      // como um bloco cinza na célula vazia — então ele ocupa a linha
+                      className={`bg-card p-6${
+                        arr.length % 2 === 1 && i === arr.length - 1 ? " sm:col-span-2" : ""
+                      }`}
+                    >
                       <span className="font-mono text-sm text-accent">
                         {String(i + 1).padStart(2, '0')}
                       </span>

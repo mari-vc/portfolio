@@ -676,6 +676,16 @@ export const projects: Project[] = [
           en: "On top of that documented foundation, Pump's own customers assemble widgets inside the platform, using the same components and patterns as the product.",
         },
       },
+      {
+        title: {
+          pt: "Agentes como consumidores de primeira classe",
+          en: "Agents as first-class consumers",
+        },
+        text: {
+          pt: "Cada componente carrega um bloco de contexto para agentes: regras de variante, diretrizes de tamanho e anti-padrões, num formato denso feito para consumo por LLM, com o schema de props ao lado e um clique para copiar. O CI recusa componente que não traga o seu. E um manifesto MCP publicado descreve o contrato da API no formato que o backend realmente emite, para o agente depurar sem traduzir nada no meio do caminho.",
+          en: "Every component carries an agent context block: variant rules, sizing guidelines, and anti-patterns in a dense format built for LLM consumption, with the prop schema alongside and one click to copy. CI rejects any component that doesn't ship one. And a published MCP manifest describes the API contract in the exact shape the backend emits, so agents debug without translating anything along the way.",
+        },
+      },
     ],
     outcome: [
       { label: { pt: "109 componentes", en: "109 components" }, value: "Base única para toda a plataforma" },
