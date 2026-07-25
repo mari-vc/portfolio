@@ -81,7 +81,7 @@ export default async function ProjectPage({
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
               {project.client} · {project.year}
             </p>
-            <h1 className="font-hand mt-4 text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
+            <h1 className="font-hand mt-4 text-4xl font-medium leading-tight tracking-tight">
               {t(project.title, lang)}
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-muted">
