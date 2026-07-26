@@ -674,8 +674,8 @@ export const projects: Project[] = [
           label: "atelier / foundations / color",
           heading: { pt: "Fundação: cor", en: "Foundation: color" },
           caption: {
-            pt: "Toda marca começa da mesma forma.\n\nTrocar a identidade visual de um cliente normalmente significa redefinir dezenas de cores, revisar componentes e validar contrastes manualmente.\n\nNo Atelier, decidimos inverter essa lógica.\n\nCada cliente informa apenas duas cores.\n\nTodo o restante é construído pelo sistema.",
-            en: "Every brand starts the same way.\n\nChanging a customer's visual identity usually means redefining dozens of colors, reviewing components, and validating contrast by hand.\n\nIn Atelier, we decided to invert that logic.\n\nEach customer provides just two colors.\n\nEverything else is built by the system.",
+            pt: "No Atelier, cada cliente informa apenas duas cores, e o sistema gera automaticamente toda a fundação visual necessária para que os mesmos componentes funcionem em qualquer marca.",
+            en: "In Atelier, each customer provides just two colors, and the system automatically generates the entire visual foundation needed for the same components to work across any brand.",
           },
         },
         {
