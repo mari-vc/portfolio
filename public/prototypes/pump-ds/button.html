@@ -77,12 +77,6 @@
 
   /* ── header ── */
   .hd { padding-bottom: 26px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 26px; }
-  .hd-meta {
-    display: flex; align-items: center; gap: 10px;
-    font-family: var(--font-mono); font-size: 10px;
-    letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-tertiary);
-  }
-  .hd-meta::before { content: ""; width: 20px; height: 1px; background: var(--border-strong); }
   .hd-title { font-size: 30px; line-height: 1; letter-spacing: -0.035em; font-weight: 700; margin: 12px 0 0; }
   .hd-lede { font-size: 14px; line-height: 1.5; color: var(--fg-secondary); max-width: 620px; margin: 10px 0 0; }
 
@@ -212,9 +206,12 @@
   .a11y b { color: var(--fg-primary); }
   code.i { font-family: var(--font-mono); font-size: 11px; background: var(--bg-secondary); padding: 1px 4px; border-radius: 3px; }
 
+  @media (max-width: 520px) {
+    .pg { grid-template-columns: 1fr; }
+  }
   @media (max-width: 720px) {
     #root { padding: 22px 18px 32px; }
-    .pg, .dd, .an-cards { grid-template-columns: 1fr; }
+    .dd, .an-cards { grid-template-columns: 1fr; }
     .hd-title { font-size: 25px; }
   }
 </style>
@@ -355,7 +352,6 @@
     return (
       <>
         <header className="hd">
-          <div className="hd-meta"><span>v1.0</span><span>·</span><span>Action / 01</span></div>
           <h1 className="hd-title">Button</h1>
           <p className="hd-lede">
             Uma ação clara, com peso visual proporcional à intenção. Tudo que o usuário
