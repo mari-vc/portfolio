@@ -685,9 +685,9 @@ export const projects: Project[] = [
       },
     ],
     outcome: [
-      { label: { pt: "109 componentes", en: "109 components" }, value: "Base única para toda a plataforma" },
-      { label: { pt: "208 commits", en: "208 commits" }, value: "Construído em aproximadamente 8 semanas" },
-      { label: { pt: "0 hex hardcoded", en: "0 hardcoded hex" }, value: "Consistência garantida automaticamente" },
+      { label: { pt: "109 componentes", en: "109 components" }, value: "Base compartilhada para toda a plataforma" },
+      { label: { pt: "208 commits", en: "208 commits" }, value: "Sistema construído e evoluído em aproximadamente oito semanas" },
+      { label: { pt: "0 hex hardcoded", en: "0 hardcoded hex" }, value: "Todas as cores derivadas de tokens" },
     ],
     closing: {
       pt: "Comecei desenhando interfaces. Hoje desenho sistemas que permitem que produtos evoluam sem depender de mim. O Atelier nasceu para transformar design em infraestrutura, dando autonomia ao time, aos clientes e aos agentes de IA.",
