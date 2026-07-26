@@ -91,23 +91,20 @@
   /* ── anatomia ── */
   .an-frame {
     border: 1.5px dashed var(--border-default); border-radius: var(--radius-lg);
-    padding: 34px 26px 26px; background: var(--bg-subtle);
+    padding: 20px; background: var(--bg-subtle); overflow-x: auto;
   }
-  .an-stage { display: flex; justify-content: center; margin-bottom: 30px; }
-  .an-dot {
-    width: 17px; height: 17px; border-radius: 50%; flex: none;
-    background: var(--fg-primary); color: var(--bg-primary);
-    font-family: var(--font-mono); font-size: 9px; font-weight: 700;
-    display: inline-flex; align-items: center; justify-content: center;
+  .an-canvas { position: relative; width: 620px; height: 280px; margin: 0 auto; }
+  .an-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .an-callout {
+    position: absolute; width: 128px; margin-left: -64px; text-align: center;
+    font-size: 10.5px; line-height: 1.4; color: var(--fg-secondary);
   }
-  .an-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .an-card {
-    background: var(--bg-primary); border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md); padding: 14px 14px 17px;
+  .an-callout b {
+    display: block; font-family: var(--font-mono); font-size: 11px;
+    font-weight: 700; color: var(--fg-primary); margin-bottom: 1px;
   }
-  .an-card-head { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
-  .an-card-head strong { font-size: 12px; }
-  .an-card p { margin: 0; font-size: 11.5px; line-height: 1.45; color: var(--fg-secondary); }
+  .an-callout-top { top: 8px; }
+  .an-callout-bottom { bottom: 8px; }
 
   /* ── playground ── */
   .pg { display: grid; grid-template-columns: 1fr 232px; gap: 14px; }
@@ -201,7 +198,7 @@
   }
   @media (max-width: 720px) {
     #root { padding: 22px 18px 32px; }
-    .dd, .an-cards { grid-template-columns: 1fr; }
+    .dd { grid-template-columns: 1fr; }
     .hd-title { font-size: 25px; }
   }
 </style>
@@ -214,7 +211,7 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
   <script type="text/babel">
-  const { useState } = React;
+  const { useState, useRef, useLayoutEffect } = React;
 
   const Spinner = ({ size = 16, color = "currentColor" }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" style={{ animation: "pump-spin 0.8s linear infinite", flexShrink: 0 }}>
@@ -227,6 +224,91 @@
   const ArrowIcon = ({ size = 16 }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M5 12h14M13 6l6 6-6 6" /></svg>
   );
+
+  // ═══════════════════════════════════════════════════════════
+  // Diagrama de anatomia — redline no estilo Material/HIG/Carbon/Uber Base:
+  // callouts apontando pra medidas reais, não pra "slots" abstratos.
+  // O mockup usa os valores literais do Button md com ícone líder (altura
+  // 40, padding 12/20, ícone 20, radius 8); as âncoras são medidas via ref
+  // depois do layout, não estimadas — só os rótulos ficam em posição fixa.
+  // ═══════════════════════════════════════════════════════════
+  const AN_W = 620, AN_H = 280;
+  const AN_TOP_Y = 8, AN_BOTTOM_Y = 236, AN_MID_TOP = 58, AN_MID_BOTTOM = 196;
+  const AN_COLS = [64, 310, 556];
+
+  function AnatomyDiagram() {
+    const stageRef = useRef(null);
+    const btnRef = useRef(null);
+    const iconRef = useRef(null);
+    const labelRef = useRef(null);
+    const [pts, setPts] = useState(null);
+
+    useLayoutEffect(() => {
+      function measure() {
+        if (!stageRef.current) return;
+        const stage = stageRef.current.getBoundingClientRect();
+        const rel = (r) => ({
+          x: r.left - stage.left, y: r.top - stage.top, w: r.width, h: r.height,
+          cx: r.left - stage.left + r.width / 2, cy: r.top - stage.top + r.height / 2,
+        });
+        setPts({
+          btn: rel(btnRef.current.getBoundingClientRect()),
+          icon: rel(iconRef.current.getBoundingClientRect()),
+          label: rel(labelRef.current.getBoundingClientRect()),
+        });
+      }
+      measure();
+      window.addEventListener("resize", measure);
+      return () => window.removeEventListener("resize", measure);
+    }, []);
+
+    const callouts = pts ? [
+      { key: "icon", side: "top", lx: AN_COLS[0], ax: pts.icon.cx, ay: pts.btn.y, title: "Ícone", sub: "20px em md" },
+      { key: "height", side: "top", lx: AN_COLS[1], ax: pts.btn.cx, ay: pts.btn.y, title: "Altura", sub: "40px — --height-md" },
+      { key: "radius", side: "top", lx: AN_COLS[2], ax: pts.btn.x + pts.btn.w, ay: pts.btn.y, title: "Raio", sub: "8px — --radius-md" },
+      { key: "padding", side: "bottom", lx: AN_COLS[0], ax: pts.btn.x + (pts.icon.x - pts.btn.x) / 2, ay: pts.btn.y + pts.btn.h, title: "Padding", sub: "12 · 20px, assimétrico" },
+      { key: "label", side: "bottom", lx: AN_COLS[1], ax: pts.label.cx, ay: pts.btn.y + pts.btn.h, title: "Label", sub: "14px · peso 600" },
+      { key: "fill", side: "bottom", lx: AN_COLS[2], ax: pts.btn.cx, ay: pts.btn.y + pts.btn.h, title: "Preenchimento", sub: "cor sólida, sem sombra" },
+    ] : [];
+
+    return (
+      <div className="an-canvas" ref={stageRef}>
+        <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
+          <div ref={btnRef} style={{
+            transform: "scale(2.5)", transformOrigin: "center",
+            height: 40, paddingLeft: 12, paddingRight: 20,
+            background: "var(--bg-brand-default)", borderRadius: "var(--radius-md)",
+            display: "inline-flex", alignItems: "center", gap: 8, color: "#fff",
+          }}>
+            <span ref={iconRef} style={{ display: "inline-flex" }}><PlusIcon size={20} /></span>
+            <span ref={labelRef} style={{ fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 600 }}>Salvar</span>
+          </div>
+        </div>
+
+        {pts && (
+          <svg className="an-svg" viewBox={`0 0 ${AN_W} ${AN_H}`} preserveAspectRatio="none">
+            {callouts.map(c => {
+              const midY = c.side === "top" ? AN_MID_TOP : AN_MID_BOTTOM;
+              const labelY = c.side === "top" ? AN_TOP_Y + 30 : AN_BOTTOM_Y;
+              const pts2 = `${c.ax},${c.ay} ${c.ax},${midY} ${c.lx},${midY} ${c.lx},${labelY}`;
+              return (
+                <React.Fragment key={c.key}>
+                  <polyline points={pts2} fill="none" stroke="var(--fg-brand-default)" strokeWidth="1.25" strokeDasharray="3 3" opacity="0.75" />
+                  <circle cx={c.ax} cy={c.ay} r="2.5" fill="var(--fg-brand-default)" />
+                </React.Fragment>
+              );
+            })}
+          </svg>
+        )}
+
+        {pts && callouts.map(c => (
+          <div key={c.key} className={"an-callout an-callout-" + c.side} style={{ left: c.lx }}>
+            <b>{c.title}</b>{c.sub}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   // ═══════════════════════════════════════════════════════════
   // Button — tone × appearance. Todo valor visual vem de token.
@@ -326,8 +408,6 @@
       </div>
     </div>
   );
-  const Dot = ({ n }) => <span className="an-dot">{n}</span>;
-
   const TONES = ["brand", "neutral", "destructive", "inverse"];
   const APPEARANCES = ["primary", "secondary", "tertiary"];
 
@@ -352,37 +432,7 @@
 
         <Section num="01" title="Anatomia" note="Todo botão é composto por três partes: container, label e ícones opcionais. Cada uma responde a um conjunto específico de tokens, permitindo novas variantes sem alterar sua estrutura.">
           <div className="an-frame">
-            <div className="an-stage">
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-                <div style={{ display: "flex", gap: 54, marginBottom: 2 }}><Dot n={3} /><Dot n={3} /></div>
-                <div style={{
-                  height: 36, paddingLeft: 12, paddingRight: 16,
-                  background: "var(--bg-brand-default)", borderRadius: "var(--radius-md)",
-                  display: "inline-flex", alignItems: "center", gap: 8, color: "#fff",
-                  outline: "1.5px dashed rgba(255,255,255,0.55)", outlineOffset: 2,
-                }}>
-                  <PlusIcon size={14} />
-                  <span style={{ fontSize: 13, fontWeight: 600, fontStyle: "italic" }}>{"{Label}"}</span>
-                  <ArrowIcon size={14} />
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-                  <span style={{ width: 1, height: 13, background: "var(--border-strong)" }} />
-                  <Dot n={2} />
-                </div>
-              </div>
-            </div>
-            <div className="an-cards">
-              {[
-                { n: 1, title: "Container", body: "A forma do botão: altura, raio, fundo e borda — todos vindos de token." },
-                { n: 2, title: "Label", body: "O texto que comunica a ação. Verbo no infinitivo ou imperativo, sempre presente." },
-                { n: 3, title: "Ícones", body: "Opcionais, antes ou depois do texto. 16px em sm, 20 em md, 24 em lg." },
-              ].map(c => (
-                <div className="an-card" key={c.n}>
-                  <div className="an-card-head"><Dot n={c.n} /><strong>{c.title}</strong></div>
-                  <p>{c.body}</p>
-                </div>
-              ))}
-            </div>
+            <AnatomyDiagram />
           </div>
         </Section>
 
