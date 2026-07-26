@@ -479,9 +479,11 @@ export default async function ProjectPage({
                   <h3 className="text-base font-medium tracking-tight">
                     {t(item.heading, lang)}
                   </h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-                    {t(item.caption, lang)}
-                  </p>
+                  {t(item.caption, lang).split('\n\n').map((paragraph, i) => (
+                    <p key={i} className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+                      {paragraph}
+                    </p>
+                  ))}
                   <DesignSystemEmbed
                     src={item.src}
                     title={t(item.heading, lang)}

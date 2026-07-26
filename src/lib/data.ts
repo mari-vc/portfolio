@@ -674,8 +674,8 @@ export const projects: Project[] = [
           label: "atelier / foundations / color",
           heading: { pt: "Fundação: cor", en: "Foundation: color" },
           caption: {
-            pt: "Troque a marca e as 82 cores se refazem na hora. O tenant informa dois hex; o resto é derivado em OKLCh — inclusive a matiz do cinza, que herda a temperatura da marca, e as cores de feedback, que se afastam da marca para manter 35° de separação.",
-            en: "Change the brand and all 82 colors regenerate instantly. The tenant provides two hex values; everything else is derived in OKLCh — including the grey's hue, which inherits the brand temperature, and the feedback colors, which shift away from the brand to keep 35° of separation.",
+            pt: "Toda marca começa da mesma forma.\n\nTrocar a identidade visual de um cliente normalmente significa redefinir dezenas de cores, revisar componentes e validar contrastes manualmente.\n\nNo Atelier, decidimos inverter essa lógica.\n\nCada cliente informa apenas duas cores.\n\nTodo o restante é construído pelo sistema.",
+            en: "Every brand starts the same way.\n\nChanging a customer's visual identity usually means redefining dozens of colors, reviewing components, and validating contrast by hand.\n\nIn Atelier, we decided to invert that logic.\n\nEach customer provides just two colors.\n\nEverything else is built by the system.",
           },
         },
         {
