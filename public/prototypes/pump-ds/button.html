@@ -95,11 +95,9 @@
   }
   /* fluido: as colunas dos rótulos são fração da largura, então acompanham */
   .an-canvas { position: relative; width: 100%; max-width: 660px; margin: 0 auto; }
-  /* o botão é o componente real; scale() só amplia pra leitura, sem alterar o layout */
-  .an-scale {
-    position: absolute; left: 50%; top: 50%;
-    transform: translate(-50%, -50%) scale(2.2); transform-origin: center;
-  }
+  /* 1:1, sem scale: o valor no rótulo é o valor medível na tela. Ampliar
+     multiplicaria o raio e a altura sem multiplicar o texto do callout. */
+  .an-scale { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
   .an-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .an-callout {
     position: absolute; width: 150px; margin-left: -75px; text-align: center;
@@ -117,8 +115,7 @@
      medidas viram lista de definição — sem linhas cruzando nem rótulo cortado */
   .an-canvas.is-stacked { display: flex; flex-direction: column; align-items: center; gap: 26px; }
   .an-canvas.is-stacked .an-scale {
-    position: static; transform: scale(1.6); transform-origin: center;
-    margin: 18px 0 26px;
+    position: static; transform: none; margin: 20px 0 24px;
   }
   .an-list {
     width: 100%; margin: 0; display: grid;
@@ -259,7 +256,7 @@
   // ═══════════════════════════════════════════════════════════
   // Faixas verticais do canvas: rótulos no topo, corredor da linha, botão, e o
   // espelho embaixo. O botão fica no centro; as linhas viram nos corredores.
-  const AN_LABEL_H = 34, AN_LANE = 30, AN_CENTER_H = 132;
+  const AN_LABEL_H = 34, AN_LANE = 26, AN_CENTER_H = 84;
   // abaixo disso os rótulos de 150px se sobrepõem: cai pra lista empilhada
   const AN_MIN_RADIAL = 520;
   const AN_H = (AN_LABEL_H + AN_LANE) * 2 + AN_CENTER_H;   // 260
@@ -503,7 +500,7 @@
           </div>
         </Section>
 
-        <Section num="02" title="Playground" note="Manipule as props ao vivo.">
+        <Section num="02" title="Playground" note="Todas as combinações seguem as mesmas regras de tokens, estados e acessibilidade.">
           <div className="pg">
             <div className="pg-canvas">
               <Button tone={tone} appearance={appearance} size={size} icon={icon} state={state}>{label}</Button>
@@ -523,7 +520,7 @@
           </div>
         </Section>
 
-        <Section num="03" title="Variantes" note="Quatro tons por três aparências. A hierarquia é a mesma em todos os tons — e o que ainda não existe fica marcado, não escondido.">
+        <Section num="03" title="Hierarquia visual" note="Todo botão pertence a um tom e uma aparência. A hierarquia permanece consistente independentemente da marca, enquanto os tokens definem apenas sua representação visual.">
           <div className="mx-wrap">
             <table className="mx">
               <thead>
