@@ -313,7 +313,7 @@
   // ═══════════════════════════════════════════════════════════
   // Button — tone × appearance. Todo valor visual vem de token.
   // ═══════════════════════════════════════════════════════════
-  function Button({ tone = "brand", appearance = "primary", size = "sm", icon = "none", state = "default", children = "Save changes" }) {
+  function Button({ tone = "brand", appearance = "filled", size = "sm", icon = "none", state = "default", children = "Save changes" }) {
     const height = size === "lg" ? "var(--height-lg)" : size === "md" ? "var(--height-md)" : "var(--height-sm)";
     const iconPx = size === "lg" ? 24 : size === "md" ? 20 : 16;
     const fontSize = size === "sm" ? "var(--label-sm)" : "var(--label-md)";
@@ -326,13 +326,13 @@
 
     const V = (() => {
       const fB = "var(--focus-brand)", fD = "var(--focus-destructive)";
-      if (appearance === "primary") {
+      if (appearance === "filled") {
         if (tone === "brand") return { bg: "var(--bg-brand-default)", bgHover: "var(--bg-brand-hover)", bgActive: "var(--bg-brand-active)", color: "var(--fg-brand-on-primary)", border: "transparent", focus: fB };
         if (tone === "destructive") return { bg: "#B80008", bgHover: "#B80008", bgActive: "#8C0000", color: "#FAFAF9", border: "transparent", focus: fD };
         if (tone === "neutral") return { bg: "var(--bg-primary)", bgHover: "var(--bg-secondary)", bgActive: "var(--bg-tertiary)", color: "var(--fg-secondary)", border: "var(--border-subtle)", focus: fB };
         return { bg: "var(--fg-primary)", bgHover: "var(--fg-secondary)", bgActive: "var(--fg-tertiary)", color: "var(--bg-primary)", border: "transparent", focus: fB };
       }
-      if (appearance === "secondary") {
+      if (appearance === "outline") {
         if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "var(--border-brand-default)", borderHover: "var(--bg-brand-hover)", borderActive: "var(--bg-brand-active)", focus: fB };
         if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "#B80008", colorActive: "#8C0000", border: "var(--border-destructive)", borderHover: "#B80008", borderActive: "#8C0000", focus: fD };
         return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "var(--border-default)", focus: fB };
@@ -409,11 +409,11 @@
     </div>
   );
   const TONES = ["brand", "neutral", "destructive", "inverse"];
-  const APPEARANCES = ["primary", "secondary", "tertiary"];
+  const APPEARANCES = ["filled", "outline", "ghost"];
 
   function App() {
     const [tone, setTone] = useState("brand");
-    const [appearance, setAppearance] = useState("primary");
+    const [appearance, setAppearance] = useState("filled");
     const [size, setSize] = useState("md");
     const [icon, setIcon] = useState("leading");
     const [state, setState] = useState("default");
@@ -470,10 +470,10 @@
                   <tr key={tn}>
                     <td>{tn}</td>
                     {APPEARANCES.map(ap => {
-                      // inverse só define primary: secondary/tertiary caem no ramo neutral,
+                      // inverse só define filled: outline/ghost caem no ramo neutral,
                       // cujo texto escuro dá 1.79:1 sobre superfície escura. Lacuna conhecida,
                       // documentada em vez de disfarçada.
-                      const gap = tn === "inverse" && ap !== "primary";
+                      const gap = tn === "inverse" && ap !== "filled";
                       return (
                         <td key={ap} style={tn === "inverse" ? { background: "var(--fg-primary)" } : undefined}>
                           {gap ? (
@@ -513,7 +513,7 @@
                 ].map(([st, desc]) => (
                   <tr key={st}>
                     <td>{st}</td>
-                    <td><Button tone="brand" appearance="primary" size="sm" state={st} icon="none">Save</Button></td>
+                    <td><Button tone="brand" appearance="filled" size="sm" state={st} icon="none">Save</Button></td>
                     <td style={{ fontSize: 12, color: "var(--fg-secondary)" }}>{desc}</td>
                   </tr>
                 ))}
