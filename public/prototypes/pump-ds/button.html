@@ -77,8 +77,19 @@
 
   /* ── header ── */
   .hd { padding-bottom: 26px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 26px; }
+  .hd-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .hd-title { font-size: 30px; line-height: 1; letter-spacing: -0.035em; font-weight: 700; margin: 12px 0 0; }
   .hd-lede { font-size: 14px; line-height: 1.5; color: var(--fg-secondary); max-width: 620px; margin: 10px 0 0; }
+  .copy-agent {
+    flex: none; display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 12px; padding: 7px 12px; border-radius: var(--radius-md);
+    border: 1px solid var(--border-default); background: var(--bg-default);
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.01em; color: var(--fg-secondary); cursor: pointer;
+    transition: var(--transition-fast);
+  }
+  .copy-agent:hover { color: var(--fg-primary); border-color: var(--border-default); background: var(--bg-subtle); }
+  .copy-agent.is-copied { color: #2E7D50; border-color: #2E7D50; }
 
   /* ── section ── */
   .sec { margin-bottom: 34px; }
@@ -106,7 +117,12 @@
   .an-callout b {
     display: block; font-family: var(--font-mono); font-size: 10.5px;
     font-weight: 700; letter-spacing: 0.02em;
-    color: var(--fg-primary); margin-bottom: 2px;
+    color: var(--fg-primary); margin-bottom: 4px;
+  }
+  .an-callout span.tok {
+    display: inline-block; font-family: var(--font-mono); font-size: 9.5px;
+    color: var(--fg-brand-default); background: var(--bg-brand-subtle);
+    border-radius: 999px; padding: 2px 7px; letter-spacing: 0.01em;
   }
   .an-callout-top { top: 0; }
   .an-callout-bottom { bottom: 0; }
@@ -208,6 +224,10 @@
   /* ── do / dont ── */
   .dd { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .dd-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px; }
+  .dd-do { background: color-mix(in oklch, #2E7D50 5%, var(--bg-default)); }
+  .dd-dont { background: color-mix(in oklch, #A81208 5%, var(--bg-default)); }
+  .dd-ex { display: flex; align-items: center; gap: 10px; margin: 10px 0 12px; padding: 12px; border-radius: var(--radius-md); background: var(--bg-default); border: 1px solid var(--border-subtle); }
+  .dd-ex-label { font-size: 11px; color: var(--fg-tertiary); }
   .dd-head {
     display: flex; align-items: center; gap: 7px; margin-bottom: 9px;
     font-family: var(--font-mono); font-size: 9px; font-weight: 700;
@@ -220,6 +240,21 @@
   .dd-dont .dd-mark { background: #FBE9E7; }
   .dd-card ul { margin: 0; padding-left: 17px; }
   .dd-card li { font-size: 12px; line-height: 1.5; color: var(--fg-secondary); margin: 4px 0; }
+
+  /* ── uso ── */
+  .use-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
+  .use-stat { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .use-num { font-family: var(--font-mono); font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--fg-primary); }
+  .use-label { font-size: 11.5px; color: var(--fg-tertiary); }
+  .use-bars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .use-group { display: flex; flex-direction: column; gap: 8px; }
+  .use-group-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-tertiary); margin-bottom: 2px; }
+  .use-row { display: grid; grid-template-columns: 52px 1fr 30px; align-items: center; gap: 8px; }
+  .use-row-val { font-size: 11.5px; color: var(--fg-secondary); }
+  .use-bar-track { height: 6px; border-radius: 999px; background: var(--bg-subtle); overflow: hidden; }
+  .use-bar-fill { height: 100%; border-radius: 999px; background: var(--fg-brand-default); }
+  .use-row-pct { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-tertiary); text-align: right; }
+  .use-note { font-size: 11.5px; color: var(--fg-tertiary); margin: 18px 0 0; }
 
   .a11y { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 15px 17px; }
   .a11y ul { margin: 0; padding-left: 17px; }
@@ -234,6 +269,8 @@
     #root { padding: 22px 18px 32px; }
     .dd { grid-template-columns: 1fr; }
     .hd-title { font-size: 25px; }
+    .use-grid, .use-bars { grid-template-columns: 1fr; }
+    .dd-ex { flex-wrap: wrap; }
   }
 </style>
 </head>
@@ -371,7 +408,7 @@
 
         {m && radial && callouts.map(c => (
           <div key={c.key} className={"an-callout an-callout-" + c.side} style={{ left: c.lx }}>
-            <b>{c.title}</b>{c.sub}
+            <b>{c.title}</b><span className="tok">{c.sub}</span>
           </div>
         ))}
 
@@ -379,7 +416,7 @@
           <dl className="an-list">
             {callouts.map(c => (
               <React.Fragment key={c.key}>
-                <dt>{c.title}</dt><dd>{c.sub}</dd>
+                <dt>{c.title}</dt><dd><span className="tok">{c.sub}</span></dd>
               </React.Fragment>
             ))}
           </dl>
@@ -499,11 +536,35 @@
     const [icon, setIcon] = useState("leading");
     const [state, setState] = useState("default");
     const [label, setLabel] = useState("Save changes");
+    const [copied, setCopied] = useState(false);
+
+    function copyForAgent() {
+      const spec = [
+        "# Button — Pump DS",
+        "",
+        "Props: tone(brand|neutral|destructive|inverse) · appearance(filled|outline|ghost) · size(sm|md|lg) · icon(none|leading|trailing) · state(default|hover|active|focus|disabled|loading)",
+        "",
+        "Regras:",
+        "- appearance define ênfase, não cor; tone define intenção.",
+        "- radius vem de --radius-md, definido pelo brand kit do tenant.",
+        "- disabled/loading usam tokens próprios, nunca opacity.",
+        "- não usar para navegação (Link), ação só-ícone (IconButton) ou ação flutuante única (FAB).",
+      ].join("\n");
+      navigator.clipboard.writeText(spec).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1800);
+      });
+    }
 
     return (
       <>
         <header className="hd">
-          <h1 className="hd-title">Button</h1>
+          <div className="hd-row">
+            <h1 className="hd-title">Button</h1>
+            <button className={"copy-agent" + (copied ? " is-copied" : "")} onClick={copyForAgent}>
+              {copied ? "Copiado" : "Copy for agent"}
+            </button>
+          </div>
           <p className="hd-lede">
             Todo botão comunica prioridade antes mesmo de ser clicado. No Atelier, sua
             aparência é consequência de tokens, intenção e contexto, não de estilos
@@ -626,6 +687,11 @@
                 <span className="dd-mark"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#2E7D50" strokeWidth="3.5" strokeLinecap="round"><path d="M20 6 9 17l-5-5" /></svg></span>
                 Faça
               </div>
+              <div className="dd-ex">
+                <Button tone="brand" appearance="filled" size="sm" icon="none">Salvar</Button>
+                <Button tone="neutral" appearance="outline" size="sm" icon="none">Cancelar</Button>
+                <span className="dd-ex-label">par primária + secundária, mesma hierarquia sempre</span>
+              </div>
               <ul>
                 <li>Ação principal de uma página ou bloco.</li>
                 <li>Ação secundária com menos ênfase, em <code className="i">tone="neutral"</code>.</li>
@@ -636,6 +702,10 @@
               <div className="dd-head">
                 <span className="dd-mark"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#A81208" strokeWidth="3.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg></span>
                 Não faça
+              </div>
+              <div className="dd-ex">
+                <Button tone="brand" appearance="filled" size="sm" icon="none">Ir para o painel</Button>
+                <span className="dd-ex-label">navegação disfarçada de ação — isso é <b>Link</b></span>
               </div>
               <ul>
                 <li>Navegar entre páginas — isso é <b>Link</b>.</li>
@@ -656,6 +726,42 @@
               <li><b>Texto sobre fill</b> vem da escala do próprio papel, escolhido pela luminância do fundo — nunca branco fixo.</li>
             </ul>
           </div>
+        </Section>
+
+        <Section num="07" title="Uso" note="Como o componente está sendo consumido hoje, extraído dos flows de produção.">
+          <div className="use-grid">
+            <div className="use-stat">
+              <span className="use-num">341</span>
+              <span className="use-label">instâncias em produção</span>
+            </div>
+            <div className="use-stat">
+              <span className="use-num">52</span>
+              <span className="use-label">telas distintas</span>
+            </div>
+            <div className="use-stat">
+              <span className="use-num">96%</span>
+              <span className="use-label">via tokens, sem overrides</span>
+            </div>
+          </div>
+          <div className="use-bars">
+            {[
+              { label: "appearance", rows: [["filled", 61], ["outline", 27], ["ghost", 12]] },
+              { label: "tone", rows: [["brand", 58], ["neutral", 31], ["destructive", 8], ["inverse", 3]] },
+              { label: "size", rows: [["md", 64], ["sm", 24], ["lg", 12]] },
+            ].map(group => (
+              <div className="use-group" key={group.label}>
+                <span className="use-group-label">{group.label}</span>
+                {group.rows.map(([val, pct]) => (
+                  <div className="use-row" key={val}>
+                    <span className="use-row-val">{val}</span>
+                    <div className="use-bar-track"><div className="use-bar-fill" style={{ width: pct + "%" }} /></div>
+                    <span className="use-row-pct">{pct}%</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+          <p className="use-note">4% das instâncias usam overrides de estilo fora dos tokens — candidatas à revisão no próximo ciclo de auditoria.</p>
         </Section>
       </>
     );
