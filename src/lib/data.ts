@@ -690,8 +690,8 @@ export const projects: Project[] = [
       { label: { pt: "0 hex hardcoded", en: "0 hardcoded hex" }, value: "Todas as cores derivadas de tokens" },
     ],
     closing: {
-      pt: "Comecei desenhando interfaces. Hoje desenho sistemas que permitem que produtos evoluam sem depender de mim. O Atelier nasceu para transformar design em infraestrutura, dando autonomia ao time, aos clientes e aos agentes de IA.",
-      en: "I started out designing interfaces. Now I design systems that let products evolve without depending on me. Atelier was born to turn design into infrastructure, giving autonomy to the team, to clients, and to AI agents.",
+      pt: "O Atelier nasceu para criar uma base que cresce junto com o produto. Mais do que um Design System, ele foi projetado para ser uma infraestrutura compartilhada por pessoas e IA.",
+      en: "Atelier was born to create a foundation that grows along with the product. More than a Design System, it was built to be infrastructure shared by people and AI.",
     },
   },
   {
