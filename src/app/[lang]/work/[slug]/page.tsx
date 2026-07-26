@@ -475,7 +475,7 @@ export default async function ProjectPage({
                   <div key={metric.label.pt} className="bg-card p-6">
                     <p className="text-2xl font-normal leading-snug tracking-tight">{t(metric.label, lang)}</p>
                     <InkUnderline className="mt-1.5 h-2 w-14" />
-                    <p className="mt-2 text-sm text-muted">{metric.value}</p>
+                    <p className="mt-2 text-sm text-muted">{t(metric.value, lang)}</p>
                   </div>
                 ))}
               </div>

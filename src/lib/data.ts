@@ -325,7 +325,7 @@ export type Project = {
   pillarsLayout?: "grid" | "list";
   // frase de contexto (opcional), exibida logo abaixo do título da seção de pilares
   pillarsIntro?: L;
-  outcome?: { label: L; value: string }[];
+  outcome?: { label: L; value: L }[];
   closing: L;
   // true → a página do projeto embute o KypcarDemo interativo abaixo da capa.
   demo?: boolean;
@@ -531,15 +531,24 @@ export const projects: Project[] = [
     outcome: [
       {
         label: { pt: "Preparo mais rápido", en: "Faster prep time" },
-        value: "O McDonald's registrou queda no tempo de preparo já no piloto de 7 pontos",
+        value: {
+          pt: "O McDonald's registrou queda no tempo de preparo já no piloto de 7 pontos",
+          en: "McDonald's saw a 7-point drop in prep time already in the pilot",
+        },
       },
       {
         label: { pt: "Hipótese confirmada", en: "Hypothesis confirmed" },
-        value: "NRE caiu e DRE subiu, provando o check-in falso e destravando microtempos reais",
+        value: {
+          pt: "NRE caiu e DRE subiu, provando o check-in falso e destravando microtempos reais",
+          en: "NRE dropped and DRE rose, proving out the false check-in and unlocking real microtimes",
+        },
       },
       {
         label: { pt: "R$ 260 milhões", en: "R$260 million" },
-        value: "Em pedidos mensais protegidos contra fraude de checkout",
+        value: {
+          pt: "Em pedidos mensais protegidos contra fraude de checkout",
+          en: "In monthly orders protected against checkout fraud",
+        },
       },
     ],
     checkoutFlow: {
@@ -685,9 +694,27 @@ export const projects: Project[] = [
       },
     ],
     outcome: [
-      { label: { pt: "109 componentes", en: "109 components" }, value: "Base compartilhada para toda a plataforma" },
-      { label: { pt: "208 commits", en: "208 commits" }, value: "Sistema construído e evoluído em aproximadamente oito semanas" },
-      { label: { pt: "0 hex hardcoded", en: "0 hardcoded hex" }, value: "Todas as cores derivadas de tokens" },
+      {
+        label: { pt: "109 componentes", en: "109 components" },
+        value: {
+          pt: "Base compartilhada para toda a plataforma",
+          en: "Shared foundation for the whole platform",
+        },
+      },
+      {
+        label: { pt: "208 commits", en: "208 commits" },
+        value: {
+          pt: "Sistema construído e evoluído em aproximadamente oito semanas",
+          en: "Built and evolved over roughly eight weeks",
+        },
+      },
+      {
+        label: { pt: "0 hex hardcoded", en: "0 hardcoded hex" },
+        value: {
+          pt: "Todas as cores derivadas de tokens",
+          en: "Every color derived from tokens",
+        },
+      },
     ],
     closing: {
       pt: "O Atelier nasceu para criar uma base que cresce junto com o produto. Mais do que um Design System, ele foi projetado para ser uma infraestrutura compartilhada por pessoas e IA.",
@@ -1189,9 +1216,9 @@ export const projects: Project[] = [
       },
     ],
     outcome: [
-      { label: { pt: "Ativação D7", en: "D7 Activation" }, value: "+27%" },
-      { label: { pt: "Etapas de cadastro", en: "Registration steps" }, value: "-50%" },
-      { label: { pt: "Drop no 1º dia", en: "Day 1 drop-off" }, value: "-31%" },
+      { label: { pt: "Ativação D7", en: "D7 Activation" }, value: { pt: "+27%", en: "+27%" } },
+      { label: { pt: "Etapas de cadastro", en: "Registration steps" }, value: { pt: "-50%", en: "-50%" } },
+      { label: { pt: "Drop no 1º dia", en: "Day 1 drop-off" }, value: { pt: "-31%", en: "-31%" } },
     ],
     closing: {
       pt: "Provamos que ativar bem significa fazer a pessoa sentir o valor logo de cara, mais do que explicar o produto.",
