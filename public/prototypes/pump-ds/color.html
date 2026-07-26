@@ -474,51 +474,43 @@
             <article className="step">
               <div className="step-num">01</div>
               <div className="step-body">
-                <h3>Input do cliente</h3>
-                <p>Apenas <b>primary</b> e <b>secondary</b> em hex. Todo o resto é derivado.</p>
+                <h3>Brand input</h3>
+                <p>O cliente define apenas <b>Primary</b> e <b>Secondary</b>. Todo o restante nasce dessas duas decisões.</p>
               </div>
             </article>
             <article className="step">
               <div className="step-num">02</div>
               <div className="step-body">
-                <h3>Conversão para OKLCh</h3>
-                <p>O sistema raciocina em espaço perceptualmente uniforme, não em RGB nem HSL. É o que permite variar luminosidade sem a marca mudar de cor aos olhos.</p>
+                <h3>Runtime generation</h3>
+                <p>O backend gera escalas completas em OKLCh. Cada marca mantém contraste e consistência sem ajustes manuais.</p>
               </div>
             </article>
             <article className="step">
               <div className="step-num">03</div>
               <div className="step-body">
-                <h3>Geração das escalas</h3>
-                <ul>
-                  <li><b>L</b> — rampa alvo de 0.975 a 0.19. Se o seed não está em 0.580, os ranges acima e abaixo da âncora são comprimidos proporcionalmente.</li>
-                  <li><b>C</b> — o step 500 preserva o chroma original; os demais usam o valor cravado em <code className="i">[0.06, 0.28]</code>.</li>
-                  <li><b>H</b> — constante dentro de cada escala.</li>
-                </ul>
+                <h3>Primitive tokens</h3>
+                <p>As escalas tornam-se tokens primitivos compartilhados por todo o sistema. Nenhum componente depende diretamente de valores de cor.</p>
               </div>
             </article>
             <article className="step">
               <div className="step-num">04</div>
               <div className="step-body">
-                <h3>De onde vem cada matiz</h3>
-                <ul>
-                  <li><b>Neutral</b> — chroma 0.009 na matiz da marca: um cinza com a temperatura do tenant.</li>
-                  <li><b>Feedback</b> — matiz canônica com <b>5% de atração</b> para a marca, dentro do range semântico.</li>
-                  <li><b>Conflito</b> — separação mínima de 35°, resolvida na ordem error, warning, success, info.</li>
-                </ul>
+                <h3>Semantic tokens</h3>
+                <p>Componentes consomem apenas intenção. <code className="i">background/default</code></p>
               </div>
             </article>
             <article className="step">
               <div className="step-num">05</div>
               <div className="step-body">
-                <h3>Tokens semânticos</h3>
-                <p>A única camada que um componente pode tocar. <code className="i">--color-bg-brand-default</code> aponta para o primitivo 500, <code className="i">--color-bg-brand-subtle</code> para o 50.</p>
+                <h3>Components</h3>
+                <p>Os componentes permanecem exatamente iguais para qualquer cliente. A única coisa que muda é a marca.</p>
               </div>
             </article>
             <article className="step">
               <div className="step-num">06</div>
               <div className="step-body">
                 <h3>Dark mode</h3>
-                <p>Mesma escala gerada invertida: cada step mapeia para o seu espelho, e o 500 é o pivô. Construir sobre os semânticos já cobre os dois temas.</p>
+                <p>O mesmo contrato funciona nos dois temas. Trocar entre Light e Dark não exige novos componentes nem novos tokens semânticos.</p>
               </div>
             </article>
           </div>
