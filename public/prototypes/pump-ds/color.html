@@ -391,7 +391,6 @@
     };
     return (
       <div className="bi-card">
-        <div className="bi-card-label">{label}</div>
         <div className="bi-card-body">
           <label className="bi-sw" style={{ background: hex }} title={T.pickColor}>
             <input type="color" value={hex}
@@ -399,6 +398,7 @@
                    style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer" }} />
           </label>
           <div className="bi-fields">
+            <div className="bi-card-label">{label}</div>
             <input className="bi-hex" type="text" value={draft} spellCheck={false}
                    aria-label={T.hexAria(label)}
                    onFocus={() => setFocused(true)}
