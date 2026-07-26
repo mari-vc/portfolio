@@ -677,7 +677,7 @@ export const projects: Project[] = [
         {
           src: "/prototypes/pump-ds/button.html",
           label: "atelier / action / button",
-          heading: { pt: "Componente: Button", en: "Component: Button" },
+          heading: { pt: "Componente", en: "Component" },
           caption: {
             pt: "A mesma estrutura que todo componente do sistema recebe: anatomia, playground com as props ao vivo, matriz de variantes, estados, API, tokens consumidos e acessibilidade. O que ainda não existe aparece marcado, não escondido.",
             en: "The same structure every component in the system gets: anatomy, a live props playground, variant matrix, states, API, consumed tokens, and accessibility. What doesn't exist yet is marked, not hidden.",
