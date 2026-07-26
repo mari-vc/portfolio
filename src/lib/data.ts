@@ -337,7 +337,7 @@ export type Project = {
   dsEmbeds?: {
     title: L
     intro: L
-    items: { src: string; label: string; heading: L; caption: L }[]
+    items: { src: string; label: string; heading: L; caption?: L }[]
   };
   // user flow desenhado a traço (opcional) — título + legenda; o desenho em si
   // é um componente por projeto (hoje só o HandshakeFlow), renderizado após a Abordagem.
@@ -672,11 +672,7 @@ export const projects: Project[] = [
         {
           src: "/prototypes/pump-ds/color.html",
           label: "atelier / foundations / color",
-          heading: { pt: "Fundação: cor", en: "Foundation: color" },
-          caption: {
-            pt: "No Atelier, cada cliente informa apenas duas cores, e o sistema gera automaticamente toda a fundação visual necessária para que os mesmos componentes funcionem em qualquer marca.",
-            en: "In Atelier, each customer provides just two colors, and the system automatically generates the entire visual foundation needed for the same components to work across any brand.",
-          },
+          heading: { pt: "Fundação", en: "Foundation" },
         },
         {
           src: "/prototypes/pump-ds/button.html",

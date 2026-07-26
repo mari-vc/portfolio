@@ -45,18 +45,6 @@
     font-size: 14px; line-height: 1.5; color: var(--fg-2);
     max-width: 620px; margin: 10px 0 0;
   }
-  .hd-badge {
-    display: inline-flex; align-items: center; gap: 7px;
-    margin-top: 14px; padding: 5px 10px 5px 7px;
-    border: 1px solid var(--line); border-radius: 999px;
-    font-family: var(--font-mono); font-size: 10px; color: var(--fg-2);
-  }
-  .hd-badge-tag {
-    font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 2px 6px; border-radius: 999px; background: var(--fg); color: #fff;
-  }
-  .hd-badge-sep { color: var(--line-strong); }
-  .hd-badge-name { color: var(--fg); font-weight: 500; }
   header.hd { padding-bottom: 26px; border-bottom: 1px solid var(--line); margin-bottom: 26px; }
 
   /* ── brand inputs ── */
@@ -335,7 +323,6 @@
     pt: {
       title: "Cor",
       lede: "Cada cliente informa apenas duas cores. A partir delas, o Atelier gera automaticamente toda a fundação visual, garantindo contraste, acessibilidade e consistência entre os componentes. Em vez de permitir combinações que podem quebrar a interface, o sistema restringe as escolhas a configurações que funcionam por padrão.",
-      badgeTag: "Entrada de marca", badgeName: "cor", badgeOpts: "primária + secundária (âncora em hex)",
       roles: { primary: "Primária", secondary: "Secundária", neutral: "Neutro", success: "Sucesso", warning: "Alerta", error: "Erro", info: "Info" },
       hexAria: (l) => `${l} em hexadecimal`,
       scalesTitle: "Escalas tonais",
@@ -358,7 +345,6 @@
     en: {
       title: "Color",
       lede: "Each customer provides just two colors. From those, Atelier automatically generates the entire visual foundation, guaranteeing contrast, accessibility, and consistency across components. Instead of allowing combinations that could break the interface, the system constrains choices to configurations that work by default.",
-      badgeTag: "Brand input", badgeName: "color", badgeOpts: "primary + secondary (hex anchor)",
       roles: { primary: "Primary", secondary: "Secondary", neutral: "Neutral", success: "Success", warning: "Warning", error: "Error", info: "Info" },
       hexAria: (l) => `${l} in hexadecimal`,
       scalesTitle: "Tonal scales",
@@ -484,13 +470,6 @@
         <header className="hd">
           <h1 className="hd-title">{T.title}</h1>
           <p className="hd-lede">{T.lede}</p>
-          <div className="hd-badge">
-            <span className="hd-badge-tag">{T.badgeTag}</span>
-            <span className="hd-badge-sep">·</span>
-            <span className="hd-badge-name">{T.badgeName}</span>
-            <span className="hd-badge-sep">·</span>
-            <span>{T.badgeOpts}</span>
-          </div>
         </header>
 
         <div className="bi-shell">
