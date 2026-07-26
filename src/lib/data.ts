@@ -332,6 +332,13 @@ export type Project = {
   // protótipo navegável embutido via iframe (arquivo em /public/prototypes/…),
   // renderizado logo abaixo da Abordagem
   prototypeEmbed?: { src: string; title: L; hint: L };
+  // protótipos de superfície desktop (o Atelier), cada um numa sessão própria,
+  // sem o menu lateral da workbench — renderizados após os pilares
+  dsEmbeds?: {
+    title: L
+    intro: L
+    items: { src: string; label: string; heading: L; caption: L }[]
+  };
   // user flow desenhado a traço (opcional) — título + legenda; o desenho em si
   // é um componente por projeto (hoje só o HandshakeFlow), renderizado após a Abordagem.
   flowDiagram?: { title: L; caption: L };
@@ -655,6 +662,33 @@ export const projects: Project[] = [
         en: "White-label stopped being just a color swap. Brands, themes, and behaviors are configured through tokens, allowing global evolution without touching components.",
       },
     ],
+    dsEmbeds: {
+      title: { pt: "O Atelier, ao vivo", en: "Atelier, live" },
+      intro: {
+        pt: "Duas páginas da workbench, interativas. A primeira é uma fundação, a segunda um componente — os dois extremos do que o sistema documenta.",
+        en: "Two pages of the workbench, interactive. The first is a foundation, the second a component — the two ends of what the system documents.",
+      },
+      items: [
+        {
+          src: "/prototypes/pump-ds/color.html",
+          label: "atelier / foundations / color",
+          heading: { pt: "Fundação: cor", en: "Foundation: color" },
+          caption: {
+            pt: "Troque a marca e as 82 cores se refazem na hora. O tenant informa dois hex; o resto é derivado em OKLCh — inclusive a matiz do cinza, que herda a temperatura da marca, e as cores de feedback, que se afastam da marca para manter 35° de separação.",
+            en: "Change the brand and all 82 colors regenerate instantly. The tenant provides two hex values; everything else is derived in OKLCh — including the grey's hue, which inherits the brand temperature, and the feedback colors, which shift away from the brand to keep 35° of separation.",
+          },
+        },
+        {
+          src: "/prototypes/pump-ds/button.html",
+          label: "atelier / action / button",
+          heading: { pt: "Componente: Button", en: "Component: Button" },
+          caption: {
+            pt: "A mesma estrutura que todo componente do sistema recebe: anatomia, playground com as props ao vivo, matriz de variantes, estados, API, tokens consumidos e acessibilidade. O que ainda não existe aparece marcado, não escondido.",
+            en: "The same structure every component in the system gets: anatomy, a live props playground, variant matrix, states, API, consumed tokens, and accessibility. What doesn't exist yet is marked, not hidden.",
+          },
+        },
+      ],
+    },
     pillarsTitle: { pt: "Decisões arquiteturais", en: "Architectural decisions" },
     pillars: [
       {

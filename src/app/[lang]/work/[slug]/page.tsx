@@ -11,6 +11,7 @@ import { HandshakeFlow, HandshakeCheckoutFlow } from '@/components/HandshakeFlow
 import { PillarDoodle } from '@/components/PillarDoodle'
 import { ImageExpand } from '@/components/ImageExpand'
 import { PrototypeEmbed } from '@/components/PrototypeEmbed'
+import { DesignSystemEmbed } from '@/components/DesignSystemEmbed'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 
 export function generateStaticParams() {
@@ -462,6 +463,32 @@ export default async function ProjectPage({
                   ))}
                 </div>
               )}
+            </section>
+          )}
+
+          {project.dsEmbeds && (
+            <section className="mt-12">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {t(project.dsEmbeds.title, lang)}
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted">
+                {t(project.dsEmbeds.intro, lang)}
+              </p>
+              {project.dsEmbeds.items.map((item) => (
+                <div key={item.src} className="mt-10">
+                  <h3 className="text-base font-medium tracking-tight">
+                    {t(item.heading, lang)}
+                  </h3>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+                    {t(item.caption, lang)}
+                  </p>
+                  <DesignSystemEmbed
+                    src={item.src}
+                    title={t(item.heading, lang)}
+                    label={item.label}
+                  />
+                </div>
+              ))}
             </section>
           )}
 

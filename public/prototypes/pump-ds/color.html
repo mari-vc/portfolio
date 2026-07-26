@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier — Color</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --bg: #fff;
+    --bg-subtle: #FAFAF9;
+    --fg: #292524;
+    --fg-2: #57534E;
+    --fg-3: #8A857F;
+    --line: #EEECEA;
+    --line-strong: #DEDBD7;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+  }
+  #root { padding: 28px 28px 40px; }
+
+  /* ── header ── */
+  .hd-meta {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-3);
+  }
+  .hd-meta::before { content: ""; width: 20px; height: 1px; background: var(--line-strong); }
+  .hd-title {
+    font-size: 30px; line-height: 1; letter-spacing: -0.035em;
+    font-weight: 700; margin: 12px 0 0;
+  }
+  .hd-lede {
+    font-size: 14px; line-height: 1.5; color: var(--fg-2);
+    max-width: 620px; margin: 10px 0 0;
+  }
+  .hd-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 14px; padding: 5px 10px 5px 7px;
+    border: 1px solid var(--line); border-radius: 999px;
+    font-family: var(--font-mono); font-size: 10px; color: var(--fg-2);
+  }
+  .hd-badge-tag {
+    font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 2px 6px; border-radius: 999px; background: var(--fg); color: #fff;
+  }
+  .hd-badge-sep { color: var(--line-strong); }
+  .hd-badge-name { color: var(--fg); font-weight: 500; }
+  header.hd { padding-bottom: 26px; border-bottom: 1px solid var(--line); margin-bottom: 26px; }
+
+  /* ── brand inputs ── */
+  .bi-shell {
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    padding: 5px; margin-bottom: 30px;
+  }
+  .bi-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--line); border-radius: 9px; overflow: hidden;
+  }
+  .bi-card { display: flex; flex-direction: column; gap: 11px; padding: 16px 18px; background: var(--bg); }
+  .bi-card-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--fg-3);
+  }
+  .bi-card-body { display: flex; align-items: center; gap: 14px; }
+  .bi-sw {
+    position: relative; width: 50px; height: 50px; flex: none; border-radius: 9px;
+    cursor: pointer; overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    transition: transform 120ms ease;
+  }
+  .bi-sw:hover { transform: scale(1.04); }
+  .bi-fields { display: flex; flex-direction: column; gap: 5px; min-width: 0; flex: 1; }
+  .bi-hex {
+    font-family: var(--font-mono); font-size: 16px; font-weight: 500;
+    letter-spacing: 0.02em; border: 0; background: transparent; outline: none;
+    padding: 0; color: var(--fg); width: 100%;
+  }
+  .bi-coords { display: flex; gap: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); }
+  .bi-coords b { font-weight: 600; color: var(--fg-2); margin-right: 3px; }
+  .bi-hint { padding: 12px 14px 9px; font-size: 11.5px; color: var(--fg-3); }
+
+  /* ── section ── */
+  .sec { margin-bottom: 34px; }
+  .sec-head { display: flex; flex-direction: column; gap: 3px; margin-bottom: 15px; }
+  .sec-h2 { font-size: 16px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+  .sec-sub { font-size: 12px; color: var(--fg-3); }
+
+  /* ── tonal scales ── */
+  .ts-list {
+    display: flex; flex-direction: column; gap: 18px;
+    padding: 18px 20px; border: 1px solid var(--line-strong); border-radius: var(--radius);
+  }
+  .ts-row { display: flex; flex-direction: column; gap: 7px; }
+  .ts-head { display: flex; align-items: center; gap: 9px; }
+  .ts-head-sw { width: 13px; height: 13px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); flex: none; }
+  .ts-label { font-weight: 600; font-size: 12px; }
+  .ts-meta { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); margin-left: auto; }
+  .ts-bar {
+    position: relative; display: grid; height: 46px;
+    border-radius: 9px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .ts-step {
+    position: relative; width: 100%; height: 100%; padding: 0; border: 0;
+    background: transparent; cursor: copy; transition: transform 120ms ease;
+  }
+  .ts-step:first-child { border-radius: 9px 0 0 9px; }
+  .ts-step:last-child { border-radius: 0 9px 9px 0; }
+  .ts-step:hover { transform: scaleY(1.14); z-index: 3; box-shadow: 0 0 0 2px var(--fg); }
+  .ts-tip {
+    position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%);
+    white-space: nowrap; font-family: var(--font-mono); font-size: 10px;
+    padding: 4px 7px; background: var(--fg); color: #fff; border-radius: 4px;
+    opacity: 0; pointer-events: none; transition: opacity 120ms ease; z-index: 10;
+  }
+  .ts-step:hover .ts-tip, .ts-step:focus-visible .ts-tip { opacity: 1; }
+  .ts-axis { display: grid; padding-top: 1px; }
+  .ts-axis span {
+    text-align: center; font-family: var(--font-mono); font-size: 8px;
+    color: var(--fg-3); letter-spacing: 0.03em;
+  }
+  .ts-axis span.anchor { color: var(--fg-2); font-weight: 700; }
+
+  /* ── pipeline steps ── */
+  .steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .step {
+    display: flex; gap: 14px; padding: 15px 17px;
+    border: 1px solid var(--line); border-radius: 10px;
+  }
+  .step-num {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    color: var(--fg-3); letter-spacing: 0.08em; padding-top: 2px; flex: none;
+  }
+  .step-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .step-body h3 { margin: 0; font-size: 13px; font-weight: 600; }
+  .step-body p { margin: 0; font-size: 12px; line-height: 1.5; color: var(--fg-2); }
+  .step-body ul { margin: 3px 0 0; padding-left: 16px; font-size: 12px; line-height: 1.5; color: var(--fg-2); }
+  .step-body li { margin: 2px 0; }
+  .step-body b { font-weight: 600; color: var(--fg); }
+  code.i { font-family: var(--font-mono); font-size: 11px; background: var(--bg-subtle); padding: 1px 4px; border-radius: 3px; }
+
+  .toast {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(8px);
+    background: var(--fg); color: #fff; font-family: var(--font-mono); font-size: 11px;
+    padding: 7px 13px; border-radius: 6px; opacity: 0;
+    transition: opacity 160ms ease, transform 160ms ease; pointer-events: none; z-index: 999;
+  }
+  .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 720px) {
+    #root { padding: 22px 18px 32px; }
+    .bi-grid, .steps { grid-template-columns: 1fr; }
+    .hd-title { font-size: 25px; }
+  }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <script type="text/babel">
+  const { useState, useRef, useEffect } = React;
+
+  // ═══════════════════════════════════════════════════════════
+  // Porta do pipeline de cor do Atelier. Espelha derivation.py +
+  // scale.py do backend: o tenant ancora primary/secondary em hex,
+  // todo o resto é derivado em OKLCh.
+  // ═══════════════════════════════════════════════════════════
+
+  // OKLCh -> hex sRGB. Deixa o browser fazer o gamut clamp via canvas,
+  // que é o mesmo resultado do clamp por busca binária do backend.
+  function oklchToHex(l, c, h) {
+    const cnv = document.getElementById("__oklch") || (() => {
+      const k = document.createElement("canvas");
+      k.id = "__oklch"; k.width = 1; k.height = 1;
+      k.style.cssText = "position:absolute;width:1px;height:1px;visibility:hidden;left:-9999px";
+      document.body.appendChild(k);
+      return k;
+    })();
+    const ctx = cnv.getContext("2d");
+    ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 1, 1);
+    ctx.fillStyle = `oklch(${l} ${c} ${h})`; ctx.fillRect(0, 0, 1, 1);
+    const d = ctx.getImageData(0, 0, 1, 1).data;
+    return "#" + [d[0], d[1], d[2]].map(x => x.toString(16).padStart(2, "0")).join("").toUpperCase();
+  }
+  function hexToRgb(hex) {
+    const v = hex.replace("#", "");
+    if (v.length !== 6) return null;
+    const n = parseInt(v, 16);
+    if (isNaN(n)) return null;
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  // sRGB -> OKLCh exato (Björn Ottosson)
+  function rgbToOklch([r, g, b]) {
+    const lin = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    const R = lin(r), G = lin(g), B = lin(b);
+    const l_ = Math.cbrt(0.4122214708 * R + 0.5363325363 * G + 0.0514459929 * B);
+    const m_ = Math.cbrt(0.2119034982 * R + 0.6806995451 * G + 0.1073969566 * B);
+    const s_ = Math.cbrt(0.0883024619 * R + 0.2817188376 * G + 0.6299787005 * B);
+    const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+    const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+    const bb = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+    const C = Math.sqrt(a * a + bb * bb);
+    let H = Math.atan2(bb, a) * 180 / Math.PI;
+    if (H < 0) H += 360;
+    return { l: +L.toFixed(3), c: +C.toFixed(3), h: +H.toFixed(1) };
+  }
+  function hexToOklch(hex) { const rgb = hexToRgb(hex); return rgb ? rgbToOklch(rgb) : null; }
+
+  // ── scale.py: rampa 50–950 a partir do seed OKLCh no step 500 ──
+  const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+  const L_BY_STEP = { 50:.975, 100:.935, 200:.885, 300:.795, 400:.695, 500:.580, 600:.495, 700:.410, 800:.330, 900:.250, 950:.190 };
+  const C_MULT_BY_STEP = { 50:.08, 100:.18, 200:.36, 300:.62, 400:.86, 500:1, 600:.93, 700:.83, 800:.68, 900:.52, 950:.38 };
+  const CHROMATIC_FLOOR = 0.04, ACTION_C_MIN = 0.12, C_MIN = 0.06, C_MAX = 0.28, PINNED_L = 0.580;
+
+  // Quando o seed L != 0.580, comprime proporcionalmente os ranges
+  // acima e abaixo da âncora 500 em vez de deslocar a rampa toda.
+  function redistributeLightness(seedL) {
+    const out = { 500: seedL };
+    const sUp = (0.975 - seedL) / (0.975 - PINNED_L);
+    const sDown = (seedL - 0.190) / (PINNED_L - 0.190);
+    for (const s of STEPS) {
+      if (s === 500) continue;
+      const base = L_BY_STEP[s];
+      out[s] = base > PINNED_L
+        ? seedL + (base - PINNED_L) * sUp
+        : seedL - (PINNED_L - base) * sDown;
+    }
+    return out;
+  }
+  function buildScale({ l, c, h }) {
+    const rawC = c;
+    let baseC = c;
+    if (baseC >= CHROMATIC_FLOOR) {
+      baseC = Math.max(baseC, ACTION_C_MIN);
+      baseC = Math.max(C_MIN, Math.min(baseC, C_MAX));
+    }
+    const Ltbl = redistributeLightness(l);
+    // step 500 preserva o chroma original; os outros usam o clamped
+    return STEPS.map(step => ({
+      step,
+      hex: oklchToHex(Ltbl[step], step === 500 ? rawC : baseC * C_MULT_BY_STEP[step], h),
+    }));
+  }
+  // Step 25 — tint extra-claro, só em primary/secondary/neutral/text
+  function makeStep25(seed) { return { step: 25, hex: oklchToHex(0.985, seed.c * 0.04, seed.h) }; }
+  function buildBrandScale(seed) { return [makeStep25(seed), ...buildScale(seed)]; }
+  // Neutral estende com 0 (branco puro) e 1000 (preto puro) — sem tint nos extremos
+  function buildNeutralScale(seed) {
+    const by = Object.fromEntries(buildScale(seed).map(s => [s.step, s.hex]));
+    return [
+      { step: 0, hex: "#FFFFFF" },
+      makeStep25(seed),
+      ...STEPS.map(s => ({ step: s, hex: by[s] })),
+      { step: 1000, hex: "#000000" },
+    ];
+  }
+
+  // ── derivation.py: âncoras role-500 ──
+  const NEUTRAL_SEED = { l: 0.580, c: 0.009 };
+  const TEXT_SEED = { l: 0.640, c: 0.010 };
+  const FB = {
+    success: { hue: 145, range: [130, 170], c: 0.17 },
+    warning: { hue: 80,  range: [55, 95],   c: 0.16 },
+    error:   { hue: 25,  range: [15, 45],   c: 0.20 },
+    info:    { hue: 250, range: [230, 270], c: 0.18 },
+  };
+  const MIN_HUE_SEP = 35, PULL = 0.05;
+  const hueDist = (a, b) => Math.abs(((a - b) % 360 + 540) % 360 - 180);
+  const pull = (base, brand) => ((base + (brand - base) * PULL) % 360 + 360) % 360;
+
+  // Puxa 5% na direção da marca; se ficar perto de um hue já usado,
+  // varre o range semântico e escolhe o ponto de maior separação.
+  function resolveFeedbackHue(baseHue, range, brandHue, used) {
+    const candidate = pull(baseHue, brandHue);
+    const minDist = h => Math.min(...used.map(u => hueDist(h, u)));
+    if (minDist(candidate) >= MIN_HUE_SEP) return candidate;
+    let best = candidate, bestD = minDist(candidate);
+    for (let h = range[0]; h <= range[1]; h += 0.5) {
+      const d = minDist(h);
+      if (d > bestD) { bestD = d; best = h; }
+    }
+    return best;
+  }
+  function deriveSeeds(primary) {
+    const achromatic = primary.c < 0.0001;
+    const H = primary.h;
+    let hues;
+    if (achromatic) {
+      hues = { error: FB.error.hue, warning: FB.warning.hue, success: FB.success.hue, info: FB.info.hue };
+    } else {
+      // ordem importa: error -> warning -> success -> info
+      const used = [H];
+      hues = {};
+      for (const role of ["error", "warning", "success", "info"]) {
+        hues[role] = resolveFeedbackHue(FB[role].hue, FB[role].range, H, used);
+        used.push(hues[role]);
+      }
+    }
+    return {
+      neutral: { ...NEUTRAL_SEED, h: H },
+      text: { ...TEXT_SEED, h: H },
+      success: { l: 0.580, c: FB.success.c, h: hues.success },
+      warning: { l: 0.580, c: FB.warning.c, h: hues.warning },
+      error:   { l: 0.580, c: FB.error.c,   h: hues.error },
+      info:    { l: 0.580, c: FB.info.c,    h: hues.info },
+    };
+  }
+
+  // ponto de partida: a marca da Pump
+  const SEED = { primary: { l: 0.62, c: 0.20, h: 27 }, secondary: { l: 0.55, c: 0.16, h: 200 } };
+
+  // ═══════════════════════════════════════════════════════════
+  // UI
+  // ═══════════════════════════════════════════════════════════
+  let toastTimer;
+  function useToast() {
+    const [msg, setMsg] = useState(null);
+    return [msg, (m) => {
+      setMsg(m);
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => setMsg(null), 1200);
+    }];
+  }
+
+  function BrandInput({ label, color, onChange }) {
+    const hex = oklchToHex(color.l, color.c, color.h);
+    const [draft, setDraft] = useState(hex);
+    const [focused, setFocused] = useState(false);
+    useEffect(() => { if (!focused) setDraft(hex); }, [hex, focused]);
+    const commit = (v) => {
+      const o = hexToOklch(v.startsWith("#") ? v : "#" + v);
+      if (o) onChange(o); else setDraft(hex);
+    };
+    return (
+      <div className="bi-card">
+        <div className="bi-card-label">{label}</div>
+        <div className="bi-card-body">
+          <label className="bi-sw" style={{ background: hex }} title="Escolher cor">
+            <input type="color" value={hex}
+                   onChange={e => commit(e.target.value.toUpperCase())}
+                   style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer" }} />
+          </label>
+          <div className="bi-fields">
+            <input className="bi-hex" type="text" value={draft} spellCheck={false}
+                   aria-label={`${label} em hexadecimal`}
+                   onFocus={() => setFocused(true)}
+                   onChange={e => setDraft(e.target.value.toUpperCase())}
+                   onBlur={() => { setFocused(false); commit(draft); }}
+                   onKeyDown={e => e.key === "Enter" && e.currentTarget.blur()} />
+            <div className="bi-coords">
+              <span><b>L</b>{(color.l * 100).toFixed(1)}%</span>
+              <span><b>C</b>{color.c.toFixed(3)}</span>
+              <span><b>H</b>{color.h.toFixed(1)}°</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function ScaleRow({ label, seed, scale, onCopy }) {
+    const seedHex = oklchToHex(seed.l, seed.c, seed.h);
+    const cols = `repeat(${scale.length}, 1fr)`;
+    return (
+      <div className="ts-row">
+        <div className="ts-head">
+          <span className="ts-head-sw" style={{ background: seedHex }} />
+          <span className="ts-label">{label}</span>
+          <span className="ts-meta">H {Math.round(seed.h)}° · {scale.length} steps</span>
+        </div>
+        <div className="ts-bar" style={{ gridTemplateColumns: cols }}>
+          {scale.map(s => (
+            <button key={s.step} type="button" className="ts-step"
+                    style={{ background: s.hex }}
+                    onClick={() => onCopy(s.hex)}
+                    aria-label={`${label} ${s.step}, ${s.hex}. Clique para copiar.`}>
+              <span className="ts-tip">{s.step} · {s.hex}</span>
+            </button>
+          ))}
+        </div>
+        <div className="ts-axis" style={{ gridTemplateColumns: cols }}>
+          {scale.map(s => (
+            <span key={s.step} className={s.step === 500 ? "anchor" : ""}>{s.step}</span>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function App() {
+    const [brand, setBrand] = useState(SEED);
+    const [toast, showToast] = useToast();
+    const copy = (hex) => {
+      navigator.clipboard?.writeText(hex);
+      showToast(hex + " copiado");
+    };
+
+    const seeds = deriveSeeds(brand.primary);
+    const rows = [
+      { label: "Primary",   seed: brand.primary,   scale: buildBrandScale(brand.primary) },
+      { label: "Secondary", seed: brand.secondary, scale: buildBrandScale(brand.secondary) },
+      { label: "Neutral",   seed: seeds.neutral,   scale: buildNeutralScale(seeds.neutral) },
+      { label: "Success",   seed: seeds.success,   scale: buildScale(seeds.success) },
+      { label: "Warning",   seed: seeds.warning,   scale: buildScale(seeds.warning) },
+      { label: "Error",     seed: seeds.error,     scale: buildScale(seeds.error) },
+      { label: "Info",      seed: seeds.info,      scale: buildScale(seeds.info) },
+    ];
+    const total = rows.reduce((n, r) => n + r.scale.length, 0);
+
+    return (
+      <>
+        <header className="hd">
+          <div className="hd-meta"><span>v1.0</span><span>·</span><span>Foundations / 01</span></div>
+          <h1 className="hd-title">Color</h1>
+          <p className="hd-lede">
+            Cor é input de marca. O tenant ancora <b>primary</b> e <b>secondary</b> em hex;
+            o backend deriva 7 escalas em OKLCh em runtime. Componentes consomem apenas
+            tokens semânticos — nunca primitivos diretos.
+          </p>
+          <div className="hd-badge">
+            <span className="hd-badge-tag">Brand input</span>
+            <span className="hd-badge-sep">·</span>
+            <span className="hd-badge-name">color</span>
+            <span className="hd-badge-sep">·</span>
+            <span>primary + secondary (âncora hex)</span>
+          </div>
+        </header>
+
+        <div className="bi-shell">
+          <div className="bi-grid">
+            <BrandInput label="Primary" color={brand.primary}
+                        onChange={p => setBrand({ ...brand, primary: p })} />
+            <BrandInput label="Secondary" color={brand.secondary}
+                        onChange={s => setBrand({ ...brand, secondary: s })} />
+          </div>
+          <div className="bi-hint">
+            Estas duas cores alimentam toda a paleta abaixo. Mexa nelas.
+          </div>
+        </div>
+
+        <div className="sec">
+          <div className="sec-head">
+            <h2 className="sec-h2">Escalas tonais</h2>
+            <span className="sec-sub">
+              {total} cores derivadas de duas. Brand: 12 steps (25–950) · Neutral: 14 (0, 25, 50–950, 1000) ·
+              Feedback: 11 · clique em qualquer cor para copiar.
+            </span>
+          </div>
+          <div className="ts-list">
+            {rows.map(r => <ScaleRow key={r.label} {...r} onCopy={copy} />)}
+          </div>
+        </div>
+
+        <div className="sec" style={{ marginBottom: 0 }}>
+          <div className="sec-head">
+            <h2 className="sec-h2">Como a extração funciona</h2>
+            <span className="sec-sub">Do hex de entrada aos tokens semânticos.</span>
+          </div>
+          <div className="steps">
+            <article className="step">
+              <div className="step-num">01</div>
+              <div className="step-body">
+                <h3>Input do cliente</h3>
+                <p>Apenas <b>primary</b> e <b>secondary</b> em hex. Todo o resto é derivado.</p>
+              </div>
+            </article>
+            <article className="step">
+              <div className="step-num">02</div>
+              <div className="step-body">
+                <h3>Conversão para OKLCh</h3>
+                <p>O sistema raciocina em espaço perceptualmente uniforme, não em RGB nem HSL. É o que permite variar luminosidade sem a marca mudar de cor aos olhos.</p>
+              </div>
+            </article>
+            <article className="step">
+              <div className="step-num">03</div>
+              <div className="step-body">
+                <h3>Geração das escalas</h3>
+                <ul>
+                  <li><b>L</b> — rampa alvo de 0.975 a 0.19. Se o seed não está em 0.580, os ranges acima e abaixo da âncora são comprimidos proporcionalmente.</li>
+                  <li><b>C</b> — o step 500 preserva o chroma original; os demais usam o valor cravado em <code className="i">[0.06, 0.28]</code>.</li>
+                  <li><b>H</b> — constante dentro de cada escala.</li>
+                </ul>
+              </div>
+            </article>
+            <article className="step">
+              <div className="step-num">04</div>
+              <div className="step-body">
+                <h3>De onde vem cada matiz</h3>
+                <ul>
+                  <li><b>Neutral</b> — chroma 0.009 na matiz da marca: um cinza com a temperatura do tenant.</li>
+                  <li><b>Feedback</b> — matiz canônica com <b>5% de atração</b> para a marca, dentro do range semântico.</li>
+                  <li><b>Conflito</b> — separação mínima de 35°, resolvida na ordem error, warning, success, info.</li>
+                </ul>
+              </div>
+            </article>
+            <article className="step">
+              <div className="step-num">05</div>
+              <div className="step-body">
+                <h3>Tokens semânticos</h3>
+                <p>A única camada que um componente pode tocar. <code className="i">--color-bg-brand-default</code> aponta para o primitivo 500, <code className="i">--color-bg-brand-subtle</code> para o 50.</p>
+              </div>
+            </article>
+            <article className="step">
+              <div className="step-num">06</div>
+              <div className="step-body">
+                <h3>Dark mode</h3>
+                <p>Mesma escala gerada invertida: cada step mapeia para o seu espelho, e o 500 é o pivô. Construir sobre os semânticos já cobre os dois temas.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div className={"toast" + (toast ? " on" : "")} role="status" aria-live="polite">{toast}</div>
+      </>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
