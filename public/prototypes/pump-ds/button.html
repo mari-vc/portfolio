@@ -180,6 +180,18 @@
     font-family: var(--font-mono); font-size: 11px; color: var(--fg-secondary); white-space: nowrap;
   }
 
+  /* ── tamanho ── */
+  .sub-h3 { font-size: 12px; font-weight: 700; margin: 22px 0 10px; letter-spacing: -0.005em; }
+  .sz-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .sz-cell {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+    padding: 16px;
+  }
+  .sz-meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-tertiary); }
+  .sz-meta b { color: var(--fg-primary); font-weight: 700; }
+  .sz-when { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--fg-secondary); }
+
   /* ── tabelas de dados ── */
   .tbl-wrap { overflow-x: auto; border: 1px solid var(--border-default); border-radius: var(--radius-lg); }
   table.tbl { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 12px; }
@@ -310,15 +322,16 @@
     const s = m?.spec;
     // Ícone, altura, padding e label escalam com a prop size (sm/md/lg) — o
     // valor concreto medido aqui vale só pra este exemplo em md, então o
-    // callout não afirma um número único. Raio e preenchimento são
-    // constantes de fato (não variam por tamanho), por isso mantêm o valor.
+    // callout não afirma um número único. Ícone/altura/padding/label escalam
+    // por tamanho; raio escala por tenant (--radius-md vem do brand kit do
+    // cliente, igual à cor); só preenchimento é de fato universal.
     const callouts = m ? [
       { key: "icon", side: "top", lx: cols[0], ax: m.icon.cx, ay: m.btn.y,
         title: "Ícone", sub: "escala com o tamanho" },
       { key: "height", side: "top", lx: cols[1], ax: m.btn.cx, ay: m.btn.y,
         title: "Altura", sub: "--height-sm/md/lg" },
       { key: "radius", side: "top", lx: cols[2], ax: m.btn.x + m.btn.w, ay: m.btn.y,
-        title: "Raio", sub: `${s.radius}px · --radius-md` },
+        title: "Raio", sub: "--radius-md · do brand kit" },
       { key: "padding", side: "bottom", lx: cols[0], ax: m.btn.x + (m.icon.x - m.btn.x) / 2, ay: m.btn.y + m.btn.h,
         title: "Padding", sub: "assimétrico, por tamanho" },
       { key: "label", side: "bottom", lx: cols[1], ax: m.label.cx, ay: m.btn.y + m.btn.h,
@@ -563,6 +576,21 @@
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <h3 className="sub-h3">Tamanho</h3>
+          <div className="sz-row">
+            {[
+              { size: "sm", height: 32, when: "Ações densas: toolbars, linhas de tabela, cards compactos." },
+              { size: "md", height: 40, when: "Padrão. A maioria dos formulários e ações isoladas." },
+              { size: "lg", height: 48, when: "Alta ênfase: CTAs, telas de marketing, alvo de toque em mobile." },
+            ].map(row => (
+              <div className="sz-cell" key={row.size}>
+                <Button tone="brand" appearance="filled" size={row.size} icon="none">Button</Button>
+                <div className="sz-meta"><b>{row.size}</b> · {row.height}px</div>
+                <p className="sz-when">{row.when}</p>
+              </div>
+            ))}
           </div>
         </Section>
 
