@@ -118,11 +118,8 @@
   .ts-axis span.anchor { color: var(--fg-2); font-weight: 700; }
 
   /* ── pipeline steps ── */
-  .steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .step {
-    display: flex; gap: 14px; padding: 15px 17px;
-    border: 1px solid var(--line); border-radius: 10px;
-  }
+  .steps { display: flex; flex-direction: column; gap: 20px; }
+  .step { display: flex; gap: 14px; }
   .step-num {
     font-family: var(--font-mono); font-size: 10px; font-weight: 700;
     color: var(--fg-3); letter-spacing: 0.08em; padding-top: 2px; flex: none;
@@ -148,7 +145,6 @@
   }
   @media (max-width: 720px) {
     #root { padding: 22px 18px 32px; }
-    .steps { grid-template-columns: 1fr; }
     .hd-title { font-size: 25px; }
   }
 </style>
@@ -334,7 +330,6 @@
         { title: "Modo escuro", body: "O mesmo contrato funciona nos dois temas. Trocar entre claro e escuro não exige novos componentes nem novos tokens semânticos." },
       ],
       pipelineTitle: "Como a extração funciona",
-      pipelineSub: "Do hex de entrada ao componente pronto.",
       copied: (hex) => `${hex} copiado`,
       pickColor: "Escolher cor",
       copyHint: "Clique para copiar.",
@@ -356,7 +351,6 @@
         { title: "Dark mode", body: "The same contract works in both themes. Switching between light and dark needs no new components and no new semantic tokens." },
       ],
       pipelineTitle: "How the extraction works",
-      pipelineSub: "From input hex to finished component.",
       copied: (hex) => `${hex} copied`,
       pickColor: "Pick a color",
       copyHint: "Click to copy.",
@@ -487,7 +481,6 @@
         <div className="sec" style={{ marginBottom: 0 }}>
           <div className="sec-head">
             <h2 className="sec-h2">{T.pipelineTitle}</h2>
-            <span className="sec-sub">{T.pipelineSub}</span>
           </div>
           <div className="steps">
             {T.steps.map((st, i) => (
