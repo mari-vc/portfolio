@@ -308,17 +308,21 @@
     // colunas dos rótulos como fração da largura real: acompanham o canvas fluido
     const cols = m ? [m.w * 0.14, m.w * 0.5, m.w * 0.86] : [];
     const s = m?.spec;
+    // Ícone, altura, padding e label escalam com a prop size (sm/md/lg) — o
+    // valor concreto medido aqui vale só pra este exemplo em md, então o
+    // callout não afirma um número único. Raio e preenchimento são
+    // constantes de fato (não variam por tamanho), por isso mantêm o valor.
     const callouts = m ? [
       { key: "icon", side: "top", lx: cols[0], ax: m.icon.cx, ay: m.btn.y,
-        title: "Ícone", sub: `${s.iconPx}px` },
+        title: "Ícone", sub: "escala com o tamanho" },
       { key: "height", side: "top", lx: cols[1], ax: m.btn.cx, ay: m.btn.y,
-        title: "Altura", sub: `${s.height}px · --height-md` },
+        title: "Altura", sub: "--height-sm/md/lg" },
       { key: "radius", side: "top", lx: cols[2], ax: m.btn.x + m.btn.w, ay: m.btn.y,
         title: "Raio", sub: `${s.radius}px · --radius-md` },
       { key: "padding", side: "bottom", lx: cols[0], ax: m.btn.x + (m.icon.x - m.btn.x) / 2, ay: m.btn.y + m.btn.h,
-        title: "Padding", sub: `${s.padL} · ${s.padR}px` },
+        title: "Padding", sub: "assimétrico, por tamanho" },
       { key: "label", side: "bottom", lx: cols[1], ax: m.label.cx, ay: m.btn.y + m.btn.h,
-        title: "Label", sub: `${s.fontSize}px · peso ${s.weight}` },
+        title: "Label", sub: "--label-sm/md" },
       { key: "fill", side: "bottom", lx: cols[2], ax: m.btn.x + m.btn.w * 0.78, ay: m.btn.y + m.btn.h,
         title: "Preenchimento", sub: "cor sólida, sem sombra" },
     ] : [];
