@@ -91,20 +91,45 @@
   /* ── anatomia ── */
   .an-frame {
     border: 1.5px dashed var(--border-default); border-radius: var(--radius-lg);
-    padding: 20px; background: var(--bg-subtle); overflow-x: auto;
+    padding: 22px 26px; background: var(--bg-subtle);
   }
-  .an-canvas { position: relative; width: 620px; height: 280px; margin: 0 auto; }
+  /* fluido: as colunas dos rótulos são fração da largura, então acompanham */
+  .an-canvas { position: relative; width: 100%; max-width: 660px; margin: 0 auto; }
+  /* o botão é o componente real; scale() só amplia pra leitura, sem alterar o layout */
+  .an-scale {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%) scale(2.2); transform-origin: center;
+  }
   .an-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .an-callout {
-    position: absolute; width: 128px; margin-left: -64px; text-align: center;
-    font-size: 10.5px; line-height: 1.4; color: var(--fg-secondary);
+    position: absolute; width: 150px; margin-left: -75px; text-align: center;
+    font-size: 10.5px; line-height: 1.45; color: var(--fg-tertiary);
   }
   .an-callout b {
-    display: block; font-family: var(--font-mono); font-size: 11px;
-    font-weight: 700; color: var(--fg-primary); margin-bottom: 1px;
+    display: block; font-family: var(--font-mono); font-size: 10.5px;
+    font-weight: 700; letter-spacing: 0.02em;
+    color: var(--fg-primary); margin-bottom: 2px;
   }
-  .an-callout-top { top: 8px; }
-  .an-callout-bottom { bottom: 8px; }
+  .an-callout-top { top: 0; }
+  .an-callout-bottom { bottom: 0; }
+
+  /* estreito: o layout radial não cabe, então o botão fica em cima e as
+     medidas viram lista de definição — sem linhas cruzando nem rótulo cortado */
+  .an-canvas.is-stacked { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+  .an-canvas.is-stacked .an-scale {
+    position: static; transform: scale(1.6); transform-origin: center;
+    margin: 18px 0 26px;
+  }
+  .an-list {
+    width: 100%; margin: 0; display: grid;
+    grid-template-columns: auto 1fr; gap: 7px 14px;
+    font-size: 11.5px; line-height: 1.45;
+  }
+  .an-list dt {
+    font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+    color: var(--fg-primary); white-space: nowrap;
+  }
+  .an-list dd { margin: 0; color: var(--fg-tertiary); }
 
   /* ── playground ── */
   .pg { display: grid; grid-template-columns: 1fr 232px; gap: 14px; }
@@ -232,68 +257,97 @@
   // 40, padding 12/20, ícone 20, radius 8); as âncoras são medidas via ref
   // depois do layout, não estimadas — só os rótulos ficam em posição fixa.
   // ═══════════════════════════════════════════════════════════
-  const AN_W = 620, AN_H = 280;
-  const AN_TOP_Y = 8, AN_BOTTOM_Y = 236, AN_MID_TOP = 58, AN_MID_BOTTOM = 196;
-  const AN_COLS = [64, 310, 556];
+  // Faixas verticais do canvas: rótulos no topo, corredor da linha, botão, e o
+  // espelho embaixo. O botão fica no centro; as linhas viram nos corredores.
+  const AN_LABEL_H = 34, AN_LANE = 30, AN_CENTER_H = 132;
+  // abaixo disso os rótulos de 150px se sobrepõem: cai pra lista empilhada
+  const AN_MIN_RADIAL = 520;
+  const AN_H = (AN_LABEL_H + AN_LANE) * 2 + AN_CENTER_H;   // 260
+  const AN_MID_TOP = AN_LABEL_H + AN_LANE / 2;             // 49
+  const AN_MID_BOTTOM = AN_H - AN_LABEL_H - AN_LANE / 2;   // 211
 
   function AnatomyDiagram() {
     const stageRef = useRef(null);
     const btnRef = useRef(null);
     const iconRef = useRef(null);
     const labelRef = useRef(null);
-    const [pts, setPts] = useState(null);
+    const [m, setM] = useState(null);
 
     useLayoutEffect(() => {
       function measure() {
-        if (!stageRef.current) return;
+        if (!stageRef.current || !btnRef.current) return;
         const stage = stageRef.current.getBoundingClientRect();
         const rel = (r) => ({
           x: r.left - stage.left, y: r.top - stage.top, w: r.width, h: r.height,
-          cx: r.left - stage.left + r.width / 2, cy: r.top - stage.top + r.height / 2,
+          cx: r.left - stage.left + r.width / 2,
         });
-        setPts({
+        // valores reais do componente renderizado, não constantes repetidas à mão
+        const cs = getComputedStyle(btnRef.current);
+        setM({
+          w: stage.width,
           btn: rel(btnRef.current.getBoundingClientRect()),
           icon: rel(iconRef.current.getBoundingClientRect()),
           label: rel(labelRef.current.getBoundingClientRect()),
+          spec: {
+            height: Math.round(parseFloat(cs.height)),
+            radius: Math.round(parseFloat(cs.borderTopLeftRadius)),
+            padL: Math.round(parseFloat(cs.paddingLeft)),
+            padR: Math.round(parseFloat(cs.paddingRight)),
+            fontSize: Math.round(parseFloat(cs.fontSize)),
+            weight: cs.fontWeight,
+            // offsetWidth ignora o scale() do wrapper; getBoundingClientRect não
+            iconPx: iconRef.current.firstChild?.getAttribute("width") ?? iconRef.current.offsetWidth,
+          },
         });
       }
       measure();
-      window.addEventListener("resize", measure);
-      return () => window.removeEventListener("resize", measure);
+      const ro = new ResizeObserver(measure);
+      ro.observe(stageRef.current);
+      // as fontes mudam a largura do label depois do primeiro paint
+      if (document.fonts?.ready) document.fonts.ready.then(measure);
+      return () => ro.disconnect();
     }, []);
 
-    const callouts = pts ? [
-      { key: "icon", side: "top", lx: AN_COLS[0], ax: pts.icon.cx, ay: pts.btn.y, title: "Ícone", sub: "20px em md" },
-      { key: "height", side: "top", lx: AN_COLS[1], ax: pts.btn.cx, ay: pts.btn.y, title: "Altura", sub: "40px — --height-md" },
-      { key: "radius", side: "top", lx: AN_COLS[2], ax: pts.btn.x + pts.btn.w, ay: pts.btn.y, title: "Raio", sub: "8px — --radius-md" },
-      { key: "padding", side: "bottom", lx: AN_COLS[0], ax: pts.btn.x + (pts.icon.x - pts.btn.x) / 2, ay: pts.btn.y + pts.btn.h, title: "Padding", sub: "12 · 20px, assimétrico" },
-      { key: "label", side: "bottom", lx: AN_COLS[1], ax: pts.label.cx, ay: pts.btn.y + pts.btn.h, title: "Label", sub: "14px · peso 600" },
-      { key: "fill", side: "bottom", lx: AN_COLS[2], ax: pts.btn.cx, ay: pts.btn.y + pts.btn.h, title: "Preenchimento", sub: "cor sólida, sem sombra" },
+    // colunas dos rótulos como fração da largura real: acompanham o canvas fluido
+    const cols = m ? [m.w * 0.14, m.w * 0.5, m.w * 0.86] : [];
+    const s = m?.spec;
+    const callouts = m ? [
+      { key: "icon", side: "top", lx: cols[0], ax: m.icon.cx, ay: m.btn.y,
+        title: "Ícone", sub: `${s.iconPx}px` },
+      { key: "height", side: "top", lx: cols[1], ax: m.btn.cx, ay: m.btn.y,
+        title: "Altura", sub: `${s.height}px · --height-md` },
+      { key: "radius", side: "top", lx: cols[2], ax: m.btn.x + m.btn.w, ay: m.btn.y,
+        title: "Raio", sub: `${s.radius}px · --radius-md` },
+      { key: "padding", side: "bottom", lx: cols[0], ax: m.btn.x + (m.icon.x - m.btn.x) / 2, ay: m.btn.y + m.btn.h,
+        title: "Padding", sub: `${s.padL} · ${s.padR}px` },
+      { key: "label", side: "bottom", lx: cols[1], ax: m.label.cx, ay: m.btn.y + m.btn.h,
+        title: "Label", sub: `${s.fontSize}px · peso ${s.weight}` },
+      { key: "fill", side: "bottom", lx: cols[2], ax: m.btn.x + m.btn.w * 0.78, ay: m.btn.y + m.btn.h,
+        title: "Preenchimento", sub: "cor sólida, sem sombra" },
     ] : [];
 
+    const radial = !m || m.w >= AN_MIN_RADIAL;
+
     return (
-      <div className="an-canvas" ref={stageRef}>
-        <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
-          <div ref={btnRef} style={{
-            transform: "scale(2.5)", transformOrigin: "center",
-            height: 40, paddingLeft: 12, paddingRight: 20,
-            background: "var(--bg-brand-default)", borderRadius: "var(--radius-md)",
-            display: "inline-flex", alignItems: "center", gap: 8, color: "#fff",
-          }}>
-            <span ref={iconRef} style={{ display: "inline-flex" }}><PlusIcon size={20} /></span>
-            <span ref={labelRef} style={{ fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 600 }}>Salvar</span>
-          </div>
+      <div className={"an-canvas" + (radial ? "" : " is-stacked")} ref={stageRef}
+           style={radial ? { height: AN_H } : undefined}>
+        {/* o componente real, ampliado só pela escala visual — nada de mockup paralelo */}
+        <div className="an-scale">
+          <Button tone="brand" appearance="filled" size="md" icon="leading"
+                  btnRef={btnRef} iconRef={iconRef} labelRef={labelRef}>Salvar</Button>
         </div>
 
-        {pts && (
-          <svg className="an-svg" viewBox={`0 0 ${AN_W} ${AN_H}`} preserveAspectRatio="none">
+        {m && radial && (
+          <svg className="an-svg" viewBox={`0 0 ${m.w} ${AN_H}`} preserveAspectRatio="none">
             {callouts.map(c => {
               const midY = c.side === "top" ? AN_MID_TOP : AN_MID_BOTTOM;
-              const labelY = c.side === "top" ? AN_TOP_Y + 30 : AN_BOTTOM_Y;
-              const pts2 = `${c.ax},${c.ay} ${c.ax},${midY} ${c.lx},${midY} ${c.lx},${labelY}`;
+              const endY = c.side === "top" ? AN_LABEL_H : AN_H - AN_LABEL_H;
               return (
                 <React.Fragment key={c.key}>
-                  <polyline points={pts2} fill="none" stroke="var(--fg-brand-default)" strokeWidth="1.25" strokeDasharray="3 3" opacity="0.75" />
+                  <polyline
+                    points={`${c.ax},${c.ay} ${c.ax},${midY} ${c.lx},${midY} ${c.lx},${endY}`}
+                    fill="none" stroke="var(--fg-brand-default)" strokeWidth="1"
+                    strokeDasharray="3 3" opacity="0.7" />
                   <circle cx={c.ax} cy={c.ay} r="2.5" fill="var(--fg-brand-default)" />
                 </React.Fragment>
               );
@@ -301,11 +355,21 @@
           </svg>
         )}
 
-        {pts && callouts.map(c => (
+        {m && radial && callouts.map(c => (
           <div key={c.key} className={"an-callout an-callout-" + c.side} style={{ left: c.lx }}>
             <b>{c.title}</b>{c.sub}
           </div>
         ))}
+
+        {m && !radial && (
+          <dl className="an-list">
+            {callouts.map(c => (
+              <React.Fragment key={c.key}>
+                <dt>{c.title}</dt><dd>{c.sub}</dd>
+              </React.Fragment>
+            ))}
+          </dl>
+        )}
       </div>
     );
   }
@@ -313,7 +377,7 @@
   // ═══════════════════════════════════════════════════════════
   // Button — tone × appearance. Todo valor visual vem de token.
   // ═══════════════════════════════════════════════════════════
-  function Button({ tone = "brand", appearance = "filled", size = "sm", icon = "none", state = "default", children = "Save changes" }) {
+  function Button({ tone = "brand", appearance = "filled", size = "sm", icon = "none", state = "default", children = "Save changes", btnRef, iconRef, labelRef }) {
     const height = size === "lg" ? "var(--height-lg)" : size === "md" ? "var(--height-md)" : "var(--height-sm)";
     const iconPx = size === "lg" ? 24 : size === "md" ? 20 : 16;
     const fontSize = size === "sm" ? "var(--label-sm)" : "var(--label-md)";
@@ -361,6 +425,7 @@
 
     return (
       <button
+        ref={btnRef}
         disabled={isDisabled || isLoading}
         aria-busy={isLoading || undefined}
         onMouseEnter={() => setHover(true)}
@@ -378,9 +443,11 @@
           boxShadow: isFocus ? V.focus : "none", outline: "none",
           transition: "var(--transition-fast)", whiteSpace: "nowrap",
         }}>
-        {!isLoading && icon === "leading" && <PlusIcon size={iconPx} />}
+        {!isLoading && icon === "leading" && (
+          <span ref={iconRef} style={{ display: "inline-flex" }}><PlusIcon size={iconPx} /></span>
+        )}
         {/* no loading o label permanece visível, só esmaecido: preserva o contexto de qual ação está pendente */}
-        <span style={{ opacity: isLoading ? 0.7 : 1 }}>{children}</span>
+        <span ref={labelRef} style={{ opacity: isLoading ? 0.7 : 1 }}>{children}</span>
         {isLoading && <Spinner size={iconPx} color={color} />}
         {!isLoading && icon === "trailing" && <ArrowIcon size={iconPx} />}
       </button>
