@@ -298,7 +298,10 @@
     }
     return best;
   }
-  function deriveSeeds(primary) {
+  // Feedback nunca pode colidir com NENHUMA cor de marca — não só a primary.
+  // Um secondary que caia perto do hue de "success", por exemplo, seria lido
+  // como estado, não como identidade. Por isso as duas entram no conflito.
+  function deriveSeeds(primary, secondary) {
     const achromatic = primary.c < 0.0001;
     const H = primary.h;
     let hues;
@@ -307,6 +310,7 @@
     } else {
       // ordem importa: error -> warning -> success -> info
       const used = [H];
+      if (secondary && secondary.c >= 0.0001) used.push(secondary.h);
       hues = {};
       for (const role of ["error", "warning", "success", "info"]) {
         hues[role] = resolveFeedbackHue(FB[role].hue, FB[role].range, H, used);
@@ -412,7 +416,7 @@
       showToast(hex + " copiado");
     };
 
-    const seeds = deriveSeeds(brand.primary);
+    const seeds = deriveSeeds(brand.primary, brand.secondary);
     const rows = [
       { label: "Primary",   seed: brand.primary,   scale: buildBrandScale(brand.primary) },
       { label: "Secondary", seed: brand.secondary, scale: buildBrandScale(brand.secondary) },
