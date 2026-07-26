@@ -330,6 +330,57 @@
   // ponto de partida: a marca da Pump
   const SEED = { primary: { l: 0.62, c: 0.20, h: 27 }, secondary: { l: 0.55, c: 0.16, h: 200 } };
 
+  const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
+  const STRINGS = {
+    pt: {
+      title: "Cor",
+      lede: "Cor é entrada de marca. O cliente ancora duas cores em hex; o sistema deriva sete escalas em OKLCh, em tempo real. Componentes consomem apenas tokens semânticos — nunca primitivos diretamente.",
+      badgeTag: "Entrada de marca", badgeName: "cor", badgeOpts: "primária + secundária (âncora em hex)",
+      roles: { primary: "Primária", secondary: "Secundária", neutral: "Neutro", success: "Sucesso", warning: "Alerta", error: "Erro", info: "Info" },
+      hexAria: (l) => `${l} em hexadecimal`,
+      scalesTitle: "Escalas tonais",
+      scalesSub: (n) => `${n} cores derivadas de duas. Marca: 12 degraus (25–950) · Neutro: 14 (0, 25, 50–950, 1000) · Feedback: 11 · clique em qualquer cor para copiar.`,
+      steps: [
+        { title: "Entrada de marca", body: <>O cliente define apenas <b>Primária</b> e <b>Secundária</b>. Todo o restante nasce dessas duas decisões.</> },
+        { title: "Geração em tempo real", body: "O sistema gera escalas completas em OKLCh. Cada marca mantém contraste e consistência sem ajustes manuais." },
+        { title: "Tokens primitivos", body: "As escalas tornam-se tokens primitivos compartilhados por todo o sistema. Nenhum componente depende diretamente de valores de cor." },
+        { title: "Tokens semânticos", body: <>Componentes consomem apenas intenção. <code className="i">background/default</code></> },
+        { title: "Componentes", body: "Os componentes permanecem exatamente iguais para qualquer cliente. A única coisa que muda é a marca." },
+        { title: "Modo escuro", body: "O mesmo contrato funciona nos dois temas. Trocar entre claro e escuro não exige novos componentes nem novos tokens semânticos." },
+      ],
+      pipelineTitle: "Como a extração funciona",
+      pipelineSub: "Do hex de entrada ao componente pronto.",
+      copied: (hex) => `${hex} copiado`,
+      pickColor: "Escolher cor",
+      copyHint: "Clique para copiar.",
+      stepsLabel: "degraus",
+    },
+    en: {
+      title: "Color",
+      lede: "Color is a brand input. The customer anchors two colors in hex; the system derives seven scales in OKLCh, live. Components consume only semantic tokens — never primitives directly.",
+      badgeTag: "Brand input", badgeName: "color", badgeOpts: "primary + secondary (hex anchor)",
+      roles: { primary: "Primary", secondary: "Secondary", neutral: "Neutral", success: "Success", warning: "Warning", error: "Error", info: "Info" },
+      hexAria: (l) => `${l} in hexadecimal`,
+      scalesTitle: "Tonal scales",
+      scalesSub: (n) => `${n} colors derived from two. Brand: 12 steps (25–950) · Neutral: 14 (0, 25, 50–950, 1000) · Feedback: 11 · click any color to copy.`,
+      steps: [
+        { title: "Brand input", body: <>The customer defines only <b>Primary</b> and <b>Secondary</b>. Everything else grows from those two decisions.</> },
+        { title: "Live generation", body: "The system generates full scales in OKLCh. Every brand keeps contrast and consistency without manual tuning." },
+        { title: "Primitive tokens", body: "The scales become primitive tokens shared across the whole system. No component depends on a raw color value." },
+        { title: "Semantic tokens", body: <>Components consume intent only. <code className="i">background/default</code></> },
+        { title: "Components", body: "Components stay exactly the same for every customer. The only thing that changes is the brand." },
+        { title: "Dark mode", body: "The same contract works in both themes. Switching between light and dark needs no new components and no new semantic tokens." },
+      ],
+      pipelineTitle: "How the extraction works",
+      pipelineSub: "From input hex to finished component.",
+      copied: (hex) => `${hex} copied`,
+      pickColor: "Pick a color",
+      copyHint: "Click to copy.",
+      stepsLabel: "steps",
+    },
+  };
+  const T = STRINGS[LANG];
+
   // ═══════════════════════════════════════════════════════════
   // UI
   // ═══════════════════════════════════════════════════════════
@@ -356,14 +407,14 @@
       <div className="bi-card">
         <div className="bi-card-label">{label}</div>
         <div className="bi-card-body">
-          <label className="bi-sw" style={{ background: hex }} title="Escolher cor">
+          <label className="bi-sw" style={{ background: hex }} title={T.pickColor}>
             <input type="color" value={hex}
                    onChange={e => commit(e.target.value.toUpperCase())}
                    style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer" }} />
           </label>
           <div className="bi-fields">
             <input className="bi-hex" type="text" value={draft} spellCheck={false}
-                   aria-label={`${label} em hexadecimal`}
+                   aria-label={T.hexAria(label)}
                    onFocus={() => setFocused(true)}
                    onChange={e => setDraft(e.target.value.toUpperCase())}
                    onBlur={() => { setFocused(false); commit(draft); }}
@@ -387,14 +438,14 @@
         <div className="ts-head">
           <span className="ts-head-sw" style={{ background: seedHex }} />
           <span className="ts-label">{label}</span>
-          <span className="ts-meta">H {Math.round(seed.h)}° · {scale.length} steps</span>
+          <span className="ts-meta">H {Math.round(seed.h)}° · {scale.length} {T.stepsLabel}</span>
         </div>
         <div className="ts-bar" style={{ gridTemplateColumns: cols }}>
           {scale.map(s => (
             <button key={s.step} type="button" className="ts-step"
                     style={{ background: s.hex }}
                     onClick={() => onCopy(s.hex)}
-                    aria-label={`${label} ${s.step}, ${s.hex}. Clique para copiar.`}>
+                    aria-label={`${label} ${s.step}, ${s.hex}. ${T.copyHint}`}>
               <span className="ts-tip">{s.step} · {s.hex}</span>
             </button>
           ))}
@@ -413,56 +464,48 @@
     const [toast, showToast] = useToast();
     const copy = (hex) => {
       navigator.clipboard?.writeText(hex);
-      showToast(hex + " copiado");
+      showToast(T.copied(hex));
     };
 
     const seeds = deriveSeeds(brand.primary, brand.secondary);
     const rows = [
-      { label: "Primary",   seed: brand.primary,   scale: buildBrandScale(brand.primary) },
-      { label: "Secondary", seed: brand.secondary, scale: buildBrandScale(brand.secondary) },
-      { label: "Neutral",   seed: seeds.neutral,   scale: buildNeutralScale(seeds.neutral) },
-      { label: "Success",   seed: seeds.success,   scale: buildScale(seeds.success) },
-      { label: "Warning",   seed: seeds.warning,   scale: buildScale(seeds.warning) },
-      { label: "Error",     seed: seeds.error,     scale: buildScale(seeds.error) },
-      { label: "Info",      seed: seeds.info,      scale: buildScale(seeds.info) },
+      { label: T.roles.primary,   seed: brand.primary,   scale: buildBrandScale(brand.primary) },
+      { label: T.roles.secondary, seed: brand.secondary, scale: buildBrandScale(brand.secondary) },
+      { label: T.roles.neutral,   seed: seeds.neutral,   scale: buildNeutralScale(seeds.neutral) },
+      { label: T.roles.success,   seed: seeds.success,   scale: buildScale(seeds.success) },
+      { label: T.roles.warning,   seed: seeds.warning,   scale: buildScale(seeds.warning) },
+      { label: T.roles.error,     seed: seeds.error,     scale: buildScale(seeds.error) },
+      { label: T.roles.info,      seed: seeds.info,      scale: buildScale(seeds.info) },
     ];
     const total = rows.reduce((n, r) => n + r.scale.length, 0);
 
     return (
       <>
         <header className="hd">
-          <div className="hd-meta"><span>v1.0</span><span>·</span><span>Foundations / 01</span></div>
-          <h1 className="hd-title">Color</h1>
-          <p className="hd-lede">
-            Cor é input de marca. O tenant ancora <b>primary</b> e <b>secondary</b> em hex;
-            o backend deriva 7 escalas em OKLCh em runtime. Componentes consomem apenas
-            tokens semânticos — nunca primitivos diretos.
-          </p>
+          <h1 className="hd-title">{T.title}</h1>
+          <p className="hd-lede">{T.lede}</p>
           <div className="hd-badge">
-            <span className="hd-badge-tag">Brand input</span>
+            <span className="hd-badge-tag">{T.badgeTag}</span>
             <span className="hd-badge-sep">·</span>
-            <span className="hd-badge-name">color</span>
+            <span className="hd-badge-name">{T.badgeName}</span>
             <span className="hd-badge-sep">·</span>
-            <span>primary + secondary (âncora hex)</span>
+            <span>{T.badgeOpts}</span>
           </div>
         </header>
 
         <div className="bi-shell">
           <div className="bi-grid">
-            <BrandInput label="Primary" color={brand.primary}
+            <BrandInput label={T.roles.primary} color={brand.primary}
                         onChange={p => setBrand({ ...brand, primary: p })} />
-            <BrandInput label="Secondary" color={brand.secondary}
+            <BrandInput label={T.roles.secondary} color={brand.secondary}
                         onChange={s => setBrand({ ...brand, secondary: s })} />
           </div>
         </div>
 
         <div className="sec">
           <div className="sec-head">
-            <h2 className="sec-h2">Escalas tonais</h2>
-            <span className="sec-sub">
-              {total} cores derivadas de duas. Brand: 12 steps (25–950) · Neutral: 14 (0, 25, 50–950, 1000) ·
-              Feedback: 11 · clique em qualquer cor para copiar.
-            </span>
+            <h2 className="sec-h2">{T.scalesTitle}</h2>
+            <span className="sec-sub">{T.scalesSub(total)}</span>
           </div>
           <div className="ts-list">
             {rows.map(r => <ScaleRow key={r.label} {...r} onCopy={copy} />)}
@@ -471,52 +514,19 @@
 
         <div className="sec" style={{ marginBottom: 0 }}>
           <div className="sec-head">
-            <h2 className="sec-h2">Como a extração funciona</h2>
-            <span className="sec-sub">Do hex de entrada aos tokens semânticos.</span>
+            <h2 className="sec-h2">{T.pipelineTitle}</h2>
+            <span className="sec-sub">{T.pipelineSub}</span>
           </div>
           <div className="steps">
-            <article className="step">
-              <div className="step-num">01</div>
-              <div className="step-body">
-                <h3>Brand input</h3>
-                <p>O cliente define apenas <b>Primary</b> e <b>Secondary</b>. Todo o restante nasce dessas duas decisões.</p>
-              </div>
-            </article>
-            <article className="step">
-              <div className="step-num">02</div>
-              <div className="step-body">
-                <h3>Runtime generation</h3>
-                <p>O backend gera escalas completas em OKLCh. Cada marca mantém contraste e consistência sem ajustes manuais.</p>
-              </div>
-            </article>
-            <article className="step">
-              <div className="step-num">03</div>
-              <div className="step-body">
-                <h3>Primitive tokens</h3>
-                <p>As escalas tornam-se tokens primitivos compartilhados por todo o sistema. Nenhum componente depende diretamente de valores de cor.</p>
-              </div>
-            </article>
-            <article className="step">
-              <div className="step-num">04</div>
-              <div className="step-body">
-                <h3>Semantic tokens</h3>
-                <p>Componentes consomem apenas intenção. <code className="i">background/default</code></p>
-              </div>
-            </article>
-            <article className="step">
-              <div className="step-num">05</div>
-              <div className="step-body">
-                <h3>Components</h3>
-                <p>Os componentes permanecem exatamente iguais para qualquer cliente. A única coisa que muda é a marca.</p>
-              </div>
-            </article>
-            <article className="step">
-              <div className="step-num">06</div>
-              <div className="step-body">
-                <h3>Dark mode</h3>
-                <p>O mesmo contrato funciona nos dois temas. Trocar entre Light e Dark não exige novos componentes nem novos tokens semânticos.</p>
-              </div>
-            </article>
+            {T.steps.map((st, i) => (
+              <article className="step" key={i}>
+                <div className="step-num">{String(i + 1).padStart(2, "0")}</div>
+                <div className="step-body">
+                  <h3>{st.title}</h3>
+                  <p>{st.body}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
 

@@ -488,6 +488,7 @@ export default async function ProjectPage({
                     src={item.src}
                     title={t(item.heading, lang)}
                     label={item.label}
+                    lang={lang}
                   />
                 </div>
               ))}

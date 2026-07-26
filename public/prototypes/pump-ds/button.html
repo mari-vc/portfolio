@@ -371,11 +371,11 @@
                 <div style={{
                   height: 36, paddingLeft: 12, paddingRight: 16,
                   background: "var(--bg-brand-default)", borderRadius: "var(--radius-md)",
-                  display: "inline-flex", alignItems: "center", gap: 8,
+                  display: "inline-flex", alignItems: "center", gap: 8, color: "#fff",
                   outline: "1.5px dashed rgba(255,255,255,0.55)", outlineOffset: 2,
                 }}>
                   <PlusIcon size={14} />
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#fff", fontStyle: "italic" }}>{"{Label}"}</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, fontStyle: "italic" }}>{"{Label}"}</span>
                   <ArrowIcon size={14} />
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
@@ -488,54 +488,8 @@
           </div>
         </Section>
 
-        <Section num="05" title="API">
-          <div className="tbl-wrap">
-            <table className="tbl">
-              <thead><tr><th>prop</th><th>tipo</th><th>default</th><th>notas</th></tr></thead>
-              <tbody>
-                {[
-                  ["tone", "brand | neutral | destructive | inverse", "brand", "Intenção da ação. Ação secundária usa neutral."],
-                  ["appearance", "primary | secondary | tertiary", "primary", "Peso visual dentro do tom."],
-                  ["size", "sm | md | lg", "sm", "32 / 40 / 48px de altura."],
-                  ["icon", "none | leading | trailing", "none", "Passe pela prop; ícone como child perde o gap."],
-                  ["state", "default | hover | active | focus | disabled | loading", "default", "Forçado apenas em documentação."],
-                  ["children", "ReactNode", "—", "O label. Obrigatório: sem ele, use IconButton."],
-                ].map(r => (
-                  <tr key={r[0]}>
-                    <td><code>{r[0]}</code></td>
-                    <td style={{ fontFamily: "var(--font-mono)", fontSize: 11 }}>{r[1]}</td>
-                    <td><code>{r[2]}</code></td>
-                    <td>{r[3]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Section>
 
-        <Section num="06" title="Tokens" note="O componente não conhece nenhum valor bruto — só semânticos.">
-          <div className="tbl-wrap">
-            <table className="tbl">
-              <thead><tr><th>slot</th><th>token</th></tr></thead>
-              <tbody>
-                {[
-                  ["fundo (brand)", "--color-bg-brand-default → hover 600 → active 700"],
-                  ["texto sobre fill", "--color-fg-brand-on-primary (escolhido por contraste)"],
-                  ["borda (secondary)", "--color-border-brand-default"],
-                  ["altura", "--height-sm | md | lg"],
-                  ["raio", "--radius-md"],
-                  ["tipografia", "--font-size-label-sm | md + --font-weight-semibold"],
-                  ["anel de foco", "--shadow-focus-brand | destructive"],
-                  ["transição", "--transition-fast"],
-                ].map(r => (
-                  <tr key={r[0]}><td>{r[0]}</td><td><code>{r[1]}</code></td></tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Section>
-
-        <Section num="07" title="Uso">
+        <Section num="05" title="Uso">
           <div className="dd">
             <div className="dd-card dd-do">
               <div className="dd-head">
@@ -562,7 +516,7 @@
           </div>
         </Section>
 
-        <Section num="08" title="Acessibilidade">
+        <Section num="06" title="Acessibilidade">
           <div className="a11y">
             <ul>
               <li><b>Alvo mínimo</b> de 44px em toque: <code className="i">sm</code> tem 32px de altura visual e precisa de área extra ao redor.</li>

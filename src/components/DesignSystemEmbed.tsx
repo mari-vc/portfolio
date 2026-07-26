@@ -8,11 +8,15 @@ export function DesignSystemEmbed({
   src,
   title,
   label,
+  lang,
 }: {
   src: string;
   title: string;
   label: string;
+  lang?: string;
 }) {
+  // o protótipo lê ?lang= e troca sua própria cópia — mesmo contrato do PrototypeEmbed
+  const srcComIdioma = lang ? `${src}?lang=${lang}` : src;
   return (
     <div className="mt-6 overflow-hidden rounded-xl border border-line">
       {/* barra de título — situa o conteúdo como uma tela de produto, não uma imagem */}
@@ -25,7 +29,7 @@ export function DesignSystemEmbed({
         <span className="ml-1 font-mono text-[11px] tracking-wide text-muted">{label}</span>
       </div>
       <iframe
-        src={src}
+        src={srcComIdioma}
         title={title}
         loading="lazy"
         style={{ width: '100%', height: ALTURA, border: 0, display: 'block' }}
