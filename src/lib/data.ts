@@ -665,8 +665,8 @@ export const projects: Project[] = [
     dsEmbeds: {
       title: { pt: "O Atelier, ao vivo", en: "Atelier, live" },
       intro: {
-        pt: "Duas páginas da workbench, interativas. A primeira é uma fundação, a segunda um componente — os dois extremos do que o sistema documenta.",
-        en: "Two pages of the workbench, interactive. The first is a foundation, the second a component — the two ends of what the system documents.",
+        pt: "Abaixo trouxe duas páginas interativas do Atelier, uma página de fundação e outra de um componente.",
+        en: "Below are two interactive pages from Atelier, one for a foundation and one for a component.",
       },
       items: [
         {
