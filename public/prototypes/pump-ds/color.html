@@ -75,8 +75,6 @@
     letter-spacing: 0.02em; border: 0; background: transparent; outline: none;
     padding: 0; color: var(--fg); width: 100%;
   }
-  .bi-coords { display: flex; gap: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); }
-  .bi-coords b { font-weight: 600; color: var(--fg-2); margin-right: 3px; }
 
   /* ── section ── */
   .sec { margin-bottom: 34px; }
@@ -405,11 +403,6 @@
                    onChange={e => setDraft(e.target.value.toUpperCase())}
                    onBlur={() => { setFocused(false); commit(draft); }}
                    onKeyDown={e => e.key === "Enter" && e.currentTarget.blur()} />
-            <div className="bi-coords">
-              <span><b>L</b>{(color.l * 100).toFixed(1)}%</span>
-              <span><b>C</b>{color.c.toFixed(3)}</span>
-              <span><b>H</b>{color.h.toFixed(1)}°</span>
-            </div>
           </div>
         </div>
       </div>
