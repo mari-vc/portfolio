@@ -442,14 +442,19 @@
 
     const seeds = deriveSeeds(brand.primary, brand.secondary);
     const primaryScale = buildBrandScale(brand.primary);
+    const errorScale = buildScale(seeds.error);
 
-    // Publica a escala já derivada, não o hex cru: quem consome recebe os mesmos
-    // steps que esta página mostra, sem reimplementar a matemática OKLCh.
+    // Publica as escalas já derivadas, não os hexes crus: quem consome recebe os mesmos
+    // steps que esta página mostra, sem reimplementar a matemática OKLCh. Erro entra
+    // junto de primary porque a matiz dele também é resolvida a partir da marca.
     React.useEffect(() => {
-      const byStep = {};
-      for (const s of primaryScale) byStep[s.step] = s.hex;
-      parent.postMessage({ type: "pump-ds:brand", primary: byStep }, location.origin);
-    }, [brand.primary.l, brand.primary.c, brand.primary.h]);
+      const porStep = (escala) => Object.fromEntries(escala.map(s => [s.step, s.hex]));
+      parent.postMessage({
+        type: "pump-ds:brand",
+        primary: porStep(primaryScale),
+        error: porStep(errorScale),
+      }, location.origin);
+    }, [brand.primary.l, brand.primary.c, brand.primary.h, brand.secondary.h, seeds.error.h]);
 
     const rows = [
       { label: T.roles.primary,   seed: brand.primary,   scale: primaryScale },
@@ -457,7 +462,7 @@
       { label: T.roles.neutral,   seed: seeds.neutral,   scale: buildNeutralScale(seeds.neutral) },
       { label: T.roles.success,   seed: seeds.success,   scale: buildScale(seeds.success) },
       { label: T.roles.warning,   seed: seeds.warning,   scale: buildScale(seeds.warning) },
-      { label: T.roles.error,     seed: seeds.error,     scale: buildScale(seeds.error) },
+      { label: T.roles.error,     seed: seeds.error,     scale: errorScale },
       { label: T.roles.info,      seed: seeds.info,      scale: buildScale(seeds.info) },
     ];
     const total = rows.reduce((n, r) => n + r.scale.length, 0);

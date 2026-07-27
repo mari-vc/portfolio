@@ -31,6 +31,12 @@
     --primary-600: #C4531F;
     --primary-700: #A34317;
 
+    /* error: papel de feedback, derivado junto da marca (a matiz é resolvida
+       a partir da primary pra não colidir com ela) */
+    --error-500: #D01B0F;
+    --error-600: #B80008;
+    --error-700: #8C0000;
+
     /* semânticos — a única camada que o componente toca */
     --bg-primary: var(--neutral-0);
     --bg-secondary: var(--neutral-50);
@@ -45,12 +51,12 @@
     --fg-tertiary: var(--neutral-500);
     --fg-brand-default: var(--primary-500);
     --fg-brand-on-primary: #FFFFFF;
-    --fg-error-accent: #A81208;
+    --fg-error-accent: var(--error-600);
     --border-default: var(--neutral-200);
     --border-subtle: var(--neutral-100);
     --border-strong: var(--neutral-300);
     --border-brand-default: var(--primary-500);
-    --border-destructive: #D01B0F;
+    --border-destructive: var(--error-500);
 
     --radius-md: 8px;
     --radius-lg: 12px;
@@ -532,7 +538,7 @@ button, CTA, primary action, secondary action, loading, navigation, design syste
       },
       states: {
         title: "Estados",
-        note: "Seis estados. Disabled e loading têm tokens próprios, não opacity.",
+        note: "Cada estado representa uma mudança específica de intenção. Nenhum efeito depende de opacidade arbitrária ou ajustes manuais, todos são derivados dos tokens do sistema.",
         cols: ["estado", "brand filled", "o que muda"],
         sample: "Salvar",
         rows: {
@@ -593,7 +599,7 @@ button, CTA, primary action, secondary action, loading, navigation, design syste
       },
       states: {
         title: "States",
-        note: "Six states. Disabled and loading have their own tokens, not opacity.",
+        note: "Each state represents a specific shift in intent. No effect relies on arbitrary opacity or manual tweaks; all of them are derived from the system's tokens.",
         cols: ["state", "brand filled", "what changes"],
         sample: "Save",
         rows: {
@@ -795,7 +801,7 @@ button, CTA, primary action, secondary action, loading, navigation, design syste
       const anel = (cor) => `0 0 0 4px color-mix(in oklch, ${cor} 25%, transparent)`;
       if (appearance === "filled") {
         if (tone === "brand") return { bg: "var(--bg-brand-default)", bgHover: "var(--bg-brand-hover)", bgActive: "var(--bg-brand-active)", color: "var(--fg-brand-on-primary)", border: "transparent", focus: anel("var(--bg-brand-default)") };
-        if (tone === "destructive") return { bg: "#B80008", bgHover: "#B80008", bgActive: "#8C0000", color: "#FAFAF9", border: "transparent", focus: anel("#B80008") };
+        if (tone === "destructive") return { bg: "var(--error-500)", bgHover: "var(--error-600)", bgActive: "var(--error-700)", color: "#FAFAF9", border: "transparent", focus: anel("var(--error-500)") };
         // neutral filled tem fundo claro: um anel na cor do fundo seria invisível,
         // então segue o texto, que é o que dá identidade à variante
         if (tone === "neutral") return { bg: "var(--bg-primary)", bgHover: "var(--bg-secondary)", bgActive: "var(--bg-tertiary)", color: "var(--fg-secondary)", border: "var(--border-subtle)", focus: anel("var(--fg-secondary)") };
@@ -803,11 +809,11 @@ button, CTA, primary action, secondary action, loading, navigation, design syste
       }
       if (appearance === "outline") {
         if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "var(--border-brand-default)", borderHover: "var(--bg-brand-hover)", borderActive: "var(--bg-brand-active)", focus: anel("var(--fg-brand-default)") };
-        if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "#B80008", colorActive: "#8C0000", border: "var(--border-destructive)", borderHover: "#B80008", borderActive: "#8C0000", focus: anel("var(--fg-error-accent)") };
+        if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "var(--error-600)", colorActive: "var(--error-700)", border: "var(--border-destructive)", borderHover: "var(--error-600)", borderActive: "var(--error-700)", focus: anel("var(--fg-error-accent)") };
         return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "var(--border-default)", focus: anel("var(--fg-secondary)") };
       }
       if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "transparent", focus: anel("var(--fg-brand-default)") };
-      if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "#B80008", colorActive: "#8C0000", border: "transparent", focus: anel("var(--fg-error-accent)") };
+      if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "var(--error-600)", colorActive: "var(--error-700)", border: "transparent", focus: anel("var(--fg-error-accent)") };
       return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "transparent", focus: anel("var(--fg-secondary)") };
     })();
 
@@ -1020,9 +1026,10 @@ button, CTA, primary action, secondary action, loading, navigation, design syste
   // companhia) já apontam pra eles, então o botão troca de cor sem tocar em componente.
   window.addEventListener("message", (e) => {
     if (e.origin !== location.origin || e.data?.type !== "pump-ds:brand") return;
-    const steps = e.data.primary || {};
-    for (const [step, hex] of Object.entries(steps)) {
-      document.documentElement.style.setProperty(`--primary-${step}`, hex);
+    for (const papel of ["primary", "error"]) {
+      for (const [step, hex] of Object.entries(e.data[papel] || {})) {
+        document.documentElement.style.setProperty(`--${papel}-${step}`, hex);
+      }
     }
   });
 
