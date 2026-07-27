@@ -122,7 +122,8 @@
   .an-callout span.tok {
     display: inline-block; font-family: var(--font-mono); font-size: 9.5px;
     color: var(--fg-brand-default); background: var(--primary-50);
-    border-radius: 999px; padding: 2px 7px; letter-spacing: 0.01em;
+    border-radius: 10px; padding: 3px 7px; letter-spacing: 0.01em;
+    white-space: pre-line; line-height: 1.4;
   }
   .an-callout-top { top: 0; }
   .an-callout-bottom { bottom: 0; }
@@ -352,7 +353,7 @@
       { key: "height", side: "top", lx: cols[1], ax: m.btn.cx, ay: m.btn.y,
         title: "Altura", sub: "--height-sm/md/lg" },
       { key: "radius", side: "top", lx: cols[2], ax: m.btn.x + m.btn.w, ay: m.btn.y,
-        title: "Raio", sub: "--radius-md · do brand kit" },
+        title: "Raio", sub: "--radius-md\ndo brand kit" },
       { key: "padding", side: "bottom", lx: cols[0], ax: m.btn.x + (m.icon.x - m.btn.x) / 2, ay: m.btn.y + m.btn.h,
         title: "Padding", sub: "assimétrico, por tamanho" },
       { key: "label", side: "bottom", lx: cols[1], ax: m.label.cx, ay: m.btn.y + m.btn.h,
