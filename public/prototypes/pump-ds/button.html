@@ -290,12 +290,13 @@
   // ═══════════════════════════════════════════════════════════
   // Faixas verticais do canvas: rótulos no topo, corredor da linha, botão, e o
   // espelho embaixo. O botão fica no centro; as linhas viram nos corredores.
-  const AN_LABEL_H = 34, AN_LANE = 26, AN_CENTER_H = 84;
+  // 52: cabe título + até duas linhas de pill sem a linha cruzar o texto
+  const AN_LABEL_H = 52, AN_LANE = 26, AN_CENTER_H = 84;
   // abaixo disso os rótulos de 150px se sobrepõem: cai pra lista empilhada
   const AN_MIN_RADIAL = 520;
-  const AN_H = (AN_LABEL_H + AN_LANE) * 2 + AN_CENTER_H;   // 260
-  const AN_MID_TOP = AN_LABEL_H + AN_LANE / 2;             // 49
-  const AN_MID_BOTTOM = AN_H - AN_LABEL_H - AN_LANE / 2;   // 211
+  const AN_H = (AN_LABEL_H + AN_LANE) * 2 + AN_CENTER_H;
+  const AN_MID_TOP = AN_LABEL_H + AN_LANE / 2;
+  const AN_MID_BOTTOM = AN_H - AN_LABEL_H - AN_LANE / 2;
 
   function AnatomyDiagram() {
     const stageRef = useRef(null);
