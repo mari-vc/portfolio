@@ -518,8 +518,9 @@ button, CTA, primary action, secondary action, loading, navigation, design syste
   const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
   const STRINGS = {
     pt: {
+      title: "Botão",
       lede: "Todo botão comunica prioridade antes mesmo de ser clicado. No Atelier, sua aparência é consequência de tokens, intenção e contexto, não de estilos aplicados manualmente.",
-      copy: { idle: "Copy for agent", ok: "Copiado", erro: "Não foi possível copiar" },
+      copy: { idle: "Copiar para agente", ok: "Copiado", erro: "Não foi possível copiar" },
       anatomy: {
         title: "Anatomia",
         note: "Todo botão é composto por três partes: container, label e ícones opcionais. Cada uma responde a um conjunto específico de tokens, permitindo novas variantes sem alterar sua estrutura.",
@@ -579,6 +580,7 @@ button, CTA, primary action, secondary action, loading, navigation, design syste
       },
     },
     en: {
+      title: "Button",
       lede: "Every button communicates priority before anyone clicks it. In Atelier its appearance is a consequence of tokens, intent, and context, not of styles applied by hand.",
       copy: { idle: "Copy for agent", ok: "Copied", erro: "Couldn't copy" },
       anatomy: {
@@ -924,7 +926,7 @@ button, CTA, primary action, secondary action, loading, navigation, design syste
       <>
         <header className="hd">
           <div className="hd-row">
-            <h1 className="hd-title">Button</h1>
+            <h1 className="hd-title">{T.title}</h1>
             <button
               className={"copy-agent" + (status === "ok" ? " is-copied" : status === "erro" ? " is-failed" : "")}
               onClick={copyForAgent}>
