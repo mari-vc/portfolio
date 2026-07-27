@@ -441,8 +441,18 @@
     };
 
     const seeds = deriveSeeds(brand.primary, brand.secondary);
+    const primaryScale = buildBrandScale(brand.primary);
+
+    // Publica a escala já derivada, não o hex cru: quem consome recebe os mesmos
+    // steps que esta página mostra, sem reimplementar a matemática OKLCh.
+    React.useEffect(() => {
+      const byStep = {};
+      for (const s of primaryScale) byStep[s.step] = s.hex;
+      parent.postMessage({ type: "pump-ds:brand", primary: byStep }, location.origin);
+    }, [brand.primary.l, brand.primary.c, brand.primary.h]);
+
     const rows = [
-      { label: T.roles.primary,   seed: brand.primary,   scale: buildBrandScale(brand.primary) },
+      { label: T.roles.primary,   seed: brand.primary,   scale: primaryScale },
       { label: T.roles.secondary, seed: brand.secondary, scale: buildBrandScale(brand.secondary) },
       { label: T.roles.neutral,   seed: seeds.neutral,   scale: buildNeutralScale(seeds.neutral) },
       { label: T.roles.success,   seed: seeds.success,   scale: buildScale(seeds.success) },

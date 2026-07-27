@@ -717,6 +717,17 @@
     );
   }
 
+  // A página de cor do Atelier publica a escala que derivou da marca do cliente.
+  // Aqui só reescrevemos os primitivos: os tokens semânticos (--bg-brand-default e
+  // companhia) já apontam pra eles, então o botão troca de cor sem tocar em componente.
+  window.addEventListener("message", (e) => {
+    if (e.origin !== location.origin || e.data?.type !== "pump-ds:brand") return;
+    const steps = e.data.primary || {};
+    for (const [step, hex] of Object.entries(steps)) {
+      document.documentElement.style.setProperty(`--primary-${step}`, hex);
+    }
+  });
+
   ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
 </body>
