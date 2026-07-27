@@ -774,8 +774,8 @@ export const projects: Project[] = [
       en: "Atelier's biggest result wasn't reaching 109 components, but building infrastructure able to reveal where the system generates the most leverage, where decisions still get repeated, and which investments should come next.\n\nAtelier started evolving alongside the product: its components are consumed by the features, new stories strengthen the system, and real usage data guides its evolution.\n\nIt doesn't just organize what's already been built. It also helps decide what should be built next.",
     },
     closing: {
-      pt: "O Atelier nasceu para criar uma base que cresce junto com o produto. Mais do que um Design System, ele foi projetado para ser uma infraestrutura compartilhada por pessoas e IA.",
-      en: "Atelier was born to create a foundation that grows along with the product. More than a Design System, it was built to be infrastructure shared by people and AI.",
+      pt: "Criei uma infraestrutura, medi seu uso e usei dados reais para guiar seu crescimento.",
+      en: "I built an infrastructure, measured its use, and used real data to guide its growth.",
     },
   },
   {
