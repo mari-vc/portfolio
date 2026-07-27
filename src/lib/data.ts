@@ -326,6 +326,9 @@ export type Project = {
   // frase de contexto (opcional), exibida logo abaixo do título da seção de pilares
   pillarsIntro?: L;
   outcome?: { label: L; value: L }[];
+  // leitura do resultado (opcional) — bloco narrativo logo abaixo das métricas,
+  // antes da frase de fechamento; aceita múltiplos parágrafos (linha em branco separa)
+  impact?: L;
   closing: L;
   // true → a página do projeto embute o KypcarDemo interativo abaixo da capa.
   demo?: boolean;
@@ -728,20 +731,31 @@ export const projects: Project[] = [
         },
       },
       {
-        label: { pt: "208 commits", en: "208 commits" },
+        label: { pt: "1.165 elos de consumo", en: "1,165 consumption links" },
         value: {
-          pt: "Sistema construído e evoluído em aproximadamente oito semanas",
-          en: "Built and evolved over roughly eight weeks",
+          pt: "Componentes conectados ao produto real",
+          en: "Components wired into the real product",
         },
       },
       {
-        label: { pt: "0 hex hardcoded", en: "0 hardcoded hex" },
+        label: { pt: "65,8% de reúso", en: "65.8% reuse" },
         value: {
-          pt: "Todas as cores derivadas de tokens",
-          en: "Every color derived from tokens",
+          pt: "Specs utilizados por dois ou mais consumidores",
+          en: "Specs used by two or more consumers",
+        },
+      },
+      {
+        label: { pt: "21% das stories", en: "21% of stories" },
+        value: {
+          pt: "Entregas que também fortaleceram o Design System",
+          en: "Deliveries that also strengthened the Design System",
         },
       },
     ],
+    impact: {
+      pt: "O maior resultado do Atelier não foi chegar a 109 componentes. Foi criar uma infraestrutura capaz de mostrar onde o produto ganha alavancagem, onde decisões ainda são repetidas e quais investimentos devem vir em seguida.\n\nO sistema passou a evoluir junto com as funcionalidades: sendo consumido pelo produto, alimentado pelas mesmas stories e auditado a partir de dados reais de uso.\n\nO Atelier não apenas organiza o que já foi construído. Ele ajuda a decidir o que deve ser construído depois.",
+      en: "Atelier's biggest result wasn't reaching 109 components. It was building infrastructure able to show where the product gains leverage, where decisions still get repeated, and which investments should come next.\n\nThe system started evolving alongside the features themselves: consumed by the product, fed by the same stories, and audited from real usage data.\n\nAtelier doesn't just organize what's already been built. It helps decide what should be built next.",
+    },
     closing: {
       pt: "O Atelier nasceu para criar uma base que cresce junto com o produto. Mais do que um Design System, ele foi projetado para ser uma infraestrutura compartilhada por pessoas e IA.",
       en: "Atelier was born to create a foundation that grows along with the product. More than a Design System, it was built to be infrastructure shared by people and AI.",

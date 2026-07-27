@@ -501,7 +501,11 @@ export default async function ProjectPage({
               <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
                 {dict.work_detail.results}
               </h2>
-              <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+              <div
+                className={`mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line ${
+                  project.outcome.length > 3 ? "sm:grid-cols-2" : "sm:grid-cols-3"
+                }`}
+              >
                 {project.outcome.map((metric) => (
                   <div key={metric.label.pt} className="bg-card p-6">
                     <p className="text-2xl font-normal leading-snug tracking-tight">{t(metric.label, lang)}</p>
@@ -512,6 +516,8 @@ export default async function ProjectPage({
               </div>
             </section>
           )}
+
+          {project.impact && <Block>{t(project.impact, lang)}</Block>}
 
           {project.checkoutFlow && (
             <section className="mt-12">
@@ -563,14 +569,14 @@ export default async function ProjectPage({
   )
 }
 
-function Block({ title, children }: { title: string; children: string }) {
+function Block({ title, children }: { title?: string; children: string }) {
   const blocks = children.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean)
   // um bloco cujas linhas começam todas com "-" ou "*" vira lista; o resto é parágrafo
   const isList = (block: string) =>
     block.split('\n').every((line) => /^\s*[-*]\s+/.test(line))
   return (
     <section className="mt-12">
-      <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{title}</h2>
+      {title && <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{title}</h2>}
       {blocks.map((block, i) =>
         isList(block) ? (
           <ul key={i} className="mt-4 space-y-2">
@@ -584,7 +590,10 @@ function Block({ title, children }: { title: string; children: string }) {
             ))}
           </ul>
         ) : (
-          <p key={i} className={`${i === 0 ? 'mt-5' : 'mt-4'} text-base leading-relaxed`}>
+          <p
+            key={i}
+            className={`${i === 0 ? (title ? 'mt-5' : '') : 'mt-4'} text-base leading-relaxed`}
+          >
             {block}
           </p>
         ),
