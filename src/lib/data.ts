@@ -307,6 +307,10 @@ export type Project = {
   // aceita tanto texto solto (legado) quanto { title, text } (com título por passo)
   // `image` (opcional) referencia um arquivo em /public/work/ exibido via botão de expandir
   approach: (L | { title: L; text: L; image?: { src: string; alt: L } })[];
+  // "list" (só quando os itens têm title+text) → numerada com o mesmo traço do
+  // pillars "list", em vez do grid de cards; varia a estrutura visual quando a
+  // seção logo abaixo (ex.: Decisões arquiteturais) já usa cards
+  approachLayout?: "grid" | "list";
   // pilares do sistema (opcional) — grid visual de arquitetura
   // `doodle` (opcional, só no layout "list") referencia um pequeno desenho a
   // traço renderizado ao lado do item — chaves disponíveis em PillarDoodle.tsx
@@ -647,22 +651,35 @@ export const projects: Project[] = [
       pt: "O desafio nunca foi criar mais componentes. Era construir um sistema capaz de escalar em três frentes ao mesmo tempo:\n\n- velocidade de desenvolvimento;\n- autonomia dos times;\n- consistência das experiências.\n\nCom a chegada da IA surgiu um novo consumidor da plataforma: agentes também precisavam compreender e construir interfaces de forma previsível.\n\nEm vez de resolver cada problema separadamente, optamos por criar uma arquitetura capaz de sustentá-los juntos.",
       en: "The challenge was never to build more components. It was to build a system able to scale on three fronts at once:\n\n- development speed;\n- team autonomy;\n- consistency across experiences.\n\nWith the arrival of AI a new consumer of the platform appeared: agents also had to understand and build interfaces predictably.\n\nInstead of solving each problem separately, we chose to build one architecture able to carry them together.",
     },
+    approachLayout: "list",
     approach: [
       {
-        pt: "Construímos cada componente para funcionar em produção desde o primeiro dia. O objetivo deixou de ser representar interfaces e passou a ser gerar interfaces confiáveis.",
-        en: "We built every component to run in production from day one. The goal stopped being to represent interfaces and became to generate reliable ones.",
+        title: { pt: "Produção desde o primeiro dia", en: "Production from day one" },
+        text: {
+          pt: "Construímos cada componente para funcionar em produção desde o primeiro dia. O objetivo deixou de ser representar interfaces e passou a ser gerar interfaces confiáveis.",
+          en: "We built every component to run in production from day one. The goal stopped being to represent interfaces and became to generate reliable ones.",
+        },
       },
       {
-        pt: "Componentes nasceram de tokens, contratos e regras compartilhadas. A interface passou a ser consequência dessas decisões, não sua origem.",
-        en: "Components came out of tokens, contracts, and shared rules. The interface became a consequence of those decisions, not their origin.",
+        title: { pt: "Regras antes da interface", en: "Rules before the interface" },
+        text: {
+          pt: "Componentes nasceram de tokens, contratos e regras compartilhadas. A interface passou a ser consequência dessas decisões, não sua origem.",
+          en: "Components came out of tokens, contracts, and shared rules. The interface became a consequence of those decisions, not their origin.",
+        },
       },
       {
-        pt: "Cada novo caso de uso reforça o sistema em vez de criar exceções. Assim, a consistência cresce junto com o produto.",
-        en: "Every new use case reinforces the system instead of creating exceptions. That way consistency grows along with the product.",
+        title: { pt: "Cada entrega fortalece o sistema", en: "Every delivery strengthens the system" },
+        text: {
+          pt: "Cada novo caso de uso reforça o sistema em vez de criar exceções. Assim, a consistência cresce junto com o produto.",
+          en: "Every new use case reinforces the system instead of creating exceptions. That way consistency grows along with the product.",
+        },
       },
       {
-        pt: "White-label deixou de ser apenas troca de cores. Marcas, temas e comportamentos passaram a ser configurados por tokens, permitindo evolução global sem alterar componentes.",
-        en: "White-label stopped being just a color swap. Brands, themes, and behaviors are configured through tokens, allowing global evolution without touching components.",
+        title: { pt: "White-label como configuração", en: "White-label as configuration" },
+        text: {
+          pt: "Marcas, temas e comportamentos passaram a ser configurados por tokens, permitindo evolução global sem alterar componentes.",
+          en: "Brands, themes, and behaviors are configured through tokens, allowing global evolution without touching components.",
+        },
       },
     ],
     dsEmbeds: {

@@ -327,23 +327,43 @@ export default async function ProjectPage({
               {dict.work_detail.approach}
             </h2>
             {project.approach.length > 0 && "text" in project.approach[0] ? (
-              <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-                {(project.approach as { title: L; text: L; image?: { src: string; alt: L } }[]).map((step, i) => (
-                  <div key={i} className="bg-card p-6">
-                    <span className="font-mono text-sm text-accent">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <h3 className="mt-2 text-lg font-medium tracking-tight">
-                      {t(step.title, lang)}
-                    </h3>
-                    <InkUnderline className="mt-1.5 h-2 w-12" />
-                    <p className="mt-2 text-sm leading-relaxed text-muted">{t(step.text, lang)}</p>
-                    {step.image && (
-                      <ImageExpand src={step.image.src} alt={t(step.image.alt, lang)} />
-                    )}
-                  </div>
-                ))}
-              </div>
+              project.approachLayout === "list" ? (
+                <ol className="mt-5 space-y-4">
+                  {(project.approach as { title: L; text: L; image?: { src: string; alt: L } }[]).map((step, i) => (
+                    <li key={i} className="flex items-start gap-4">
+                      <span className="relative inline-flex h-8 w-11 shrink-0 items-center justify-center font-mono text-sm text-accent">
+                        <InkCircle className="absolute inset-0 h-full w-full" />
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <div className="pt-1">
+                        <h3 className="text-base font-medium tracking-tight">{t(step.title, lang)}</h3>
+                        <p className="mt-1 text-base leading-relaxed text-muted">{t(step.text, lang)}</p>
+                        {step.image && (
+                          <ImageExpand src={step.image.src} alt={t(step.image.alt, lang)} />
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+                  {(project.approach as { title: L; text: L; image?: { src: string; alt: L } }[]).map((step, i) => (
+                    <div key={i} className="bg-card p-6">
+                      <span className="font-mono text-sm text-accent">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <h3 className="mt-2 text-lg font-medium tracking-tight">
+                        {t(step.title, lang)}
+                      </h3>
+                      <InkUnderline className="mt-1.5 h-2 w-12" />
+                      <p className="mt-2 text-sm leading-relaxed text-muted">{t(step.text, lang)}</p>
+                      {step.image && (
+                        <ImageExpand src={step.image.src} alt={t(step.image.alt, lang)} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )
             ) : (
               <ol className="mt-5 space-y-4">
                 {(project.approach as L[]).map((step, i) => (
