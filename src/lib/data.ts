@@ -750,8 +750,8 @@ export const projects: Project[] = [
       {
         label: { pt: "1.165 elos de consumo", en: "1,165 consumption links" },
         value: {
-          pt: "Componentes conectados ao produto real",
-          en: "Components wired into the real product",
+          pt: "Conexões reais entre o Atelier e o produto",
+          en: "Real connections between Atelier and the product",
         },
       },
       {
@@ -764,8 +764,8 @@ export const projects: Project[] = [
       {
         label: { pt: "21% das stories", en: "21% of stories" },
         value: {
-          pt: "Entregas que também fortaleceram o Design System",
-          en: "Deliveries that also strengthened the Design System",
+          pt: "Entregas que também fortaleceram o sistema",
+          en: "Deliveries that also strengthened the system",
         },
       },
     ],
