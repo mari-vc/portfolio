@@ -60,8 +60,6 @@
     --label-sm: 12px;
     --label-md: 14px;
     --weight-semibold: 600;
-    --focus-brand: 0 0 0 3px rgba(226, 98, 42, 0.25);
-    --focus-destructive: 0 0 0 3px rgba(208, 27, 15, 0.25);
     --transition-fast: 120ms cubic-bezier(0.2, 0, 0, 1);
   }
   * { box-sizing: border-box; }
@@ -90,6 +88,7 @@
   }
   .copy-agent:hover { color: var(--fg-primary); border-color: var(--border-default); background: var(--bg-subtle); }
   .copy-agent.is-copied { color: #2E7D50; border-color: #2E7D50; }
+  .copy-agent.is-failed { color: #A81208; border-color: #A81208; }
 
   /* ── section ── */
   .sec { margin-bottom: 34px; }
@@ -197,18 +196,6 @@
     font-family: var(--font-mono); font-size: 11px; color: var(--fg-secondary); white-space: nowrap;
   }
 
-  /* ── tamanho ── */
-  .sub-h3 { font-size: 12px; font-weight: 700; margin: 22px 0 10px; letter-spacing: -0.005em; }
-  .sz-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .sz-cell {
-    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
-    border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
-    padding: 16px;
-  }
-  .sz-meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-tertiary); }
-  .sz-meta b { color: var(--fg-primary); font-weight: 700; }
-  .sz-when { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--fg-secondary); }
-
   /* ── tabelas de dados ── */
   .tbl-wrap { overflow-x: auto; border: 1px solid var(--border-default); border-radius: var(--radius-lg); }
   table.tbl { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 12px; }
@@ -261,6 +248,261 @@
 </head>
 <body>
   <div id="root"></div>
+
+  <!-- A spec que o "Copy for agent" entrega. Fica em texto puro, não em string de JS,
+       porque o conteúdo é markdown com blocos de código: escapar as cercas dentro de um
+       template literal só cria uma cópia divergente da que o agente realmente recebe. -->
+  <script type="text/markdown" id="agent-spec">
+# Atelier · Button
+
+**Component**
+
+```tsx
+import { Button } from "@/components/Button";
+```
+
+When implementing or refactoring UIs, always use this component for standard button actions.
+
+---
+
+## API
+
+### tone
+
+Defines semantic meaning.
+
+| value | usage |
+|--------|-------|
+| brand | Primary actions and default CTAs |
+| neutral | Secondary, low-emphasis or utility actions |
+| destructive | Irreversible actions (delete, revoke, remove, ban) |
+| inverse | Dark filled button for light backgrounds. Filled only. Ignore `appearance`. |
+
+---
+
+### appearance
+
+Defines visual emphasis.
+
+| value | usage |
+|--------|-------|
+| filled | Highest emphasis |
+| outlined | Secondary emphasis |
+| ghost | Lowest emphasis |
+
+---
+
+### size
+
+| value | height |
+|-------|--------|
+| sm | 32px |
+| md | 40px (default) |
+| lg | 48px |
+
+---
+
+## Props
+
+```tsx
+isLoading?: boolean
+icon?: ReactNode
+iconPosition?: "leading" | "trailing"
+disabled?: boolean
+asChild?: boolean
+```
+
+---
+
+# Required rules
+
+These rules are mandatory.
+
+### Primary hierarchy
+
+Each form, modal or logical section MUST contain at most one:
+
+```tsx
+tone="brand"
+appearance="filled"
+```
+
+If multiple actions exist:
+Primary
+
+```tsx
+<Button
+    tone="brand"
+    appearance="filled"
+/>
+```
+
+Secondary
+
+```tsx
+<Button
+    tone="neutral"
+    appearance="outlined"
+/>
+```
+
+Tertiary
+
+```tsx
+<Button
+    tone="neutral"
+    appearance="ghost"
+/>
+```
+
+---
+
+### Semantic tone
+
+Always choose `tone` based on meaning, never appearance.
+
+Correct:
+Delete → destructive
+Save → brand
+Cancel → neutral
+
+---
+
+### Navigation
+
+Navigation MUST use `asChild`.
+
+```tsx
+<Button asChild>
+    <Link ... />
+</Button>
+```
+
+Never attach navigation handlers to a normal Button when a Link exists.
+
+---
+
+### Icon-only actions
+
+Never use Button.
+
+Always use IconButton.
+
+Incorrect
+
+```tsx
+<Button icon={<Trash />} />
+```
+
+Correct
+
+```tsx
+<IconButton
+    icon={<Trash />}
+    aria-label="Delete"
+/>
+```
+
+---
+
+### Loading
+
+Use `isLoading` while async work is running.
+
+Never combine:
+
+```
+isLoading
+disabled
+```
+
+`isLoading` already disables interaction.
+
+---
+
+### Responsive primary CTA
+
+Primary actions SHOULD use
+
+```tsx
+className="w-full sm:w-auto"
+```
+
+unless the layout explicitly requires another width.
+
+---
+
+### Colors
+
+Never hardcode colors.
+
+Never style buttons with Tailwind color utilities.
+
+Always rely on:
+- tone
+- appearance
+- semantic tokens
+
+---
+
+### Labels
+
+Prefer labels between one and three words.
+
+Avoid labels longer than four words.
+
+---
+
+### Deprecated API
+
+Never generate
+
+```tsx
+variant=""
+```
+
+Always use
+
+```tsx
+tone=""
+appearance=""
+```
+
+---
+
+# When refactoring
+
+If an existing implementation:
+- uses `variant`
+- hardcodes colors
+- has multiple primary buttons
+- uses Button for icon-only actions
+- manually renders loading spinners
+- manually styles disabled state
+
+refactor it to follow this specification.
+
+---
+
+# Generation priorities
+
+When uncertain:
+1. preserve semantic meaning
+2. preserve accessibility
+3. preserve hierarchy
+4. preserve responsive behavior
+5. follow this API over previous implementations
+
+---
+
+Tags
+button, CTA, primary action, secondary action, loading, navigation, design system
+
+---
+
+Atelier
+https://dev.getpumped.ai/atelier?s=components:control/button
+  </script>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
@@ -426,21 +668,27 @@
     const paddingRight = icon === "trailing" ? padLead : icon === "leading" ? padTrail : padSym;
 
     const V = (() => {
-      const fB = "var(--focus-brand)", fD = "var(--focus-destructive)";
+      // O anel nasce da cor do próprio botão, não de um rgba fixo: quando a marca do
+      // cliente muda, o foco muda com ela em vez de apontar pra um laranja que não
+      // existe mais na paleta. tone define a cor; appearance escolhe entre o
+      // preenchimento e o traço, porque em outline/ghost o fundo é transparente.
+      const anel = (cor) => `0 0 0 4px color-mix(in oklch, ${cor} 25%, transparent)`;
       if (appearance === "filled") {
-        if (tone === "brand") return { bg: "var(--bg-brand-default)", bgHover: "var(--bg-brand-hover)", bgActive: "var(--bg-brand-active)", color: "var(--fg-brand-on-primary)", border: "transparent", focus: fB };
-        if (tone === "destructive") return { bg: "#B80008", bgHover: "#B80008", bgActive: "#8C0000", color: "#FAFAF9", border: "transparent", focus: fD };
-        if (tone === "neutral") return { bg: "var(--bg-primary)", bgHover: "var(--bg-secondary)", bgActive: "var(--bg-tertiary)", color: "var(--fg-secondary)", border: "var(--border-subtle)", focus: fB };
-        return { bg: "var(--fg-primary)", bgHover: "var(--fg-secondary)", bgActive: "var(--fg-tertiary)", color: "var(--bg-primary)", border: "transparent", focus: fB };
+        if (tone === "brand") return { bg: "var(--bg-brand-default)", bgHover: "var(--bg-brand-hover)", bgActive: "var(--bg-brand-active)", color: "var(--fg-brand-on-primary)", border: "transparent", focus: anel("var(--bg-brand-default)") };
+        if (tone === "destructive") return { bg: "#B80008", bgHover: "#B80008", bgActive: "#8C0000", color: "#FAFAF9", border: "transparent", focus: anel("#B80008") };
+        // neutral filled tem fundo claro: um anel na cor do fundo seria invisível,
+        // então segue o texto, que é o que dá identidade à variante
+        if (tone === "neutral") return { bg: "var(--bg-primary)", bgHover: "var(--bg-secondary)", bgActive: "var(--bg-tertiary)", color: "var(--fg-secondary)", border: "var(--border-subtle)", focus: anel("var(--fg-secondary)") };
+        return { bg: "var(--fg-primary)", bgHover: "var(--fg-secondary)", bgActive: "var(--fg-tertiary)", color: "var(--bg-primary)", border: "transparent", focus: anel("var(--fg-primary)") };
       }
       if (appearance === "outline") {
-        if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "var(--border-brand-default)", borderHover: "var(--bg-brand-hover)", borderActive: "var(--bg-brand-active)", focus: fB };
-        if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "#B80008", colorActive: "#8C0000", border: "var(--border-destructive)", borderHover: "#B80008", borderActive: "#8C0000", focus: fD };
-        return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "var(--border-default)", focus: fB };
+        if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "var(--border-brand-default)", borderHover: "var(--bg-brand-hover)", borderActive: "var(--bg-brand-active)", focus: anel("var(--fg-brand-default)") };
+        if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "#B80008", colorActive: "#8C0000", border: "var(--border-destructive)", borderHover: "#B80008", borderActive: "#8C0000", focus: anel("var(--fg-error-accent)") };
+        return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "var(--border-default)", focus: anel("var(--fg-secondary)") };
       }
-      if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "transparent", focus: fB };
-      if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "#B80008", colorActive: "#8C0000", border: "transparent", focus: fD };
-      return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "transparent", focus: fB };
+      if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "transparent", focus: anel("var(--fg-brand-default)") };
+      if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "#B80008", colorActive: "#8C0000", border: "transparent", focus: anel("var(--fg-error-accent)") };
+      return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "transparent", focus: anel("var(--fg-secondary)") };
     })();
 
     const [hover, setHover] = useState(false);
@@ -522,24 +770,28 @@
     const [icon, setIcon] = useState("leading");
     const [state, setState] = useState("default");
     const [label, setLabel] = useState("Save changes");
-    const [copied, setCopied] = useState(false);
+    const [status, setStatus] = useState("idle");
 
     function copyForAgent() {
-      const spec = [
-        "# Button — Pump DS",
-        "",
-        "Props: tone(brand|neutral|destructive|inverse) · appearance(filled|outline|ghost) · size(sm|md|lg) · icon(none|leading|trailing) · state(default|hover|active|focus|disabled|loading)",
-        "",
-        "Regras:",
-        "- appearance define ênfase, não cor; tone define intenção.",
-        "- radius vem de --radius-md, definido pelo brand kit do tenant.",
-        "- disabled/loading usam tokens próprios, nunca opacity.",
-        "- não usar para navegação (Link), ação só-ícone (IconButton) ou ação flutuante única (FAB).",
-      ].join("\n");
-      navigator.clipboard.writeText(spec).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1800);
-      });
+      const spec = document.getElementById("agent-spec").textContent.trim();
+      // dentro de iframe o clipboard async pode estar bloqueado; execCommand cobre o resto
+      const escrever = navigator.clipboard?.writeText(spec) ?? Promise.reject();
+      escrever
+        .catch(() => {
+          const ta = document.createElement("textarea");
+          ta.value = spec;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          const ok = document.execCommand("copy");
+          ta.remove();
+          // se nem o fallback copiou, não dá pra dizer "Copiado": o rótulo
+          // seria uma afirmação falsa sobre o que está no clipboard
+          if (!ok) throw new Error("clipboard indisponível");
+        })
+        .then(() => setStatus("ok"), () => setStatus("erro"))
+        .then(() => setTimeout(() => setStatus("idle"), 1800));
     }
 
     return (
@@ -547,8 +799,10 @@
         <header className="hd">
           <div className="hd-row">
             <h1 className="hd-title">Button</h1>
-            <button className={"copy-agent" + (copied ? " is-copied" : "")} onClick={copyForAgent}>
-              {copied ? "Copiado" : "Copy for agent"}
+            <button
+              className={"copy-agent" + (status === "ok" ? " is-copied" : status === "erro" ? " is-failed" : "")}
+              onClick={copyForAgent}>
+              {status === "ok" ? "Copiado" : status === "erro" ? "Não foi possível copiar" : "Copy for agent"}
             </button>
           </div>
           <p className="hd-lede">
@@ -584,64 +838,7 @@
           </div>
         </Section>
 
-        <Section num="03" title="Hierarquia visual" note="Todo botão pertence a um tom e uma aparência. A hierarquia permanece consistente independentemente da marca, enquanto os tokens definem apenas sua representação visual.">
-          <div className="mx-wrap">
-            <table className="mx">
-              <thead>
-                <tr>
-                  <th>tone \ appearance</th>
-                  {APPEARANCES.map(a => <th key={a}>{a}</th>)}
-                </tr>
-              </thead>
-              <tbody>
-                {TONES.map(tn => (
-                  <tr key={tn}>
-                    <td>{tn}</td>
-                    {APPEARANCES.map(ap => {
-                      // inverse só define filled: outline/ghost caem no ramo neutral,
-                      // cujo texto escuro dá 1.79:1 sobre superfície escura. Lacuna conhecida,
-                      // documentada em vez de disfarçada.
-                      const gap = tn === "inverse" && ap !== "filled";
-                      return (
-                        <td key={ap} style={tn === "inverse" ? { background: "var(--fg-primary)" } : undefined}>
-                          {gap ? (
-                            <span style={{
-                              fontFamily: "var(--font-mono)", fontSize: 10,
-                              letterSpacing: "0.06em", textTransform: "uppercase",
-                              color: "var(--neutral-400)", border: "1px dashed var(--neutral-600)",
-                              borderRadius: 999, padding: "3px 9px", whiteSpace: "nowrap",
-                            }}>a definir</span>
-                          ) : (
-                            <Button tone={tn} appearance={ap} size="sm" icon="none">
-                              {tn === "destructive" ? "Delete" : "Button"}
-                            </Button>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <h3 className="sub-h3">Tamanho</h3>
-          <div className="sz-row">
-            {[
-              { size: "sm", height: 32, when: "Ações densas: toolbars, linhas de tabela, cards compactos." },
-              { size: "md", height: 40, when: "Padrão. A maioria dos formulários e ações isoladas." },
-              { size: "lg", height: 48, when: "Alta ênfase: CTAs, telas de marketing, alvo de toque em mobile." },
-            ].map(row => (
-              <div className="sz-cell" key={row.size}>
-                <Button tone="brand" appearance="filled" size={row.size} icon="none">Button</Button>
-                <div className="sz-meta"><b>{row.size}</b> · {row.height}px</div>
-                <p className="sz-when">{row.when}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <Section num="04" title="Estados" note="Seis estados. Disabled e loading têm tokens próprios, não opacity.">
+        <Section num="03" title="Estados" note="Seis estados. Disabled e loading têm tokens próprios, não opacity.">
           <div className="mx-wrap">
             <table className="mx">
               <thead><tr><th>estado</th><th>brand primary</th><th>o que muda</th></tr></thead>
@@ -650,7 +847,7 @@
                   ["default", "Repouso: fundo no step 500 da marca."],
                   ["hover", "Fundo escurece um step, para 600."],
                   ["active", "Escurece outro step, para 700."],
-                  ["focus", "Anel de 3px a 25% de opacidade — nunca remove o indicador."],
+                  ["focus", "Anel de 4px na própria cor do botão, a 25% — nunca remove o indicador."],
                   ["disabled", "Fundo e texto trocam para tokens de disabled; cursor not-allowed."],
                   ["loading", "Spinner entra à direita e o label fica a 70%, preservando o contexto."],
                 ].map(([st, desc]) => (
@@ -666,7 +863,7 @@
         </Section>
 
 
-        <Section num="05" title="Quando utilizar">
+        <Section num="04" title="Quando utilizar">
           <div className="dd">
             <div className="dd-card dd-do">
               <div className="dd-head">
@@ -702,11 +899,11 @@
           </div>
         </Section>
 
-        <Section num="06" title="Acessibilidade">
+        <Section num="05" title="Acessibilidade">
           <div className="a11y">
             <ul>
               <li><b>Alvo mínimo</b> de 44px em toque: <code className="i">sm</code> tem 32px de altura visual e precisa de área extra ao redor.</li>
-              <li><b>Foco sempre visível</b> — o anel nunca é removido, e não depende só de cor: ele acompanha a borda.</li>
+              <li><b>Foco sempre visível</b> — o anel nunca é removido, tem 4px e nasce da cor do próprio botão, então acompanha a marca do cliente.</li>
               <li><b>Loading</b> anuncia com <code className="i">aria-busy</code> e mantém o label, para o leitor de tela não perder o contexto da ação.</li>
               <li><b>Disabled</b> usa tokens de fundo e texto próprios em vez de opacity, para o contraste continuar previsível.</li>
               <li><b>Texto sobre fill</b> vem da escala do próprio papel, escolhido pela luminância do fundo — nunca branco fixo.</li>
