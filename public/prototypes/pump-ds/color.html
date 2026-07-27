@@ -310,7 +310,8 @@
   }
 
   // ponto de partida: a marca da Pump
-  const SEED = { primary: { l: 0.62, c: 0.20, h: 27 }, secondary: { l: 0.55, c: 0.16, h: 200 } };
+  // primary = #B93DE6 em OKLCh (a conversão exata, pra o step 500 devolver o hex de volta)
+  const SEED = { primary: { l: 0.6107, c: 0.2491, h: 315.2 }, secondary: { l: 0.55, c: 0.16, h: 200 } };
 
   const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
   const STRINGS = {
