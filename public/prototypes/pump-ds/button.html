@@ -511,6 +511,136 @@ https://dev.getpumped.ai/atelier?s=components:control/button
   <script type="text/babel">
   const { useState, useRef, useLayoutEffect } = React;
 
+  // Mesmo contrato da página de cor: ?lang= troca a cópia. Nomes de prop, valores de
+  // token e a spec do "Copy for agent" ficam em inglês nos dois idiomas, porque são
+  // a API literal do componente: traduzi-los criaria um nome que não existe no código.
+  const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
+  const STRINGS = {
+    pt: {
+      lede: "Todo botão comunica prioridade antes mesmo de ser clicado. No Atelier, sua aparência é consequência de tokens, intenção e contexto, não de estilos aplicados manualmente.",
+      copy: { idle: "Copy for agent", ok: "Copiado", erro: "Não foi possível copiar" },
+      anatomy: {
+        title: "Anatomia",
+        note: "Todo botão é composto por três partes: container, label e ícones opcionais. Cada uma responde a um conjunto específico de tokens, permitindo novas variantes sem alterar sua estrutura.",
+        icon: { title: "Ícone", sub: "escala com o tamanho" },
+        height: { title: "Altura", sub: "--height-sm/md/lg" },
+        radius: { title: "Raio", sub: "--radius-md\ndo brand kit" },
+        padding: { title: "Padding", sub: "assimétrico, por tamanho" },
+        label: { title: "Label", sub: "--label-sm/md" },
+        fill: { title: "Preenchimento", sub: "cor sólida, sem sombra" },
+      },
+      playground: {
+        title: "Playground",
+        note: "Todas as combinações seguem as mesmas regras de tokens, estados e acessibilidade.",
+        labelAria: "Texto do botão",
+        sampleLabel: "Salvar alterações",
+      },
+      states: {
+        title: "Estados",
+        note: "Seis estados. Disabled e loading têm tokens próprios, não opacity.",
+        cols: ["estado", "brand filled", "o que muda"],
+        sample: "Salvar",
+        rows: {
+          default: "Repouso: fundo no step 500 da marca.",
+          hover: "Fundo escurece um step, para 600.",
+          active: "Escurece outro step, para 700.",
+          focus: "Anel de 4px na própria cor do botão, a 25% — nunca remove o indicador.",
+          disabled: "Fundo e texto trocam para tokens de disabled; cursor not-allowed.",
+          loading: "Spinner entra à direita e o label fica a 70%, preservando o contexto.",
+        },
+      },
+      usage: {
+        title: "Quando utilizar",
+        do: "Faça",
+        dont: "Não faça",
+        doSample: { primary: "Salvar", secondary: "Cancelar", caption: "par primária + secundária, mesma hierarquia sempre" },
+        dontSample: { label: "Ir para o painel", caption: <>navegação disfarçada de ação, isso é <b>Link</b></> },
+        doList: [
+          <>Ação principal de uma página ou bloco.</>,
+          <>Ação secundária com menos ênfase, em <code className="i">tone="neutral"</code>.</>,
+          <>Ação destrutiva irreversível, em <code className="i">tone="destructive"</code>.</>,
+        ],
+        dontList: [
+          <>Navegar entre páginas, isso é <b>Link</b>.</>,
+          <>Botão só com ícone, isso é <b>IconButton</b>.</>,
+          <>Ação flutuante única, isso é <b>FAB</b>.</>,
+        ],
+      },
+      a11y: {
+        title: "Acessibilidade",
+        items: [
+          <><b>Alvo mínimo</b> de 44px em toque: <code className="i">sm</code> tem 32px de altura visual e precisa de área extra ao redor.</>,
+          <><b>Foco sempre visível</b> — o anel nunca é removido, tem 4px e nasce da cor do próprio botão, então acompanha a marca do cliente.</>,
+          <><b>Loading</b> anuncia com <code className="i">aria-busy</code> e mantém o label, para o leitor de tela não perder o contexto da ação.</>,
+          <><b>Disabled</b> usa tokens de fundo e texto próprios em vez de opacity, para o contraste continuar previsível.</>,
+          <><b>Texto sobre fill</b> vem da escala do próprio papel, escolhido pela luminância do fundo — nunca branco fixo.</>,
+        ],
+      },
+    },
+    en: {
+      lede: "Every button communicates priority before anyone clicks it. In Atelier its appearance is a consequence of tokens, intent, and context, not of styles applied by hand.",
+      copy: { idle: "Copy for agent", ok: "Copied", erro: "Couldn't copy" },
+      anatomy: {
+        title: "Anatomy",
+        note: "Every button is made of three parts: container, label, and optional icons. Each one answers to a specific set of tokens, which is what lets new variants exist without changing the structure.",
+        icon: { title: "Icon", sub: "scales with size" },
+        height: { title: "Height", sub: "--height-sm/md/lg" },
+        radius: { title: "Radius", sub: "--radius-md\nfrom the brand kit" },
+        padding: { title: "Padding", sub: "asymmetric, per size" },
+        label: { title: "Label", sub: "--label-sm/md" },
+        fill: { title: "Fill", sub: "solid color, no shadow" },
+      },
+      playground: {
+        title: "Playground",
+        note: "Every combination follows the same rules for tokens, states, and accessibility.",
+        labelAria: "Button text",
+        sampleLabel: "Save changes",
+      },
+      states: {
+        title: "States",
+        note: "Six states. Disabled and loading have their own tokens, not opacity.",
+        cols: ["state", "brand filled", "what changes"],
+        sample: "Save",
+        rows: {
+          default: "At rest: background on the brand's step 500.",
+          hover: "Background darkens one step, to 600.",
+          active: "Darkens another step, to 700.",
+          focus: "A 4px ring in the button's own color at 25%, and it is never removed.",
+          disabled: "Background and text switch to disabled tokens; cursor not-allowed.",
+          loading: "The spinner enters on the right and the label drops to 70%, keeping context.",
+        },
+      },
+      usage: {
+        title: "When to use it",
+        do: "Do",
+        dont: "Don't",
+        doSample: { primary: "Save", secondary: "Cancel", caption: "primary + secondary pair, always the same hierarchy" },
+        dontSample: { label: "Go to dashboard", caption: <>navigation dressed as an action, that is a <b>Link</b></> },
+        doList: [
+          <>The main action of a page or block.</>,
+          <>A secondary action with less emphasis, using <code className="i">tone="neutral"</code>.</>,
+          <>An irreversible destructive action, using <code className="i">tone="destructive"</code>.</>,
+        ],
+        dontList: [
+          <>Moving between pages, that is a <b>Link</b>.</>,
+          <>An icon-only button, that is an <b>IconButton</b>.</>,
+          <>A single floating action, that is a <b>FAB</b>.</>,
+        ],
+      },
+      a11y: {
+        title: "Accessibility",
+        items: [
+          <><b>Minimum target</b> of 44px on touch: <code className="i">sm</code> is 32px tall and needs extra area around it.</>,
+          <><b>Focus always visible</b> — the ring is never removed, it is 4px, and it comes from the button's own color, so it follows the customer's brand.</>,
+          <><b>Loading</b> announces with <code className="i">aria-busy</code> and keeps the label, so screen readers don't lose the action's context.</>,
+          <><b>Disabled</b> uses its own background and text tokens instead of opacity, so contrast stays predictable.</>,
+          <><b>Text over a fill</b> comes from the role's own scale, picked by the background's luminance, never a fixed white.</>,
+        ],
+      },
+    },
+  };
+  const T = STRINGS[LANG];
+
   const Spinner = ({ size = 16, color = "currentColor" }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" style={{ animation: "pump-spin 0.8s linear infinite", flexShrink: 0 }}>
       <circle cx="12" cy="12" r="9" fill="none" stroke={color} strokeWidth="3" strokeDasharray="40 60" strokeLinecap="round" opacity="0.9" />
@@ -590,19 +720,14 @@ https://dev.getpumped.ai/atelier?s=components:control/button
     // callout não afirma um número único. Ícone/altura/padding/label escalam
     // por tamanho; raio escala por tenant (--radius-md vem do brand kit do
     // cliente, igual à cor); só preenchimento é de fato universal.
+    const A = T.anatomy;
     const callouts = m ? [
-      { key: "icon", side: "top", lx: cols[0], ax: m.icon.cx, ay: m.btn.y,
-        title: "Ícone", sub: "escala com o tamanho" },
-      { key: "height", side: "top", lx: cols[1], ax: m.btn.cx, ay: m.btn.y,
-        title: "Altura", sub: "--height-sm/md/lg" },
-      { key: "radius", side: "top", lx: cols[2], ax: m.btn.x + m.btn.w, ay: m.btn.y,
-        title: "Raio", sub: "--radius-md\ndo brand kit" },
-      { key: "padding", side: "bottom", lx: cols[0], ax: m.btn.x + (m.icon.x - m.btn.x) / 2, ay: m.btn.y + m.btn.h,
-        title: "Padding", sub: "assimétrico, por tamanho" },
-      { key: "label", side: "bottom", lx: cols[1], ax: m.label.cx, ay: m.btn.y + m.btn.h,
-        title: "Label", sub: "--label-sm/md" },
-      { key: "fill", side: "bottom", lx: cols[2], ax: m.btn.x + m.btn.w * 0.78, ay: m.btn.y + m.btn.h,
-        title: "Preenchimento", sub: "cor sólida, sem sombra" },
+      { key: "icon", side: "top", lx: cols[0], ax: m.icon.cx, ay: m.btn.y, ...A.icon },
+      { key: "height", side: "top", lx: cols[1], ax: m.btn.cx, ay: m.btn.y, ...A.height },
+      { key: "radius", side: "top", lx: cols[2], ax: m.btn.x + m.btn.w, ay: m.btn.y, ...A.radius },
+      { key: "padding", side: "bottom", lx: cols[0], ax: m.btn.x + (m.icon.x - m.btn.x) / 2, ay: m.btn.y + m.btn.h, ...A.padding },
+      { key: "label", side: "bottom", lx: cols[1], ax: m.label.cx, ay: m.btn.y + m.btn.h, ...A.label },
+      { key: "fill", side: "bottom", lx: cols[2], ax: m.btn.x + m.btn.w * 0.78, ay: m.btn.y + m.btn.h, ...A.fill },
     ] : [];
 
     const radial = !m || m.w >= AN_MIN_RADIAL;
@@ -613,7 +738,7 @@ https://dev.getpumped.ai/atelier?s=components:control/button
         {/* o componente real, ampliado só pela escala visual — nada de mockup paralelo */}
         <div className="an-scale">
           <Button tone="brand" appearance="filled" size="md" icon="leading"
-                  btnRef={btnRef} iconRef={iconRef} labelRef={labelRef}>Salvar</Button>
+                  btnRef={btnRef} iconRef={iconRef} labelRef={labelRef}>{T.states.sample}</Button>
         </div>
 
         {m && radial && (
@@ -769,7 +894,7 @@ https://dev.getpumped.ai/atelier?s=components:control/button
     const [size, setSize] = useState("md");
     const [icon, setIcon] = useState("leading");
     const [state, setState] = useState("default");
-    const [label, setLabel] = useState("Save changes");
+    const [label, setLabel] = useState(T.playground.sampleLabel);
     const [status, setStatus] = useState("idle");
 
     function copyForAgent() {
@@ -802,23 +927,19 @@ https://dev.getpumped.ai/atelier?s=components:control/button
             <button
               className={"copy-agent" + (status === "ok" ? " is-copied" : status === "erro" ? " is-failed" : "")}
               onClick={copyForAgent}>
-              {status === "ok" ? "Copiado" : status === "erro" ? "Não foi possível copiar" : "Copy for agent"}
+              {T.copy[status] ?? T.copy.idle}
             </button>
           </div>
-          <p className="hd-lede">
-            Todo botão comunica prioridade antes mesmo de ser clicado. No Atelier, sua
-            aparência é consequência de tokens, intenção e contexto, não de estilos
-            aplicados manualmente.
-          </p>
+          <p className="hd-lede">{T.lede}</p>
         </header>
 
-        <Section num="01" title="Anatomia" note="Todo botão é composto por três partes: container, label e ícones opcionais. Cada uma responde a um conjunto específico de tokens, permitindo novas variantes sem alterar sua estrutura.">
+        <Section num="01" title={T.anatomy.title} note={T.anatomy.note}>
           <div className="an-frame">
             <AnatomyDiagram />
           </div>
         </Section>
 
-        <Section num="02" title="Playground" note="Todas as combinações seguem as mesmas regras de tokens, estados e acessibilidade.">
+        <Section num="02" title={T.playground.title} note={T.playground.note}>
           <div className="pg">
             <div className="pg-canvas">
               <Button tone={tone} appearance={appearance} size={size} icon={icon} state={state}>{label}</Button>
@@ -832,28 +953,21 @@ https://dev.getpumped.ai/atelier?s=components:control/button
               <Seg label="state" value={state} options={["default", "hover", "active", "focus", "disabled", "loading"]} onChange={setState} />
               <div className="ctrl">
                 <span className="ctrl-label">label</span>
-                <input type="text" value={label} onChange={e => setLabel(e.target.value)} aria-label="Texto do botão" />
+                <input type="text" value={label} onChange={e => setLabel(e.target.value)} aria-label={T.playground.labelAria} />
               </div>
             </div>
           </div>
         </Section>
 
-        <Section num="03" title="Estados" note="Seis estados. Disabled e loading têm tokens próprios, não opacity.">
+        <Section num="03" title={T.states.title} note={T.states.note}>
           <div className="mx-wrap">
             <table className="mx">
-              <thead><tr><th>estado</th><th>brand primary</th><th>o que muda</th></tr></thead>
+              <thead><tr>{T.states.cols.map(c => <th key={c}>{c}</th>)}</tr></thead>
               <tbody>
-                {[
-                  ["default", "Repouso: fundo no step 500 da marca."],
-                  ["hover", "Fundo escurece um step, para 600."],
-                  ["active", "Escurece outro step, para 700."],
-                  ["focus", "Anel de 4px na própria cor do botão, a 25% — nunca remove o indicador."],
-                  ["disabled", "Fundo e texto trocam para tokens de disabled; cursor not-allowed."],
-                  ["loading", "Spinner entra à direita e o label fica a 70%, preservando o contexto."],
-                ].map(([st, desc]) => (
+                {Object.entries(T.states.rows).map(([st, desc]) => (
                   <tr key={st}>
                     <td>{st}</td>
-                    <td><Button tone="brand" appearance="filled" size="sm" state={st} icon="none">Save</Button></td>
+                    <td><Button tone="brand" appearance="filled" size="sm" state={st} icon="none">{T.states.sample}</Button></td>
                     <td style={{ fontSize: 12, color: "var(--fg-secondary)" }}>{desc}</td>
                   </tr>
                 ))}
@@ -863,50 +977,42 @@ https://dev.getpumped.ai/atelier?s=components:control/button
         </Section>
 
 
-        <Section num="04" title="Quando utilizar">
+        <Section num="04" title={T.usage.title}>
           <div className="dd">
             <div className="dd-card dd-do">
               <div className="dd-head">
                 <span className="dd-mark"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#2E7D50" strokeWidth="3.5" strokeLinecap="round"><path d="M20 6 9 17l-5-5" /></svg></span>
-                Faça
+                {T.usage.do}
               </div>
               <div className="dd-ex">
-                <Button tone="brand" appearance="filled" size="sm" icon="none">Salvar</Button>
-                <Button tone="neutral" appearance="outline" size="sm" icon="none">Cancelar</Button>
-                <span className="dd-ex-label">par primária + secundária, mesma hierarquia sempre</span>
+                <Button tone="brand" appearance="filled" size="sm" icon="none">{T.usage.doSample.primary}</Button>
+                <Button tone="neutral" appearance="outline" size="sm" icon="none">{T.usage.doSample.secondary}</Button>
+                <span className="dd-ex-label">{T.usage.doSample.caption}</span>
               </div>
               <ul>
-                <li>Ação principal de uma página ou bloco.</li>
-                <li>Ação secundária com menos ênfase, em <code className="i">tone="neutral"</code>.</li>
-                <li>Ação destrutiva irreversível, em <code className="i">tone="destructive"</code>.</li>
+                {T.usage.doList.map((li, i) => <li key={i}>{li}</li>)}
               </ul>
             </div>
             <div className="dd-card dd-dont">
               <div className="dd-head">
                 <span className="dd-mark"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#A81208" strokeWidth="3.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg></span>
-                Não faça
+                {T.usage.dont}
               </div>
               <div className="dd-ex">
-                <Button tone="brand" appearance="filled" size="sm" icon="none">Ir para o painel</Button>
-                <span className="dd-ex-label">navegação disfarçada de ação — isso é <b>Link</b></span>
+                <Button tone="brand" appearance="filled" size="sm" icon="none">{T.usage.dontSample.label}</Button>
+                <span className="dd-ex-label">{T.usage.dontSample.caption}</span>
               </div>
               <ul>
-                <li>Navegar entre páginas — isso é <b>Link</b>.</li>
-                <li>Botão só com ícone — isso é <b>IconButton</b>.</li>
-                <li>Ação flutuante única — isso é <b>FAB</b>.</li>
+                {T.usage.dontList.map((li, i) => <li key={i}>{li}</li>)}
               </ul>
             </div>
           </div>
         </Section>
 
-        <Section num="05" title="Acessibilidade">
+        <Section num="05" title={T.a11y.title}>
           <div className="a11y">
             <ul>
-              <li><b>Alvo mínimo</b> de 44px em toque: <code className="i">sm</code> tem 32px de altura visual e precisa de área extra ao redor.</li>
-              <li><b>Foco sempre visível</b> — o anel nunca é removido, tem 4px e nasce da cor do próprio botão, então acompanha a marca do cliente.</li>
-              <li><b>Loading</b> anuncia com <code className="i">aria-busy</code> e mantém o label, para o leitor de tela não perder o contexto da ação.</li>
-              <li><b>Disabled</b> usa tokens de fundo e texto próprios em vez de opacity, para o contraste continuar previsível.</li>
-              <li><b>Texto sobre fill</b> vem da escala do próprio papel, escolhido pela luminância do fundo — nunca branco fixo.</li>
+              {T.a11y.items.map((li, i) => <li key={i}>{li}</li>)}
             </ul>
           </div>
         </Section>
