@@ -526,12 +526,12 @@
         </div>
         <div style="position:absolute;left:32px;top:128px;width:296px;text-align:center;font-size:22px;font-weight:500;line-height:28px;color:rgb(26,26,26);">Escribe el código entrega Domis iFood</div>
         <div style="position:absolute;left:40px;top:200px;width:280px;text-align:center;font-size:14px;font-weight:300;line-height:20px;color:rgb(113,113,113);">Este código te ayudará a garantizar que estás con el pedido correcto.</div>
-        <div style="position:absolute;left:0;top:232px;width:360px;display:flex;justify-content:center;gap:14px;">
+        <div style="position:absolute;left:0;top:256px;width:360px;display:flex;justify-content:center;gap:14px;">
           <sc-for list="{{ exitDigits }}" as="d" hint-placeholder-count="4">
             <input ref="{{ d.inputRef }}" value="{{ d.value }}" onChange="{{ d.onChange }}" onKeyDown="{{ d.onKeyDown }}" maxlength="1" inputmode="numeric" style="{{ d.boxStyle }}" style-focus="border-color:rgb(234,29,44);box-shadow:0 0 0 3px rgba(234,29,44,0.12);"></input>
           </sc-for>
         </div>
-        <div style="position:absolute;left:16px;top:344px;width:328px;border-radius:10px;background:rgb(247,247,247);display:flex;align-items:flex-start;gap:10px;padding:14px 16px;">
+        <div style="position:absolute;left:16px;top:368px;width:328px;border-radius:10px;background:rgb(247,247,247);display:flex;align-items:flex-start;gap:10px;padding:14px 16px;">
           <svg width="20" height="20" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><path d="M12 3 L22 20 H2 z" fill="none" stroke="rgb(62,62,62)" stroke-width="1.6" stroke-linejoin="round"></path><line x1="12" y1="9.5" x2="12" y2="14.5" stroke="rgb(62,62,62)" stroke-width="1.6" stroke-linecap="round"></line><circle cx="12" cy="17" r="1" fill="rgb(62,62,62)"></circle></svg>
           <span style="font-size:13px;font-weight:400;line-height:19px;letter-spacing:0.2px;color:rgb(113,113,113);">Recuerda que el código está en la parte superior de la calcomanía del pedido y solo debes ingresar <strong style="font-weight:600;color:rgb(62,62,62);">los últimos 4 números.</strong></span>
         </div>
