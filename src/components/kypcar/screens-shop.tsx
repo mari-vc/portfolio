@@ -423,7 +423,8 @@ export function CarDetailScreen({
   const fee = Math.round(total * 0.02);
 
   return (
-    <div style={{ width: "100%", height: "100%", background: C.bg, color: C.text, overflowY: "auto", paddingBottom: 110, position: "relative" }}>
+    <div style={{ width: "100%", height: "100%", background: C.bg, color: C.text, position: "relative" }}>
+      <div style={{ height: "100%", overflowY: "auto", paddingBottom: 110 }}>
       <div style={{ position: "relative", height: 360, background: C.surface2 }}>
         <CarImg car={car} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(8,8,9,0.55) 0%, transparent 30%, transparent 70%, rgba(8,8,9,0.85))" }} />
@@ -518,6 +519,7 @@ export function CarDetailScreen({
             See all reviews
           </button>
         </div>
+      </div>
       </div>
 
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, background: `linear-gradient(to top, ${C.bg} 65%, rgba(8,8,9,0))`, padding: "20px 20px 28px", display: "flex", alignItems: "center", gap: 12, zIndex: 30 }}>
@@ -761,7 +763,8 @@ export function CheckoutScreen({ car, dates, onBack, onConfirm }: { car: Car; da
   const grand = total + fee + insurance;
 
   return (
-    <div style={{ width: "100%", height: "100%", background: C.bg, color: C.text, overflowY: "auto", paddingBottom: 110, position: "relative" }}>
+    <div style={{ width: "100%", height: "100%", background: C.bg, color: C.text, position: "relative" }}>
+      <div style={{ height: "100%", overflowY: "auto", paddingBottom: 110 }}>
       <div style={{ paddingTop: 56 }}>
         <ScreenHeader title="Review booking" onBack={onBack} />
       </div>
@@ -831,6 +834,7 @@ export function CheckoutScreen({ car, dates, onBack, onConfirm }: { car: Car; da
             I agree with Kypcar&apos;s <span style={{ color: C.purpleLight, fontWeight: 600 }}>terms of service</span> and <span style={{ color: C.purpleLight, fontWeight: 600 }}>privacy policy</span>.
           </div>
         </div>
+      </div>
       </div>
 
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, background: `linear-gradient(to top, ${C.bg} 60%, rgba(8,8,9,0))`, padding: "16px 20px 28px" }}>
