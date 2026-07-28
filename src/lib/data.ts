@@ -537,8 +537,8 @@ export const projects: Project[] = [
         imageAfter: {
           src: "/work/check-in-flow.png",
           alt: { pt: "Fluxo de check-in do entregador no restaurante", en: "Courier check-in flow at the restaurant" },
-          width: 15090,
-          height: 14526,
+          width: 2000,
+          height: 1925,
         },
       },
     ],
@@ -574,8 +574,8 @@ export const projects: Project[] = [
       image: {
         src: "/work/checkout-flow.png",
         alt: { pt: "Fluxo de checkout e validação do pedido na retirada", en: "Checkout and order validation flow at pickup" },
-        width: 24762,
-        height: 9984,
+        width: 2000,
+        height: 806,
       },
     },
     closing: {
