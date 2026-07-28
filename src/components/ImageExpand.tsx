@@ -1,12 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 
 // Botão de expandir para imagens de referência (ex.: fotos de quadro de
 // ideação) embutidas em cards de conteúdo. Abre em overlay fullscreen,
-// fecha com Escape, clique fora ou no X.
-export function ImageExpand({ src, alt }: { src: string; alt: string }) {
+// fecha com Escape, clique fora ou no X. Sem `children`, renderiza o botão
+// "Ver imagem" padrão; com `children`, usa o conteúdo passado (ex.: a própria
+// imagem já exibida inline) como gatilho de clique.
+export function ImageExpand({
+  src,
+  alt,
+  children,
+}: {
+  src: string;
+  alt: string;
+  children?: ReactNode;
+}) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -27,20 +37,28 @@ export function ImageExpand({ src, alt }: { src: string; alt: string }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={alt}
-        className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+        aria-label={children ? `${alt} — ampliar` : alt}
+        className={
+          children
+            ? "block w-full cursor-zoom-in text-left"
+            : "mt-3 inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+        }
       >
-        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden="true">
-          <path
-            d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-        </svg>
-        Ver imagem
+        {children ?? (
+          <>
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden="true">
+              <path
+                d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </svg>
+            Ver imagem
+          </>
+        )}
       </button>
 
       {open && (

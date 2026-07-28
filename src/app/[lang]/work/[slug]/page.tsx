@@ -444,14 +444,16 @@ export default async function ProjectPage({
                       </div>
                       {pillar.imageAfter && (
                         <div className="ml-[3.25rem] overflow-hidden rounded-2xl border border-line">
-                          <Image
-                            src={pillar.imageAfter.src}
-                            alt={t(pillar.imageAfter.alt, lang)}
-                            width={pillar.imageAfter.width}
-                            height={pillar.imageAfter.height}
-                            className="h-auto w-full object-contain"
-                            sizes="(min-width: 768px) 700px, 100vw"
-                          />
+                          <ImageExpand src={pillar.imageAfter.src} alt={t(pillar.imageAfter.alt, lang)}>
+                            <Image
+                              src={pillar.imageAfter.src}
+                              alt={t(pillar.imageAfter.alt, lang)}
+                              width={pillar.imageAfter.width}
+                              height={pillar.imageAfter.height}
+                              className="h-auto w-full object-contain"
+                              sizes="(min-width: 768px) 700px, 100vw"
+                            />
+                          </ImageExpand>
                         </div>
                       )}
                     </li>
@@ -552,14 +554,16 @@ export default async function ProjectPage({
               </div>
               {project.checkoutFlow.image && (
                 <div className="mt-6 overflow-hidden rounded-2xl border border-line">
-                  <Image
-                    src={project.checkoutFlow.image.src}
-                    alt={t(project.checkoutFlow.image.alt, lang)}
-                    width={project.checkoutFlow.image.width}
-                    height={project.checkoutFlow.image.height}
-                    className="h-auto w-full object-contain"
-                    sizes="(min-width: 768px) 700px, 100vw"
-                  />
+                  <ImageExpand src={project.checkoutFlow.image.src} alt={t(project.checkoutFlow.image.alt, lang)}>
+                    <Image
+                      src={project.checkoutFlow.image.src}
+                      alt={t(project.checkoutFlow.image.alt, lang)}
+                      width={project.checkoutFlow.image.width}
+                      height={project.checkoutFlow.image.height}
+                      className="h-auto w-full object-contain"
+                      sizes="(min-width: 768px) 700px, 100vw"
+                    />
+                  </ImageExpand>
                 </div>
               )}
             </section>
