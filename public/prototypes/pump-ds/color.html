@@ -152,371 +152,609 @@
 <body>
   <div id="root"></div>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script src="./vendor/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="./vendor/react-dom.production.min.js" crossorigin="anonymous"></script>
 
-  <script type="text/babel">
-  const { useState, useRef, useEffect } = React;
+  <script>function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+const {
+  useState,
+  useRef,
+  useEffect
+} = React;
 
-  // ═══════════════════════════════════════════════════════════
-  // Porta do pipeline de cor do Atelier. Espelha derivation.py +
-  // scale.py do backend: o tenant ancora primary/secondary em hex,
-  // todo o resto é derivado em OKLCh.
-  // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// Porta do pipeline de cor do Atelier. Espelha derivation.py +
+// scale.py do backend: o tenant ancora primary/secondary em hex,
+// todo o resto é derivado em OKLCh.
+// ═══════════════════════════════════════════════════════════
 
-  // OKLCh -> hex sRGB. Deixa o browser fazer o gamut clamp via canvas,
-  // que é o mesmo resultado do clamp por busca binária do backend.
-  function oklchToHex(l, c, h) {
-    const cnv = document.getElementById("__oklch") || (() => {
-      const k = document.createElement("canvas");
-      k.id = "__oklch"; k.width = 1; k.height = 1;
-      k.style.cssText = "position:absolute;width:1px;height:1px;visibility:hidden;left:-9999px";
-      document.body.appendChild(k);
-      return k;
-    })();
-    const ctx = cnv.getContext("2d");
-    ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 1, 1);
-    ctx.fillStyle = `oklch(${l} ${c} ${h})`; ctx.fillRect(0, 0, 1, 1);
-    const d = ctx.getImageData(0, 0, 1, 1).data;
-    return "#" + [d[0], d[1], d[2]].map(x => x.toString(16).padStart(2, "0")).join("").toUpperCase();
-  }
-  function hexToRgb(hex) {
-    const v = hex.replace("#", "");
-    if (v.length !== 6) return null;
-    const n = parseInt(v, 16);
-    if (isNaN(n)) return null;
-    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-  }
-  // sRGB -> OKLCh exato (Björn Ottosson)
-  function rgbToOklch([r, g, b]) {
-    const lin = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
-    const R = lin(r), G = lin(g), B = lin(b);
-    const l_ = Math.cbrt(0.4122214708 * R + 0.5363325363 * G + 0.0514459929 * B);
-    const m_ = Math.cbrt(0.2119034982 * R + 0.6806995451 * G + 0.1073969566 * B);
-    const s_ = Math.cbrt(0.0883024619 * R + 0.2817188376 * G + 0.6299787005 * B);
-    const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
-    const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
-    const bb = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
-    const C = Math.sqrt(a * a + bb * bb);
-    let H = Math.atan2(bb, a) * 180 / Math.PI;
-    if (H < 0) H += 360;
-    return { l: +L.toFixed(3), c: +C.toFixed(3), h: +H.toFixed(1) };
-  }
-  function hexToOklch(hex) { const rgb = hexToRgb(hex); return rgb ? rgbToOklch(rgb) : null; }
-
-  // ── scale.py: rampa 50–950 a partir do seed OKLCh no step 500 ──
-  const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
-  const L_BY_STEP = { 50:.975, 100:.935, 200:.885, 300:.795, 400:.695, 500:.580, 600:.495, 700:.410, 800:.330, 900:.250, 950:.190 };
-  const C_MULT_BY_STEP = { 50:.08, 100:.18, 200:.36, 300:.62, 400:.86, 500:1, 600:.93, 700:.83, 800:.68, 900:.52, 950:.38 };
-  const CHROMATIC_FLOOR = 0.04, ACTION_C_MIN = 0.12, C_MIN = 0.06, C_MAX = 0.28, PINNED_L = 0.580;
-
-  // Quando o seed L != 0.580, comprime proporcionalmente os ranges
-  // acima e abaixo da âncora 500 em vez de deslocar a rampa toda.
-  function redistributeLightness(seedL) {
-    const out = { 500: seedL };
-    const sUp = (0.975 - seedL) / (0.975 - PINNED_L);
-    const sDown = (seedL - 0.190) / (PINNED_L - 0.190);
-    for (const s of STEPS) {
-      if (s === 500) continue;
-      const base = L_BY_STEP[s];
-      out[s] = base > PINNED_L
-        ? seedL + (base - PINNED_L) * sUp
-        : seedL - (PINNED_L - base) * sDown;
-    }
-    return out;
-  }
-  function buildScale({ l, c, h }) {
-    const rawC = c;
-    let baseC = c;
-    if (baseC >= CHROMATIC_FLOOR) {
-      baseC = Math.max(baseC, ACTION_C_MIN);
-      baseC = Math.max(C_MIN, Math.min(baseC, C_MAX));
-    }
-    const Ltbl = redistributeLightness(l);
-    // step 500 preserva o chroma original; os outros usam o clamped
-    return STEPS.map(step => ({
-      step,
-      hex: oklchToHex(Ltbl[step], step === 500 ? rawC : baseC * C_MULT_BY_STEP[step], h),
-    }));
-  }
-  // Step 25 — tint extra-claro, só em primary/secondary/neutral/text
-  function makeStep25(seed) { return { step: 25, hex: oklchToHex(0.985, seed.c * 0.04, seed.h) }; }
-  function buildBrandScale(seed) { return [makeStep25(seed), ...buildScale(seed)]; }
-  // Neutral estende com 0 (branco puro) e 1000 (preto puro) — sem tint nos extremos
-  function buildNeutralScale(seed) {
-    const by = Object.fromEntries(buildScale(seed).map(s => [s.step, s.hex]));
-    return [
-      { step: 0, hex: "#FFFFFF" },
-      makeStep25(seed),
-      ...STEPS.map(s => ({ step: s, hex: by[s] })),
-      { step: 1000, hex: "#000000" },
-    ];
-  }
-
-  // ── derivation.py: âncoras role-500 ──
-  const NEUTRAL_SEED = { l: 0.580, c: 0.009 };
-  const TEXT_SEED = { l: 0.640, c: 0.010 };
-  const FB = {
-    success: { hue: 145, range: [130, 170], c: 0.17 },
-    warning: { hue: 80,  range: [55, 95],   c: 0.16 },
-    error:   { hue: 25,  range: [15, 45],   c: 0.20 },
-    info:    { hue: 250, range: [230, 270], c: 0.18 },
+// OKLCh -> hex sRGB. Deixa o browser fazer o gamut clamp via canvas,
+// que é o mesmo resultado do clamp por busca binária do backend.
+function oklchToHex(l, c, h) {
+  const cnv = document.getElementById("__oklch") || (() => {
+    const k = document.createElement("canvas");
+    k.id = "__oklch";
+    k.width = 1;
+    k.height = 1;
+    k.style.cssText = "position:absolute;width:1px;height:1px;visibility:hidden;left:-9999px";
+    document.body.appendChild(k);
+    return k;
+  })();
+  const ctx = cnv.getContext("2d");
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, 1, 1);
+  ctx.fillStyle = `oklch(${l} ${c} ${h})`;
+  ctx.fillRect(0, 0, 1, 1);
+  const d = ctx.getImageData(0, 0, 1, 1).data;
+  return "#" + [d[0], d[1], d[2]].map(x => x.toString(16).padStart(2, "0")).join("").toUpperCase();
+}
+function hexToRgb(hex) {
+  const v = hex.replace("#", "");
+  if (v.length !== 6) return null;
+  const n = parseInt(v, 16);
+  if (isNaN(n)) return null;
+  return [n >> 16 & 255, n >> 8 & 255, n & 255];
+}
+// sRGB -> OKLCh exato (Björn Ottosson)
+function rgbToOklch([r, g, b]) {
+  const lin = v => {
+    v /= 255;
+    return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
   };
-  const MIN_HUE_SEP = 35, PULL = 0.05;
-  const hueDist = (a, b) => Math.abs(((a - b) % 360 + 540) % 360 - 180);
-  const pull = (base, brand) => ((base + (brand - base) * PULL) % 360 + 360) % 360;
-
-  // Puxa 5% na direção da marca; se ficar perto de um hue já usado,
-  // varre o range semântico e escolhe o ponto de maior separação.
-  function resolveFeedbackHue(baseHue, range, brandHue, used) {
-    const candidate = pull(baseHue, brandHue);
-    const minDist = h => Math.min(...used.map(u => hueDist(h, u)));
-    if (minDist(candidate) >= MIN_HUE_SEP) return candidate;
-    let best = candidate, bestD = minDist(candidate);
-    for (let h = range[0]; h <= range[1]; h += 0.5) {
-      const d = minDist(h);
-      if (d > bestD) { bestD = d; best = h; }
-    }
-    return best;
-  }
-  // Feedback nunca pode colidir com NENHUMA cor de marca — não só a primary.
-  // Um secondary que caia perto do hue de "success", por exemplo, seria lido
-  // como estado, não como identidade. Por isso as duas entram no conflito.
-  function deriveSeeds(primary, secondary) {
-    const achromatic = primary.c < 0.0001;
-    const H = primary.h;
-    let hues;
-    if (achromatic) {
-      hues = { error: FB.error.hue, warning: FB.warning.hue, success: FB.success.hue, info: FB.info.hue };
-    } else {
-      // ordem importa: error -> warning -> success -> info
-      const used = [H];
-      if (secondary && secondary.c >= 0.0001) used.push(secondary.h);
-      hues = {};
-      for (const role of ["error", "warning", "success", "info"]) {
-        hues[role] = resolveFeedbackHue(FB[role].hue, FB[role].range, H, used);
-        used.push(hues[role]);
-      }
-    }
-    return {
-      neutral: { ...NEUTRAL_SEED, h: H },
-      text: { ...TEXT_SEED, h: H },
-      success: { l: 0.580, c: FB.success.c, h: hues.success },
-      warning: { l: 0.580, c: FB.warning.c, h: hues.warning },
-      error:   { l: 0.580, c: FB.error.c,   h: hues.error },
-      info:    { l: 0.580, c: FB.info.c,    h: hues.info },
-    };
-  }
-
-  // ponto de partida: a marca da Pump
-  // primary = #B93DE6 em OKLCh (a conversão exata, pra o step 500 devolver o hex de volta)
-  const SEED = { primary: { l: 0.6107, c: 0.2491, h: 315.2 }, secondary: { l: 0.55, c: 0.16, h: 200 } };
-
-  const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
-  const STRINGS = {
-    pt: {
-      title: "Cor",
-      lede: "Cada cliente informa apenas duas cores. A partir delas, o Atelier gera automaticamente toda a fundação visual, garantindo contraste, acessibilidade e consistência entre os componentes. Em vez de permitir combinações que podem quebrar a interface, o sistema restringe as escolhas a configurações que funcionam por padrão.",
-      roles: { primary: "Primária", secondary: "Secundária", neutral: "Neutro", success: "Sucesso", warning: "Alerta", error: "Erro", info: "Info" },
-      hexAria: (l) => `${l} em hexadecimal`,
-      scalesTitle: "Escalas tonais",
-      scalesSub: (n) => `${n} cores derivadas de duas. Marca: 12 degraus (25–950) · Neutro: 14 (0, 25, 50–950, 1000) · Feedback: 11`,
-      steps: [
-        { title: "Entrada de marca", body: <>O cliente define apenas <b>Primária</b> e <b>Secundária</b>. Todo o restante nasce dessas duas decisões.</> },
-        { title: "Geração em tempo real", body: "O sistema gera escalas completas em OKLCh. Cada marca mantém contraste e consistência sem ajustes manuais." },
-        { title: "Tokens primitivos", body: "As escalas tornam-se tokens primitivos compartilhados por todo o sistema. Nenhum componente depende diretamente de valores de cor." },
-        { title: "Tokens semânticos", body: <>Componentes consomem apenas intenção. <code className="i">background/default</code></> },
-        { title: "Componentes", body: "Os componentes permanecem exatamente iguais para qualquer cliente. A única coisa que muda é a marca." },
-        { title: "Modo escuro", body: "O mesmo contrato funciona nos dois temas. Trocar entre claro e escuro não exige novos componentes nem novos tokens semânticos." },
-      ],
-      pipelineTitle: "Como a extração funciona",
-      copied: (hex) => `${hex} copiado`,
-      pickColor: "Escolher cor",
-      copyHint: "Clique para copiar.",
-      stepsLabel: "degraus",
-    },
-    en: {
-      title: "Color",
-      lede: "Each customer provides just two colors. From those, Atelier automatically generates the entire visual foundation, guaranteeing contrast, accessibility, and consistency across components. Instead of allowing combinations that could break the interface, the system constrains choices to configurations that work by default.",
-      roles: { primary: "Primary", secondary: "Secondary", neutral: "Neutral", success: "Success", warning: "Warning", error: "Error", info: "Info" },
-      hexAria: (l) => `${l} in hexadecimal`,
-      scalesTitle: "Tonal scales",
-      scalesSub: (n) => `${n} colors derived from two. Brand: 12 steps (25–950) · Neutral: 14 (0, 25, 50–950, 1000) · Feedback: 11`,
-      steps: [
-        { title: "Brand input", body: <>The customer defines only <b>Primary</b> and <b>Secondary</b>. Everything else grows from those two decisions.</> },
-        { title: "Live generation", body: "The system generates full scales in OKLCh. Every brand keeps contrast and consistency without manual tuning." },
-        { title: "Primitive tokens", body: "The scales become primitive tokens shared across the whole system. No component depends on a raw color value." },
-        { title: "Semantic tokens", body: <>Components consume intent only. <code className="i">background/default</code></> },
-        { title: "Components", body: "Components stay exactly the same for every customer. The only thing that changes is the brand." },
-        { title: "Dark mode", body: "The same contract works in both themes. Switching between light and dark needs no new components and no new semantic tokens." },
-      ],
-      pipelineTitle: "How the extraction works",
-      copied: (hex) => `${hex} copied`,
-      pickColor: "Pick a color",
-      copyHint: "Click to copy.",
-      stepsLabel: "steps",
-    },
+  const R = lin(r),
+    G = lin(g),
+    B = lin(b);
+  const l_ = Math.cbrt(0.4122214708 * R + 0.5363325363 * G + 0.0514459929 * B);
+  const m_ = Math.cbrt(0.2119034982 * R + 0.6806995451 * G + 0.1073969566 * B);
+  const s_ = Math.cbrt(0.0883024619 * R + 0.2817188376 * G + 0.6299787005 * B);
+  const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+  const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+  const bb = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+  const C = Math.sqrt(a * a + bb * bb);
+  let H = Math.atan2(bb, a) * 180 / Math.PI;
+  if (H < 0) H += 360;
+  return {
+    l: +L.toFixed(3),
+    c: +C.toFixed(3),
+    h: +H.toFixed(1)
   };
-  const T = STRINGS[LANG];
+}
+function hexToOklch(hex) {
+  const rgb = hexToRgb(hex);
+  return rgb ? rgbToOklch(rgb) : null;
+}
 
-  // ═══════════════════════════════════════════════════════════
-  // UI
-  // ═══════════════════════════════════════════════════════════
-  let toastTimer;
-  function useToast() {
-    const [msg, setMsg] = useState(null);
-    return [msg, (m) => {
-      setMsg(m);
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => setMsg(null), 1200);
-    }];
+// ── scale.py: rampa 50–950 a partir do seed OKLCh no step 500 ──
+const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+const L_BY_STEP = {
+  50: .975,
+  100: .935,
+  200: .885,
+  300: .795,
+  400: .695,
+  500: .580,
+  600: .495,
+  700: .410,
+  800: .330,
+  900: .250,
+  950: .190
+};
+const C_MULT_BY_STEP = {
+  50: .08,
+  100: .18,
+  200: .36,
+  300: .62,
+  400: .86,
+  500: 1,
+  600: .93,
+  700: .83,
+  800: .68,
+  900: .52,
+  950: .38
+};
+const CHROMATIC_FLOOR = 0.04,
+  ACTION_C_MIN = 0.12,
+  C_MIN = 0.06,
+  C_MAX = 0.28,
+  PINNED_L = 0.580;
+
+// Quando o seed L != 0.580, comprime proporcionalmente os ranges
+// acima e abaixo da âncora 500 em vez de deslocar a rampa toda.
+function redistributeLightness(seedL) {
+  const out = {
+    500: seedL
+  };
+  const sUp = (0.975 - seedL) / (0.975 - PINNED_L);
+  const sDown = (seedL - 0.190) / (PINNED_L - 0.190);
+  for (const s of STEPS) {
+    if (s === 500) continue;
+    const base = L_BY_STEP[s];
+    out[s] = base > PINNED_L ? seedL + (base - PINNED_L) * sUp : seedL - (PINNED_L - base) * sDown;
   }
+  return out;
+}
+function buildScale({
+  l,
+  c,
+  h
+}) {
+  const rawC = c;
+  let baseC = c;
+  if (baseC >= CHROMATIC_FLOOR) {
+    baseC = Math.max(baseC, ACTION_C_MIN);
+    baseC = Math.max(C_MIN, Math.min(baseC, C_MAX));
+  }
+  const Ltbl = redistributeLightness(l);
+  // step 500 preserva o chroma original; os outros usam o clamped
+  return STEPS.map(step => ({
+    step,
+    hex: oklchToHex(Ltbl[step], step === 500 ? rawC : baseC * C_MULT_BY_STEP[step], h)
+  }));
+}
+// Step 25 — tint extra-claro, só em primary/secondary/neutral/text
+function makeStep25(seed) {
+  return {
+    step: 25,
+    hex: oklchToHex(0.985, seed.c * 0.04, seed.h)
+  };
+}
+function buildBrandScale(seed) {
+  return [makeStep25(seed), ...buildScale(seed)];
+}
+// Neutral estende com 0 (branco puro) e 1000 (preto puro) — sem tint nos extremos
+function buildNeutralScale(seed) {
+  const by = Object.fromEntries(buildScale(seed).map(s => [s.step, s.hex]));
+  return [{
+    step: 0,
+    hex: "#FFFFFF"
+  }, makeStep25(seed), ...STEPS.map(s => ({
+    step: s,
+    hex: by[s]
+  })), {
+    step: 1000,
+    hex: "#000000"
+  }];
+}
 
-  function BrandInput({ label, color, onChange }) {
-    const hex = oklchToHex(color.l, color.c, color.h);
-    const [draft, setDraft] = useState(hex);
-    const [focused, setFocused] = useState(false);
-    useEffect(() => { if (!focused) setDraft(hex); }, [hex, focused]);
-    const commit = (v) => {
-      const o = hexToOklch(v.startsWith("#") ? v : "#" + v);
-      if (o) onChange(o); else setDraft(hex);
+// ── derivation.py: âncoras role-500 ──
+const NEUTRAL_SEED = {
+  l: 0.580,
+  c: 0.009
+};
+const TEXT_SEED = {
+  l: 0.640,
+  c: 0.010
+};
+const FB = {
+  success: {
+    hue: 145,
+    range: [130, 170],
+    c: 0.17
+  },
+  warning: {
+    hue: 80,
+    range: [55, 95],
+    c: 0.16
+  },
+  error: {
+    hue: 25,
+    range: [15, 45],
+    c: 0.20
+  },
+  info: {
+    hue: 250,
+    range: [230, 270],
+    c: 0.18
+  }
+};
+const MIN_HUE_SEP = 35,
+  PULL = 0.05;
+const hueDist = (a, b) => Math.abs(((a - b) % 360 + 540) % 360 - 180);
+const pull = (base, brand) => ((base + (brand - base) * PULL) % 360 + 360) % 360;
+
+// Puxa 5% na direção da marca; se ficar perto de um hue já usado,
+// varre o range semântico e escolhe o ponto de maior separação.
+function resolveFeedbackHue(baseHue, range, brandHue, used) {
+  const candidate = pull(baseHue, brandHue);
+  const minDist = h => Math.min(...used.map(u => hueDist(h, u)));
+  if (minDist(candidate) >= MIN_HUE_SEP) return candidate;
+  let best = candidate,
+    bestD = minDist(candidate);
+  for (let h = range[0]; h <= range[1]; h += 0.5) {
+    const d = minDist(h);
+    if (d > bestD) {
+      bestD = d;
+      best = h;
+    }
+  }
+  return best;
+}
+// Feedback nunca pode colidir com NENHUMA cor de marca — não só a primary.
+// Um secondary que caia perto do hue de "success", por exemplo, seria lido
+// como estado, não como identidade. Por isso as duas entram no conflito.
+function deriveSeeds(primary, secondary) {
+  const achromatic = primary.c < 0.0001;
+  const H = primary.h;
+  let hues;
+  if (achromatic) {
+    hues = {
+      error: FB.error.hue,
+      warning: FB.warning.hue,
+      success: FB.success.hue,
+      info: FB.info.hue
     };
-    return (
-      <div className="bi-card">
-        <div className="bi-card-body">
-          <label className="bi-sw" style={{ background: hex }} title={T.pickColor}>
-            <input type="color" value={hex}
-                   onChange={e => commit(e.target.value.toUpperCase())}
-                   style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer" }} />
-          </label>
-          <div className="bi-fields">
-            <div className="bi-card-label">{label}</div>
-            <input className="bi-hex" type="text" value={draft} spellCheck={false}
-                   aria-label={T.hexAria(label)}
-                   onFocus={() => setFocused(true)}
-                   onChange={e => setDraft(e.target.value.toUpperCase())}
-                   onBlur={() => { setFocused(false); commit(draft); }}
-                   onKeyDown={e => e.key === "Enter" && e.currentTarget.blur()} />
-          </div>
-        </div>
-      </div>
-    );
+  } else {
+    // ordem importa: error -> warning -> success -> info
+    const used = [H];
+    if (secondary && secondary.c >= 0.0001) used.push(secondary.h);
+    hues = {};
+    for (const role of ["error", "warning", "success", "info"]) {
+      hues[role] = resolveFeedbackHue(FB[role].hue, FB[role].range, H, used);
+      used.push(hues[role]);
+    }
   }
+  return {
+    neutral: {
+      ...NEUTRAL_SEED,
+      h: H
+    },
+    text: {
+      ...TEXT_SEED,
+      h: H
+    },
+    success: {
+      l: 0.580,
+      c: FB.success.c,
+      h: hues.success
+    },
+    warning: {
+      l: 0.580,
+      c: FB.warning.c,
+      h: hues.warning
+    },
+    error: {
+      l: 0.580,
+      c: FB.error.c,
+      h: hues.error
+    },
+    info: {
+      l: 0.580,
+      c: FB.info.c,
+      h: hues.info
+    }
+  };
+}
 
-  function ScaleRow({ label, seed, scale, onCopy }) {
-    const seedHex = oklchToHex(seed.l, seed.c, seed.h);
-    const cols = `repeat(${scale.length}, 1fr)`;
-    return (
-      <div className="ts-row">
-        <div className="ts-head">
-          <span className="ts-head-sw" style={{ background: seedHex }} />
-          <span className="ts-label">{label}</span>
-          <span className="ts-meta">H {Math.round(seed.h)}° · {scale.length} {T.stepsLabel}</span>
-        </div>
-        <div className="ts-bar" style={{ gridTemplateColumns: cols }}>
-          {scale.map(s => (
-            <button key={s.step} type="button" className="ts-step"
-                    style={{ background: s.hex }}
-                    onClick={() => onCopy(s.hex)}
-                    aria-label={`${label} ${s.step}, ${s.hex}. ${T.copyHint}`}>
-              <span className="ts-tip">{s.step} · {s.hex}</span>
-            </button>
-          ))}
-        </div>
-        <div className="ts-axis" style={{ gridTemplateColumns: cols }}>
-          {scale.map(s => (
-            <span key={s.step} className={s.step === 500 ? "anchor" : ""}>{s.step}</span>
-          ))}
-        </div>
-      </div>
-    );
+// ponto de partida: a marca da Pump
+// primary = #B93DE6 em OKLCh (a conversão exata, pra o step 500 devolver o hex de volta)
+const SEED = {
+  primary: {
+    l: 0.6107,
+    c: 0.2491,
+    h: 315.2
+  },
+  secondary: {
+    l: 0.55,
+    c: 0.16,
+    h: 200
   }
-
-  function App() {
-    const [brand, setBrand] = useState(SEED);
-    const [toast, showToast] = useToast();
-    const copy = (hex) => {
-      navigator.clipboard?.writeText(hex);
-      showToast(T.copied(hex));
-    };
-
-    const seeds = deriveSeeds(brand.primary, brand.secondary);
-    const primaryScale = buildBrandScale(brand.primary);
-    const errorScale = buildScale(seeds.error);
-
-    // Publica as escalas já derivadas, não os hexes crus: quem consome recebe os mesmos
-    // steps que esta página mostra, sem reimplementar a matemática OKLCh. Erro entra
-    // junto de primary porque a matiz dele também é resolvida a partir da marca.
-    React.useEffect(() => {
-      const porStep = (escala) => Object.fromEntries(escala.map(s => [s.step, s.hex]));
-      parent.postMessage({
-        type: "pump-ds:brand",
-        primary: porStep(primaryScale),
-        error: porStep(errorScale),
-      }, location.origin);
-    }, [brand.primary.l, brand.primary.c, brand.primary.h, brand.secondary.h, seeds.error.h]);
-
-    const rows = [
-      { label: T.roles.primary,   seed: brand.primary,   scale: primaryScale },
-      { label: T.roles.secondary, seed: brand.secondary, scale: buildBrandScale(brand.secondary) },
-      { label: T.roles.neutral,   seed: seeds.neutral,   scale: buildNeutralScale(seeds.neutral) },
-      { label: T.roles.success,   seed: seeds.success,   scale: buildScale(seeds.success) },
-      { label: T.roles.warning,   seed: seeds.warning,   scale: buildScale(seeds.warning) },
-      { label: T.roles.error,     seed: seeds.error,     scale: errorScale },
-      { label: T.roles.info,      seed: seeds.info,      scale: buildScale(seeds.info) },
-    ];
-    const total = rows.reduce((n, r) => n + r.scale.length, 0);
-
-    return (
-      <>
-        <header className="hd">
-          <h1 className="hd-title">{T.title}</h1>
-          <p className="hd-lede">{T.lede}</p>
-        </header>
-
-        <div className="bi-shell">
-          <div className="bi-grid">
-            <BrandInput label={T.roles.primary} color={brand.primary}
-                        onChange={p => setBrand({ ...brand, primary: p })} />
-            <BrandInput label={T.roles.secondary} color={brand.secondary}
-                        onChange={s => setBrand({ ...brand, secondary: s })} />
-          </div>
-        </div>
-
-        <div className="sec">
-          <div className="sec-head">
-            <h2 className="sec-h2">{T.scalesTitle}</h2>
-            <span className="sec-sub">{T.scalesSub(total)}</span>
-          </div>
-          <div className="ts-list">
-            {rows.map(r => <ScaleRow key={r.label} {...r} onCopy={copy} />)}
-          </div>
-        </div>
-
-        <div className="sec" style={{ marginBottom: 0 }}>
-          <div className="sec-head">
-            <h2 className="sec-h2">{T.pipelineTitle}</h2>
-          </div>
-          <div className="steps">
-            {T.steps.map((st, i) => (
-              <article className="step" key={i}>
-                <div className="step-num">{String(i + 1).padStart(2, "0")}</div>
-                <div className="step-body">
-                  <h3>{st.title}</h3>
-                  <p>{st.body}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <div className={"toast" + (toast ? " on" : "")} role="status" aria-live="polite">{toast}</div>
-      </>
-    );
+};
+const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
+const STRINGS = {
+  pt: {
+    title: "Cor",
+    lede: "Cada cliente informa apenas duas cores. A partir delas, o Atelier gera automaticamente toda a fundação visual, garantindo contraste, acessibilidade e consistência entre os componentes. Em vez de permitir combinações que podem quebrar a interface, o sistema restringe as escolhas a configurações que funcionam por padrão.",
+    roles: {
+      primary: "Primária",
+      secondary: "Secundária",
+      neutral: "Neutro",
+      success: "Sucesso",
+      warning: "Alerta",
+      error: "Erro",
+      info: "Info"
+    },
+    hexAria: l => `${l} em hexadecimal`,
+    scalesTitle: "Escalas tonais",
+    scalesSub: n => `${n} cores derivadas de duas. Marca: 12 degraus (25–950) · Neutro: 14 (0, 25, 50–950, 1000) · Feedback: 11`,
+    steps: [{
+      title: "Entrada de marca",
+      body: /*#__PURE__*/React.createElement(React.Fragment, null, "O cliente define apenas ", /*#__PURE__*/React.createElement("b", null, "Prim\xE1ria"), " e ", /*#__PURE__*/React.createElement("b", null, "Secund\xE1ria"), ". Todo o restante nasce dessas duas decis\xF5es.")
+    }, {
+      title: "Geração em tempo real",
+      body: "O sistema gera escalas completas em OKLCh. Cada marca mantém contraste e consistência sem ajustes manuais."
+    }, {
+      title: "Tokens primitivos",
+      body: "As escalas tornam-se tokens primitivos compartilhados por todo o sistema. Nenhum componente depende diretamente de valores de cor."
+    }, {
+      title: "Tokens semânticos",
+      body: /*#__PURE__*/React.createElement(React.Fragment, null, "Componentes consomem apenas inten\xE7\xE3o. ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "background/default"))
+    }, {
+      title: "Componentes",
+      body: "Os componentes permanecem exatamente iguais para qualquer cliente. A única coisa que muda é a marca."
+    }, {
+      title: "Modo escuro",
+      body: "O mesmo contrato funciona nos dois temas. Trocar entre claro e escuro não exige novos componentes nem novos tokens semânticos."
+    }],
+    pipelineTitle: "Como a extração funciona",
+    copied: hex => `${hex} copiado`,
+    pickColor: "Escolher cor",
+    copyHint: "Clique para copiar.",
+    stepsLabel: "degraus"
+  },
+  en: {
+    title: "Color",
+    lede: "Each customer provides just two colors. From those, Atelier automatically generates the entire visual foundation, guaranteeing contrast, accessibility, and consistency across components. Instead of allowing combinations that could break the interface, the system constrains choices to configurations that work by default.",
+    roles: {
+      primary: "Primary",
+      secondary: "Secondary",
+      neutral: "Neutral",
+      success: "Success",
+      warning: "Warning",
+      error: "Error",
+      info: "Info"
+    },
+    hexAria: l => `${l} in hexadecimal`,
+    scalesTitle: "Tonal scales",
+    scalesSub: n => `${n} colors derived from two. Brand: 12 steps (25–950) · Neutral: 14 (0, 25, 50–950, 1000) · Feedback: 11`,
+    steps: [{
+      title: "Brand input",
+      body: /*#__PURE__*/React.createElement(React.Fragment, null, "The customer defines only ", /*#__PURE__*/React.createElement("b", null, "Primary"), " and ", /*#__PURE__*/React.createElement("b", null, "Secondary"), ". Everything else grows from those two decisions.")
+    }, {
+      title: "Live generation",
+      body: "The system generates full scales in OKLCh. Every brand keeps contrast and consistency without manual tuning."
+    }, {
+      title: "Primitive tokens",
+      body: "The scales become primitive tokens shared across the whole system. No component depends on a raw color value."
+    }, {
+      title: "Semantic tokens",
+      body: /*#__PURE__*/React.createElement(React.Fragment, null, "Components consume intent only. ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "background/default"))
+    }, {
+      title: "Components",
+      body: "Components stay exactly the same for every customer. The only thing that changes is the brand."
+    }, {
+      title: "Dark mode",
+      body: "The same contract works in both themes. Switching between light and dark needs no new components and no new semantic tokens."
+    }],
+    pipelineTitle: "How the extraction works",
+    copied: hex => `${hex} copied`,
+    pickColor: "Pick a color",
+    copyHint: "Click to copy.",
+    stepsLabel: "steps"
   }
+};
+const T = STRINGS[LANG];
 
-  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-  </script>
+// ═══════════════════════════════════════════════════════════
+// UI
+// ═══════════════════════════════════════════════════════════
+let toastTimer;
+function useToast() {
+  const [msg, setMsg] = useState(null);
+  return [msg, m => {
+    setMsg(m);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => setMsg(null), 1200);
+  }];
+}
+function BrandInput({
+  label,
+  color,
+  onChange
+}) {
+  const hex = oklchToHex(color.l, color.c, color.h);
+  const [draft, setDraft] = useState(hex);
+  const [focused, setFocused] = useState(false);
+  useEffect(() => {
+    if (!focused) setDraft(hex);
+  }, [hex, focused]);
+  const commit = v => {
+    const o = hexToOklch(v.startsWith("#") ? v : "#" + v);
+    if (o) onChange(o);else setDraft(hex);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "bi-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bi-card-body"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "bi-sw",
+    style: {
+      background: hex
+    },
+    title: T.pickColor
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "color",
+    value: hex,
+    onChange: e => commit(e.target.value.toUpperCase()),
+    style: {
+      position: "absolute",
+      inset: 0,
+      opacity: 0,
+      cursor: "pointer"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "bi-fields"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bi-card-label"
+  }, label), /*#__PURE__*/React.createElement("input", {
+    className: "bi-hex",
+    type: "text",
+    value: draft,
+    spellCheck: false,
+    "aria-label": T.hexAria(label),
+    onFocus: () => setFocused(true),
+    onChange: e => setDraft(e.target.value.toUpperCase()),
+    onBlur: () => {
+      setFocused(false);
+      commit(draft);
+    },
+    onKeyDown: e => e.key === "Enter" && e.currentTarget.blur()
+  }))));
+}
+function ScaleRow({
+  label,
+  seed,
+  scale,
+  onCopy
+}) {
+  const seedHex = oklchToHex(seed.l, seed.c, seed.h);
+  const cols = `repeat(${scale.length}, 1fr)`;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ts-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ts-head"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ts-head-sw",
+    style: {
+      background: seedHex
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "ts-label"
+  }, label), /*#__PURE__*/React.createElement("span", {
+    className: "ts-meta"
+  }, "H ", Math.round(seed.h), "\xB0 \xB7 ", scale.length, " ", T.stepsLabel)), /*#__PURE__*/React.createElement("div", {
+    className: "ts-bar",
+    style: {
+      gridTemplateColumns: cols
+    }
+  }, scale.map(s => /*#__PURE__*/React.createElement("button", {
+    key: s.step,
+    type: "button",
+    className: "ts-step",
+    style: {
+      background: s.hex
+    },
+    onClick: () => onCopy(s.hex),
+    "aria-label": `${label} ${s.step}, ${s.hex}. ${T.copyHint}`
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ts-tip"
+  }, s.step, " \xB7 ", s.hex)))), /*#__PURE__*/React.createElement("div", {
+    className: "ts-axis",
+    style: {
+      gridTemplateColumns: cols
+    }
+  }, scale.map(s => /*#__PURE__*/React.createElement("span", {
+    key: s.step,
+    className: s.step === 500 ? "anchor" : ""
+  }, s.step))));
+}
+function App() {
+  const [brand, setBrand] = useState(SEED);
+  const [toast, showToast] = useToast();
+  const copy = hex => {
+    navigator.clipboard?.writeText(hex);
+    showToast(T.copied(hex));
+  };
+  const seeds = deriveSeeds(brand.primary, brand.secondary);
+  const primaryScale = buildBrandScale(brand.primary);
+  const errorScale = buildScale(seeds.error);
+
+  // Publica as escalas já derivadas, não os hexes crus: quem consome recebe os mesmos
+  // steps que esta página mostra, sem reimplementar a matemática OKLCh. Erro entra
+  // junto de primary porque a matiz dele também é resolvida a partir da marca.
+  React.useEffect(() => {
+    const porStep = escala => Object.fromEntries(escala.map(s => [s.step, s.hex]));
+    parent.postMessage({
+      type: "pump-ds:brand",
+      primary: porStep(primaryScale),
+      error: porStep(errorScale)
+    }, location.origin);
+  }, [brand.primary.l, brand.primary.c, brand.primary.h, brand.secondary.h, seeds.error.h]);
+  const rows = [{
+    label: T.roles.primary,
+    seed: brand.primary,
+    scale: primaryScale
+  }, {
+    label: T.roles.secondary,
+    seed: brand.secondary,
+    scale: buildBrandScale(brand.secondary)
+  }, {
+    label: T.roles.neutral,
+    seed: seeds.neutral,
+    scale: buildNeutralScale(seeds.neutral)
+  }, {
+    label: T.roles.success,
+    seed: seeds.success,
+    scale: buildScale(seeds.success)
+  }, {
+    label: T.roles.warning,
+    seed: seeds.warning,
+    scale: buildScale(seeds.warning)
+  }, {
+    label: T.roles.error,
+    seed: seeds.error,
+    scale: errorScale
+  }, {
+    label: T.roles.info,
+    seed: seeds.info,
+    scale: buildScale(seeds.info)
+  }];
+  const total = rows.reduce((n, r) => n + r.scale.length, 0);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("header", {
+    className: "hd"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "hd-title"
+  }, T.title), /*#__PURE__*/React.createElement("p", {
+    className: "hd-lede"
+  }, T.lede)), /*#__PURE__*/React.createElement("div", {
+    className: "bi-shell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bi-grid"
+  }, /*#__PURE__*/React.createElement(BrandInput, {
+    label: T.roles.primary,
+    color: brand.primary,
+    onChange: p => setBrand({
+      ...brand,
+      primary: p
+    })
+  }), /*#__PURE__*/React.createElement(BrandInput, {
+    label: T.roles.secondary,
+    color: brand.secondary,
+    onChange: s => setBrand({
+      ...brand,
+      secondary: s
+    })
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "sec"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sec-head"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "sec-h2"
+  }, T.scalesTitle), /*#__PURE__*/React.createElement("span", {
+    className: "sec-sub"
+  }, T.scalesSub(total))), /*#__PURE__*/React.createElement("div", {
+    className: "ts-list"
+  }, rows.map(r => /*#__PURE__*/React.createElement(ScaleRow, _extends({
+    key: r.label
+  }, r, {
+    onCopy: copy
+  }))))), /*#__PURE__*/React.createElement("div", {
+    className: "sec",
+    style: {
+      marginBottom: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sec-head"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "sec-h2"
+  }, T.pipelineTitle)), /*#__PURE__*/React.createElement("div", {
+    className: "steps"
+  }, T.steps.map((st, i) => /*#__PURE__*/React.createElement("article", {
+    className: "step",
+    key: i
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "step-num"
+  }, String(i + 1).padStart(2, "0")), /*#__PURE__*/React.createElement("div", {
+    className: "step-body"
+  }, /*#__PURE__*/React.createElement("h3", null, st.title), /*#__PURE__*/React.createElement("p", null, st.body)))))), /*#__PURE__*/React.createElement("div", {
+    className: "toast" + (toast ? " on" : ""),
+    role: "status",
+    "aria-live": "polite"
+  }, toast));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));</script>
 </body>
 </html>
