@@ -3,6 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // Serve o React/ReactDOM do disco em vez do unpkg.com em runtime: mesmo
+  // problema encontrado no protótipo do Handshake — o fetch pro CDN podia
+  // falhar (rede instável, bloqueador de conteúdo) e deixar a tela em
+  // branco pra sempre. `window.__resources` é o hook que o support.js já
+  // suporta pra redirecionar essas URLs.
+  window.__resources = {
+    "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "./vendor/react.production.min.js",
+    "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "./vendor/react-dom.production.min.js",
+  };
+  // Rede de segurança: se o boot falhar mesmo assim, mostra um aviso em vez
+  // de deixar a tela em branco sem explicação.
+  window.addEventListener("unhandledrejection", () => {
+    document.body.insertAdjacentHTML(
+      "afterbegin",
+      '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;' +
+      'padding:24px;text-align:center;font-family:-apple-system,system-ui,sans-serif;font-size:14px;' +
+      'color:#555;background:#fff;">Não foi possível carregar o protótipo. Verifique sua conexão e recarregue a página.</div>'
+    );
+  });
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
