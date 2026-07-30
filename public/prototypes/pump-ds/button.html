@@ -505,537 +505,854 @@ Tags
 button, CTA, primary action, secondary action, loading, navigation, design system
   </script>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script src="./vendor/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="./vendor/react-dom.production.min.js" crossorigin="anonymous"></script>
 
-  <script type="text/babel">
-  const { useState, useRef, useLayoutEffect } = React;
+  <script>const {
+  useState,
+  useRef,
+  useLayoutEffect
+} = React;
 
-  // Mesmo contrato da página de cor: ?lang= troca a cópia. Nomes de prop, valores de
-  // token e a spec do "Copy for agent" ficam em inglês nos dois idiomas, porque são
-  // a API literal do componente: traduzi-los criaria um nome que não existe no código.
-  const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
-  const STRINGS = {
-    pt: {
-      title: "Botão",
-      lede: "Todo botão comunica prioridade antes mesmo de ser clicado. No Atelier, sua aparência é consequência de tokens, intenção e contexto, não de estilos aplicados manualmente.",
-      copy: { idle: "Copiar para agente", ok: "Copiado", erro: "Não foi possível copiar" },
-      anatomy: {
-        title: "Anatomia",
-        note: "Todo botão é composto por três partes: container, label e ícones opcionais. Cada uma responde a um conjunto específico de tokens, permitindo novas variantes sem alterar sua estrutura.",
-        icon: { title: "Ícone", sub: "escala com o tamanho" },
-        height: { title: "Altura", sub: "--height-sm/md/lg" },
-        radius: { title: "Raio", sub: "--radius-md\ndo brand kit" },
-        padding: { title: "Padding", sub: "assimétrico, por tamanho" },
-        label: { title: "Label", sub: "--label-sm/md" },
-        fill: { title: "Preenchimento", sub: "cor sólida, sem sombra" },
-      },
-      playground: {
-        title: "Playground",
-        note: "Todas as combinações seguem as mesmas regras de tokens, estados e acessibilidade.",
-        labelAria: "Texto do botão",
-        sampleLabel: "Salvar alterações",
-      },
-      states: {
-        title: "Estados",
-        note: "Cada estado representa uma mudança específica de intenção. Nenhum efeito depende de opacidade arbitrária ou ajustes manuais, todos são derivados dos tokens do sistema.",
-        cols: ["estado", "brand filled", "o que muda"],
-        sample: "Salvar",
-        rows: {
-          default: "Repouso: fundo no step 500 da marca.",
-          hover: "Fundo escurece um step, para 600.",
-          active: "Escurece outro step, para 700.",
-          focus: "Anel de 4px na própria cor do botão, a 25% — nunca remove o indicador.",
-          disabled: "Fundo e texto trocam para tokens de disabled; cursor not-allowed.",
-          loading: "Spinner entra à direita e o label fica a 70%, preservando o contexto.",
-        },
-      },
-      usage: {
-        title: "Quando utilizar",
-        do: "Faça",
-        dont: "Não faça",
-        doSample: { primary: "Salvar", secondary: "Cancelar", caption: "par primária + secundária, mesma hierarquia sempre" },
-        dontSample: { label: "Ir para o painel", caption: <>navegação disfarçada de ação, isso é <b>Link</b></> },
-        doList: [
-          <>Ação principal de uma página ou bloco.</>,
-          <>Ação secundária com menos ênfase, em <code className="i">tone="neutral"</code>.</>,
-          <>Ação destrutiva irreversível, em <code className="i">tone="destructive"</code>.</>,
-        ],
-        dontList: [
-          <>Navegar entre páginas, isso é <b>Link</b>.</>,
-          <>Botão só com ícone, isso é <b>IconButton</b>.</>,
-          <>Ação flutuante única, isso é <b>FAB</b>.</>,
-        ],
-      },
-      a11y: {
-        title: "Acessibilidade",
-        items: [
-          <><b>Alvo mínimo</b> de 44px em toque: <code className="i">sm</code> tem 32px de altura visual e precisa de área extra ao redor.</>,
-          <><b>Foco sempre visível</b> — o anel nunca é removido, tem 4px e nasce da cor do próprio botão, então acompanha a marca do cliente.</>,
-          <><b>Loading</b> anuncia com <code className="i">aria-busy</code> e mantém o label, para o leitor de tela não perder o contexto da ação.</>,
-          <><b>Disabled</b> usa tokens de fundo e texto próprios em vez de opacity, para o contraste continuar previsível.</>,
-          <><b>Texto sobre fill</b> vem da escala do próprio papel, escolhido pela luminância do fundo — nunca branco fixo.</>,
-        ],
-      },
+// Mesmo contrato da página de cor: ?lang= troca a cópia. Nomes de prop, valores de
+// token e a spec do "Copy for agent" ficam em inglês nos dois idiomas, porque são
+// a API literal do componente: traduzi-los criaria um nome que não existe no código.
+const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
+const STRINGS = {
+  pt: {
+    title: "Botão",
+    lede: "Todo botão comunica prioridade antes mesmo de ser clicado. No Atelier, sua aparência é consequência de tokens, intenção e contexto, não de estilos aplicados manualmente.",
+    copy: {
+      idle: "Copiar para agente",
+      ok: "Copiado",
+      erro: "Não foi possível copiar"
     },
-    en: {
-      title: "Button",
-      lede: "Every button communicates priority before anyone clicks it. In Atelier its appearance is a consequence of tokens, intent, and context, not of styles applied by hand.",
-      copy: { idle: "Copy for agent", ok: "Copied", erro: "Couldn't copy" },
-      anatomy: {
-        title: "Anatomy",
-        note: "Every button is made of three parts: container, label, and optional icons. Each one answers to a specific set of tokens, which is what lets new variants exist without changing the structure.",
-        icon: { title: "Icon", sub: "scales with size" },
-        height: { title: "Height", sub: "--height-sm/md/lg" },
-        radius: { title: "Radius", sub: "--radius-md\nfrom the brand kit" },
-        padding: { title: "Padding", sub: "asymmetric, per size" },
-        label: { title: "Label", sub: "--label-sm/md" },
-        fill: { title: "Fill", sub: "solid color, no shadow" },
+    anatomy: {
+      title: "Anatomia",
+      note: "Todo botão é composto por três partes: container, label e ícones opcionais. Cada uma responde a um conjunto específico de tokens, permitindo novas variantes sem alterar sua estrutura.",
+      icon: {
+        title: "Ícone",
+        sub: "escala com o tamanho"
       },
-      playground: {
-        title: "Playground",
-        note: "Every combination follows the same rules for tokens, states, and accessibility.",
-        labelAria: "Button text",
-        sampleLabel: "Save changes",
+      height: {
+        title: "Altura",
+        sub: "--height-sm/md/lg"
       },
-      states: {
-        title: "States",
-        note: "Each state represents a specific shift in intent. No effect relies on arbitrary opacity or manual tweaks; all of them are derived from the system's tokens.",
-        cols: ["state", "brand filled", "what changes"],
-        sample: "Save",
-        rows: {
-          default: "At rest: background on the brand's step 500.",
-          hover: "Background darkens one step, to 600.",
-          active: "Darkens another step, to 700.",
-          focus: "A 4px ring in the button's own color at 25%, and it is never removed.",
-          disabled: "Background and text switch to disabled tokens; cursor not-allowed.",
-          loading: "The spinner enters on the right and the label drops to 70%, keeping context.",
-        },
+      radius: {
+        title: "Raio",
+        sub: "--radius-md\ndo brand kit"
       },
-      usage: {
-        title: "When to use it",
-        do: "Do",
-        dont: "Don't",
-        doSample: { primary: "Save", secondary: "Cancel", caption: "primary + secondary pair, always the same hierarchy" },
-        dontSample: { label: "Go to dashboard", caption: <>navigation dressed as an action, that is a <b>Link</b></> },
-        doList: [
-          <>The main action of a page or block.</>,
-          <>A secondary action with less emphasis, using <code className="i">tone="neutral"</code>.</>,
-          <>An irreversible destructive action, using <code className="i">tone="destructive"</code>.</>,
-        ],
-        dontList: [
-          <>Moving between pages, that is a <b>Link</b>.</>,
-          <>An icon-only button, that is an <b>IconButton</b>.</>,
-          <>A single floating action, that is a <b>FAB</b>.</>,
-        ],
+      padding: {
+        title: "Padding",
+        sub: "assimétrico, por tamanho"
       },
-      a11y: {
-        title: "Accessibility",
-        items: [
-          <><b>Minimum target</b> of 44px on touch: <code className="i">sm</code> is 32px tall and needs extra area around it.</>,
-          <><b>Focus always visible</b> — the ring is never removed, it is 4px, and it comes from the button's own color, so it follows the customer's brand.</>,
-          <><b>Loading</b> announces with <code className="i">aria-busy</code> and keeps the label, so screen readers don't lose the action's context.</>,
-          <><b>Disabled</b> uses its own background and text tokens instead of opacity, so contrast stays predictable.</>,
-          <><b>Text over a fill</b> comes from the role's own scale, picked by the background's luminance, never a fixed white.</>,
-        ],
+      label: {
+        title: "Label",
+        sub: "--label-sm/md"
       },
+      fill: {
+        title: "Preenchimento",
+        sub: "cor sólida, sem sombra"
+      }
     },
-  };
-  const T = STRINGS[LANG];
-
-  const Spinner = ({ size = 16, color = "currentColor" }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" style={{ animation: "pump-spin 0.8s linear infinite", flexShrink: 0 }}>
-      <circle cx="12" cy="12" r="9" fill="none" stroke={color} strokeWidth="3" strokeDasharray="40 60" strokeLinecap="round" opacity="0.9" />
-    </svg>
-  );
-  const PlusIcon = ({ size = 16 }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" style={{ flexShrink: 0 }}><path d="M12 5v14M5 12h14" /></svg>
-  );
-  const ArrowIcon = ({ size = 16 }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-  );
-
-  // ═══════════════════════════════════════════════════════════
-  // Diagrama de anatomia — redline no estilo Material/HIG/Carbon/Uber Base:
-  // callouts apontando pra medidas reais, não pra "slots" abstratos.
-  // O mockup usa os valores literais do Button md com ícone líder (altura
-  // 40, padding 12/20, ícone 20, radius 8); as âncoras são medidas via ref
-  // depois do layout, não estimadas — só os rótulos ficam em posição fixa.
-  // ═══════════════════════════════════════════════════════════
-  // Faixas verticais do canvas: rótulos no topo, corredor da linha, botão, e o
-  // espelho embaixo. O botão fica no centro; as linhas viram nos corredores.
-  // 52: cabe título + até duas linhas de pill sem a linha cruzar o texto
-  const AN_LABEL_H = 52, AN_LANE = 26, AN_CENTER_H = 84;
-  // abaixo disso os rótulos de 150px se sobrepõem: cai pra lista empilhada
-  const AN_MIN_RADIAL = 520;
-  const AN_H = (AN_LABEL_H + AN_LANE) * 2 + AN_CENTER_H;
-  const AN_MID_TOP = AN_LABEL_H + AN_LANE / 2;
-  const AN_MID_BOTTOM = AN_H - AN_LABEL_H - AN_LANE / 2;
-
-  function AnatomyDiagram() {
-    const stageRef = useRef(null);
-    const btnRef = useRef(null);
-    const iconRef = useRef(null);
-    const labelRef = useRef(null);
-    const [m, setM] = useState(null);
-
-    useLayoutEffect(() => {
-      function measure() {
-        if (!stageRef.current || !btnRef.current) return;
-        const stage = stageRef.current.getBoundingClientRect();
-        const rel = (r) => ({
-          x: r.left - stage.left, y: r.top - stage.top, w: r.width, h: r.height,
-          cx: r.left - stage.left + r.width / 2,
-        });
-        // valores reais do componente renderizado, não constantes repetidas à mão
-        const cs = getComputedStyle(btnRef.current);
-        setM({
-          w: stage.width,
-          btn: rel(btnRef.current.getBoundingClientRect()),
-          icon: rel(iconRef.current.getBoundingClientRect()),
-          label: rel(labelRef.current.getBoundingClientRect()),
-          spec: {
-            height: Math.round(parseFloat(cs.height)),
-            radius: Math.round(parseFloat(cs.borderTopLeftRadius)),
-            padL: Math.round(parseFloat(cs.paddingLeft)),
-            padR: Math.round(parseFloat(cs.paddingRight)),
-            fontSize: Math.round(parseFloat(cs.fontSize)),
-            weight: cs.fontWeight,
-            // offsetWidth ignora o scale() do wrapper; getBoundingClientRect não
-            iconPx: iconRef.current.firstChild?.getAttribute("width") ?? iconRef.current.offsetWidth,
-          },
-        });
+    playground: {
+      title: "Playground",
+      note: "Todas as combinações seguem as mesmas regras de tokens, estados e acessibilidade.",
+      labelAria: "Texto do botão",
+      sampleLabel: "Salvar alterações"
+    },
+    states: {
+      title: "Estados",
+      note: "Cada estado representa uma mudança específica de intenção. Nenhum efeito depende de opacidade arbitrária ou ajustes manuais, todos são derivados dos tokens do sistema.",
+      cols: ["estado", "brand filled", "o que muda"],
+      sample: "Salvar",
+      rows: {
+        default: "Repouso: fundo no step 500 da marca.",
+        hover: "Fundo escurece um step, para 600.",
+        active: "Escurece outro step, para 700.",
+        focus: "Anel de 4px na própria cor do botão, a 25% — nunca remove o indicador.",
+        disabled: "Fundo e texto trocam para tokens de disabled; cursor not-allowed.",
+        loading: "Spinner entra à direita e o label fica a 70%, preservando o contexto."
       }
-      measure();
-      const ro = new ResizeObserver(measure);
-      ro.observe(stageRef.current);
-      // as fontes mudam a largura do label depois do primeiro paint
-      if (document.fonts?.ready) document.fonts.ready.then(measure);
-      return () => ro.disconnect();
-    }, []);
-
-    // colunas dos rótulos como fração da largura real: acompanham o canvas fluido
-    const cols = m ? [m.w * 0.14, m.w * 0.5, m.w * 0.86] : [];
-    const s = m?.spec;
-    // Ícone, altura, padding e label escalam com a prop size (sm/md/lg) — o
-    // valor concreto medido aqui vale só pra este exemplo em md, então o
-    // callout não afirma um número único. Ícone/altura/padding/label escalam
-    // por tamanho; raio escala por tenant (--radius-md vem do brand kit do
-    // cliente, igual à cor); só preenchimento é de fato universal.
-    const A = T.anatomy;
-    const callouts = m ? [
-      { key: "icon", side: "top", lx: cols[0], ax: m.icon.cx, ay: m.btn.y, ...A.icon },
-      { key: "height", side: "top", lx: cols[1], ax: m.btn.cx, ay: m.btn.y, ...A.height },
-      { key: "radius", side: "top", lx: cols[2], ax: m.btn.x + m.btn.w, ay: m.btn.y, ...A.radius },
-      { key: "padding", side: "bottom", lx: cols[0], ax: m.btn.x + (m.icon.x - m.btn.x) / 2, ay: m.btn.y + m.btn.h, ...A.padding },
-      { key: "label", side: "bottom", lx: cols[1], ax: m.label.cx, ay: m.btn.y + m.btn.h, ...A.label },
-      { key: "fill", side: "bottom", lx: cols[2], ax: m.btn.x + m.btn.w * 0.78, ay: m.btn.y + m.btn.h, ...A.fill },
-    ] : [];
-
-    const radial = !m || m.w >= AN_MIN_RADIAL;
-
-    return (
-      <div className={"an-canvas" + (radial ? "" : " is-stacked")} ref={stageRef}
-           style={radial ? { height: AN_H } : undefined}>
-        {/* o componente real, ampliado só pela escala visual — nada de mockup paralelo */}
-        <div className="an-scale">
-          <Button tone="brand" appearance="filled" size="md" icon="leading"
-                  btnRef={btnRef} iconRef={iconRef} labelRef={labelRef}>{T.states.sample}</Button>
-        </div>
-
-        {m && radial && (
-          <svg className="an-svg" viewBox={`0 0 ${m.w} ${AN_H}`} preserveAspectRatio="none">
-            {callouts.map(c => {
-              const midY = c.side === "top" ? AN_MID_TOP : AN_MID_BOTTOM;
-              const endY = c.side === "top" ? AN_LABEL_H : AN_H - AN_LABEL_H;
-              return (
-                <React.Fragment key={c.key}>
-                  <polyline
-                    points={`${c.ax},${c.ay} ${c.ax},${midY} ${c.lx},${midY} ${c.lx},${endY}`}
-                    fill="none" stroke="var(--fg-brand-default)" strokeWidth="1"
-                    strokeDasharray="3 3" opacity="0.7" />
-                  <circle cx={c.ax} cy={c.ay} r="2.5" fill="var(--fg-brand-default)" />
-                </React.Fragment>
-              );
-            })}
-          </svg>
-        )}
-
-        {m && radial && callouts.map(c => (
-          <div key={c.key} className={"an-callout an-callout-" + c.side} style={{ left: c.lx }}>
-            <b>{c.title}</b><span className="tok">{c.sub}</span>
-          </div>
-        ))}
-
-        {m && !radial && (
-          <dl className="an-list">
-            {callouts.map(c => (
-              <React.Fragment key={c.key}>
-                <dt>{c.title}</dt><dd><span className="tok">{c.sub}</span></dd>
-              </React.Fragment>
-            ))}
-          </dl>
-        )}
-      </div>
-    );
-  }
-
-  // ═══════════════════════════════════════════════════════════
-  // Button — tone × appearance. Todo valor visual vem de token.
-  // ═══════════════════════════════════════════════════════════
-  function Button({ tone = "brand", appearance = "filled", size = "sm", icon = "none", state = "default", children = "Save changes", btnRef, iconRef, labelRef }) {
-    const height = size === "lg" ? "var(--height-lg)" : size === "md" ? "var(--height-md)" : "var(--height-sm)";
-    const iconPx = size === "lg" ? 24 : size === "md" ? 20 : 16;
-    const fontSize = size === "sm" ? "var(--label-sm)" : "var(--label-md)";
-
-    // padding assimétrico quando há ícone líder; simétrico sem ícone
-    const PAD = { sm: [12, 16, 12], md: [12, 20, 12], lg: [16, 24, 16] }[size];
-    const [padLead, padTrail, padSym] = PAD;
-    const paddingLeft = icon === "leading" ? padLead : icon === "trailing" ? padTrail : padSym;
-    const paddingRight = icon === "trailing" ? padLead : icon === "leading" ? padTrail : padSym;
-
-    const V = (() => {
-      // O anel nasce da cor do próprio botão, não de um rgba fixo: quando a marca do
-      // cliente muda, o foco muda com ela em vez de apontar pra um laranja que não
-      // existe mais na paleta. tone define a cor; appearance escolhe entre o
-      // preenchimento e o traço, porque em outline/ghost o fundo é transparente.
-      const anel = (cor) => `0 0 0 4px color-mix(in oklch, ${cor} 25%, transparent)`;
-      if (appearance === "filled") {
-        if (tone === "brand") return { bg: "var(--bg-brand-default)", bgHover: "var(--bg-brand-hover)", bgActive: "var(--bg-brand-active)", color: "var(--fg-brand-on-primary)", border: "transparent", focus: anel("var(--bg-brand-default)") };
-        if (tone === "destructive") return { bg: "var(--error-500)", bgHover: "var(--error-600)", bgActive: "var(--error-700)", color: "#FAFAF9", border: "transparent", focus: anel("var(--error-500)") };
-        // neutral filled tem fundo claro: um anel na cor do fundo seria invisível,
-        // então segue o texto, que é o que dá identidade à variante
-        if (tone === "neutral") return { bg: "var(--bg-primary)", bgHover: "var(--bg-secondary)", bgActive: "var(--bg-tertiary)", color: "var(--fg-secondary)", border: "var(--border-subtle)", focus: anel("var(--fg-secondary)") };
-        return { bg: "var(--fg-primary)", bgHover: "var(--fg-secondary)", bgActive: "var(--fg-tertiary)", color: "var(--bg-primary)", border: "transparent", focus: anel("var(--fg-primary)") };
-      }
-      if (appearance === "outline") {
-        if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "var(--border-brand-default)", borderHover: "var(--bg-brand-hover)", borderActive: "var(--bg-brand-active)", focus: anel("var(--fg-brand-default)") };
-        if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "var(--error-600)", colorActive: "var(--error-700)", border: "var(--border-destructive)", borderHover: "var(--error-600)", borderActive: "var(--error-700)", focus: anel("var(--fg-error-accent)") };
-        return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "var(--border-default)", focus: anel("var(--fg-secondary)") };
-      }
-      if (tone === "brand") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-brand-default)", colorHover: "var(--bg-brand-hover)", colorActive: "var(--bg-brand-active)", border: "transparent", focus: anel("var(--fg-brand-default)") };
-      if (tone === "destructive") return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-error-accent)", colorHover: "var(--error-600)", colorActive: "var(--error-700)", border: "transparent", focus: anel("var(--fg-error-accent)") };
-      return { bg: "transparent", bgHover: "transparent", bgActive: "transparent", color: "var(--fg-secondary)", border: "transparent", focus: anel("var(--fg-secondary)") };
-    })();
-
-    const [hover, setHover] = useState(false);
-    const [pressed, setPressed] = useState(false);
-    const isHover = state === "hover" || hover;
-    const isActive = state === "active" || pressed;
-    const isFocus = state === "focus";
-    const isDisabled = state === "disabled";
-    const isLoading = state === "loading";
-
-    // disabled usa tokens próprios, não truque de opacity
-    const bg = isDisabled ? "var(--bg-disabled)" : isActive ? V.bgActive : isHover ? V.bgHover : V.bg;
-    const color = isDisabled ? "var(--fg-tertiary)"
-      : isActive && V.colorActive ? V.colorActive
-      : isHover && V.colorHover ? V.colorHover : V.color;
-    const border = isDisabled ? "var(--border-subtle)"
-      : isActive && V.borderActive ? V.borderActive
-      : isHover && V.borderHover ? V.borderHover : V.border;
-
-    return (
-      <button
-        ref={btnRef}
-        disabled={isDisabled || isLoading}
-        aria-busy={isLoading || undefined}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => { setHover(false); setPressed(false); }}
-        onMouseDown={() => setPressed(true)}
-        onMouseUp={() => setPressed(false)}
-        style={{
-          height, paddingLeft, paddingRight, paddingTop: 0, paddingBottom: 0,
-          background: bg, color, border: `1px solid ${border}`,
-          borderRadius: "var(--radius-md)",
-          fontFamily: "var(--font-sans)", fontSize,
-          fontWeight: "var(--weight-semibold)", letterSpacing: "-0.005em",
-          display: "inline-flex", alignItems: "center", gap: 8,
-          cursor: isDisabled || isLoading ? "not-allowed" : "pointer",
-          boxShadow: isFocus ? V.focus : "none", outline: "none",
-          transition: "var(--transition-fast)", whiteSpace: "nowrap",
-        }}>
-        {!isLoading && icon === "leading" && (
-          <span ref={iconRef} style={{ display: "inline-flex" }}><PlusIcon size={iconPx} /></span>
-        )}
-        {/* no loading o label permanece visível, só esmaecido: preserva o contexto de qual ação está pendente */}
-        <span ref={labelRef} style={{ opacity: isLoading ? 0.7 : 1 }}>{children}</span>
-        {isLoading && <Spinner size={iconPx} color={color} />}
-        {!isLoading && icon === "trailing" && <ArrowIcon size={iconPx} />}
-      </button>
-    );
-  }
-
-  // ═══════════════════════════════════════════════════════════
-  const Section = ({ num, title, note, children }) => (
-    <section className="sec">
-      <div className="sec-head">
-        <span className="sec-num">{num}</span>
-        <h2 className="sec-h2">{title}</h2>
-      </div>
-      {note && <p className="sec-note">{note}</p>}
-      {children}
-    </section>
-  );
-  const Seg = ({ value, options, onChange, label }) => (
-    <div className="ctrl">
-      <span className="ctrl-label">{label}</span>
-      <div className="seg">
-        {options.map(o => (
-          <button key={o} aria-pressed={value === o} onClick={() => onChange(o)}>{o}</button>
-        ))}
-      </div>
-    </div>
-  );
-  const TONES = ["brand", "neutral", "destructive", "inverse"];
-  const APPEARANCES = ["filled", "outline", "ghost"];
-
-  function App() {
-    const [tone, setTone] = useState("brand");
-    const [appearance, setAppearance] = useState("filled");
-    const [size, setSize] = useState("md");
-    const [icon, setIcon] = useState("leading");
-    const [state, setState] = useState("default");
-    const [label, setLabel] = useState(T.playground.sampleLabel);
-    const [status, setStatus] = useState("idle");
-
-    function copyForAgent() {
-      const spec = document.getElementById("agent-spec").textContent.trim();
-      // dentro de iframe o clipboard async pode estar bloqueado; execCommand cobre o resto
-      const escrever = navigator.clipboard?.writeText(spec) ?? Promise.reject();
-      escrever
-        .catch(() => {
-          const ta = document.createElement("textarea");
-          ta.value = spec;
-          ta.style.position = "fixed";
-          ta.style.opacity = "0";
-          document.body.appendChild(ta);
-          ta.select();
-          const ok = document.execCommand("copy");
-          ta.remove();
-          // se nem o fallback copiou, não dá pra dizer "Copiado": o rótulo
-          // seria uma afirmação falsa sobre o que está no clipboard
-          if (!ok) throw new Error("clipboard indisponível");
-        })
-        .then(() => setStatus("ok"), () => setStatus("erro"))
-        .then(() => setTimeout(() => setStatus("idle"), 1800));
+    },
+    usage: {
+      title: "Quando utilizar",
+      do: "Faça",
+      dont: "Não faça",
+      doSample: {
+        primary: "Salvar",
+        secondary: "Cancelar",
+        caption: "par primária + secundária, mesma hierarquia sempre"
+      },
+      dontSample: {
+        label: "Ir para o painel",
+        caption: /*#__PURE__*/React.createElement(React.Fragment, null, "navega\xE7\xE3o disfar\xE7ada de a\xE7\xE3o, isso \xE9 ", /*#__PURE__*/React.createElement("b", null, "Link"))
+      },
+      doList: [/*#__PURE__*/React.createElement(React.Fragment, null, "A\xE7\xE3o principal de uma p\xE1gina ou bloco."), /*#__PURE__*/React.createElement(React.Fragment, null, "A\xE7\xE3o secund\xE1ria com menos \xEAnfase, em ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "tone=\"neutral\""), "."), /*#__PURE__*/React.createElement(React.Fragment, null, "A\xE7\xE3o destrutiva irrevers\xEDvel, em ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "tone=\"destructive\""), ".")],
+      dontList: [/*#__PURE__*/React.createElement(React.Fragment, null, "Navegar entre p\xE1ginas, isso \xE9 ", /*#__PURE__*/React.createElement("b", null, "Link"), "."), /*#__PURE__*/React.createElement(React.Fragment, null, "Bot\xE3o s\xF3 com \xEDcone, isso \xE9 ", /*#__PURE__*/React.createElement("b", null, "IconButton"), "."), /*#__PURE__*/React.createElement(React.Fragment, null, "A\xE7\xE3o flutuante \xFAnica, isso \xE9 ", /*#__PURE__*/React.createElement("b", null, "FAB"), ".")]
+    },
+    a11y: {
+      title: "Acessibilidade",
+      items: [/*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Alvo m\xEDnimo"), " de 44px em toque: ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "sm"), " tem 32px de altura visual e precisa de \xE1rea extra ao redor."), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Foco sempre vis\xEDvel"), " \u2014 o anel nunca \xE9 removido, tem 4px e nasce da cor do pr\xF3prio bot\xE3o, ent\xE3o acompanha a marca do cliente."), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Loading"), " anuncia com ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "aria-busy"), " e mant\xE9m o label, para o leitor de tela n\xE3o perder o contexto da a\xE7\xE3o."), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Disabled"), " usa tokens de fundo e texto pr\xF3prios em vez de opacity, para o contraste continuar previs\xEDvel."), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Texto sobre fill"), " vem da escala do pr\xF3prio papel, escolhido pela lumin\xE2ncia do fundo \u2014 nunca branco fixo.")]
     }
-
-    return (
-      <>
-        <header className="hd">
-          <div className="hd-row">
-            <h1 className="hd-title">{T.title}</h1>
-            <button
-              className={"copy-agent" + (status === "ok" ? " is-copied" : status === "erro" ? " is-failed" : "")}
-              onClick={copyForAgent}>
-              {T.copy[status] ?? T.copy.idle}
-            </button>
-          </div>
-          <p className="hd-lede">{T.lede}</p>
-        </header>
-
-        <Section num="01" title={T.anatomy.title} note={T.anatomy.note}>
-          <div className="an-frame">
-            <AnatomyDiagram />
-          </div>
-        </Section>
-
-        <Section num="02" title={T.playground.title} note={T.playground.note}>
-          <div className="pg">
-            <div className="pg-canvas">
-              <Button tone={tone} appearance={appearance} size={size} icon={icon} state={state}>{label}</Button>
-            </div>
-            <div className="pg-panel">
-              <span className="pg-title">Props</span>
-              <Seg label="tone" value={tone} options={TONES} onChange={setTone} />
-              <Seg label="appearance" value={appearance} options={APPEARANCES} onChange={setAppearance} />
-              <Seg label="size" value={size} options={["sm", "md", "lg"]} onChange={setSize} />
-              <Seg label="icon" value={icon} options={["none", "leading", "trailing"]} onChange={setIcon} />
-              <Seg label="state" value={state} options={["default", "hover", "active", "focus", "disabled", "loading"]} onChange={setState} />
-              <div className="ctrl">
-                <span className="ctrl-label">label</span>
-                <input type="text" value={label} onChange={e => setLabel(e.target.value)} aria-label={T.playground.labelAria} />
-              </div>
-            </div>
-          </div>
-        </Section>
-
-        <Section num="03" title={T.states.title} note={T.states.note}>
-          <div className="mx-wrap">
-            <table className="mx">
-              <thead><tr>{T.states.cols.map(c => <th key={c}>{c}</th>)}</tr></thead>
-              <tbody>
-                {Object.entries(T.states.rows).map(([st, desc]) => (
-                  <tr key={st}>
-                    <td>{st}</td>
-                    <td><Button tone="brand" appearance="filled" size="sm" state={st} icon="none">{T.states.sample}</Button></td>
-                    <td style={{ fontSize: 12, color: "var(--fg-secondary)" }}>{desc}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Section>
-
-
-        <Section num="04" title={T.usage.title}>
-          <div className="dd">
-            <div className="dd-card dd-do">
-              <div className="dd-head">
-                <span className="dd-mark"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#2E7D50" strokeWidth="3.5" strokeLinecap="round"><path d="M20 6 9 17l-5-5" /></svg></span>
-                {T.usage.do}
-              </div>
-              <div className="dd-ex">
-                <Button tone="brand" appearance="filled" size="sm" icon="none">{T.usage.doSample.primary}</Button>
-                <Button tone="neutral" appearance="outline" size="sm" icon="none">{T.usage.doSample.secondary}</Button>
-                <span className="dd-ex-label">{T.usage.doSample.caption}</span>
-              </div>
-              <ul>
-                {T.usage.doList.map((li, i) => <li key={i}>{li}</li>)}
-              </ul>
-            </div>
-            <div className="dd-card dd-dont">
-              <div className="dd-head">
-                <span className="dd-mark"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#A81208" strokeWidth="3.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg></span>
-                {T.usage.dont}
-              </div>
-              <div className="dd-ex">
-                <Button tone="brand" appearance="filled" size="sm" icon="none">{T.usage.dontSample.label}</Button>
-                <span className="dd-ex-label">{T.usage.dontSample.caption}</span>
-              </div>
-              <ul>
-                {T.usage.dontList.map((li, i) => <li key={i}>{li}</li>)}
-              </ul>
-            </div>
-          </div>
-        </Section>
-
-        <Section num="05" title={T.a11y.title}>
-          <div className="a11y">
-            <ul>
-              {T.a11y.items.map((li, i) => <li key={i}>{li}</li>)}
-            </ul>
-          </div>
-        </Section>
-      </>
-    );
-  }
-
-  // A página de cor do Atelier publica a escala que derivou da marca do cliente.
-  // Aqui só reescrevemos os primitivos: os tokens semânticos (--bg-brand-default e
-  // companhia) já apontam pra eles, então o botão troca de cor sem tocar em componente.
-  window.addEventListener("message", (e) => {
-    if (e.origin !== location.origin || e.data?.type !== "pump-ds:brand") return;
-    for (const papel of ["primary", "error"]) {
-      for (const [step, hex] of Object.entries(e.data[papel] || {})) {
-        document.documentElement.style.setProperty(`--${papel}-${step}`, hex);
+  },
+  en: {
+    title: "Button",
+    lede: "Every button communicates priority before anyone clicks it. In Atelier its appearance is a consequence of tokens, intent, and context, not of styles applied by hand.",
+    copy: {
+      idle: "Copy for agent",
+      ok: "Copied",
+      erro: "Couldn't copy"
+    },
+    anatomy: {
+      title: "Anatomy",
+      note: "Every button is made of three parts: container, label, and optional icons. Each one answers to a specific set of tokens, which is what lets new variants exist without changing the structure.",
+      icon: {
+        title: "Icon",
+        sub: "scales with size"
+      },
+      height: {
+        title: "Height",
+        sub: "--height-sm/md/lg"
+      },
+      radius: {
+        title: "Radius",
+        sub: "--radius-md\nfrom the brand kit"
+      },
+      padding: {
+        title: "Padding",
+        sub: "asymmetric, per size"
+      },
+      label: {
+        title: "Label",
+        sub: "--label-sm/md"
+      },
+      fill: {
+        title: "Fill",
+        sub: "solid color, no shadow"
       }
+    },
+    playground: {
+      title: "Playground",
+      note: "Every combination follows the same rules for tokens, states, and accessibility.",
+      labelAria: "Button text",
+      sampleLabel: "Save changes"
+    },
+    states: {
+      title: "States",
+      note: "Each state represents a specific shift in intent. No effect relies on arbitrary opacity or manual tweaks; all of them are derived from the system's tokens.",
+      cols: ["state", "brand filled", "what changes"],
+      sample: "Save",
+      rows: {
+        default: "At rest: background on the brand's step 500.",
+        hover: "Background darkens one step, to 600.",
+        active: "Darkens another step, to 700.",
+        focus: "A 4px ring in the button's own color at 25%, and it is never removed.",
+        disabled: "Background and text switch to disabled tokens; cursor not-allowed.",
+        loading: "The spinner enters on the right and the label drops to 70%, keeping context."
+      }
+    },
+    usage: {
+      title: "When to use it",
+      do: "Do",
+      dont: "Don't",
+      doSample: {
+        primary: "Save",
+        secondary: "Cancel",
+        caption: "primary + secondary pair, always the same hierarchy"
+      },
+      dontSample: {
+        label: "Go to dashboard",
+        caption: /*#__PURE__*/React.createElement(React.Fragment, null, "navigation dressed as an action, that is a ", /*#__PURE__*/React.createElement("b", null, "Link"))
+      },
+      doList: [/*#__PURE__*/React.createElement(React.Fragment, null, "The main action of a page or block."), /*#__PURE__*/React.createElement(React.Fragment, null, "A secondary action with less emphasis, using ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "tone=\"neutral\""), "."), /*#__PURE__*/React.createElement(React.Fragment, null, "An irreversible destructive action, using ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "tone=\"destructive\""), ".")],
+      dontList: [/*#__PURE__*/React.createElement(React.Fragment, null, "Moving between pages, that is a ", /*#__PURE__*/React.createElement("b", null, "Link"), "."), /*#__PURE__*/React.createElement(React.Fragment, null, "An icon-only button, that is an ", /*#__PURE__*/React.createElement("b", null, "IconButton"), "."), /*#__PURE__*/React.createElement(React.Fragment, null, "A single floating action, that is a ", /*#__PURE__*/React.createElement("b", null, "FAB"), ".")]
+    },
+    a11y: {
+      title: "Accessibility",
+      items: [/*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Minimum target"), " of 44px on touch: ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "sm"), " is 32px tall and needs extra area around it."), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Focus always visible"), " \u2014 the ring is never removed, it is 4px, and it comes from the button's own color, so it follows the customer's brand."), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Loading"), " announces with ", /*#__PURE__*/React.createElement("code", {
+        className: "i"
+      }, "aria-busy"), " and keeps the label, so screen readers don't lose the action's context."), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Disabled"), " uses its own background and text tokens instead of opacity, so contrast stays predictable."), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Text over a fill"), " comes from the role's own scale, picked by the background's luminance, never a fixed white.")]
     }
-  });
+  }
+};
+const T = STRINGS[LANG];
+const Spinner = ({
+  size = 16,
+  color = "currentColor"
+}) => /*#__PURE__*/React.createElement("svg", {
+  width: size,
+  height: size,
+  viewBox: "0 0 24 24",
+  style: {
+    animation: "pump-spin 0.8s linear infinite",
+    flexShrink: 0
+  }
+}, /*#__PURE__*/React.createElement("circle", {
+  cx: "12",
+  cy: "12",
+  r: "9",
+  fill: "none",
+  stroke: color,
+  strokeWidth: "3",
+  strokeDasharray: "40 60",
+  strokeLinecap: "round",
+  opacity: "0.9"
+}));
+const PlusIcon = ({
+  size = 16
+}) => /*#__PURE__*/React.createElement("svg", {
+  width: size,
+  height: size,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: "2.4",
+  strokeLinecap: "round",
+  style: {
+    flexShrink: 0
+  }
+}, /*#__PURE__*/React.createElement("path", {
+  d: "M12 5v14M5 12h14"
+}));
+const ArrowIcon = ({
+  size = 16
+}) => /*#__PURE__*/React.createElement("svg", {
+  width: size,
+  height: size,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: "2.4",
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  style: {
+    flexShrink: 0
+  }
+}, /*#__PURE__*/React.createElement("path", {
+  d: "M5 12h14M13 6l6 6-6 6"
+}));
 
-  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-  </script>
+// ═══════════════════════════════════════════════════════════
+// Diagrama de anatomia — redline no estilo Material/HIG/Carbon/Uber Base:
+// callouts apontando pra medidas reais, não pra "slots" abstratos.
+// O mockup usa os valores literais do Button md com ícone líder (altura
+// 40, padding 12/20, ícone 20, radius 8); as âncoras são medidas via ref
+// depois do layout, não estimadas — só os rótulos ficam em posição fixa.
+// ═══════════════════════════════════════════════════════════
+// Faixas verticais do canvas: rótulos no topo, corredor da linha, botão, e o
+// espelho embaixo. O botão fica no centro; as linhas viram nos corredores.
+// 52: cabe título + até duas linhas de pill sem a linha cruzar o texto
+const AN_LABEL_H = 52,
+  AN_LANE = 26,
+  AN_CENTER_H = 84;
+// abaixo disso os rótulos de 150px se sobrepõem: cai pra lista empilhada
+const AN_MIN_RADIAL = 520;
+const AN_H = (AN_LABEL_H + AN_LANE) * 2 + AN_CENTER_H;
+const AN_MID_TOP = AN_LABEL_H + AN_LANE / 2;
+const AN_MID_BOTTOM = AN_H - AN_LABEL_H - AN_LANE / 2;
+function AnatomyDiagram() {
+  const stageRef = useRef(null);
+  const btnRef = useRef(null);
+  const iconRef = useRef(null);
+  const labelRef = useRef(null);
+  const [m, setM] = useState(null);
+  useLayoutEffect(() => {
+    function measure() {
+      if (!stageRef.current || !btnRef.current) return;
+      const stage = stageRef.current.getBoundingClientRect();
+      const rel = r => ({
+        x: r.left - stage.left,
+        y: r.top - stage.top,
+        w: r.width,
+        h: r.height,
+        cx: r.left - stage.left + r.width / 2
+      });
+      // valores reais do componente renderizado, não constantes repetidas à mão
+      const cs = getComputedStyle(btnRef.current);
+      setM({
+        w: stage.width,
+        btn: rel(btnRef.current.getBoundingClientRect()),
+        icon: rel(iconRef.current.getBoundingClientRect()),
+        label: rel(labelRef.current.getBoundingClientRect()),
+        spec: {
+          height: Math.round(parseFloat(cs.height)),
+          radius: Math.round(parseFloat(cs.borderTopLeftRadius)),
+          padL: Math.round(parseFloat(cs.paddingLeft)),
+          padR: Math.round(parseFloat(cs.paddingRight)),
+          fontSize: Math.round(parseFloat(cs.fontSize)),
+          weight: cs.fontWeight,
+          // offsetWidth ignora o scale() do wrapper; getBoundingClientRect não
+          iconPx: iconRef.current.firstChild?.getAttribute("width") ?? iconRef.current.offsetWidth
+        }
+      });
+    }
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(stageRef.current);
+    // as fontes mudam a largura do label depois do primeiro paint
+    if (document.fonts?.ready) document.fonts.ready.then(measure);
+    return () => ro.disconnect();
+  }, []);
+
+  // colunas dos rótulos como fração da largura real: acompanham o canvas fluido
+  const cols = m ? [m.w * 0.14, m.w * 0.5, m.w * 0.86] : [];
+  const s = m?.spec;
+  // Ícone, altura, padding e label escalam com a prop size (sm/md/lg) — o
+  // valor concreto medido aqui vale só pra este exemplo em md, então o
+  // callout não afirma um número único. Ícone/altura/padding/label escalam
+  // por tamanho; raio escala por tenant (--radius-md vem do brand kit do
+  // cliente, igual à cor); só preenchimento é de fato universal.
+  const A = T.anatomy;
+  const callouts = m ? [{
+    key: "icon",
+    side: "top",
+    lx: cols[0],
+    ax: m.icon.cx,
+    ay: m.btn.y,
+    ...A.icon
+  }, {
+    key: "height",
+    side: "top",
+    lx: cols[1],
+    ax: m.btn.cx,
+    ay: m.btn.y,
+    ...A.height
+  }, {
+    key: "radius",
+    side: "top",
+    lx: cols[2],
+    ax: m.btn.x + m.btn.w,
+    ay: m.btn.y,
+    ...A.radius
+  }, {
+    key: "padding",
+    side: "bottom",
+    lx: cols[0],
+    ax: m.btn.x + (m.icon.x - m.btn.x) / 2,
+    ay: m.btn.y + m.btn.h,
+    ...A.padding
+  }, {
+    key: "label",
+    side: "bottom",
+    lx: cols[1],
+    ax: m.label.cx,
+    ay: m.btn.y + m.btn.h,
+    ...A.label
+  }, {
+    key: "fill",
+    side: "bottom",
+    lx: cols[2],
+    ax: m.btn.x + m.btn.w * 0.78,
+    ay: m.btn.y + m.btn.h,
+    ...A.fill
+  }] : [];
+  const radial = !m || m.w >= AN_MIN_RADIAL;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "an-canvas" + (radial ? "" : " is-stacked"),
+    ref: stageRef,
+    style: radial ? {
+      height: AN_H
+    } : undefined
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "an-scale"
+  }, /*#__PURE__*/React.createElement(Button, {
+    tone: "brand",
+    appearance: "filled",
+    size: "md",
+    icon: "leading",
+    btnRef: btnRef,
+    iconRef: iconRef,
+    labelRef: labelRef
+  }, T.states.sample)), m && radial && /*#__PURE__*/React.createElement("svg", {
+    className: "an-svg",
+    viewBox: `0 0 ${m.w} ${AN_H}`,
+    preserveAspectRatio: "none"
+  }, callouts.map(c => {
+    const midY = c.side === "top" ? AN_MID_TOP : AN_MID_BOTTOM;
+    const endY = c.side === "top" ? AN_LABEL_H : AN_H - AN_LABEL_H;
+    return /*#__PURE__*/React.createElement(React.Fragment, {
+      key: c.key
+    }, /*#__PURE__*/React.createElement("polyline", {
+      points: `${c.ax},${c.ay} ${c.ax},${midY} ${c.lx},${midY} ${c.lx},${endY}`,
+      fill: "none",
+      stroke: "var(--fg-brand-default)",
+      strokeWidth: "1",
+      strokeDasharray: "3 3",
+      opacity: "0.7"
+    }), /*#__PURE__*/React.createElement("circle", {
+      cx: c.ax,
+      cy: c.ay,
+      r: "2.5",
+      fill: "var(--fg-brand-default)"
+    }));
+  })), m && radial && callouts.map(c => /*#__PURE__*/React.createElement("div", {
+    key: c.key,
+    className: "an-callout an-callout-" + c.side,
+    style: {
+      left: c.lx
+    }
+  }, /*#__PURE__*/React.createElement("b", null, c.title), /*#__PURE__*/React.createElement("span", {
+    className: "tok"
+  }, c.sub))), m && !radial && /*#__PURE__*/React.createElement("dl", {
+    className: "an-list"
+  }, callouts.map(c => /*#__PURE__*/React.createElement(React.Fragment, {
+    key: c.key
+  }, /*#__PURE__*/React.createElement("dt", null, c.title), /*#__PURE__*/React.createElement("dd", null, /*#__PURE__*/React.createElement("span", {
+    className: "tok"
+  }, c.sub))))));
+}
+
+// ═══════════════════════════════════════════════════════════
+// Button — tone × appearance. Todo valor visual vem de token.
+// ═══════════════════════════════════════════════════════════
+function Button({
+  tone = "brand",
+  appearance = "filled",
+  size = "sm",
+  icon = "none",
+  state = "default",
+  children = "Save changes",
+  btnRef,
+  iconRef,
+  labelRef
+}) {
+  const height = size === "lg" ? "var(--height-lg)" : size === "md" ? "var(--height-md)" : "var(--height-sm)";
+  const iconPx = size === "lg" ? 24 : size === "md" ? 20 : 16;
+  const fontSize = size === "sm" ? "var(--label-sm)" : "var(--label-md)";
+
+  // padding assimétrico quando há ícone líder; simétrico sem ícone
+  const PAD = {
+    sm: [12, 16, 12],
+    md: [12, 20, 12],
+    lg: [16, 24, 16]
+  }[size];
+  const [padLead, padTrail, padSym] = PAD;
+  const paddingLeft = icon === "leading" ? padLead : icon === "trailing" ? padTrail : padSym;
+  const paddingRight = icon === "trailing" ? padLead : icon === "leading" ? padTrail : padSym;
+  const V = (() => {
+    // O anel nasce da cor do próprio botão, não de um rgba fixo: quando a marca do
+    // cliente muda, o foco muda com ela em vez de apontar pra um laranja que não
+    // existe mais na paleta. tone define a cor; appearance escolhe entre o
+    // preenchimento e o traço, porque em outline/ghost o fundo é transparente.
+    const anel = cor => `0 0 0 4px color-mix(in oklch, ${cor} 25%, transparent)`;
+    if (appearance === "filled") {
+      if (tone === "brand") return {
+        bg: "var(--bg-brand-default)",
+        bgHover: "var(--bg-brand-hover)",
+        bgActive: "var(--bg-brand-active)",
+        color: "var(--fg-brand-on-primary)",
+        border: "transparent",
+        focus: anel("var(--bg-brand-default)")
+      };
+      if (tone === "destructive") return {
+        bg: "var(--error-500)",
+        bgHover: "var(--error-600)",
+        bgActive: "var(--error-700)",
+        color: "#FAFAF9",
+        border: "transparent",
+        focus: anel("var(--error-500)")
+      };
+      // neutral filled tem fundo claro: um anel na cor do fundo seria invisível,
+      // então segue o texto, que é o que dá identidade à variante
+      if (tone === "neutral") return {
+        bg: "var(--bg-primary)",
+        bgHover: "var(--bg-secondary)",
+        bgActive: "var(--bg-tertiary)",
+        color: "var(--fg-secondary)",
+        border: "var(--border-subtle)",
+        focus: anel("var(--fg-secondary)")
+      };
+      return {
+        bg: "var(--fg-primary)",
+        bgHover: "var(--fg-secondary)",
+        bgActive: "var(--fg-tertiary)",
+        color: "var(--bg-primary)",
+        border: "transparent",
+        focus: anel("var(--fg-primary)")
+      };
+    }
+    if (appearance === "outline") {
+      if (tone === "brand") return {
+        bg: "transparent",
+        bgHover: "transparent",
+        bgActive: "transparent",
+        color: "var(--fg-brand-default)",
+        colorHover: "var(--bg-brand-hover)",
+        colorActive: "var(--bg-brand-active)",
+        border: "var(--border-brand-default)",
+        borderHover: "var(--bg-brand-hover)",
+        borderActive: "var(--bg-brand-active)",
+        focus: anel("var(--fg-brand-default)")
+      };
+      if (tone === "destructive") return {
+        bg: "transparent",
+        bgHover: "transparent",
+        bgActive: "transparent",
+        color: "var(--fg-error-accent)",
+        colorHover: "var(--error-600)",
+        colorActive: "var(--error-700)",
+        border: "var(--border-destructive)",
+        borderHover: "var(--error-600)",
+        borderActive: "var(--error-700)",
+        focus: anel("var(--fg-error-accent)")
+      };
+      return {
+        bg: "transparent",
+        bgHover: "transparent",
+        bgActive: "transparent",
+        color: "var(--fg-secondary)",
+        border: "var(--border-default)",
+        focus: anel("var(--fg-secondary)")
+      };
+    }
+    if (tone === "brand") return {
+      bg: "transparent",
+      bgHover: "transparent",
+      bgActive: "transparent",
+      color: "var(--fg-brand-default)",
+      colorHover: "var(--bg-brand-hover)",
+      colorActive: "var(--bg-brand-active)",
+      border: "transparent",
+      focus: anel("var(--fg-brand-default)")
+    };
+    if (tone === "destructive") return {
+      bg: "transparent",
+      bgHover: "transparent",
+      bgActive: "transparent",
+      color: "var(--fg-error-accent)",
+      colorHover: "var(--error-600)",
+      colorActive: "var(--error-700)",
+      border: "transparent",
+      focus: anel("var(--fg-error-accent)")
+    };
+    return {
+      bg: "transparent",
+      bgHover: "transparent",
+      bgActive: "transparent",
+      color: "var(--fg-secondary)",
+      border: "transparent",
+      focus: anel("var(--fg-secondary)")
+    };
+  })();
+  const [hover, setHover] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const isHover = state === "hover" || hover;
+  const isActive = state === "active" || pressed;
+  const isFocus = state === "focus";
+  const isDisabled = state === "disabled";
+  const isLoading = state === "loading";
+
+  // disabled usa tokens próprios, não truque de opacity
+  const bg = isDisabled ? "var(--bg-disabled)" : isActive ? V.bgActive : isHover ? V.bgHover : V.bg;
+  const color = isDisabled ? "var(--fg-tertiary)" : isActive && V.colorActive ? V.colorActive : isHover && V.colorHover ? V.colorHover : V.color;
+  const border = isDisabled ? "var(--border-subtle)" : isActive && V.borderActive ? V.borderActive : isHover && V.borderHover ? V.borderHover : V.border;
+  return /*#__PURE__*/React.createElement("button", {
+    ref: btnRef,
+    disabled: isDisabled || isLoading,
+    "aria-busy": isLoading || undefined,
+    onMouseEnter: () => setHover(true),
+    onMouseLeave: () => {
+      setHover(false);
+      setPressed(false);
+    },
+    onMouseDown: () => setPressed(true),
+    onMouseUp: () => setPressed(false),
+    style: {
+      height,
+      paddingLeft,
+      paddingRight,
+      paddingTop: 0,
+      paddingBottom: 0,
+      background: bg,
+      color,
+      border: `1px solid ${border}`,
+      borderRadius: "var(--radius-md)",
+      fontFamily: "var(--font-sans)",
+      fontSize,
+      fontWeight: "var(--weight-semibold)",
+      letterSpacing: "-0.005em",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      cursor: isDisabled || isLoading ? "not-allowed" : "pointer",
+      boxShadow: isFocus ? V.focus : "none",
+      outline: "none",
+      transition: "var(--transition-fast)",
+      whiteSpace: "nowrap"
+    }
+  }, !isLoading && icon === "leading" && /*#__PURE__*/React.createElement("span", {
+    ref: iconRef,
+    style: {
+      display: "inline-flex"
+    }
+  }, /*#__PURE__*/React.createElement(PlusIcon, {
+    size: iconPx
+  })), /*#__PURE__*/React.createElement("span", {
+    ref: labelRef,
+    style: {
+      opacity: isLoading ? 0.7 : 1
+    }
+  }, children), isLoading && /*#__PURE__*/React.createElement(Spinner, {
+    size: iconPx,
+    color: color
+  }), !isLoading && icon === "trailing" && /*#__PURE__*/React.createElement(ArrowIcon, {
+    size: iconPx
+  }));
+}
+
+// ═══════════════════════════════════════════════════════════
+const Section = ({
+  num,
+  title,
+  note,
+  children
+}) => /*#__PURE__*/React.createElement("section", {
+  className: "sec"
+}, /*#__PURE__*/React.createElement("div", {
+  className: "sec-head"
+}, /*#__PURE__*/React.createElement("span", {
+  className: "sec-num"
+}, num), /*#__PURE__*/React.createElement("h2", {
+  className: "sec-h2"
+}, title)), note && /*#__PURE__*/React.createElement("p", {
+  className: "sec-note"
+}, note), children);
+const Seg = ({
+  value,
+  options,
+  onChange,
+  label
+}) => /*#__PURE__*/React.createElement("div", {
+  className: "ctrl"
+}, /*#__PURE__*/React.createElement("span", {
+  className: "ctrl-label"
+}, label), /*#__PURE__*/React.createElement("div", {
+  className: "seg"
+}, options.map(o => /*#__PURE__*/React.createElement("button", {
+  key: o,
+  "aria-pressed": value === o,
+  onClick: () => onChange(o)
+}, o))));
+const TONES = ["brand", "neutral", "destructive", "inverse"];
+const APPEARANCES = ["filled", "outline", "ghost"];
+function App() {
+  const [tone, setTone] = useState("brand");
+  const [appearance, setAppearance] = useState("filled");
+  const [size, setSize] = useState("md");
+  const [icon, setIcon] = useState("leading");
+  const [state, setState] = useState("default");
+  const [label, setLabel] = useState(T.playground.sampleLabel);
+  const [status, setStatus] = useState("idle");
+  function copyForAgent() {
+    const spec = document.getElementById("agent-spec").textContent.trim();
+    // dentro de iframe o clipboard async pode estar bloqueado; execCommand cobre o resto
+    const escrever = navigator.clipboard?.writeText(spec) ?? Promise.reject();
+    escrever.catch(() => {
+      const ta = document.createElement("textarea");
+      ta.value = spec;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      // se nem o fallback copiou, não dá pra dizer "Copiado": o rótulo
+      // seria uma afirmação falsa sobre o que está no clipboard
+      if (!ok) throw new Error("clipboard indisponível");
+    }).then(() => setStatus("ok"), () => setStatus("erro")).then(() => setTimeout(() => setStatus("idle"), 1800));
+  }
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("header", {
+    className: "hd"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "hd-row"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "hd-title"
+  }, T.title), /*#__PURE__*/React.createElement("button", {
+    className: "copy-agent" + (status === "ok" ? " is-copied" : status === "erro" ? " is-failed" : ""),
+    onClick: copyForAgent
+  }, T.copy[status] ?? T.copy.idle)), /*#__PURE__*/React.createElement("p", {
+    className: "hd-lede"
+  }, T.lede)), /*#__PURE__*/React.createElement(Section, {
+    num: "01",
+    title: T.anatomy.title,
+    note: T.anatomy.note
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "an-frame"
+  }, /*#__PURE__*/React.createElement(AnatomyDiagram, null))), /*#__PURE__*/React.createElement(Section, {
+    num: "02",
+    title: T.playground.title,
+    note: T.playground.note
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "pg"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "pg-canvas"
+  }, /*#__PURE__*/React.createElement(Button, {
+    tone: tone,
+    appearance: appearance,
+    size: size,
+    icon: icon,
+    state: state
+  }, label)), /*#__PURE__*/React.createElement("div", {
+    className: "pg-panel"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "pg-title"
+  }, "Props"), /*#__PURE__*/React.createElement(Seg, {
+    label: "tone",
+    value: tone,
+    options: TONES,
+    onChange: setTone
+  }), /*#__PURE__*/React.createElement(Seg, {
+    label: "appearance",
+    value: appearance,
+    options: APPEARANCES,
+    onChange: setAppearance
+  }), /*#__PURE__*/React.createElement(Seg, {
+    label: "size",
+    value: size,
+    options: ["sm", "md", "lg"],
+    onChange: setSize
+  }), /*#__PURE__*/React.createElement(Seg, {
+    label: "icon",
+    value: icon,
+    options: ["none", "leading", "trailing"],
+    onChange: setIcon
+  }), /*#__PURE__*/React.createElement(Seg, {
+    label: "state",
+    value: state,
+    options: ["default", "hover", "active", "focus", "disabled", "loading"],
+    onChange: setState
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "ctrl"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ctrl-label"
+  }, "label"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: label,
+    onChange: e => setLabel(e.target.value),
+    "aria-label": T.playground.labelAria
+  }))))), /*#__PURE__*/React.createElement(Section, {
+    num: "03",
+    title: T.states.title,
+    note: T.states.note
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mx-wrap"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "mx"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, T.states.cols.map(c => /*#__PURE__*/React.createElement("th", {
+    key: c
+  }, c)))), /*#__PURE__*/React.createElement("tbody", null, Object.entries(T.states.rows).map(([st, desc]) => /*#__PURE__*/React.createElement("tr", {
+    key: st
+  }, /*#__PURE__*/React.createElement("td", null, st), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement(Button, {
+    tone: "brand",
+    appearance: "filled",
+    size: "sm",
+    state: st,
+    icon: "none"
+  }, T.states.sample)), /*#__PURE__*/React.createElement("td", {
+    style: {
+      fontSize: 12,
+      color: "var(--fg-secondary)"
+    }
+  }, desc))))))), /*#__PURE__*/React.createElement(Section, {
+    num: "04",
+    title: T.usage.title
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "dd"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "dd-card dd-do"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "dd-head"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "dd-mark"
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "9",
+    height: "9",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "#2E7D50",
+    strokeWidth: "3.5",
+    strokeLinecap: "round"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M20 6 9 17l-5-5"
+  }))), T.usage.do), /*#__PURE__*/React.createElement("div", {
+    className: "dd-ex"
+  }, /*#__PURE__*/React.createElement(Button, {
+    tone: "brand",
+    appearance: "filled",
+    size: "sm",
+    icon: "none"
+  }, T.usage.doSample.primary), /*#__PURE__*/React.createElement(Button, {
+    tone: "neutral",
+    appearance: "outline",
+    size: "sm",
+    icon: "none"
+  }, T.usage.doSample.secondary), /*#__PURE__*/React.createElement("span", {
+    className: "dd-ex-label"
+  }, T.usage.doSample.caption)), /*#__PURE__*/React.createElement("ul", null, T.usage.doList.map((li, i) => /*#__PURE__*/React.createElement("li", {
+    key: i
+  }, li)))), /*#__PURE__*/React.createElement("div", {
+    className: "dd-card dd-dont"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "dd-head"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "dd-mark"
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "9",
+    height: "9",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "#A81208",
+    strokeWidth: "3.5",
+    strokeLinecap: "round"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M18 6 6 18M6 6l12 12"
+  }))), T.usage.dont), /*#__PURE__*/React.createElement("div", {
+    className: "dd-ex"
+  }, /*#__PURE__*/React.createElement(Button, {
+    tone: "brand",
+    appearance: "filled",
+    size: "sm",
+    icon: "none"
+  }, T.usage.dontSample.label), /*#__PURE__*/React.createElement("span", {
+    className: "dd-ex-label"
+  }, T.usage.dontSample.caption)), /*#__PURE__*/React.createElement("ul", null, T.usage.dontList.map((li, i) => /*#__PURE__*/React.createElement("li", {
+    key: i
+  }, li)))))), /*#__PURE__*/React.createElement(Section, {
+    num: "05",
+    title: T.a11y.title
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "a11y"
+  }, /*#__PURE__*/React.createElement("ul", null, T.a11y.items.map((li, i) => /*#__PURE__*/React.createElement("li", {
+    key: i
+  }, li))))));
+}
+
+// A página de cor do Atelier publica a escala que derivou da marca do cliente.
+// Aqui só reescrevemos os primitivos: os tokens semânticos (--bg-brand-default e
+// companhia) já apontam pra eles, então o botão troca de cor sem tocar em componente.
+window.addEventListener("message", e => {
+  if (e.origin !== location.origin || e.data?.type !== "pump-ds:brand") return;
+  for (const papel of ["primary", "error"]) {
+    for (const [step, hex] of Object.entries(e.data[papel] || {})) {
+      document.documentElement.style.setProperty(`--${papel}-${step}`, hex);
+    }
+  }
+});
+ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));</script>
 </body>
 </html>
