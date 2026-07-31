@@ -59,14 +59,20 @@ const doodles: Record<string, ReactNode> = {
 };
 
 // Ilustrações mais detalhadas que o traço simples dá conta — servidas de
-// /public/doodles, como o violão e o Jake abaixo. `big` transborda a caixa
-// padrão (5.5rem em vez de h-14), sem empurrar o texto: a footprint de layout
-// continua sendo a do className herdado, então as linhas seguem alinhadas.
-const IMAGE_DOODLES: Record<string, { file: string; big?: boolean }> = {
+// /public/doodles, como o violão e o Jake abaixo. `big` (em rem) transborda a
+// caixa padrão do h-14, sem empurrar o texto: a footprint de layout continua
+// sendo a do className herdado, então as linhas seguem alinhadas.
+const IMAGE_DOODLES: Record<
+  string,
+  { file: string; big?: number; dy?: number }
+> = {
   camera: { file: "camera.svg" },
-  boardgame: { file: "boardgame.svg" },
+  boardgame: { file: "boardgame.svg", big: 4.5, dy: 22 },
   ceramics: { file: "ceramic.svg" },
-  yoga: { file: "yoga.svg", big: true },
+  // 5.25rem = 84px: um pouco menor que o Jake (5.5rem), porque a pose sentada
+  // ocupa a largura toda e pesava demais ao lado dele. dy desce o desenho para
+  // a linha de base bater com a do texto, como já era feito no Jake.
+  yoga: { file: "yoga.svg", big: 5.25, dy: 16 },
 };
 
 export function CuriosityDoodle({
@@ -151,7 +157,16 @@ export function CuriosityDoodle({
     if (arte.big) {
       return (
         <span className={`relative block ${className ?? ""}`} aria-hidden="true">
-          <span className="absolute left-1/2 top-1/2 block h-[5.5rem] w-[5.5rem] -translate-x-1/2 -translate-y-1/2">
+          {/* tamanho e deslocamento vêm inline: são por-ilustração, e classe
+              arbitrária montada em runtime o Tailwind não gera */}
+          <span
+            className="absolute left-1/2 block -translate-x-1/2 -translate-y-1/2"
+            style={{
+              height: `${arte.big}rem`,
+              width: `${arte.big}rem`,
+              top: `calc(50% + ${arte.dy ?? 0}px)`,
+            }}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={`/doodles/${arte.file}`}
