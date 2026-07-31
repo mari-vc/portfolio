@@ -68,7 +68,9 @@ const IMAGE_DOODLES: Record<
 > = {
   camera: { file: "camera.svg" },
   boardgame: { file: "boardgame.svg", big: 4.5, dy: 22 },
-  ceramics: { file: "ceramic.svg" },
+  // vaso estreito e alto: precisa de mais altura de caixa pra flores não
+  // virarem ruído ilegível espremidas em 58px
+  ceramics: { file: "ceramic.svg", big: 4.75, dy: 14 },
   // 5.25rem = 84px: um pouco menor que o Jake (5.5rem), porque a pose sentada
   // ocupa a largura toda e pesava demais ao lado dele. dy desce o desenho para
   // a linha de base bater com a do texto, como já era feito no Jake.
