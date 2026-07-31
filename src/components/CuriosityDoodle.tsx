@@ -59,14 +59,14 @@ const doodles: Record<string, ReactNode> = {
 };
 
 // Ilustrações mais detalhadas que o traço simples dá conta — servidas de
-// /public/doodles, como o violão e o Jake abaixo. Cabem inteiras na mesma
-// caixa dos outros doodles (object-contain), sem o tratamento de overflow
-// deles porque já nascem no enquadramento certo.
-const IMAGE_DOODLES: Record<string, string> = {
-  camera: "camera.svg",
-  boardgame: "boardgame.svg",
-  yoga: "yoga.svg",
-  ceramics: "ceramic.svg",
+// /public/doodles, como o violão e o Jake abaixo. `big` transborda a caixa
+// padrão (5.5rem em vez de h-14), sem empurrar o texto: a footprint de layout
+// continua sendo a do className herdado, então as linhas seguem alinhadas.
+const IMAGE_DOODLES: Record<string, { file: string; big?: boolean }> = {
+  camera: { file: "camera.svg" },
+  boardgame: { file: "boardgame.svg" },
+  ceramics: { file: "ceramic.svg" },
+  yoga: { file: "yoga.svg", big: true },
 };
 
 export function CuriosityDoodle({
@@ -146,11 +146,26 @@ export function CuriosityDoodle({
     );
   }
 
-  if (IMAGE_DOODLES[name]) {
+  const arte = IMAGE_DOODLES[name];
+  if (arte) {
+    if (arte.big) {
+      return (
+        <span className={`relative block ${className ?? ""}`} aria-hidden="true">
+          <span className="absolute left-1/2 top-1/2 block h-[5.5rem] w-[5.5rem] -translate-x-1/2 -translate-y-1/2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/doodles/${arte.file}`}
+              alt=""
+              className="h-full w-full object-contain"
+            />
+          </span>
+        </span>
+      );
+    }
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={`/doodles/${IMAGE_DOODLES[name]}`}
+        src={`/doodles/${arte.file}`}
         alt=""
         className={`object-contain ${className ?? ""}`}
         aria-hidden="true"
