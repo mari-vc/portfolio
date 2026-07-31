@@ -70,7 +70,7 @@ const IMAGE_DOODLES: Record<
   boardgame: { file: "boardgame.svg", big: 4.5, dy: 22 },
   // vaso estreito e alto: precisa de mais altura de caixa pra flores não
   // virarem ruído ilegível espremidas em 58px
-  ceramics: { file: "ceramic.svg", big: 4.75, dy: 14 },
+  ceramics: { file: "ceramic.svg", big: 4.75, dy: 30 },
   // 5.25rem = 84px: um pouco menor que o Jake (5.5rem), porque a pose sentada
   // ocupa a largura toda e pesava demais ao lado dele. dy desce o desenho para
   // a linha de base bater com a do texto, como já era feito no Jake.
@@ -121,7 +121,7 @@ export function CuriosityDoodle({
       <span className={`relative block ${className ?? ""}`} aria-hidden="true">
         <span
           className="absolute left-1/2 block h-[5.5rem] w-[5.5rem] -translate-x-1/2 -translate-y-1/2"
-          style={{ top: "calc(50% + 17px)" }}
+          style={{ top: "calc(50% + 33px)" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
