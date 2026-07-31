@@ -101,24 +101,6 @@ body {
   animation: dice-roll-b 0.6s ease-out 0.05s;
 }
 
-/* Nota musical do doodle do violão — sobe no hover do item, como se estivesse tocando */
-.doodle-note {
-  opacity: 0;
-  transform: translateY(5px) rotate(-8deg);
-  transition: opacity 0.25s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.group:hover .doodle-note {
-  opacity: 1;
-  transform: translateY(0) rotate(0deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .doodle-note {
-    transition: none;
-  }
-}
-
 /* Patinha do Jake — some por padrão e acena só quando o mouse passa no link
    @jake.thedoguinho (não no resto do card, ao contrário dos outros doodles). */
 .jake-paw {

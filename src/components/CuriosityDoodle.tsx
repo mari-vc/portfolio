@@ -56,47 +56,17 @@ const doodles: Record<string, ReactNode> = {
       <path d="M25 20 C 19 19, 15 15, 15 9 C 21 9, 25 13, 25 19 M25 16 C 30 15, 33 11, 33 6 C 28 7, 25 10, 25 15" {...stroke} />
     </g>
   ),
-  ceramics: (
-    <g>
-      <path d="M19 8 C 18 7, 18 6, 19 5 L 30 5 C 31 6, 31 7, 30 8 C 35 13, 37 20, 36 28 C 35 37, 30 43, 24 43 C 18 43, 14 37, 13 28 C 12 20, 14 13, 19 8 Z" {...stroke} />
-      <path d="M14 20 C 19 22, 29 22, 35 20" {...thin} />
-    </g>
-  ),
-  camera: (
-    <g>
-      <path d="M8 19 L 15 19 L 17 15 L 33 15 L 35 19 L 42 19 L 42 37 L 8 37 Z" {...stroke} />
-      <circle cx="25" cy="28" r="7" {...stroke} />
-      <circle cx="25" cy="28" r="2.5" fill={INK} stroke="none" />
-      <path d="M12 22 L 15 22" {...thin} />
-    </g>
-  ),
-  boardgame: (
-    <g>
-      <g className="die-a">
-        <rect x="4" y="24" width="16" height="16" rx="3" {...stroke} />
-        <circle cx="8" cy="28" r="1.3" fill={INK} stroke="none" />
-        <circle cx="16" cy="28" r="1.3" fill={INK} stroke="none" />
-        <circle cx="12" cy="32" r="1.3" fill={INK} stroke="none" />
-        <circle cx="8" cy="36" r="1.3" fill={INK} stroke="none" />
-        <circle cx="16" cy="36" r="1.3" fill={INK} stroke="none" />
-      </g>
-      <g className="die-b">
-        <rect x="26" y="19" width="18" height="18" rx="3" {...stroke} />
-        <circle cx="31" cy="24" r="1.4" fill={INK} stroke="none" />
-        <circle cx="39" cy="24" r="1.4" fill={INK} stroke="none" />
-        <circle cx="31" cy="32" r="1.4" fill={INK} stroke="none" />
-        <circle cx="39" cy="32" r="1.4" fill={INK} stroke="none" />
-      </g>
-    </g>
-  ),
-  yoga: (
-    <g>
-      <circle cx="25" cy="12" r="4.5" {...stroke} />
-      <path d="M25 17 L 25 26" {...stroke} />
-      <path d="M25 19 C 19 20, 15 24, 16 28 C 20 26, 23 24, 25 22 C 27 24, 30 26, 34 28 C 35 24, 31 20, 25 19 Z" {...stroke} />
-      <path d="M25 26 C 19 28, 15 32, 17 36 L 25 33 L 33 36 C 35 32, 31 28, 25 26 Z" {...stroke} />
-    </g>
-  ),
+};
+
+// Ilustrações mais detalhadas que o traço simples dá conta — servidas de
+// /public/doodles, como o violão e o Jake abaixo. Cabem inteiras na mesma
+// caixa dos outros doodles (object-contain), sem o tratamento de overflow
+// deles porque já nascem no enquadramento certo.
+const IMAGE_DOODLES: Record<string, string> = {
+  camera: "camera.svg",
+  boardgame: "boardgame.svg",
+  yoga: "yoga.svg",
+  ceramics: "ceramic.svg",
 };
 
 export function CuriosityDoodle({
@@ -107,12 +77,12 @@ export function CuriosityDoodle({
   className?: string;
 }) {
   // Violão autoral da Mari servido de /public/doodles (traço complexo demais
-  // para inline). A nota sobe no hover do item, simulando o violão tocando.
-  // A footprint de layout segue o tamanho padrão dos outros doodles (className
-  // herdado, h-14) para o texto alinhar com as outras linhas; o violão em si é
-  // maior (mesmo traço do Jake, 5.5rem) e transborda por cima, centralizado na
-  // caixa, sem empurrar o texto. A arte é landscape (406×166) e gira 45°, então
-  // a extensão vertical do desenho ≈ o lado do container de 5.5rem.
+  // para inline). A footprint de layout segue o tamanho padrão dos outros
+  // doodles (className herdado, h-14) para o texto alinhar com as outras
+  // linhas; o violão em si é maior (mesmo traço do Jake, 5.5rem) e transborda
+  // por cima, centralizado na caixa, sem empurrar o texto. A arte é landscape
+  // (406×166) e gira 45°, então a extensão vertical do desenho ≈ o lado do
+  // container de 5.5rem.
   if (name === "guitar") {
     return (
       <span className={`relative block ${className ?? ""}`} aria-hidden="true">
@@ -125,13 +95,6 @@ export function CuriosityDoodle({
             src="/doodles/guitar.svg"
             alt=""
             className="h-full w-full -rotate-45 object-contain"
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/doodles/nota01.svg"
-            alt=""
-            className="doodle-note absolute h-4 w-auto"
-            style={{ left: "18%", top: "0%" }}
           />
         </span>
       </span>
@@ -180,6 +143,18 @@ export function CuriosityDoodle({
           </svg>
         </span>
       </span>
+    );
+  }
+
+  if (IMAGE_DOODLES[name]) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={`/doodles/${IMAGE_DOODLES[name]}`}
+        alt=""
+        className={`object-contain ${className ?? ""}`}
+        aria-hidden="true"
+      />
     );
   }
 
